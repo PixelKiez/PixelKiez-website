@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wie Websites ausgeliefert werden: HTML, JavaScript, Next.js · Pixelkiez Wissen</title>
+<meta name="description" content="HTML, CSS, JavaScript, React, Next.js, Astro, WordPress: Was davon bestimmt, welche Inhalte beim Abruf einer Seite wirklich ankommen — und was Suchmaschinen, KI-Crawler und Browser-Agenten davon sehen.">
+<meta name="theme-color" content="#B6C7C4">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/"><!-- hreflang setzt der Build -->
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Pixelkiez">
+<meta property="og:title" content="Wie Websites ausgeliefert werden: HTML, JavaScript, Next.js · Pixelkiez Wissen">
+<meta property="og:description" content="HTML, CSS, JavaScript, React, Next.js, Astro, WordPress: Was davon bestimmt, welche Inhalte beim Abruf einer Seite wirklich ankommen — und was Suchmaschinen, KI-Crawler und Browser-Agenten davon sehen.">
+<meta property="og:url" content="https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/">
+<meta property="og:image" content="assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pixelkiez">
+
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/icon-512.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/bds.css">
+
+<!-- Strukturierte Daten nur fuer das, was sichtbar auf der Seite steht:
+     der Beitrag, die Seite und der Weg dorthin. Kein datePublished — das
+     Veroeffentlichungsdatum steht erst mit dem Merge fest, und ein Datum,
+     das sich nicht belegen laesst, gehoert nicht in maschinenlesbare
+     Angaben. dateModified setzt der Build aus der Aenderungszeit der
+     Quelldatei. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/#artikel",
+      "headline": "Wie moderne Websites gebaut und ausgeliefert werden — und was Maschinen davon sehen",
+      "description": "HTML, CSS, JavaScript, React, Next.js, Astro, WordPress: Was davon bestimmt, welche Inhalte beim Abruf einer Seite wirklich ankommen — und was Suchmaschinen, KI-Crawler und Browser-Agenten davon sehen.",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": { "@id": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/#webpage" },
+      "isPartOf": { "@id": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/#webpage" },
+      "author": { "@id": "https://pixelkiez.de/#organisation" },
+      "publisher": { "@id": "https://pixelkiez.de/#organisation" },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/#webpage",
+      "url": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/",
+      "name": "Wie Websites ausgeliefert werden: HTML, JavaScript, Next.js",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@id": "https://pixelkiez.de/#website" },
+      "about": { "@id": "https://pixelkiez.de/#organisation" },
+      "breadcrumb": { "@id": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/#breadcrumb" },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://pixelkiez.de/" },
+        { "@type": "ListItem", "position": 2, "name": "Wissen", "item": "https://pixelkiez.de/wissen/" },
+        { "@type": "ListItem", "position": 3, "name": "Wie Websites ausgeliefert werden" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Zum Inhalt springen</a>
+
+<!-- Icon-Sprite: Teilmenge des Startseiten-Sets, gleiche Strichstärke -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 20V9"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></symbol>
+  <symbol id="i-gate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8h8M8 12h11M8 16h6"/></symbol>
+</svg>
+
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter.
+     Kein Dialog, kein Overlay. -->
+<header class="header" data-scrolled="true">
+  <div class="wrap header__in">
+    <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
+      <img class="brand__mark" src="assets/img/logo-klein.webp" alt="Pixelkiez" width="480" height="111" decoding="async">
+      <span class="brand__sub">Webdesign Berlin</span>
+    </a>
+    <div class="header__act">
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="lang" href="/en/knowledge/how-websites-are-delivered/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===================== AUFTAKT ===================== -->
+<section class="section section--flush auftakt">
+  <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/wissen/">Wissen</a></li>
+        <li aria-current="page">Wie Websites ausgeliefert werden</li>
+      </ol>
+    </nav>
+    <div class="section__head">
+      <p class="kicker" data-reveal>Wissen · Vertiefung zur maschinellen Lesbarkeit</p>
+      <h1 class="h-lg" data-reveal>Wie moderne Websites gebaut und ausgeliefert werden — und was Maschinen davon sehen</h1>
+      <p class="lead" data-reveal>React, Next.js, WordPress, Vue oder Astro sagen etwas über die technische Umsetzung einer Website. Sie sagen noch nicht, welche Inhalte beim ersten Abruf vorhanden sind, was erst durch JavaScript entsteht und welche Bedienung ein Browser später aktiviert. Für Auffindbarkeit und maschinelle Verarbeitung zählt deshalb die konkrete Auslieferung, nicht der Frameworkname.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ORIENTIERUNG ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Was Sie hier verstehen werden.</h2>
+      <ul class="analyse-fakten" data-reveal>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg>Bausteine und Frameworks einordnen</li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg>Vier Auslieferungswege unterscheiden</li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg>Den Frameworknamen von der Auslieferung trennen</li>
+      </ul>
+    </div>
+
+    <!-- Inhaltsverzeichnis: reine Sprungmarken. Kein Skript, keine
+         Aufklappmechanik — die Liste steht im ausgelieferten HTML und
+         funktioniert damit auch ohne JavaScript und mit der Tastatur. -->
+    <nav class="inhalt" aria-labelledby="inhalt-titel" data-reveal>
+      <h2 class="inhalt__t" id="inhalt-titel">In diesem Artikel</h2>
+      <ol>
+        <li><a href="#bausteine">HTML, CSS, JavaScript, TypeScript</a></li>
+        <li><a href="#frameworks">React, Vue, Svelte und die Frameworks darüber</a></li>
+        <li><a href="#auslieferung">Vier Auslieferungswege</a></li>
+        <li><a href="#hydration">Hydration ohne Fachjargon</a></li>
+        <li><a href="#suche">Was das für klassische Suchmaschinen bedeutet</a></li>
+        <li><a href="#ki-abrufe">Was das für KI-Abrufe bedeutet</a></li>
+        <li><a href="#agenten">Was das für Browser-Agenten bedeutet</a></li>
+        <li><a href="#beispiel">Next.js: derselbe Stack, zwei Ergebnisse</a></li>
+        <li><a href="#pruefen">Sieben Prüffragen für Ihre eigene Seite</a></li>
+        <li><a href="#quellen">Quellen und Stand</a></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- ===================== 1. BAUSTEINE ===================== -->
+<section class="section" id="bausteine">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>HTML, CSS, JavaScript, TypeScript.</h2>
+      <p class="lead" data-reveal>Vier Begriffe, die in jedem Angebot vorkommen und drei verschiedene Rollen beschreiben: Inhalt, Darstellung, Verhalten — und ein Werkzeug, das gar nicht beim Besucher ankommt.</p>
+    </div>
+
+    <ul class="leiter">
+      <li data-reveal>
+        <b>HTML</b>
+        <h3 class="h-sm">Beschreibt Inhalt und Struktur.</h3>
+        <p class="small">Überschriften, Absätze, Links, Bilder, Formulare. Der HTML-Standard beschreibt, wie ein Dokument beim Verarbeiten in einen Baum aus Knoten überführt wird — diesen Baum sieht ein Browser, und auf ihn greift alles zu, was danach kommt.</p>
+      </li>
+      <li data-reveal>
+        <b>CSS</b>
+        <h3 class="h-sm">Bestimmt Darstellung und Layout.</h3>
+        <p class="small">CSS entscheidet, wie Inhalte angeordnet, sichtbar und bedienbar erscheinen. Es ersetzt keine inhaltliche Struktur: Was optisch wie eine Überschrift aussieht, ist deshalb noch keine.</p>
+      </li>
+      <li data-reveal>
+        <b>JavaScript</b>
+        <h3 class="h-sm">Fügt Verhalten hinzu und kann den Dokumentbaum verändern.</h3>
+        <p class="small">Daten nachladen, Elemente einblenden, Eingaben prüfen — normal für eine interaktive Website. Kritisch wird die Abhängigkeit erst, wenn geschäftlich wichtige Informationen oder Wege ausschließlich auf diesem Weg entstehen und der jeweilige Empfänger ihn nicht ausführt.</p>
+      </li>
+      <li data-reveal>
+        <b>TypeScript</b>
+        <h3 class="h-sm">Ist ein Entwicklungswerkzeug, kein Auslieferungsmerkmal.</h3>
+        <p class="small">Die offizielle TypeScript-Dokumentation beschreibt TypeScript als JavaScript mit einer Syntax für Typen und hält fest, dass TypeScript-Code zu JavaScript wird, das überall läuft, wo JavaScript läuft. Im Browser kommt also JavaScript an. „Wir setzen TypeScript ein“ sagt deshalb etwas über die Arbeitsweise im Projekt und nichts darüber, was eine Adresse ausliefert.</p>
+      </li>
+    </ul>
+
+    <aside class="merke" data-reveal>
+      <p class="merke__k">Kurz erklärt</p>
+      <p>HTML ist das, was ankommt. CSS bestimmt, wie es aussieht. JavaScript kann danach etwas daran ändern. TypeScript verlässt das Projekt nie in dieser Form.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 2. FRAMEWORKS ===================== -->
+<section class="section" id="frameworks">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>React, Vue, Svelte — und die Frameworks darüber.</h2>
+      <p class="lead" data-reveal>Komponentenbibliotheken und Frameworks helfen Entwicklern, Oberflächen zu strukturieren. Sie legen aber nicht fest, was eine einzelne Adresse am Ende ausliefert: Dieselben Werkzeuge dokumentieren jeweils mehrere Wege, und welcher davon für eine Route gewählt wurde, steht im Projekt, nicht im Namen.</p>
+    </div>
+
+    <figure class="wissen-tabelle" data-reveal>
+      <p class="wissen-tabelle__hinweis" aria-hidden="true">Tabelle seitlich verschiebbar</p>
+      <div class="wissen-tabelle__rollen" tabindex="0" role="region" aria-label="Werkzeuge und ihre dokumentierten Auslieferungswege">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Werkzeug</th>
+              <th scope="col">Was es ist</th>
+              <th scope="col">Welche Auslieferungswege die eigene Dokumentation nennt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">React</th>
+              <td>Bibliothek für Oberflächen aus Komponenten</td>
+              <td>Beschreibt unter anderem das Anhängen an bereits serverseitig erzeugtes HTML sowie Server Components als eigenes Ausführungsmodell.</td>
+            </tr>
+            <tr>
+              <th scope="row">Next.js</th>
+              <td>Framework auf React-Basis</td>
+              <td>Trennt im App Router Server- und Client-Komponenten. Nach eigener Beschreibung werden Client-Komponenten zusammen mit den Serverdaten zu HTML vorgerendert; beim ersten Aufruf zeigt dieses HTML die Seite zunächst ohne Interaktivität.</td>
+            </tr>
+            <tr>
+              <th scope="row">Vue / Nuxt</th>
+              <td>Komponentenansatz und Framework darüber</td>
+              <td>Nuxt beschreibt clientseitiges Rendering, universelles Rendering mit vollständig erzeugtem HTML und hybrides Rendering mit unterschiedlichen Regeln je Route.</td>
+            </tr>
+            <tr>
+              <th scope="row">Svelte / SvelteKit</th>
+              <td>Komponentenansatz und Framework darüber</td>
+              <td>SvelteKit dokumentiert die Optionen für Vorab-Erzeugung, Server-Rendering und Client-Rendering je Route. Ist das Server-Rendering abgeschaltet, wird laut Dokumentation eine leere Hülle ausgeliefert.</td>
+            </tr>
+            <tr>
+              <th scope="row">Angular</th>
+              <td>umfangreiches Anwendungs-Framework</td>
+              <td>Dokumentiert Server-Rendering je Anfrage, Vorab-Erzeugung zur Bauzeit und clientseitiges Rendering als drei wählbare Modi der Server-Routenkonfiguration.</td>
+            </tr>
+            <tr>
+              <th scope="row">Astro</th>
+              <td>inhaltsorientiertes Framework</td>
+              <td>Erzeugt Komponenten nach eigener Beschreibung standardmäßig zu HTML und CSS und entfernt clientseitiges JavaScript automatisch; Interaktivität wird je Komponente ausdrücklich angefordert.</td>
+            </tr>
+            <tr>
+              <th scope="row">WordPress / PHP</th>
+              <td>Redaktionssystem mit serverseitigem Stack</td>
+              <td>Beschreibt Templates als Bausteine der Dokumentstruktur; deren Auszeichnung wird ausgewertet, und WordPress gibt das entstehende HTML an den Browser aus. Themes, Erweiterungen und Kopflos-Setups verschieben das Bild erheblich.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption>Die Spalte rechts referiert, was die jeweilige offizielle Dokumentation an Möglichkeiten beschreibt. Sie ist keine Rangfolge und keine Bewertung: Welcher Weg für eine bestimmte Seite gewählt wurde, steht in keiner dieser Dokumentationen.</figcaption>
+    </figure>
+
+    <aside class="merke merke--warnung" data-reveal>
+      <p class="merke__k">Was das nicht bedeutet</p>
+      <p>Aus dieser Übersicht lässt sich keine Rangfolge ableiten. „Astro rankt besser“, „React ist schlecht für KI“ oder „Next.js ist besser als WordPress“ sind Sätze, für die es in den hier genannten Quellen keine Grundlage gibt. Ein gutes wie ein schlechtes Ergebnis lässt sich mit jedem dieser Werkzeuge bauen.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 3. AUSLIEFERUNG ===================== -->
+<section class="section" id="auslieferung">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Vier Auslieferungswege.</h2>
+      <p class="lead" data-reveal>Die Frage ist selten „welches Rendering hat diese Website?“, sondern „welcher Teil dieser Seite kommt auf welchem Weg?“. Vier Wege reichen aus, um das zu beschreiben.</p>
+    </div>
+
+    <ul class="leiter">
+      <li data-reveal>
+        <b>Vorab erzeugt</b>
+        <h3 class="h-sm">Die Seite existiert schon, bevor jemand sie abruft.</h3>
+        <p class="small">Zentrale Inhalte liegen beim Abruf bereits als HTML vor. JavaScript kann danach Bedienung ergänzen, muss den Inhalt aber nicht erst herstellen. Angular nennt diesen Weg Vorab-Erzeugung zur Bauzeit, SvelteKit führt ihn als Routenoption.</p>
+      </li>
+      <li data-reveal>
+        <b>Auf dem Server erzeugt</b>
+        <h3 class="h-sm">Die Seite entsteht beim Abruf — auf dem Server.</h3>
+        <p class="small">Auch hier kann bereits ein inhaltlich sinnvolles Dokument beim Empfänger ankommen. Nuxt beschreibt für dieses Modell eine vollständig erzeugte HTML-Seite. <strong>Dynamisch erzeugt heißt also nicht automatisch clientabhängig.</strong></p>
+      </li>
+      <li data-reveal>
+        <b>Im Browser erzeugt</b>
+        <h3 class="h-sm">Der erste Abruf liefert eine Hülle, der Inhalt folgt.</h3>
+        <p class="small">Nuxt beschreibt für dieses Modell, dass die Elemente erst entstehen, nachdem der Browser den JavaScript-Code geladen und ausgewertet hat; SvelteKit spricht bei abgeschaltetem Server-Rendering von einer leeren Hülle. Für Anwendungen kann das richtig sein — für genau diese Inhalte entsteht aber eine zusätzliche Abhängigkeit vom Clientpfad.</p>
+      </li>
+      <li data-reveal>
+        <b>Gemischt</b>
+        <h3 class="h-sm">Verschiedene Teile derselben Website nehmen verschiedene Wege.</h3>
+        <p class="small">Der realistische Normalfall. Nuxt beschreibt hybrides Rendering ausdrücklich als eigene Regeln je Route; Angular fasst Server-, Vorab- und Client-Erzeugung unter einem gemeinsamen Begriff. Eine Leistungsseite kann ihren Text direkt liefern, während Terminplaner, Filter oder Konfigurator erst im Browser interaktiv werden.</p>
+      </li>
+    </ul>
+
+    <!-- SZENE 6 (PXK-29): links die drei Bausteine als gestapelte Ebenen,
+         in der Mitte vier gleichwertige Auslieferungswege — kein Reifegrad,
+         keine Reihenfolge —, rechts drei Ergebnisformen. Die Grafik ist
+         dekorativ (aria-hidden), die Aussage traegt die Bildunterschrift.
+         Der dritte Weg von oben traegt die Akzentmarkierung samt
+         gestrichelter Linie: der Weg, bei dem der Inhalt erst im Client
+         entsteht. Bedeutung haengt nicht an der Farbe allein. -->
+    <figure class="kiezbot-scene" data-reveal>
+      <div class="kiezbot-scene__bild" aria-hidden="true">
+        <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Zone 1 — Bausteine: drei gestapelte Ebenen, HTML oben. -->
+          <g class="kb-bausteine">
+            <rect x="20" y="86" width="118" height="30" rx="4"/>
+            <rect x="20" y="124" width="118" height="30" rx="4"/>
+            <rect x="20" y="162" width="118" height="30" rx="4"/>
+            <rect x="32" y="96" width="34" height="10" rx="2" class="kb-akzent"/>
+            <line x1="32" y1="139" x2="90" y2="139"/>
+            <circle cx="40" cy="177" r="5"/><line x1="52" y1="177" x2="102" y2="177"/>
+          </g>
+          <!-- Aus denselben Bausteinen fuehrt EIN Weg zur Entscheidung. -->
+          <g class="kb-linie">
+            <path d="M138 101 H 162 V 139"/>
+            <path d="M138 139 H 162"/>
+            <path d="M138 177 H 162 V 139"/>
+            <path d="M162 139 H 182"/>
+            <path d="M182 57 V 261"/>
+            <path d="M182 57 H 200"/><path d="M182 125 H 200"/>
+            <path d="M182 193 H 200"/><path d="M182 261 H 200"/>
+          </g>
+          <!-- Zone 2 — vier Auslieferungswege. Gleiche Groesse, gleicher
+               Abstand, gemeinsame Senkrechte: keine Stufen, keine Reifegrade.
+               Der dritte traegt die Akzentmarke, weil sein Inhalt erst im
+               Client entsteht — die gestrichelte Linie dahinter sagt
+               dasselbe noch einmal ohne Farbe. -->
+          <g class="kb-weg">
+            <rect x="200" y="44" width="28" height="26" rx="4"/>
+            <rect x="200" y="112" width="28" height="26" rx="4"/>
+            <rect x="200" y="180" width="28" height="26" rx="4"/>
+            <rect x="200" y="248" width="28" height="26" rx="4"/>
+            <line x1="207" y1="57" x2="221" y2="57"/>
+            <path d="M207 119 h14 M207 125 h14 M207 131 h10"/>
+            <circle cx="214" cy="193" r="6" class="kb-akzent"/>
+            <path d="M207 255 h14 M207 261 h10 M217 267 h4"/>
+          </g>
+          <!-- Alle vier muenden in dieselbe Auslieferung: welcher Weg zu
+               welchem Ergebnis fuehrt, ist keine feste Zuordnung. -->
+          <g class="kb-linie">
+            <path d="M262 57 V 261"/>
+            <path d="M228 57 H 262"/>
+            <path d="M228 125 H 262"/>
+            <path d="M228 261 H 262"/>
+            <path d="M262 152 H 286"/>
+          </g>
+          <g class="kb-linie kb-gestrichelt">
+            <path d="M228 193 H 262"/>
+          </g>
+          <g class="kb-linie">
+            <path d="M286 152 V 78 H 306"/>
+            <path d="M286 152 H 306"/>
+            <path d="M286 152 V 268 H 306"/>
+          </g>
+          <!-- Zone 3 — drei Ergebnisformen derselben Auslieferung:
+               direkt zugaengliches Dokument, browsererweiterte Oberflaeche,
+               maschinell nutzbare Struktur. -->
+          <g class="kb-ergebnis">
+            <rect x="306" y="38" width="150" height="80" rx="6"/>
+            <rect x="322" y="54" width="52" height="10" rx="2" class="kb-akzent"/>
+            <line x1="322" y1="76" x2="440" y2="76"/><line x1="322" y1="88" x2="414" y2="88"/>
+            <rect x="322" y="98" width="38" height="12" rx="3"/>
+
+            <rect x="306" y="130" width="150" height="80" rx="6"/>
+            <path d="M306 148 H 456" class="kb-leise"/>
+            <circle cx="320" cy="139" r="3" class="kb-leise"/><circle cx="332" cy="139" r="3" class="kb-leise"/>
+            <rect x="322" y="162" width="62" height="16" rx="4"/>
+            <rect x="322" y="188" width="90" height="10" rx="3" class="kb-leise"/>
+            <circle cx="432" cy="186" r="10"/><path d="M427 186 h10 M432 181 v10"/>
+
+            <rect x="306" y="222" width="150" height="56" rx="6"/>
+            <line x1="322" y1="240" x2="356" y2="240"/><line x1="368" y1="240" x2="440" y2="240"/>
+            <line x1="322" y1="258" x2="348" y2="258"/><line x1="360" y1="258" x2="428" y2="258"/>
+          </g>
+          <!-- Empfaenger: drei neutrale Systemmarken ohne Gesicht. Sie
+               unterscheiden sich nicht — welches System welche Form nutzt,
+               behauptet diese Szene nicht. -->
+          <g class="kb-linie">
+            <path d="M456 78 H 508"/>
+            <path d="M456 170 H 508"/>
+            <path d="M456 250 H 508"/>
+          </g>
+          <g class="kb-system">
+            <rect x="508" y="58" width="40" height="40" rx="5"/>
+            <rect x="518" y="68" width="8" height="8" rx="1"/><rect x="530" y="68" width="8" height="8" rx="1"/><rect x="518" y="80" width="20" height="8" rx="1"/>
+            <rect x="508" y="150" width="40" height="40" rx="5"/>
+            <rect x="518" y="160" width="8" height="8" rx="1"/><rect x="530" y="160" width="8" height="8" rx="1"/><rect x="518" y="172" width="20" height="8" rx="1"/>
+            <rect x="508" y="230" width="40" height="40" rx="5"/>
+            <rect x="518" y="240" width="8" height="8" rx="1"/><rect x="530" y="240" width="8" height="8" rx="1"/><rect x="518" y="252" width="20" height="8" rx="1"/>
+          </g>
+        </svg>
+      </div>
+      <figcaption>
+        <b>Szene 6 — Vom Quellcode zur ausgelieferten Website.</b>
+        Aus denselben Bausteinen entstehen vier gleichwertige Auslieferungswege: vorab erzeugt, auf dem Server erzeugt, im Browser erzeugt und gemischt. Erst der gewählte Weg entscheidet, was direkt im Dokument steht, was der Browser ergänzt und welche Struktur maschinell nutzbar bleibt. Der gestrichelte Weg markiert den Fall, in dem der Inhalt erst im Client entsteht — keine Wertung, sondern eine zusätzliche Bedingung.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== 4. HYDRATION ===================== -->
+<section class="section" id="hydration">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Hydration ohne Fachjargon.</h2>
+      <p class="lead" data-reveal>Ein Begriff, der in technischen Konzepten oft fällt und selten erklärt wird. Er beschreibt einen einzigen Schritt: JavaScript hängt sich an bereits vorhandenes HTML.</p>
+    </div>
+
+    <p class="prose" data-reveal>Die React-Dokumentation beschreibt Hydration als das Anhängen an bereits vorhandenes HTML, das zuvor in einer Serverumgebung erzeugt wurde; React übernimmt danach die Verwaltung dieses Bereichs. Die Next.js-Dokumentation formuliert denselben Vorgang aus der anderen Richtung: Hydration ist der Prozess, mit dem React Ereignisbehandlungen an das Dokument hängt, um das statische HTML interaktiv zu machen. Nuxt beschreibt für sein universelles Rendering denselben Schritt und nennt als Ergebnis dynamische Oberflächen und Seitenübergänge.</p>
+
+    <p class="prose" data-reveal>Für die Praxis heißt das: Das Dokument kann bereits sichtbar und lesbar sein, bevor irgendetwas interaktiv ist. Was danach passiert, ist eine Ergänzung, keine Erzeugung.</p>
+
+    <div class="pruef" data-reveal>
+      <div>
+        <h3 class="h-sm">Vor der Hydration bereits vorhanden</h3>
+        <p class="small">Firmenname, Leistungsbeschreibung, Standort, erklärender Text, interne Verweise, Kontaktweg.</p>
+      </div>
+      <div>
+        <h3 class="h-sm">Nach der Hydration zusätzlich aktiv</h3>
+        <p class="small">Terminwahl, Filter, aufklappende Bereiche, laufende Eingabeprüfung, persönliche Ansichtszustände.</p>
+      </div>
+    </div>
+
+    <aside class="merke merke--warnung" data-reveal>
+      <p class="merke__k">Was das nicht bedeutet</p>
+      <p>Hydration ist weder gut noch schlecht für Auffindbarkeit. Entscheidend ist, welche Information vor diesem Schritt vorhanden ist — und welche Systeme den Schritt danach überhaupt ausführen.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 5. SUCHMASCHINEN ===================== -->
+<section class="section" id="suche">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Was das für klassische Suchmaschinen bedeutet.</h2>
+      <p class="lead" data-reveal>Google beschreibt die eigene Verarbeitung von JavaScript-Seiten in drei getrennten Schritten — und benennt dabei selbst, warum robuste Auslieferung trotzdem eine gute Idee bleibt.</p>
+    </div>
+
+    <p class="prose" data-reveal>Nach Googles eigener Darstellung durchläuft eine Seite mit JavaScript drei Phasen: Abruf, Rendern und Indexierung. Seiten mit dem Statuscode HTTP 200 stellt Google für das Rendern in eine Warteschlange, sofern keine Robots-Angabe die Indexierung untersagt. Dort kann eine Seite nach derselben Quelle einige Sekunden stehen, es kann aber auch länger dauern; erst wenn die Ressourcen es zulassen, rendert ein Chromium ohne Oberfläche die Seite und führt das JavaScript aus. Das gerenderte HTML nutzt Google anschließend ebenfalls für die Indexierung.</p>
+
+    <p class="prose" data-reveal>Im selben Dokument steht der Satz, auf den es hier ankommt: Server-seitiges oder vorab erzeugtes Rendering sei weiterhin eine gute Idee, weil es die Website für Nutzer und Crawler schneller mache — und weil <strong>nicht alle Bots JavaScript ausführen können</strong>. Das ist eine Aussage über die Bandbreite der Empfänger, nicht über Rangfolgen.</p>
+
+    <aside class="merke merke--warnung" data-reveal>
+      <p class="merke__k">Was das nicht bedeutet</p>
+      <p>Weder „Google kann kein JavaScript“ noch „serverseitig gerenderte Seiten ranken besser“ steht in diesen Dokumenten. Die belastbare Aussage ist kleiner und nützlicher: Was schon im ersten Dokument steht, können auch Empfänger nutzen, die den späteren Clientpfad nicht oder nicht vollständig ausführen.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 6. KI-ABRUFE ===================== -->
+<section class="section" id="ki-abrufe">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Was das für KI-Abrufe bedeutet.</h2>
+      <p class="lead" data-reveal>Hier ist Zurückhaltung angebracht. Die Anbieter dokumentieren unterschiedliche Zugriffe mit unterschiedlichen Zwecken — aber nicht für jeden davon, wie er eine Seite verarbeitet.</p>
+    </div>
+
+    <p class="prose" data-reveal>OpenAI führt in der eigenen Übersicht mehrere getrennte Zugriffe auf: einen für das Erscheinen in den Suchergebnissen von ChatGPT, einen für das Training generativer Modelle, einen für die Prüfung eingereichter Anzeigenseiten und einen für nutzerausgelöste Abrufe. Zum letzten hält dieselbe Seite ausdrücklich fest, dass er nicht dem automatischen Durchsuchen des Netzes dient und dass die Regeln der robots.txt für solche vom Nutzer angestoßenen Vorgänge möglicherweise nicht gelten. Damit ist die Vorstellung einer einzigen „KI-Sicht“ auf eine Website bereits widerlegt.</p>
+
+    <p class="prose" data-reveal><strong>Nicht widerlegt und nicht belegt ist die Gegenrichtung.</strong> Eine vollständige Rendering-Spezifikation je Abrufweg steht in diesen Dokumenten nicht. Deshalb schreibt Pixelkiez nicht „KI-Crawler führen kein JavaScript aus“ — dieser Satz behauptet über alle Anbieter und alle Zugriffe hinweg etwas, das keine der hier genannten Quellen sagt. Umgekehrt gilt genauso: Dass ein Inhalt nach der JavaScript-Ausführung im Dokumentbaum steht, belegt nicht, dass ein bestimmtes System ihn dort auch vorfindet.</p>
+
+    <p class="prose" data-reveal>Was bleibt, ist ein Vorgehen statt einer Behauptung:</p>
+
+    <ul class="leiter leiter--drei">
+      <li data-reveal>
+        <b>01</b>
+        <h3 class="h-sm">Anbieter und Zugriff benennen.</h3>
+        <p class="small">Nicht „die KI“, sondern der konkrete Zugriff mit seiner Kennung. Erst damit lässt sich überhaupt eine Dokumentation aufschlagen.</p>
+      </li>
+      <li data-reveal>
+        <b>02</b>
+        <h3 class="h-sm">Aktuelle Dokumentation und eigene Regeln prüfen.</h3>
+        <p class="small">Was der Anbieter heute beschreibt, und was robots.txt sowie vorgeschaltete Schutzsysteme auf der eigenen Seite tatsächlich zulassen.</p>
+      </li>
+      <li data-reveal>
+        <b>03</b>
+        <h3 class="h-sm">Den tatsächlichen Abruf beobachten.</h3>
+        <p class="small">Im Serverprotokoll oder mit einem wiederholbaren Test. Eine Beobachtung ist an ihr Datum gebunden — sie ersetzt keine Zusage und wird durch keine ersetzt.</p>
+      </li>
+    </ul>
+
+    <aside class="merke" data-reveal>
+      <p class="merke__k">Für Unternehmen entscheidend</p>
+      <p>Solange unklar ist, welcher Empfänger welchen Pfad ausführt, ist die robuste Antwort dieselbe: Wichtige öffentliche Informationen sollten nicht ohne Not von einer einzelnen, unbekannten Clientfähigkeit abhängen. Das ist eine Empfehlung zur Verträglichkeit, keine Zusage über Rangfolgen oder Nennungen.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 7. BROWSER-AGENTEN ===================== -->
+<section class="section" id="agenten">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Was das für Browser-Agenten bedeutet.</h2>
+      <p class="lead" data-reveal>Ein Agent muss nicht nur lesen, sondern handeln. Damit kommt eine zweite Ebene hinzu — und auch hier gibt es nicht den einen Weg.</p>
+    </div>
+
+    <p class="prose" data-reveal>Manche Automationswege arbeiten über die Semantik der Oberfläche. Playwright dokumentiert, dass sich Elemente über Rolle, Beschriftung und zugänglichen Namen ansprechen lassen, und beschreibt eigene Prüfungen, ob ein Element sichtbar, stabil, aktiv und für Ereignisse erreichbar ist. Die Grundlage dafür — Rollen, Zustände und zugängliche Namen — ist bei der W3C-Arbeitsgruppe für Barrierefreiheit beschrieben und war nie für Agenten gedacht, sondern für assistive Technik.</p>
+
+    <p class="prose" data-reveal>Andere Wege sehen die Seite so, wie ein Mensch sie sieht: Anbieter dokumentieren Systeme, die über Bildschirmfotos, Maus und Tastatur arbeiten. Für eine Website heißt das, dass semantische Links, echte Schaltflächen, beschriftete Formularfelder, stabile Bedienung und ein eindeutig lesbarer Erfolgs- oder Fehlerzustand eine robuste Grundlage sind — <strong>eine Grundlage, keine Garantie.</strong> Barrierefreiheit unterstützt bestimmte Automationswege; sie ist nicht dasselbe wie Agentenkompatibilität.</p>
+
+    <p class="prose" data-reveal>Was daraus für die Reifestufen einer Website folgt, steht ausführlich im Beitrag <a href="/wissen/agent-readiness/">Agent-Readiness: Kann eine KI Ihre Website benutzen?</a> — hier geht es nur um den Zusammenhang zur Auslieferung: Was erst nach erfolgreicher Client-Ausführung existiert, existiert für einen Agenten erst danach.</p>
+  </div>
+</section>
+
+<!-- ===================== 8. NEXT.JS-BEISPIEL ===================== -->
+<section class="section" id="beispiel">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Next.js: derselbe Stack, zwei Ergebnisse.</h2>
+      <p class="lead" data-reveal>Next.js eignet sich als Lehrbeispiel, weil derselbe Frameworkname zwei sehr verschiedene Auslieferungen zulässt. Beide Seiten unten sind „mit Next.js gebaut“.</p>
+    </div>
+
+    <div class="pruef" data-reveal>
+      <div>
+        <h3 class="h-sm">Fassung A — Inhalt zuerst</h3>
+        <p class="small">Der erste Abruf bringt bereits alles, was ein Mensch oder ein System zum Einordnen braucht. Client-Komponenten machen danach Menü, Filter und Terminwahl bedienbar.</p>
+        <p class="wissen-probe">
+          <span>h1 · Elektrotechnik Meier</span>
+          <span>p · Elektroinstallation für Gewerbe in Berlin-Pankow</span>
+          <span>address · Musterweg 4, 13187 Berlin</span>
+          <span>a · Kontakt aufnehmen</span>
+          <span class="aus">div · Terminwahl folgt im Browser</span>
+        </p>
+      </div>
+      <div>
+        <h3 class="h-sm">Fassung B — stark clientabhängig</h3>
+        <p class="small">Der erste Abruf bringt für den relevanten Bereich nur eine Hülle. Firmen-, Leistungs- und Kontaktangaben entstehen erst durch Client-JavaScript und weitere Datenabrufe.</p>
+        <p class="wissen-probe">
+          <span>div · Anwendungsrahmen</span>
+          <span class="aus">div · wird geladen</span>
+          <span class="aus">script · Anwendungscode</span>
+          <span class="aus">— kein Firmenname im Dokument</span>
+          <span class="aus">— kein Kontaktweg im Dokument</span>
+        </p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Der Frameworkname unterscheidet die beiden nicht. Geprüft werden muss die konkrete Route und ihr tatsächliches Verhalten.</p>
+
+    <p class="prose" data-reveal>Dabei hilft eine Genauigkeit, die oft untergeht: Die Angabe <em class="q">use client</em> ist nicht gleichbedeutend mit „es gibt kein initiales HTML“. Die Next.js-Dokumentation beschreibt sie als Grenze zwischen Server- und Clientteil des Projekts und hält fest, dass Client-Komponenten zusammen mit den Serverdaten zu HTML vorgerendert werden; beim ersten Aufruf zeigt dieses HTML die Seite unmittelbar, zunächst ohne Interaktivität. Für Navigationen innerhalb der laufenden Anwendung beschreibt dieselbe Quelle es anders: Dort werden Client-Komponenten vollständig im Browser erzeugt, ohne servergeneriertes HTML.</p>
+
+    <aside class="merke" data-reveal>
+      <p class="merke__k">In der Praxis</p>
+      <p>Der erste Abruf einer Adresse und der Wechsel innerhalb einer bereits geladenen Anwendung sind zwei verschiedene Vorgänge. Ein maschineller Abruf trifft in aller Regel den ersten. Wer prüfen will, was ankommt, sieht sich deshalb die Antwort auf den direkten Aufruf der Adresse an — nicht den Klickweg im Browser.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 9. PRUEFFRAGEN ===================== -->
+<section class="section" id="pruefen">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Sieben Prüffragen für Ihre eigene Seite.</h2>
+      <p class="lead" data-reveal>Die praktische Entscheidung lautet nicht „modernes Framework oder klassisches Redaktionssystem?“. Sie lautet: Was liefert diese Adresse aus, und woran hängt es?</p>
+    </div>
+
+    <ol class="pruefliste">
+      <li data-reveal>Stehen Name, Leistung, Standort und die zentralen Aussagen im Dokument, das der direkte Abruf zurückgibt?</li>
+      <li data-reveal>Sind interne Verweise und Kontaktwege echte Links — oder Flächen, die erst ein Skript bedienbar macht?</li>
+      <li data-reveal>Ist im Projekt bekannt und dokumentiert, welche Inhalte erst durch JavaScript entstehen?</li>
+      <li data-reveal>Bleibt die Seite verständlich, wenn ein Teil davon nicht lädt?</li>
+      <li data-reveal>Sind Bedienelemente semantisch ausgezeichnet und beschriftet, statt nur optisch als Schaltfläche gestaltet?</li>
+      <li data-reveal>Lässt sich nach einer wichtigen Handlung ein eindeutiger Erfolg oder Fehler lesen?</li>
+      <li data-reveal>Ist die tatsächliche Auslieferung geprüft — oder aus dem Frameworknamen abgeleitet?</li>
+    </ol>
+
+    <aside class="merke" data-reveal>
+      <p class="merke__k">Für Unternehmen entscheidend</p>
+      <p>Ein moderner Stack kann diese sieben Punkte sehr gut erfüllen. Ein klassischer ebenso. Und schlechte Architektur lässt sich mit beiden bauen. Die Antwort steht nie im Angebot, sondern immer in der ausgelieferten Seite.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== QUELLEN ===================== -->
+<section class="section" id="quellen">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Quellen und Stand.</h2>
+      <p class="lead" data-reveal>Die technischen Aussagen dieses Beitrags stützen sich auf die jeweils genannten Originalquellen. Beschreibt eine Quelle nur das Verhalten ihres eigenen Systems oder Produkts, wird diese Grenze im Text ausdrücklich kenntlich gemacht.</p>
+    </div>
+
+    <dl class="wissen-quellen">
+      <div>
+        <dt>Google Search Central</dt>
+        <dd>Google beschreibt die drei Phasen Abruf, Rendern und Indexierung, die Warteschlange vor dem Rendern und weist darauf hin, dass nicht alle Bots JavaScript ausführen können.</dd>
+        <dd><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" rel="noopener noreferrer" target="_blank">Understand the JavaScript SEO basics</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>React</dt>
+        <dd>Die React-Dokumentation erklärt Hydration als das Anhängen von React an bereits serverseitig erzeugtes HTML und beschreibt, wie React anschließend die Verwaltung dieses Bereichs übernimmt.</dd>
+        <dd><a href="https://react.dev/reference/react-dom/client/hydrateRoot" rel="noopener noreferrer" target="_blank">React — hydrateRoot</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Next.js</dt>
+        <dd>Next.js dokumentiert die Trennung von Server- und Client-Komponenten, das Vorrendern zu HTML, die zunächst nicht interaktive erste Ansicht und die abweichende Behandlung späterer Navigationen.</dd>
+        <dd><a href="https://nextjs.org/docs/app/getting-started/server-and-client-components" rel="noopener noreferrer" target="_blank">Next.js — Server and Client Components</a> <span class="stand">Dokumentstand 25. August 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Nuxt</dt>
+        <dd>Nuxt dokumentiert clientseitiges Rendering, universelles Rendering mit vollständig erzeugtem HTML und hybrides Rendering mit unterschiedlichen Regeln je Route.</dd>
+        <dd><a href="https://nuxt.com/docs/4.x/guide/concepts/rendering" rel="noopener noreferrer" target="_blank">Nuxt — Rendering Modes</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>SvelteKit</dt>
+        <dd>SvelteKit dokumentiert Routenoptionen für Vorab-Erzeugung, Server- und Client-Rendering sowie die leere Hülle bei abgeschaltetem Server-Rendering.</dd>
+        <dd><a href="https://svelte.dev/docs/kit/page-options" rel="noopener noreferrer" target="_blank">SvelteKit — Page options</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Angular</dt>
+        <dd>Angular beschreibt Server-Rendering, Vorab-Erzeugung und clientseitiges Rendering als drei wählbare Modi.</dd>
+        <dd><a href="https://angular.dev/guide/ssr" rel="noopener noreferrer" target="_blank">Angular — Server-side and hybrid rendering</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Astro</dt>
+        <dd>Astro beschreibt, dass Komponenten standardmäßig zu HTML und CSS erzeugt werden, clientseitiges JavaScript dabei entfernt wird und Interaktivität gezielt je Komponente angefordert werden kann.</dd>
+        <dd><a href="https://docs.astro.build/en/concepts/islands/" rel="noopener noreferrer" target="_blank">Astro — Islands architecture</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>TypeScript</dt>
+        <dd>Die TypeScript-Projektseite beschreibt TypeScript als JavaScript mit einer Syntax für Typen und erklärt, dass TypeScript-Code zu JavaScript wird, das überall läuft, wo JavaScript läuft.</dd>
+        <dd><a href="https://www.typescriptlang.org/" rel="noopener noreferrer" target="_blank">TypeScript — offizielle Projektseite</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>WordPress</dt>
+        <dd>Die WordPress-Dokumentation beschreibt Templates als Teil der Dokumentstruktur und erklärt, wie aus ihrer Auszeichnung HTML entsteht, das an den Browser ausgeliefert wird.</dd>
+        <dd><a href="https://developer.wordpress.org/themes/templates/templates/" rel="noopener noreferrer" target="_blank">WordPress — Templates</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI</dt>
+        <dd>OpenAI unterscheidet mehrere Zugriffe mit unterschiedlichen Zwecken und weist darauf hin, dass die Regeln der robots.txt für nutzerausgelöste Vorgänge möglicherweise nicht gelten.</dd>
+        <dd><a href="https://developers.openai.com/api/docs/bots" rel="noopener noreferrer" target="_blank">Overview of OpenAI Crawlers</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Playwright</dt>
+        <dd>Playwright dokumentiert das Ansprechen von Elementen über Rolle, Beschriftung und zugänglichen Namen sowie die Prüfungen, die vor einer Handlung stattfinden.</dd>
+        <dd><a href="https://playwright.dev/docs/locators" rel="noopener noreferrer" target="_blank">Playwright — Locators</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>W3C — Web Accessibility Initiative</dt>
+        <dd>Die W3C-Dokumentation definiert Rollen, Zustände und zugängliche Namen als Semantik für assistive Technik.</dd>
+        <dd><a href="https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/" rel="noopener noreferrer" target="_blank">Accessible Names and Descriptions</a> <span class="stand">Abgerufen am 4. September 2026</span></dd>
+      </div>
+    </dl>
+
+    <p class="small" style="margin-top:clamp(16px,2vw,24px)" data-reveal>Stand dieses Beitrags: 4. September 2026. Framework-Dokumentationen ändern sich mit ihren Versionen, Anbieterangaben zu Abrufwegen können sich ohne Ankündigung ändern. Wo dieser Beitrag ein Verhalten beschreibt, beschreibt er das dokumentierte Verhalten zu diesem Datum.</p>
+  </div>
+</section>
+
+<!-- ===================== NAECHSTER SCHRITT ===================== -->
+<section class="section inv" id="naechster-schritt">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Sie wissen nicht, was Ihre eigene Website ausliefert?</h2>
+      <p class="lead" data-reveal>Das lässt sich nicht raten, sondern nur nachsehen. Schreiben Sie uns, welche Adresse es betrifft — wir sehen sie uns an und antworten mit einer Einschätzung, keinem Automatenbericht.</p>
+      <div data-reveal>
+        <a class="btn btn--split btn--primary" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VERWANDTE THEMEN ===================== -->
+<section class="section" id="verwandt">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Verwandte Themen.</h2>
+    </div>
+
+    <div class="wissen-weiter">
+      <div class="channel" data-reveal>
+        <span class="channel__i"><svg aria-hidden="true"><use href="#i-layout"/></svg></span>
+        <div>
+          <h3 class="h-sm"><a href="/wissen/wie-ki-websites-liest/">Wie KI Ihre Website wirklich liest</a></h3>
+          <p class="small" style="margin-top:5px">Der übergeordnete Beitrag: Warum dieselbe Adresse bei verschiedenen Systemen unterschiedlich ankommen kann.</p>
+        </div>
+      </div>
+      <div class="channel" data-reveal>
+        <span class="channel__i"><svg aria-hidden="true"><use href="#i-gate"/></svg></span>
+        <div>
+          <h3 class="h-sm"><a href="/wissen/agent-readiness/">Agent-Readiness: Kann eine KI Ihre Website benutzen?</a></h3>
+          <p class="small" style="margin-top:5px">Vom Lesen zum Handeln: Was ein Agent zusätzlich braucht, um auf einer Seite etwas zu erledigen.</p>
+        </div>
+      </div>
+      <div class="channel" data-reveal>
+        <span class="channel__i"><svg aria-hidden="true"><use href="#i-search"/></svg></span>
+        <div>
+          <h3 class="h-sm"><a href="/wissen/seo-geo-ai-visibility/">SEO, GEO, AI Visibility: drei Begriffe, drei Fragen</a></h3>
+          <p class="small" style="margin-top:5px">Wo technische Auslieferung aufhört und Auffindbarkeit anfängt — und warum das eine das andere nicht einlöst.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="small wissen-alle" data-reveal><a href="/wissen/">Alle Themen im Überblick</a></p>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer inv">
+  <div class="wrap">
+    <div class="footer__bar">
+      <span>© Pixelkiez · Berlin</span>
+      <nav aria-label="Weitere Seiten">
+        <a href="/wissen/" style="text-decoration:none">Wissen</a>
+        <a href="/impressum.html" style="text-decoration:none">Impressum</a>
+        <a href="/datenschutz.html" style="text-decoration:none">Datenschutz</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/bds.js" defer></script>
+</body>
+</html>

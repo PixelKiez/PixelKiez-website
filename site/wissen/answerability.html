@@ -6,10 +6,10 @@
 <title>Answerability · Pixelkiez Wissen</title>
 <meta name="description" content="Beantwortet eine Website konkrete Kundenfragen so klar, dass auch Maschinen die Antwort übernehmen können? Eine Einordnung des Begriffs Answerability.">
 <meta name="theme-color" content="#B6C7C4">
-<meta name="robots" content="noindex">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://pixelkiez.de/wissen/answerability/"><!-- hreflang setzt der Build -->
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Pixelkiez">
 <meta property="og:title" content="Answerability · Pixelkiez Wissen">
@@ -30,10 +30,79 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/bds.css">
 
-<!-- ENTWURF (Slice 2): Content-Shell ohne freigegebene Fakten — noindex,
-     nicht in Sitemap oder Maschinenlisten, nicht von der Startseite verlinkt.
-     Bewusst KEIN JSON-LD, bis der Inhalt steht: strukturierte Daten sollen
-     nie mehr behaupten, als die Seite leistet. -->
+<!-- Strukturierte Daten nur fuer das, was sichtbar auf der Seite steht:
+     der Beitrag, die Seite und der Weg dorthin. Kein datePublished — das
+     Veroeffentlichungsdatum steht erst mit dem Merge fest, und ein Datum,
+     das sich nicht belegen laesst, gehoert nicht in maschinenlesbare
+     Angaben. dateModified setzt der Build aus der Aenderungszeit der
+     Quelldatei. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://pixelkiez.de/wissen/answerability/#artikel",
+      "headline": "Answerability: Beantwortet Ihre Website konkrete Fragen?",
+      "description": "Beantwortet eine Website konkrete Kundenfragen so klar, dass auch Maschinen die Antwort übernehmen können? Eine Einordnung des Begriffs Answerability.",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": {
+        "@id": "https://pixelkiez.de/wissen/answerability/#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/wissen/answerability/#webpage"
+      },
+      "author": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "publisher": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://pixelkiez.de/wissen/answerability/#webpage",
+      "url": "https://pixelkiez.de/wissen/answerability/",
+      "name": "Answerability",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/#website"
+      },
+      "about": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "breadcrumb": {
+        "@id": "https://pixelkiez.de/wissen/answerability/#breadcrumb"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/wissen/answerability/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://pixelkiez.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Wissen",
+          "item": "https://pixelkiez.de/wissen/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Answerability"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -47,8 +116,8 @@
   <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 20V9"/></symbol>
 </svg>
 
-<!-- Unterseiten-Kopf wie auf der Analyse-Seite: Marke, ein Knopf zur
-     Website-Analyse, Sprachumschalter. Kein Dialog, kein Overlay. -->
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter.
+     Kein Dialog, kein Overlay. -->
 <header class="header" data-scrolled="true">
   <div class="wrap header__in">
     <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
@@ -56,7 +125,7 @@
       <span class="brand__sub">Webdesign Berlin</span>
     </a>
     <div class="header__act">
-      <a class="btn btn--split btn--primary btn--sm" href="/website-analyse/"><span class="btn__label">Zur Website-Analyse</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       <a class="lang" href="/en/knowledge/answerability/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
     </div>
   </div>
@@ -67,11 +136,17 @@
 <!-- ===================== AUFTAKT ===================== -->
 <section class="section section--flush auftakt">
   <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/wissen/">Wissen</a></li>
+        <li aria-current="page">Answerability</li>
+      </ol>
+    </nav>
     <div class="section__head">
       <p class="kicker" data-reveal>Wissen · Antwortfähigkeit</p>
       <h1 class="h-lg" data-reveal>Answerability: Beantwortet Ihre Website konkrete Fragen?</h1>
       <p class="lead" data-reveal>Kann eine Website Maschinen eine klare, belastbare Antwort auf eine konkrete Kundenfrage geben? Dieser Beitrag zeigt, woran sich Antwortfähigkeit festmachen lässt.</p>
-      <p class="wissen-status" data-reveal>Dieser Beitrag ist in Vorbereitung. Die inhaltlichen Abschnitte werden nach fachlicher Prüfung ergänzt.</p>
     </div>
   </div>
 </section>
@@ -87,17 +162,78 @@
         <li><svg aria-hidden="true"><use href="#i-check"/></svg>Belastbare Aussagen einordnen</li>
       </ul>
     </div>
+
+    <!-- Inhaltsverzeichnis: reine Sprungmarken. Kein Skript, keine
+         Aufklappmechanik — die Liste steht im ausgelieferten HTML und
+         funktioniert damit auch ohne JavaScript und mit der Tastatur. -->
+    <nav class="inhalt" aria-labelledby="inhalt-titel" data-reveal>
+      <h2 class="inhalt__t" id="inhalt-titel">In diesem Artikel</h2>
+      <ol>
+        <li><a href="#lesbar-antwortfaehig">Lesbar ist nicht gleich antwortfähig</a></li>
+        <li><a href="#explizit">Was eine Antwort explizit macht</a></li>
+        <li><a href="#kontext">Kontext und Mehrdeutigkeit</a></li>
+        <li><a href="#belege">Belege und faktische Stützung</a></li>
+        <li><a href="#methode">Wie Pixelkiez Answerability einschätzt</a></li>
+        <li><a href="#quellen">Quellen und Stand</a></li>
+      </ol>
+    </nav>
   </div>
 </section>
 
-<!-- ===================== GEPLANTE ABSCHNITTE ===================== -->
-<section class="section">
+<!-- ===================== 1. LESBAR ≠ ANTWORTFAEHIG ===================== -->
+<section class="section" id="lesbar-antwortfaehig">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Lesbar ist nicht gleich antwortfähig.</h2>
-      <p class="lead" data-reveal>Eine Seite technisch lesen zu können und aus ihr eine Antwort zu gewinnen, sind zwei verschiedene Stufen — dieser Abschnitt trennt sie.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Ein System kann den Text Ihrer Seite vollständig einlesen und trotzdem nicht sagen, was ein Auftrag kostet, ob Ihr Betrieb den Ort bedient und wie der Ablauf aussieht. Lesbarkeit ist eine Eigenschaft der Datei. Antwortfähigkeit ist eine Eigenschaft dessen, was in ihr steht.</p>
     </div>
+
+    <p class="prose" data-reveal>Was ein Suchergebnis zeigt, beschreibt Google für die eigenen Ergebnisbeschreibungen: nicht die ganze Seite, sondern einen Ausschnitt aus ihr. Snippets entstünden automatisch aus dem Seiteninhalt und sollten den Teil hervorheben und vorab zeigen, der am besten zur konkreten Suche einer Nutzerin passt. Deshalb, hält dieselbe Seite fest, kann die Google-Suche für verschiedene Suchanfragen verschiedene Snippets zeigen.</p>
+
+    <p class="prose" data-reveal>Die technische Seite davon beschreibt Google knapp. Damit eine Seite in AI Overviews oder im AI Mode als unterstützender Link erscheinen kann, muss sie indexiert und mit Snippet in der Google-Suche ausspielbar sein und die technischen Anforderungen der Suche erfüllen; zusätzliche technische Anforderungen gebe es nicht. Das beschreibt eine Eignung und keine Wirkung. Die Seite kommt damit in Frage — ob sie in einer Antwort auftaucht, sagt der Satz nicht.</p>
+
+    <p class="prose" data-reveal>Microsoft beschreibt in einem Blogbeitrag seiner Werbesparte, was sich dabei verschiebt. In der klassischen Suche habe Sichtbarkeit geheißen, in einer Rangliste von Links aufzutauchen; in der KI-Suche finde Ranking weiterhin statt, es gehe dabei aber weniger um die Reihenfolge ganzer Seiten als darum, welche einzelnen Inhaltsstücke es in die fertige Antwort schaffen. Das ist ein Blogbeitrag und keine Produktdokumentation, und er spricht allgemein von KI-Suche, nicht nur von Microsofts eigener.</p>
+
+    <p class="prose" data-reveal>OpenAI zieht für die Websuche in ChatGPT die Grenze desselben Gedankens. Ergebnisse würden nach mehreren Faktoren geordnet, die Nutzern helfen sollen, relevante und verlässliche Informationen zu finden — eine Platzierung sei nicht zugesagt.</p>
+
+    <p class="prose" data-reveal><strong>Die Frage ist also nicht, ob Ihre Seite gelesen werden kann, sondern ob jemand nach dem Lesen weiß, woran er ist.</strong> Für einen Betrieb wird das an sehr gewöhnlichen Stellen konkret. Die folgenden sechs Fälle sind unsere Einteilung und keine Anbieterliste: Keine der unten genannten Quellen führt sie als antwortrelevante Kategorien.</p>
+
+    <ol class="leiter">
+      <li data-reveal>
+        <b>01 · Preis</b>
+        <h3 class="h-sm">Was kostet das ungefähr?</h3>
+        <p class="small">„Faire Preise“ ist keine Antwort auf diese Frage. Ein Rahmen, eine Einheit oder ein durchgerechneter Beispielfall ist eine — auch dann, wenn ein Vorbehalt dabeisteht.</p>
+      </li>
+      <li data-reveal>
+        <b>02 · Einzugsgebiet</b>
+        <h3 class="h-sm">Kommen Sie zu mir?</h3>
+        <p class="small">„Berlin und Umland“ beantwortet die Frage für Pankow, nicht für Bernau. Wo die Grenze verläuft, weiß der Betrieb genau — auf der Seite steht es oft nicht.</p>
+      </li>
+      <li data-reveal>
+        <b>03 · Ablauf</b>
+        <h3 class="h-sm">Was passiert, nachdem ich mich melde?</h3>
+        <p class="small">Erster Kontakt, Termin, Angebot, Ausführung. Der Ablauf ist im Betrieb selbstverständlich und wird gerade deshalb selten aufgeschrieben.</p>
+      </li>
+      <li data-reveal>
+        <b>04 · Voraussetzung</b>
+        <h3 class="h-sm">Was muss ich mitbringen oder vorbereiten?</h3>
+        <p class="small">Unterlagen, Zugang zum Objekt, Vorarbeiten, eine Mindestmenge. Wer das erst im Telefonat erfährt, kann es vorher nicht abwägen.</p>
+      </li>
+      <li data-reveal>
+        <b>05 · Zuständigkeit</b>
+        <h3 class="h-sm">Machen Sie genau das, was ich brauche?</h3>
+        <p class="small">Zwischen einer Leistungsüberschrift und dem konkreten Fall des Kunden liegt oft die eigentliche Frage. Eine Liste von Oberbegriffen beantwortet sie nicht.</p>
+      </li>
+      <li data-reveal>
+        <b>06 · Zeiten</b>
+        <h3 class="h-sm">Wann sind Sie erreichbar, und ab wann haben Sie Zeit?</h3>
+        <p class="small">Erreichbarkeit und Auftragslage sind zwei verschiedene Angaben. Beide entscheiden mit, ob jemand überhaupt anfragt.</p>
+      </li>
+    </ol>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Lesbar ist eine Seite in allen sechs Fällen. Ob auf ihr die Antwort steht, ist eine zweite, davon unabhängige Frage — und nur die zweite meint dieser Beitrag mit Antwortfähigkeit. Der Begriff ist in diesem Beitrag unsere Bezeichnung für diese Prüfung.</p>
+
+    <p class="prose" data-reveal>So ist auch die Grafik gebaut. Die drei Bedingungen, die sie nennt — explizit, im richtigen Kontext, nachvollziehbar gestützt —, sind die Gliederung der nächsten drei Abschnitte und unsere Einteilung, kein Anbietermodell.</p>
 
     <!-- SZENE 3 (PXK-27): links eine Frage (Eingabe) und die Systemmarke, in der
          Mitte EINE Website mit einem expliziten Faktenblock samt Belegmarke und
@@ -162,61 +298,286 @@
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 2. EXPLIZIT ===================== -->
+<section class="section" id="explizit">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Was eine Antwort explizit macht.</h2>
-      <p class="lead" data-reveal>Manche Angaben stehen wörtlich auf der Seite, andere müssen erschlossen werden — dieser Abschnitt beschreibt den Unterschied.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Über die Wirkung expliziter Angaben steht in den unten genannten Quellen wenig. Gemessen ist anderes: Google bindet strukturierte Auszeichnung an den Inhalt, den auch der Besucher sieht; Microsoft beschreibt in einem Blogbeitrag, versteckte Inhalte könnten übersprungen werden; und Anthropic dokumentiert für sein Web-Fetch-Werkzeug, dass es per JavaScript aufgebaute Seiten derzeit nicht unterstützt.</p>
     </div>
+
+    <p class="prose" data-reveal>Dieser Abschnitt trägt die dünnste Quellenlage des ganzen Beitrags, und das gehört an den Anfang und nicht in eine Fußnote. Er zählt auf, was in den unten genannten Dokumenten tatsächlich steht. Eine Begründung, warum eine ausgeschriebene Angabe stärker wirkt als ein verstreuter Hinweis, steht dort nicht — und deshalb steht sie hier auch nicht.</p>
+
+    <p class="prose" data-reveal>Fünf Angaben, jede an ihr Dokument gebunden.</p>
+
+    <ol class="leiter">
+      <li data-reveal>
+        <b>01 · in Textform</b>
+        <h3 class="h-sm">Google führt es als Praxis auf, wichtige Inhalte in Textform verfügbar zu machen.</h3>
+        <p class="small">Der Punkt steht unter einem Listenkopf, der ihn selbst einordnet: Eine besondere Optimierung sei für AI Overviews und den AI Mode nicht erforderlich, die bestehenden SEO-Grundlagen blieben aber weiterhin sinnvoll — zum Beispiel diese. Es ist eine Praxisempfehlung, keine Anforderung.</p>
+      </li>
+      <li data-reveal>
+        <b>02 · deckungsgleich mit dem Sichtbaren</b>
+        <h3 class="h-sm">Auszeichnen darf man nur, was auf der Seite auch zu sehen ist.</h3>
+        <p class="small">In derselben Liste führt Google als Praxis auf, dass die strukturierten Daten zum sichtbaren Text der Seite passen. In den Richtlinien für strukturierte Daten wird daraus eine Regel: Inhalte, die für Leser der Seite nicht sichtbar sind, sollen nicht ausgezeichnet werden; beschreibt das JSON-LD einen Künstler, muss der HTML-Rumpf denselben Künstler beschreiben.</p>
+      </li>
+      <li data-reveal>
+        <b>03 · nicht versteckt</b>
+        <h3 class="h-sm">Microsoft rät davon ab, wichtige Antworten in Reitern oder Aufklappmenüs zu verstecken.</h3>
+        <p class="small">Die Begründung steht im selben Satz: KI-Systeme stellten verborgene Inhalte möglicherweise nicht dar, wichtige Angaben könnten dann übersprungen werden. Zweimal Möglichkeitsform — die Quelle sagt nicht, dass es geschieht, sondern dass es geschehen kann. Dokumentart: Blogbeitrag von Microsoft Advertising.</p>
+      </li>
+      <li data-reveal>
+        <b>04 · ohne Browser abrufbar</b>
+        <h3 class="h-sm">Anthropics Web-Fetch-Werkzeug führt kein JavaScript aus.</h3>
+        <p class="small">Die Produktdokumentation beschreibt, dass die Schnittstelle den vollständigen Textinhalt der angegebenen Adresse abruft, und hält im selben Abschnitt fest, dass Websites, die erst dynamisch per JavaScript aufgebaut werden, derzeit nicht unterstützt werden. „Vollständig“ relativiert dieselbe Seite selbst: Überschreitet der Inhalt eine einstellbare Obergrenze, wird er abgeschnitten, und zwischengespeicherte Inhalte müssen nicht dem aktuellen Stand der Adresse entsprechen. Für Seiten, die eine echte Browserdarstellung brauchen, verweist Anthropic direkt danach auf ein anderes Werkzeug. Das gilt für dieses eine Werkzeug, nicht für KI-Systeme allgemein.</p>
+      </li>
+      <li data-reveal>
+        <b>05 · gegliedert</b>
+        <h3 class="h-sm">Klare Überschriften, Tabellen und FAQ-Abschnitte helfen laut Microsoft beim Referenzieren.</h3>
+        <p class="small">Der Bing-Webmaster-Blog nennt sie als eine von fünf gleichrangigen Empfehlungen: Sie helfen demnach dabei, Kernangaben hervorzuheben, und machen Inhalte für KI-Systeme genauer referenzierbar. Das Verb ist „helfen“, nicht „bewirken“, und der Beitrag ist ein Blogbeitrag. Über Auszeichnung sagt er an dieser Stelle nichts, weder dafür noch dagegen.</p>
+      </li>
+    </ol>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Was strukturierte Daten in Googles eigener Beschreibung sind, gehört zur Vollständigkeit dazu: ausdrückliche Hinweise auf die Bedeutung einer Seite. Google Search arbeite hart daran, den Inhalt einer Seite zu verstehen, schreibt die Einführung — und man könne dabei helfen, indem man solche Hinweise auf der Seite mitliefert. „Helfen können“ ist die Formulierung der Quelle. Dass Auszeichnung dafür sorgt, dass ein System den Inhalt versteht, steht dort nicht.</p>
+
+    <p class="prose" data-reveal><strong>Drei Sätze fehlen hier bewusst.</strong> Dass explizite, eingeordnete Angaben verstreute Hinweise schlagen, sagt keine der unten genannten Seiten; diesen Vergleich stellt keine von ihnen an. Dass sinnvolle HTML-Struktur die Antwortfähigkeit erhöht, sagt ebenfalls keine: Microsoft beschreibt es mit „helfen“ und rahmt seine Strukturempfehlungen an anderer Stelle ausdrücklich als allgemeine Praxis, die man erwägen könne. Und dass sichtbarer HTML-Text die alleinige Grundlage der Verarbeitung sei, steht in keiner von ihnen — sie beschreiben Text als das Verlässliche, das Wort „ausschließlich“ benutzt keine.</p>
+
+    <p class="prose" data-reveal><strong>Kann ein Mensch oder eine Maschine eine echte Kauf- oder Klärungsfrage von dieser Seite beantworten, ohne zu raten?</strong> Das ist die Frage, die sich an jeder Seite selbst beantworten lässt, ganz ohne Anbieterdokument. Wo die Antwort Nein lautet, ist der nächste Schritt nicht Auszeichnung, sondern ein Satz mehr im sichtbaren Text: Auszeichnung darf nach Googles Richtlinien ohnehin nur beschreiben, was dort schon steht.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 3. KONTEXT ===================== -->
+<section class="section" id="kontext">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Kontext und Mehrdeutigkeit.</h2>
-      <p class="lead" data-reveal>Dieselbe Formulierung trägt je nach Umfeld verschiedene Bedeutungen — dieser Abschnitt zeigt, wo Mehrdeutigkeit entsteht.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Mehrdeutigkeit ist in den unten genannten Dokumenten ungleich verteilt. Die Bing Webmaster Guidelines regeln sie ausdrücklich und in Sollform. Die unten genannten Google-Seiten sprechen von der Mehrdeutigkeit der Suchanfrage, nicht der Seite. Dieser Abschnitt hält beides auseinander, statt es zu einer Regel zusammenzuziehen.</p>
     </div>
+
+    <p class="prose" data-reveal>Der Reihe nach, weil die Dokumentart hier über die Tragfähigkeit entscheidet. Die Bing Webmaster Guidelines sind ein Richtlinientext des Anbieters, und ihr Einleitungssatz zieht den Geltungsbereich selbst: Die Richtlinien beschreiben, wie Bing Inhalte entdeckt, crawlt, indexiert, bewertet und ausspielt — über die Bing-Sucherlebnisse, über Copilot und über Grounding-API-Ergebnisse hinweg. Was dort steht, gilt nach Microsofts eigener Ansage also nicht nur für die klassische Suche.</p>
+
+    <p class="prose" data-reveal>Der Kern des Abschnitts über Inhalte steht in einem Satz: Begründete Antworten und Zitate hingen von Inhalten ab, die Bing klar deuten und überprüfen könne. Daran hängt eine Sollliste, und einer ihrer Punkte lautet, Inhalte sollen ohne äußeren Kontext verständlich sein. An anderer Stelle formuliert Microsoft eine Wahrscheinlichkeit und keine Bedingung: Adressen würden eher für Grounding-Anfragen und Zitate ausgewählt, wenn der Inhalt für sich allein stehe. Unter der Überschrift „Ensure:“ führt derselbe Abschnitt unter anderem auf, dass zentrale Aussagen nicht auf implizit Mitgemeintem beruhen.</p>
+
+    <p class="prose" data-reveal>Zur Mehrdeutigkeit selbst wird Microsoft ausdrücklich. Mehrdeutige Bezüge seien zu vermeiden. Eine klare Definition von Entitäten verbessere die Grounding-Sichtbarkeit und die Genauigkeit von Zitaten. Personen, Organisationen, Produkte und Orte sollen klar und einheitlich benannt werden, und unverbundene Konzepte sollen nicht auf einer einzelnen Adresse gemischt werden. Wie viel eine eindeutig formulierte Seite dabei gewinnt, sagt Microsoft nicht: Die Verben sind „verbessert“ und „eher“ — eine Größenordnung steht in keinem dieser Sätze.</p>
+
+    <p class="prose" data-reveal>Auch über Formate hinweg soll das zusammenpassen. In der Produktdokumentation der Bing Webmaster Tools steht Konsistenz über Formate hinweg als Empfehlung: Text, Bilder und andere Medien sollen dieselben Produkte, Entitäten und Konzepte beschreiben. In den Richtlinien steht die verwandte Regel, dass Bilder und Videos den Haupttext der Seite stützen und nicht die alleinige Quelle der Information sein sollen, die zum Verständnis des Themas nötig ist.</p>
+
+    <p class="prose" data-reveal><strong>Die unten genannten Google-Seiten behandeln Mehrdeutigkeit als Eigenschaft der Anfrage.</strong> Damit liegt der Fall bei Google anders, und das ist der wichtigste Unterschied dieses Abschnitts. Die Bewertungsanleitung für externe Prüfer nennt das Beispiel selbst: Viele Anfragen hätten mehr als eine Bedeutung — die Anfrage „apple“ könne die Computermarke meinen oder die Frucht —, und Google nennt diese möglichen Bedeutungen „query interpretations“. Dieses Dokument ist allerdings eine Bewertungsanleitung für menschliche Prüfer und keine Beschreibung des Rankings; es hält gleich zu Beginn selbst fest, dass keine einzelne Bewertung direkt beeinflussen kann, wie eine Seite in der Google-Suche erscheint.</p>
+
+    <p class="prose" data-reveal>Auch Microsoft beschreibt Mehrdeutigkeit auf der Anfrageseite. In seiner Transparenzdarstellung heißt es, viele Anfragen könnten mehr als eine mögliche Absicht haben; Bing versuche, ein umfassendes Ergebnisset zu liefern, das alle möglichen Absichten abbildet. Und Bing unterstelle dabei, dass die Nutzerin hochwertige, autoritative Inhalte sucht — sofern sie nicht klar eine Absicht signalisiert, minderwertige Inhalte zu recherchieren. Das ist ein Support- und Transparenzartikel, keine Richtlinie mit Verpflichtungscharakter.</p>
+
+    <p class="prose" data-reveal>Zur Mehrdeutigkeit von Seiteninhalten steht auf den unten genannten Google-Seiten nichts. Was dort steht, betrifft die Selbsterklärungskraft von Inhalten, und es steht als Frage und nicht als Vorgabe: ob der Inhalt eine substanzielle, vollständige oder umfassende Beschreibung des Themas liefere — und ob Leserinnen nach dem Lesen das Gefühl hätten, erneut suchen zu müssen, um anderswo bessere Informationen zu bekommen.</p>
+
+    <p class="prose" data-reveal>Dass ein Inhalt außerhalb der eigenen Seite als Ausschnitt erscheint, beschreibt Google für Featured Snippets ausdrücklich: Manchmal finde man bei einer Suche ganz oben einen Kasten mit der Antwort, und dieser Kasten zeige ein kleines Stück einer Website, das bei der Beantwortung der Frage hilft. Der Hilfeartikel richtet sich an Endnutzer und ist bewusst einfach gehalten. Die Entwicklerdokumentation beantwortet die naheliegende Betreiberfrage kurz: Auszeichnen kann man das nicht. Googles Systeme entschieden selbst, ob eine Seite ein gutes Featured Snippet für eine Suchanfrage abgäbe, und hoben sie dann hervor. Bestritten ist damit die positive Auszeichnung, nicht jeder Einfluss — dieselbe Seite nennt sehr wohl Mittel, die Anzeige zu begrenzen.</p>
+
+    <p class="prose" data-reveal>Ein Merkmal aus Microsofts Werbeblog gehört hierher, aber nur mit seiner Fundstelle. Unter der Frage, was Inhalte für Featured Snippets geeignet macht, nennt der Beitrag in sich geschlossene Formulierungen: Sätze, die auch dann Sinn ergeben, wenn man sie aus dem Zusammenhang löst. Zur Auswahl in KI-Antworten sagt derselbe Beitrag etwas Deutlicheres — es gebe kein Geheimrezept, das eine Auswahl in KI-Antworten garantiere, und nichts garantiere eine Auswahl.</p>
+
+    <p class="prose" data-reveal><strong>Grounding und Featured Snippets sind zwei verschiedene Fälle.</strong> Microsofts Eindeutigkeitsregeln nennen durchgehend Grounding-Ergebnisse und Zitate, nie Featured Snippets. Umgekehrt steht für Featured Snippets in keiner der unten genannten Quellen eine Kontext- oder Mehrdeutigkeitsregel. Wer beides vermischt, baut aus zwei Systemen eine Regel, die keines von beiden aufgestellt hat.</p>
+
+    <p class="prose" data-reveal>Noch eine Beobachtung zur Verteilung. Von den unten genannten Quellen regeln Mehrdeutigkeit und fehlenden äußeren Kontext ausdrücklich nur die Bing Webmaster Guidelines. Zur Frage, wie OpenAI, Anthropic oder Perplexity mit mehrdeutigen Angaben umgehen, steht in keiner der unten genannten Quellen etwas — hier steht dazu deshalb weder eine Aussage noch eine Absage.</p>
+
+    <p class="prose" data-reveal>Im Alltag hängt das an harmlos klingenden Formulierungen. Keine der unten genannten Quellen nennt dafür Beispiele aus dem Alltag kleiner Betriebe; Microsofts eigene Beispiele betreffen Produktseiten. Das folgende Beispiel ist deshalb unseres und ausdrücklich erfunden. Ein Berliner Handwerksbetrieb schreibt: „Wir sind für Sie da, wenn es schnell gehen muss.“ Für einen Menschen ist das ein Versprechen. Als Antwort auf die Frage, wer samstags in Kreuzberg eine defekte Heizung repariert, trägt der Satz nichts: Er nennt weder den Ort noch den Tag noch die Leistung. Dass ein solcher Satz eine Nennung verhindert, sagen wir damit nicht. Wir sagen, dass er die Frage nicht beantwortet.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 4. BELEGE ===================== -->
+<section class="section" id="belege">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Belege und faktische Stützung.</h2>
-      <p class="lead" data-reveal>Eine belastbare Antwort braucht nachvollziehbare Angaben — dieser Abschnitt ordnet, was eine Aussage stützt.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Strukturierte Daten können die Deutung einer Seite stützen. Den sichtbaren Text ersetzen sie nicht, und eine Darstellung erzwingen sie nicht — Google und Microsoft schreiben beides für ihre eigenen Systeme selbst hin. Wie weit die zweite Hälfte dieses Satzes trägt, lässt sich an einem abgeschafften Suchergebnis ablesen.</p>
     </div>
+
+    <p class="prose" data-reveal>Googles Richtlinien für strukturierte Daten sagen es in einem Satz, den man sich merken kann: Auszeichnung ermögliche, dass eine Darstellung vorhanden ist — sie garantiere nicht, dass sie es ist. Der Absatz führt aus, dass Googles Algorithmus die Suchergebnisse auf das zuschneidet, was er für die beste Sucherfahrung hält, abhängig von vielen Größen. Daneben steht der Warnhinweis: Google garantiere nicht, dass strukturierte Daten in den Suchergebnissen erscheinen, selbst wenn die Seite nach dem Rich-Results-Test korrekt ausgezeichnet ist.</p>
+
+    <p class="prose" data-reveal>Dieselben Richtlinien binden Auszeichnung an den Inhalt. Strukturierte Daten müssten eine wahrheitsgemäße Abbildung des Seiteninhalts sein; als Gegenbeispiel nennt Google eine Holzwerkstatt-Seite, die Anleitungen als Rezepte auszeichnet. Für zeitgebundene Inhalte, die nicht mehr aktuell sind, kündigt Google an, kein Rich Result zu zeigen — was umgekehrt nicht heißt, dass aktuelle Inhalte eines bekämen. Und wenn eine Seite gegen die Richtlinien verstößt, kann das zu einer manuellen Maßnahme führen: Die Seite verliert die Eignung für Rich Results, ihr Ranking in der Websuche bleibt davon unberührt.</p>
+
+    <p class="prose" data-reveal>Für die KI-Funktionen der eigenen Suche zieht Google die Grenze noch enger. Man brauche keine neuen maschinenlesbaren Dateien, keine KI-Textdateien und kein Markup, um darin zu erscheinen; ein besonderes schema.org-Markup, das man hinzufügen müsste, gebe es ebenfalls nicht. Im Leitfaden für die generative KI-Suche steht derselbe Gedanke mit einem Zusatz: Strukturierte Daten seien dafür nicht erforderlich, es sei aber weiterhin eine gute Idee, sie als Teil der gesamten SEO-Arbeit zu verwenden, weil sie bei der Eignung für Rich Results in der Google-Suche helfen.</p>
+
+    <p class="prose" data-reveal><strong>„Kein Markup, das man hinzufügen müsste“ ist nicht dasselbe wie „ein solches Markup gibt es nicht“.</strong> Die Quelle verneint eine Pflicht, keine Existenz. Diese Aussage gilt außerdem für die genannten Google-Suchfunktionen und trägt nichts über andere Systeme.</p>
+
+    <p class="prose" data-reveal>Microsoft formuliert für Bing-Grounding zurückhaltend. Strukturierte Daten könnten klareres Grounding stützen, garantierten aber weder Sichtbarkeit noch Grounding-Traffic — und das Markup müsse den sichtbaren Inhalt zutreffend widerspiegeln. Unter den Microsoft-Sätzen in den unten genannten Dokumenten ist das der einzige mit einem „muss“. Weiter heißt es dort, Markup, das irrelevant, unzutreffend oder irreführend sei, könne ignoriert werden und sich auf Vertrauen und auf die Eignung für erweiterte Darstellungen auswirken.</p>
+
+    <p class="prose" data-reveal>Diese beiden Selbstaussagen ergeben keine gemeinsame Anbieterlinie, und sie zu einer zu verrechnen wäre der bequemere, aber falsche Weg. Google sagt für die eigene generative Suche, dass kein besonderes schema.org-Markup nötig ist. Microsoft schreibt für das eigene Grounding, Auszeichnung könne stützen, und verlangt im selben Atemzug, dass sie zum sichtbaren Inhalt passt. Zwei Anbieter, zwei Systeme, zwei Sätze — die Differenz gehört stehen gelassen und nicht geglättet.</p>
+
+    <p class="prose" data-reveal>Wie wenig Auszeichnung für sich genommen trägt, zeigt ein Fall aus Googles eigenem Änderungsprotokoll. Das FAQ-Rich-Result ist abgeschafft. Der Eintrag vom Mai 2026 kündigt es im Futur an — die Funktion werde ab dem 7. Mai 2026 nicht mehr in der Google-Suche erscheinen —, der Eintrag vom Juni 2026 stellt den Zustand fest und nennt den Grund für einen zweiten Schritt: Die Dokumentation zum FAQ-Rich-Result werde entfernt, weil die Funktion in den Google-Suchergebnissen nicht mehr gezeigt wird. Wer „seit dem 7. Mai 2026“ liest, liest also beide Einträge zusammen. Historisch war es ein Rückbau in Stufen: Im September 2023 hielt dasselbe Protokoll fest, die FAQ-Dokumentation sei dahingehend aktualisiert worden, dass die Funktion nur noch für bekannte, autoritative Behörden- und Gesundheitsseiten gezeigt wird. Dieser Eintrag datiert eine Dokumentationsänderung. Heute wird die Darstellung für niemanden mehr gezeigt.</p>
+
+    <p class="prose" data-reveal><strong>Dass ein FAQ-Abschnitt im Markup eine KI-Antwort oder ein Zitat erzeugt, sagt keine der unten genannten Anbieterseiten zu.</strong> Der Rückbau zeigt zugleich, wie schnell eine Darstellung wieder verschwinden kann, die es einmal gab. Die Aussage betrifft das Rich Result in der Google-Suche — nicht das FAQPage-Markup als solches und nicht andere Suchmaschinen oder KI-Systeme.</p>
+
+    <p class="prose" data-reveal>Das Vokabular selbst ist bescheidener, als sein Ruf vermuten lässt. Schema.org bezeichnet sich ausdrücklich nicht als Normungsgremium, sondern als Ort, an dem die Schemata dokumentiert werden, die mehrere große Suchmaschinen unterstützen. Und es hält fest, dass nicht jede Art von Information aus dem Vokabular in Suchergebnissen auftaucht; für die konkrete Nutzung verweist es auf die Dokumentation der einzelnen Unternehmen. Der Text ist erkennbar älteren Datums und trägt kein seitenspezifisches Änderungsdatum.</p>
+
+    <p class="prose" data-reveal>Über die übrigen Anbieter sagt dieser Abschnitt bewusst wenig, weil die unten genannten Quellen mehr nicht hergeben. Auf OpenAIs Hilfeseite für Publisher und Entwickler kommen strukturierte Daten, Schema oder FAQ-Markup nicht vor; was die Seite für die Aufnahme in Zusammenfassungen und Snippets nennt, ist der Zugang für den OAI-SearchBot. Das ist eine Beobachtung an genau dieser einen Seite und keine Aussage über OpenAIs Dokumentation insgesamt. Für Anthropic steht zu strukturierter Auszeichnung als Auswahlkriterium nur die unten genannte Seite zum Web-Fetch-Werkzeug.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 5. EINSCHAETZUNG ===================== -->
+<section class="section" id="methode">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Wie Pixelkiez Answerability einschätzt.</h2>
-      <p class="lead" data-reveal>Dieser Abschnitt beschreibt das Vorgehen hinter unserer Einschätzung — offen, damit Sie es nachvollziehen können.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Wir bewerten den prüfbaren Zustand Ihrer Seite und sagen kein Ergebnis in einem fremden System zu. Das ist keine Bescheidenheitsgeste: Google und Microsoft schließen eine solche Zusage für ihre eigenen Systeme selbst aus.</p>
     </div>
+
+    <p class="prose" data-reveal><strong>Die folgende Reihe von vier Fragen ist unser eigenes Modell.</strong> Antwortfähigkeit steht darin an dritter Stelle. In keinem der unten genannten Anbieterdokumente kommt diese Begriffsfolge vor; dass sie anderswo existiert, ist damit nicht ausgeschlossen. Wir führen sie hier, weil sie im Beitrag „Wie KI eine Website liest“ schon steht und beide Beiträge dieselbe Sprache sprechen sollen.</p>
+
+    <ol class="leiter">
+      <li data-reveal>
+        <b>01 · Discoverability</b>
+        <h3 class="h-sm">Kann ein System die Seite überhaupt abrufen?</h3>
+        <p class="small">Zugänge, Weiterleitungen, Statuscodes, robots.txt. Ohne offene Tür passiert nichts Weiteres.</p>
+      </li>
+      <li data-reveal>
+        <b>02 · Extractability</b>
+        <h3 class="h-sm">Lassen sich die Fakten zuverlässig herauslösen?</h3>
+        <p class="small">Leistung, Ort, Zuständigkeit, Kontaktweg — als Text, den ein System eindeutig zuordnen kann, nicht nur als Eindruck.</p>
+      </li>
+      <li data-reveal>
+        <b>03 · Answerability</b>
+        <h3 class="h-sm">Beantwortet die Seite eine konkrete Frage eindeutig?</h3>
+        <p class="small">Darum geht es in diesem Beitrag. Aus lesbaren Angaben wird nicht von selbst eine übernehmbare Antwort — dafür muss die Frage auf der Seite tatsächlich beantwortet sein.</p>
+      </li>
+      <li data-reveal>
+        <b>04 · Observed AI Visibility</b>
+        <h3 class="h-sm">Taucht die Domain in KI-Antworten tatsächlich auf?</h3>
+        <p class="small">Das zeigt sich nur in einem definierten, wiederholbaren Test — beobachtet, nicht abgeleitet.</p>
+      </li>
+    </ol>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Was wir für Stufe drei ansehen, ist der prüfbare Zustand der Seite: ob die Angabe, um die es geht, im ausgelieferten Text steht; ob sie ohne den umgebenden Zusammenhang verständlich bleibt; ob die Auszeichnung dasselbe sagt wie der sichtbare Text; ob Bezeichnungen für Leistung, Ort und Zuständigkeit durchgehend gleich lauten. Das sind Fragen an die Seite. Keine davon ist eine Frage an ein fremdes System, und keine davon beantwortet, was ein solches System morgen tut.</p>
+
+    <p class="prose" data-reveal>Eine Punktzahl gibt es dafür bei uns nicht. Keine der unten genannten Quellen nennt einen Schwellenwert, ab dem eine Seite als antwortfähig gilt — eine Zahl an dieser Stelle wäre unsere Erfindung mit dem Anstrich einer Messung. Wir beschreiben stattdessen, welche Frage die Seite heute beantwortet und welche nicht.</p>
+
+    <p class="prose" data-reveal>Die Grenze zieht Google an zwei Stellen selbst, und beide gehören zusammen genannt. In den Richtlinien für strukturierte Daten steht, dass Auszeichnung eine Darstellung ermöglicht und sie nicht garantiert. Auf der Seite zu den KI-Funktionen steht die zweite Hälfte: Auch wenn eine Seite alle Anforderungen, Praxisempfehlungen und Richtlinien erfüllt, heiße das nicht, dass Google ihre Inhalte crawlt, indexiert oder ausspielt — Indexierung und Ausspielung seien nicht garantiert. Nutzerorientierte Inhalte, „people-first content“, beschreibt Google im Übrigen als solche, die vorrangig für Menschen gemacht sind und nicht, um Suchmaschinen-Rankings zu beeinflussen.</p>
+
+    <p class="prose" data-reveal>Für Werkzeuge, die es anders darstellen, hat Google einen eigenen Absatz. Werkzeuge von Drittanbietern hätten keinen Zugriff auf Googles interne Ranking-Daten, sie könnten keine Leistung zusagen, und ihre Prognosen seien ihre eigenen — die, wie Prognosen allgemein, nicht eintreten müssen. Das gilt für uns wie für jeden anderen, der solche Analysen anbietet.</p>
+
+    <p class="prose" data-reveal>Eine eigene Kennzahl für Präsenz in KI-Antworten führt von den unten genannten Quellen nur Microsoft — und sie ist zugleich der beste Beleg für die Zurückhaltung dieses Abschnitts. Im AI-Performance-Bericht der Bing Webmaster Tools steht die Kennzahl „Total Citations“: nach der Produktdokumentation die Gesamtzahl der Male, die Inhalte der eigenen Website im gewählten Zeitraum sichtbar als Quelle in KI-generierten Antworten referenziert oder gezeigt wurden. Daneben steht „Citation Share“, und Microsoft unterscheidet beide ausdrücklich — die eine sagt, wie oft zitiert wurde, die andere, welchen Anteil eine Website an allen Zitationen hat, die für dieselbe Grounding-Anfrage über alle Websites hinweg gezeigt werden. Diese Bezugsgröße stammt aus dem Ankündigungsbeitrag zur öffentlichen Vorschau; dort steht auch, dass die Zahl weder Platzierung noch Darstellung innerhalb einer einzelnen Antwort anzeigt.</p>
+
+    <p class="prose" data-reveal>Vier Vorbehalte formuliert Microsoft zu diesem Bericht selbst. Er messe keine Rankings, keine Autorität, keine Leistung und keine Wichtigkeit; er zeige lediglich, welche Inhalte zitiert wurden. Bessere Qualität, Struktur und Aktualität könnten Inhalte stärken, garantierten aber kein bestimmtes Zitationsergebnis. Citation Share könne helfen zu beobachten, ob sich der eigene Anteil nach Inhaltsänderungen über die Zeit verändert, stelle aber keine kausale Verbindung her. Und die gezeigten Werte seien eine Stichprobe der gesamten Zitationsaktivität, die sich mit weiterer Datenverarbeitung noch verändern könne. Wie groß diese Stichprobe ist, sagt Microsoft nicht — weder Anteil noch Abdeckung noch Fehlerspanne stehen dort. Eine Null im Bericht ist deshalb kein Beleg für eine Null in der Wirklichkeit.</p>
+
+    <p class="prose" data-reveal>Dass Microsoft zur Optimierung schweige, wäre ebenfalls falsch. Der Bericht hat einen eigenen Empfehlungsteil, den Microsoft aber selbst einordnet: allgemeine Praxis für Inhalte, die man bei der Nutzung dieser Daten erwägen könne. Genannt werden dort beschreibende Überschriften, knappe Abschnitte, Tabellen und FAQ-artige Inhalte, damit Informationen in KI-Antworten leichter verstanden und referenziert werden können. Empfehlungen also ja — ein zugesagtes Ergebnis und ein Kausalschluss ausdrücklich nein. Und was eine Zitation bedeutet, grenzt dieselbe Dokumentation in ihren FAQ ein: dass der Inhalt sichtbar in einer KI-generierten Antwort referenziert oder gezeigt wurde. Für Traffic, Klicks oder Nutzerinteraktion steht sie nicht.</p>
+
+    <p class="prose" data-reveal>Ein Hinweis zum Stand dieser Funktionen gehört dazu. Mehrere davon führt Microsoft als Vorschau. Ob jedes Konto sie heute sieht, sagt keine der unten genannten Seiten.</p>
+
+    <p class="prose" data-reveal><strong>Was wir zusagen, ist eine nachvollziehbare Einschätzung — keine Nennung, kein Zitat, kein Platz.</strong> Wir sagen Ihnen, welche Kundenfrage Ihre Seite heute beantwortet, welche nicht, und was sich daran ändern lässt. Was ein Antwortsystem daraus macht, entscheidet dieses System. Wer Ihnen an dieser Stelle mehr verspricht, verspricht etwas, das Google und Microsoft in den unten genannten Dokumenten für ihre eigenen Systeme ausdrücklich nicht zusagen.</p>
   </div>
 </section>
 
-<!-- ===================== ANALYSE-HINWEIS ===================== -->
-<section class="section inv">
+<!-- ===================== QUELLEN ===================== -->
+<section class="section" id="quellen">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Quellen und Stand.</h2>
+      <p class="lead" data-reveal>Die Aussagen oben stützen sich auf die folgenden Primärquellen. Anbieterangaben beschreiben, was ein Anbieter über sein eigenes System sagt — sie sind damit die beste verfügbare Quelle und zugleich jederzeit änderbar.</p>
+    </div>
+
+    <dl class="wissen-quellen" data-reveal>
+      <div>
+        <dt>Google — KI-Funktionen und Website</dt>
+        <dd>Google nennt die Eignungsvoraussetzung für unterstützende Links in AI Overviews und im AI Mode, die Praxishinweise zu Textform und zur Deckung von Auszeichnung und sichtbarem Text, die Angabe zum fehlenden Sondermarkup und den Satz, dass Indexierung und Ausspielung nicht garantiert sind.</dd>
+        <dd><a href="https://developers.google.com/search/docs/appearance/ai-features" rel="noopener noreferrer" target="_blank">AI features and your website</a> <span class="stand">Seitenstand 10. Dezember 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Snippets</dt>
+        <dd>Google erklärt, dass Snippets automatisch aus dem Seiteninhalt entstehen und für verschiedene Suchanfragen verschieden ausfallen können.</dd>
+        <dd><a href="https://developers.google.com/search/docs/appearance/snippet" rel="noopener noreferrer" target="_blank">Control your snippets in search results</a> <span class="stand">Seitenstand 20. April 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Featured Snippets</dt>
+        <dd>Google beschreibt den Ausschnittkasten für Endnutzer; die Entwicklerdokumentation gibt Auskunft, dass Betreiber eine Seite nicht als Featured Snippet auszeichnen können.</dd>
+        <dd><a href="https://support.google.com/websearch/answer/9351707?hl=en" rel="noopener noreferrer" target="_blank">How Google's featured snippets work</a> · <a href="https://developers.google.com/search/docs/appearance/featured-snippets" rel="noopener noreferrer" target="_blank">Featured snippets and your website</a> <span class="stand">Der Hilfeartikel trägt kein Datum, die Entwicklerdokumentation Seitenstand 10. Dezember 2025. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — strukturierte Daten</dt>
+        <dd>Google beschreibt strukturierte Daten als ausdrückliche Hinweise auf die Bedeutung einer Seite und nennt die Richtlinien: Auszeichnung nur für sichtbare Inhalte, wahrheitsgemäße Abbildung, kein Rich Result für veraltete zeitgebundene Inhalte, keine Anzeigegarantie und die manuelle Maßnahme ohne Ranking-Wirkung.</dd>
+        <dd><a href="https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data" rel="noopener noreferrer" target="_blank">Introduction to structured data markup in Google Search</a> · <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" rel="noopener noreferrer" target="_blank">General structured data guidelines</a> <span class="stand">Seitenstand 10. Dezember 2025 und 10. Juli 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — generative KI-Suche</dt>
+        <dd>Google hält fest, dass strukturierte Daten für die generative KI-Suche nicht erforderlich sind, es kein besonderes schema.org-Markup zum Hinzufügen gibt und ihre weitere Verwendung als Teil der SEO-Arbeit trotzdem sinnvoll bleibt.</dd>
+        <dd><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" rel="noopener noreferrer" target="_blank">Optimizing your website for generative AI features on Google Search</a> <span class="stand">Seitenstand 10. Juli 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Änderungsprotokoll</dt>
+        <dd>Das Änderungsprotokoll verzeichnet die Abschaffung des FAQ-Rich-Results in zwei Einträgen — Ankündigung im Mai 2026, Feststellung und Entfernung der Dokumentation im Juni 2026 — sowie den historischen Eintrag von September 2023.</dd>
+        <dd><a href="https://developers.google.com/search/updates" rel="noopener noreferrer" target="_blank">Latest Google Search Documentation Updates</a> <span class="stand">Seitenstand 31. August 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — nutzerorientierte Inhalte</dt>
+        <dd>Google definiert „people-first content“ und stellt die beiden Selbstprüfungsfragen zur Vollständigkeit eines Inhalts und zum erneuten Suchenmüssen.</dd>
+        <dd><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener noreferrer" target="_blank">Creating helpful, reliable, people-first content</a> <span class="stand">Seitenstand 10. Dezember 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Werkzeuge Dritter</dt>
+        <dd>Google hält fest, dass Werkzeuge von Drittanbietern keinen Zugriff auf Googles interne Ranking-Daten haben, keine Leistung zusagen können und ihre Prognosen ihre eigenen sind.</dd>
+        <dd><a href="https://developers.google.com/search/docs/fundamentals/third-party-seo" rel="noopener noreferrer" target="_blank">Google Search's guidance on using third-party SEO tools, services, and advice</a> <span class="stand">Seitenstand 5. Juni 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Bewertungsanleitung</dt>
+        <dd>Die Bewertungsanleitung behandelt die Mehrdeutigkeit der Suchanfrage samt „query interpretations“ und den Selbstvorbehalt, dass keine einzelne Bewertung direkt beeinflusst, wie eine Seite in der Google-Suche erscheint. Bewertungsanleitung für externe menschliche Prüfer, keine Produkt- oder Ranking-Dokumentation.</dd>
+        <dd><a href="https://static.googleusercontent.com/media/guidelines.raterhub.com/en//searchqualityevaluatorguidelines.pdf" rel="noopener noreferrer" target="_blank">Search Quality Rater Guidelines: General Guidelines (PDF)</a> <span class="stand">Kopfzeile 11. September 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — Bing Webmaster Guidelines</dt>
+        <dd>Microsoft erklärt die Geltung auch für Copilot und Grounding-Ergebnisse und nennt die Verständlichkeit ohne äußeren Kontext, die Auswahl als Wahrscheinlichkeit, die Vermeidung mehrdeutiger Bezüge, die klare Entitätsbenennung, ein Thema je Adresse, Bilder und Videos als Stütze statt als alleinige Quelle sowie die Grenze strukturierter Daten für Grounding.</dd>
+        <dd><a href="https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a" rel="noopener noreferrer" target="_blank">Bing Webmaster Guidelines</a> <span class="stand">Ohne Datumsangabe auf der Seite; der Artikeltext wird erst durch JavaScript sichtbar. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — Bing Webmaster Tools-Hilfe</dt>
+        <dd>Die Bing-Webmaster-Tools-Hilfe führt die Kennzahlen des AI-Performance-Berichts auf, die vier Selbstbeschränkungen, die Rahmung der Inhaltsempfehlungen als allgemeine Praxis, die Konsistenz über Formate hinweg und die Einordnung dessen, was eine Zitation bedeutet.</dd>
+        <dd><a href="https://www.bing.com/webmasters/help/ai-performance-9f8e7d6c" rel="noopener noreferrer" target="_blank">AI Performance in Bing Webmaster Tools</a> <span class="stand">Ohne Datumsangabe auf der Seite; der Artikeltext wird erst durch JavaScript sichtbar. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — Bing Webmaster Blog</dt>
+        <dd>Der Bing-Webmaster-Blog empfiehlt Struktur und Klarheit sowie die Reduktion von Mehrdeutigkeit über Formate hinweg und nennt die Zitationszählung ohne Aussage über Platzierung oder Darstellung. Blogbeitrag und Produktankündigung, keine Produktdokumentation.</dd>
+        <dd><a href="https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview" rel="noopener noreferrer" target="_blank">Introducing AI Performance in Bing Webmaster Tools Public Preview</a> <span class="stand">Veröffentlicht am 10. Februar 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft Advertising — Blog</dt>
+        <dd>Microsoft Advertising beschreibt, dass KI-Suche einzelne Inhaltsstücke statt ganzer Seiten auswählt, rät von versteckten Antworten in Reitern und Aufklappmenüs ab, nennt das Merkmal in sich geschlossener Formulierungen für Featured Snippets und spricht zwei Absagen an jede Auswahlgarantie aus. Blogbeitrag, keine Produktdokumentation.</dd>
+        <dd><a href="https://about.ads.microsoft.com/en/blog/post/october-2025/optimizing-your-content-for-inclusion-in-ai-search-answers" rel="noopener noreferrer" target="_blank">Optimizing Your Content for Inclusion in AI Search Answers</a> <span class="stand">Veröffentlicht am 8. Oktober 2025, ohne Aktualisierungsdatum, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — Bing-Support</dt>
+        <dd>Der Bing-Support gibt an, dass viele Anfragen mehr als eine mögliche Absicht haben können, und nimmt an, dass die Nutzerin hochwertige, autoritative Inhalte sucht, sofern sie nicht klar etwas anderes signalisiert. Support- und Transparenzartikel, keine Richtlinie mit Verpflichtungscharakter.</dd>
+        <dd><a href="https://support.microsoft.com/en-us/bing/how-bing-delivers-search-results" rel="noopener noreferrer" target="_blank">How Bing delivers search results</a> <span class="stand">Seitenstand März 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI Help Center</dt>
+        <dd>Das OpenAI Help Center beschreibt die Ordnung der Suchergebnisse nach mehreren Faktoren mit dem Ausschluss einer Platzierungsgarantie; die Publisher-Seite nennt für die Aufnahme in Zusammenfassungen und Snippets den Zugang für den OAI-SearchBot.</dd>
+        <dd><a href="https://help.openai.com/en/articles/9237897-searching-the-web-with-chatgpt" rel="noopener noreferrer" target="_blank">Searching the web with ChatGPT</a> · <a href="https://help.openai.com/en/articles/12627856-publishers-and-developers-faq" rel="noopener noreferrer" target="_blank">Publishers and Developers — FAQ</a> <span class="stand">Nur relative Datumsangabe auf den Seiten; ohne Browser antworten sie mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Anthropic</dt>
+        <dd>Anthropic gibt an, dass das Web-Fetch-Werkzeug den Textinhalt einer Adresse abruft, per JavaScript aufgebaute Seiten derzeit nicht unterstützt, den Inhalt an einer Obergrenze abschneidet und zwischengespeicherte Fassungen zurückgeben kann.</dd>
+        <dd><a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/web-fetch-tool" rel="noopener noreferrer" target="_blank">Web fetch tool</a> <span class="stand">Ohne Datumsangabe auf der Seite; die Adresse leitet auf platform.claude.com weiter. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Schema.org</dt>
+        <dd>Schema.org beschreibt sich selbst als Dokumentationsort statt Normungsgremium und gibt an, dass nicht jede Art von Information aus dem Vokabular in Suchergebnissen auftaucht.</dd>
+        <dd><a href="https://schema.org/docs/faq.html" rel="noopener noreferrer" target="_blank">Schema.org FAQ</a> <span class="stand">Ohne seitenspezifisches Datum, Site-Version V30.0 vom 19. März 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+    </dl>
+
+    <p class="small" style="margin-top:clamp(16px,2vw,24px)" data-reveal>Stand dieses Beitrags: 4. September 2026. Anbieterangaben können sich ohne Ankündigung ändern; eine Messung bleibt an ihr Datum gebunden. Zwei der hier genannten Seiten antworten Abrufen ohne Browser mit HTTP 403, zwei weitere zeigen ihren Text erst nach Ausführung von JavaScript — wer nachprüfen möchte, braucht dafür einen Browser.</p>
+  </div>
+</section>
+
+<!-- ===================== NAECHSTER SCHRITT ===================== -->
+<section class="section inv" id="naechster-schritt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Kann Ihre Website zentrale Kundenfragen klar beantworten?</h2>
-      <p class="lead" data-reveal>Die kostenlose Website-Analyse prüft diese Frage an Ihrer eigenen Website und ordnet die Ergebnisse verständlich ein.</p>
+      <p class="lead" data-reveal>Diese Frage lässt sich an einer Website nur nachsehen, nicht raten. Schreiben Sie uns, um welche Adresse es geht — wir sehen sie uns an und antworten mit einer Einschätzung, hinter der jemand steht.</p>
       <div data-reveal>
-        <a class="btn btn--split btn--primary" href="/website-analyse/"><span class="btn__label">Eigene Website analysieren</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+        <a class="btn btn--split btn--primary" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===================== VERWANDTE THEMEN ===================== -->
-<section class="section">
+<section class="section" id="verwandt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Themen.</h2>
@@ -240,8 +601,6 @@
     </div>
 
     <p class="small wissen-alle" data-reveal><a href="/wissen/">Alle Themen im Überblick</a></p>
-
-    <p class="small wissen-platzhalter" data-reveal>Belege und Quellen werden mit den geprüften Inhalten ergänzt.</p>
   </div>
 </section>
 

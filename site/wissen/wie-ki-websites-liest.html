@@ -6,10 +6,10 @@
 <title>Wie KI Ihre Website wirklich liest · Pixelkiez Wissen</title>
 <meta name="description" content="Crawler, KI-Suchsysteme und Browser-Agenten rufen dieselbe Adresse auf und bekommen nicht dasselbe zu sehen. Was beim ersten Abruf ankommt, warum Rendern nicht überall dasselbe ist, und was daraus für eine Unternehmenswebsite folgt.">
 <meta name="theme-color" content="#B6C7C4">
-<meta name="robots" content="noindex">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://pixelkiez.de/wissen/wie-ki-websites-liest/"><!-- hreflang setzt der Build -->
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Pixelkiez">
 <meta property="og:title" content="Wie KI Ihre Website wirklich liest · Pixelkiez Wissen">
@@ -30,12 +30,79 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/bds.css">
 
-<!-- ENTWURF (Slice 3): Der Text ist ausgeschrieben und gegen Primaerquellen
-     geprueft, aber noch nicht freigegeben — noindex, nicht in Sitemap oder
-     Maschinenlisten, nicht von der Startseite verlinkt.
-     Weiterhin bewusst KEIN JSON-LD: strukturierte Daten werden mit der
-     Freigabe gesetzt, nicht davor. Ein Entwurf, der sich als Artikel
-     auszeichnet, wuerde mehr behaupten, als die Seite freigegeben hat. -->
+<!-- Strukturierte Daten nur fuer das, was sichtbar auf der Seite steht:
+     der Beitrag, die Seite und der Weg dorthin. Kein datePublished — das
+     Veroeffentlichungsdatum steht erst mit dem Merge fest, und ein Datum,
+     das sich nicht belegen laesst, gehoert nicht in maschinenlesbare
+     Angaben. dateModified setzt der Build aus der Aenderungszeit der
+     Quelldatei. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://pixelkiez.de/wissen/wie-ki-websites-liest/#artikel",
+      "headline": "Wie KI Ihre Website wirklich liest",
+      "description": "Crawler, KI-Suchsysteme und Browser-Agenten rufen dieselbe Adresse auf und bekommen nicht dasselbe zu sehen. Was beim ersten Abruf ankommt, warum Rendern nicht überall dasselbe ist, und was daraus für eine Unternehmenswebsite folgt.",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": {
+        "@id": "https://pixelkiez.de/wissen/wie-ki-websites-liest/#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/wissen/wie-ki-websites-liest/#webpage"
+      },
+      "author": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "publisher": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://pixelkiez.de/wissen/wie-ki-websites-liest/#webpage",
+      "url": "https://pixelkiez.de/wissen/wie-ki-websites-liest/",
+      "name": "Wie KI Ihre Website wirklich liest",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/#website"
+      },
+      "about": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "breadcrumb": {
+        "@id": "https://pixelkiez.de/wissen/wie-ki-websites-liest/#breadcrumb"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/wissen/wie-ki-websites-liest/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://pixelkiez.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Wissen",
+          "item": "https://pixelkiez.de/wissen/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Wie KI Websites liest"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -49,8 +116,8 @@
   <symbol id="i-gate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8h8M8 12h11M8 16h6"/></symbol>
 </svg>
 
-<!-- Unterseiten-Kopf wie auf der Analyse-Seite: Marke, ein Knopf zur
-     Website-Analyse, Sprachumschalter. Kein Dialog, kein Overlay. -->
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter.
+     Kein Dialog, kein Overlay. -->
 <header class="header" data-scrolled="true">
   <div class="wrap header__in">
     <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
@@ -58,7 +125,7 @@
       <span class="brand__sub">Webdesign Berlin</span>
     </a>
     <div class="header__act">
-      <a class="btn btn--split btn--primary btn--sm" href="/website-analyse/"><span class="btn__label">Zur Website-Analyse</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       <a class="lang" href="/en/knowledge/how-ai-reads-websites/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
     </div>
   </div>
@@ -69,11 +136,17 @@
 <!-- ===================== AUFTAKT ===================== -->
 <section class="section section--flush auftakt">
   <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/wissen/">Wissen</a></li>
+        <li aria-current="page">Wie KI Websites liest</li>
+      </ol>
+    </nav>
     <div class="section__head">
       <p class="kicker" data-reveal>Wissen · Maschinelle Lesbarkeit</p>
       <h1 class="h-lg" data-reveal>Wie KI Ihre Website wirklich liest</h1>
       <p class="lead" data-reveal>Crawler, KI-Suchsysteme und Browser-Agenten rufen dieselbe Adresse auf — und bekommen nicht zwangsläufig dasselbe zu sehen. Dieser Beitrag ordnet, was beim ersten Abruf ankommt, warum das nicht bei allen Systemen gleich ist und was daraus für eine Unternehmenswebsite folgt.</p>
-      <p class="wissen-status" data-reveal>Redaktioneller Entwurf · fachliche Quellen geprüft · noch nicht veröffentlicht</p>
     </div>
   </div>
 </section>
@@ -89,11 +162,28 @@
         <li><svg aria-hidden="true"><use href="#i-check"/></svg>Erreichbarkeit von belegter Sichtbarkeit trennen</li>
       </ul>
     </div>
+
+    <!-- Inhaltsverzeichnis: reine Sprungmarken. Kein Skript, keine
+         Aufklappmechanik — die Liste steht im ausgelieferten HTML und
+         funktioniert damit auch ohne JavaScript und mit der Tastatur. -->
+    <nav class="inhalt" aria-labelledby="inhalt-titel" data-reveal>
+      <h2 class="inhalt__t" id="inhalt-titel">In diesem Artikel</h2>
+      <ol>
+        <li><a href="#keine-eine-sicht">Es gibt nicht die eine maschinelle Sicht</a></li>
+        <li><a href="#zwecke">Nicht jeder Besucher kommt aus demselben Grund</a></li>
+        <li><a href="#erster-abruf">Was beim ersten Abruf ankommt</a></li>
+        <li><a href="#rendern">Rendern ist nicht überall dasselbe</a></li>
+        <li><a href="#lesbar-sichtbar">Lesbar heißt noch nicht sichtbar</a></li>
+        <li><a href="#agenten">Ein Agent kommt nicht nur zum Lesen</a></li>
+        <li><a href="#worauf-achten">Worauf Unternehmen achten sollten</a></li>
+        <li><a href="#quellen">Quellen und Stand</a></li>
+      </ol>
+    </nav>
   </div>
 </section>
 
 <!-- ===================== 1. KEINE EINE SICHT ===================== -->
-<section class="section">
+<section class="section" id="keine-eine-sicht">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Es gibt nicht die eine maschinelle Sicht auf Ihre Website.</h2>
@@ -108,7 +198,7 @@
 </section>
 
 <!-- ===================== 2. BESUCHERTYPEN ===================== -->
-<section class="section">
+<section class="section" id="zwecke">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Nicht jeder maschinelle Besucher kommt aus demselben Grund.</h2>
@@ -193,7 +283,7 @@
 </section>
 
 <!-- ===================== 3. ERSTER ABRUF ===================== -->
-<section class="section">
+<section class="section" id="erster-abruf">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Was bekommt ein System beim ersten Abruf?</h2>
@@ -228,7 +318,7 @@
 </section>
 
 <!-- ===================== 4. RENDERN ===================== -->
-<section class="section">
+<section class="section" id="rendern">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Rendern ist nicht überall dasselbe.</h2>
@@ -256,11 +346,17 @@
     <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Für die klassische Google-Suche ist der Fall dokumentiert und anders gelagert: Google Search führt JavaScript aus, mit einer laufend aktualisierten Chromium-Version. Die Dokumentation beschreibt dafür drei Phasen — Crawling, Rendering, Indexierung — und hält zugleich fest, dass diese Phasen nicht sauber nacheinander ablaufen und von außen nicht erkennbar sind.</p>
 
     <p class="prose" data-reveal>Beides gleichzeitig ist damit möglich: Google kann clientseitig erzeugte Inhalte rendern und für die Indexierung verarbeiten, während ein nicht-rendernder Abruf nur das initial ausgelieferte Dokument erhält. Wer nur auf die Google-Sichtbarkeit schaut, sieht diesen Unterschied nicht.</p>
+
+    <a class="vertiefung" href="/wissen/wie-websites-ausgeliefert-werden/">
+      <p class="vertiefung__k">Technische Vertiefung</p>
+      <p class="vertiefung__t h-sm">Wie moderne Websites gebaut und ausgeliefert werden</p>
+      <p>Wovon es abhängt, was im initialen Dokument steht: HTML, JavaScript, die vier Auslieferungswege und warum derselbe Frameworkname zwei völlig verschiedene Ergebnisse zulässt.</p>
+    </a>
   </div>
 </section>
 
 <!-- ===================== 5. LESBAR ≠ SICHTBAR ===================== -->
-<section class="section">
+<section class="section" id="lesbar-sichtbar">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Lesbar heißt noch nicht sichtbar.</h2>
@@ -297,7 +393,7 @@
 </section>
 
 <!-- ===================== 6. AGENTEN ===================== -->
-<section class="section">
+<section class="section" id="agenten">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Ein Agent kommt nicht nur zum Lesen.</h2>
@@ -315,7 +411,7 @@
 </section>
 
 <!-- ===================== 7. GRUNDSAETZE ===================== -->
-<section class="section">
+<section class="section" id="worauf-achten">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Worauf Unternehmen heute achten sollten.</h2>
@@ -353,7 +449,7 @@
 </section>
 
 <!-- ===================== 8. QUELLEN ===================== -->
-<section class="section">
+<section class="section" id="quellen">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Quellen und Stand.</h2>
@@ -363,32 +459,32 @@
     <dl class="wissen-quellen" data-reveal>
       <div>
         <dt>OpenAI</dt>
-        <dd>Trägt die Angaben zu OAI-SearchBot und GPTBot, die ARIA-Empfehlung für ChatGPT Atlas und den Satz, dass eine Platzierung nicht garantiert ist.</dd>
+        <dd>OpenAI nennt die Angaben zu OAI-SearchBot und GPTBot, die ARIA-Empfehlung für ChatGPT Atlas und den Satz, dass eine Platzierung nicht garantiert ist.</dd>
         <dd><a href="https://help.openai.com/en/articles/12627856-publishers-and-developers-faq" rel="noopener noreferrer" target="_blank">Publishers and Developers — FAQ</a> · <a href="https://help.openai.com/en/articles/9237897" rel="noopener noreferrer" target="_blank">Searching the web with ChatGPT</a> <span class="stand">Abgerufen am 31. August 2026</span></dd>
       </div>
       <div>
         <dt>Anthropic</dt>
-        <dd>Trägt die Beschreibung von ClaudeBot, Claude-SearchBot und Claude-User sowie die Angabe zum Umgang mit robots.txt.</dd>
+        <dd>Anthropic beschreibt ClaudeBot, Claude-SearchBot und Claude-User sowie den Umgang mit robots.txt.</dd>
         <dd><a href="https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" rel="noopener noreferrer" target="_blank">Does Anthropic crawl data from the web, and how can site owners block the crawler?</a> <span class="stand">Seitenstand 7. April 2026, abgerufen am 31. August 2026</span></dd>
       </div>
       <div>
         <dt>Perplexity</dt>
-        <dd>Trägt die Beschreibung von PerplexityBot und Perplexity-User samt der Angabe, dass der nutzerausgelöste Abruf robots.txt in der Regel ignoriert.</dd>
+        <dd>Perplexity beschreibt PerplexityBot und Perplexity-User samt der Angabe, dass der nutzerausgelöste Abruf robots.txt in der Regel ignoriert.</dd>
         <dd><a href="https://docs.perplexity.ai/docs/resources/perplexity-crawlers" rel="noopener noreferrer" target="_blank">Perplexity Crawlers</a> <span class="stand">Ohne Datumsangabe auf der Seite, abgerufen am 31. August 2026</span></dd>
       </div>
       <div>
         <dt>Google — Crawler</dt>
-        <dd>Trägt die Angaben zu Google-Extended: keine eigene User-Agent-Zeichenkette, steuernde Wirkung in der robots.txt, kein Einfluss auf Aufnahme und Ranking in der Google-Suche.</dd>
+        <dd>Google nennt zu Google-Extended: keine eigene User-Agent-Zeichenkette, steuernde Wirkung in der robots.txt, kein Einfluss auf Aufnahme und Ranking in der Google-Suche.</dd>
         <dd><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers" rel="noopener noreferrer" target="_blank">Google crawlers and fetchers</a> <span class="stand">Seitenstand 14. Juli 2026, abgerufen am 31. August 2026</span></dd>
       </div>
       <div>
         <dt>Google — JavaScript</dt>
-        <dd>Trägt die Angaben zur Chromium-Ausführung in der Google-Suche, zu den drei Phasen und zum App-Shell-Modell.</dd>
+        <dd>Google erklärt die Chromium-Ausführung in der Google-Suche, die drei Phasen und das App-Shell-Modell.</dd>
         <dd><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" rel="noopener noreferrer" target="_blank">Understand the JavaScript SEO basics</a> <span class="stand">Abgerufen am 31. August 2026</span></dd>
       </div>
       <div>
         <dt>Vercel und MERJ</dt>
-        <dd>Trägt die datierte Messung zum Rendering-Verhalten der untersuchten Crawler — einschließlich der beiden Gegenbeispiele Gemini und AppleBot.</dd>
+        <dd>Vercel und MERJ dokumentieren die datierte Messung zum Rendering-Verhalten der untersuchten Crawler — einschließlich der beiden Gegenbeispiele Gemini und AppleBot.</dd>
         <dd><a href="https://vercel.com/blog/the-rise-of-the-ai-crawler" rel="noopener noreferrer" target="_blank">The rise of the AI crawler</a> <span class="stand">Veröffentlicht am 17. Dezember 2024</span></dd>
       </div>
     </dl>
@@ -397,21 +493,21 @@
   </div>
 </section>
 
-<!-- ===================== ANALYSE-HINWEIS ===================== -->
-<section class="section inv">
+<!-- ===================== NAECHSTER SCHRITT ===================== -->
+<section class="section inv" id="naechster-schritt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Welche Inhalte und Strukturen Ihrer Website sind für unterschiedliche Systeme klar zugänglich?</h2>
-      <p class="lead" data-reveal>Die kostenlose Website-Analyse prüft diese Frage an Ihrer eigenen Website und ordnet die Ergebnisse verständlich ein.</p>
+      <p class="lead" data-reveal>Diese Frage lässt sich an einer Website nur nachsehen, nicht raten. Schreiben Sie uns, um welche Adresse es geht — wir sehen sie uns an und antworten mit einer Einschätzung, hinter der jemand steht.</p>
       <div data-reveal>
-        <a class="btn btn--split btn--primary" href="/website-analyse/"><span class="btn__label">Eigene Website analysieren</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+        <a class="btn btn--split btn--primary" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===================== VERWANDTE THEMEN ===================== -->
-<section class="section">
+<section class="section" id="verwandt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Themen.</h2>

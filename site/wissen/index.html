@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wissen: Wie KI die Sichtbarkeit von Websites verändert · Pixelkiez</title>
-<meta name="description" content="Suche, KI-Systeme und digitale Agenten verändern, wie Websites gefunden, interpretiert und benutzt werden. Der Pixelkiez Wissensbereich erklärt fünf zusammenhängende Themen — jedes für sich verständlich.">
+<meta name="description" content="Fünf zusammenhängende Fragen dazu, wie Suche, KI-Systeme und digitale Agenten Websites finden, lesen, beantworten, zuordnen und benutzen — mit einer technischen Vertiefung zur Auslieferung.">
 <meta name="theme-color" content="#B6C7C4">
-<meta name="robots" content="noindex">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://pixelkiez.de/wissen/"><!-- hreflang setzt der Build -->
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Pixelkiez">
 <meta property="og:title" content="Wissen: Wie KI die Sichtbarkeit von Websites verändert · Pixelkiez">
-<meta property="og:description" content="Suche, KI-Systeme und digitale Agenten verändern, wie Websites gefunden, interpretiert und benutzt werden. Der Pixelkiez Wissensbereich erklärt fünf zusammenhängende Themen — jedes für sich verständlich.">
+<meta property="og:description" content="Fünf zusammenhängende Fragen dazu, wie Suche, KI-Systeme und digitale Agenten Websites finden, lesen, beantworten, zuordnen und benutzen — mit einer technischen Vertiefung zur Auslieferung.">
 <meta property="og:url" content="https://pixelkiez.de/wissen/">
 <meta property="og:image" content="assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -30,10 +30,54 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/bds.css">
 
-<!-- ENTWURF (Slice 2): Content-Shell ohne freigegebene Fakten — noindex,
-     nicht in Sitemap oder Maschinenlisten, nicht von der Startseite verlinkt.
-     Bewusst KEIN JSON-LD, bis der Inhalt steht: strukturierte Daten sollen
-     nie mehr behaupten, als die Seite leistet. -->
+<!-- Strukturierte Daten fuer den Hub: eine Sammelseite und die Liste
+     dessen, was auf ihr steht. Die Liste nennt genau die sechs Beitraege,
+     die auch sichtbar verlinkt sind — kein Eintrag mehr und keiner
+     weniger. Der Weg hierher steht als Brotkrumen daneben. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://pixelkiez.de/wissen/#webpage",
+      "url": "https://pixelkiez.de/wissen/",
+      "name": "Pixelkiez Wissen",
+      "description": "Fünf zusammenhängende Fragen dazu, wie Suche, KI-Systeme und digitale Agenten Websites finden, lesen, beantworten, zuordnen und benutzen — mit einer technischen Vertiefung zur Auslieferung.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@id": "https://pixelkiez.de/#website" },
+      "about": { "@id": "https://pixelkiez.de/#organisation" },
+      "publisher": { "@id": "https://pixelkiez.de/#organisation" },
+      "breadcrumb": { "@id": "https://pixelkiez.de/wissen/#breadcrumb" },
+      "mainEntity": { "@id": "https://pixelkiez.de/wissen/#liste" },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/wissen/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://pixelkiez.de/" },
+        { "@type": "ListItem", "position": 2, "name": "Wissen" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://pixelkiez.de/wissen/#liste",
+      "name": "Beiträge im Pixelkiez Wissensbereich",
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "numberOfItems": 6,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "SEO, GEO und AI Visibility: Was ist der Unterschied?", "url": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/" },
+        { "@type": "ListItem", "position": 2, "name": "Was sehen KI-Systeme, wenn sie eine Website lesen?", "url": "https://pixelkiez.de/wissen/wie-ki-websites-liest/" },
+        { "@type": "ListItem", "position": 3, "name": "Wie moderne Websites gebaut und ausgeliefert werden", "url": "https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/" },
+        { "@type": "ListItem", "position": 4, "name": "Kann Ihre Website konkrete Fragen klar beantworten?", "url": "https://pixelkiez.de/wissen/answerability/" },
+        { "@type": "ListItem", "position": 5, "name": "Können Systeme Ihr Unternehmen eindeutig zuordnen?", "url": "https://pixelkiez.de/wissen/entity-trust/" },
+        { "@type": "ListItem", "position": 6, "name": "Kann ein KI-Agent Ihre Website sinnvoll benutzen?", "url": "https://pixelkiez.de/wissen/agent-readiness/" }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -49,8 +93,8 @@
   <symbol id="i-gate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8h8M8 12h11M8 16h6"/></symbol>
 </svg>
 
-<!-- Unterseiten-Kopf wie auf der Analyse-Seite: Marke, ein Knopf zur
-     Website-Analyse, Sprachumschalter. Kein Dialog, kein Overlay. -->
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter.
+     Kein Dialog, kein Overlay. -->
 <header class="header" data-scrolled="true">
   <div class="wrap header__in">
     <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
@@ -58,7 +102,7 @@
       <span class="brand__sub">Webdesign Berlin</span>
     </a>
     <div class="header__act">
-      <a class="btn btn--split btn--primary btn--sm" href="/website-analyse/"><span class="btn__label">Zur Website-Analyse</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       <a class="lang" href="/en/knowledge/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
     </div>
   </div>
@@ -69,72 +113,104 @@
 <!-- ===================== AUFTAKT ===================== -->
 <section class="section section--flush auftakt">
   <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li aria-current="page">Wissen</li>
+      </ol>
+    </nav>
     <div class="section__head">
       <p class="kicker" data-reveal>Pixelkiez Wissen</p>
       <h1 class="h-lg" data-reveal>Wie KI die Sichtbarkeit von Websites verändert</h1>
-      <p class="lead" data-reveal>Suche, KI-Systeme und digitale Agenten verändern, wie Websites gefunden, interpretiert und benutzt werden. Dieser Bereich erklärt fünf Themen, die dabei zusammenspielen — jedes für sich verständlich.</p>
-      <p class="wissen-status" data-reveal>Dieser Bereich ist im Aufbau. Die Beiträge werden nach fachlicher Prüfung schrittweise ergänzt.</p>
+      <p class="lead" data-reveal>Websites werden heute auf unterschiedlichen Wegen gefunden, gelesen und benutzt: über klassische Suchmaschinen, KI-Systeme und digitale Agenten. Dieser Wissensbereich ordnet das in fünf Fragen – jede für sich verständlich, mit eigenen Belegen und klaren Grenzen.</p>
     </div>
   </div>
 </section>
 
-<!-- ===================== THEMEN ===================== -->
-<!-- EIN Themenraster statt Leiter plus Kartenliste: die fünf Themen hängen
-     zusammen, aber sie bauen nicht aufeinander auf — jede Karte ist ein
-     gleichwertiger Einstieg. Die Karten sprechen die Formensprache der
-     Leistungskarten (Kante, Radius, Markierung, tone-Farben), bleiben aber
-     editorial: Kategorie-Etikett und Frage statt Angebot und Preis. -->
+<!-- ===================== DIE FÜNF FRAGEN =====================
+     Kein Kartenraster und keine Linkliste, sondern fünf Ebenen unter-
+     einander: die Reihenfolge ordnet den Gedanken, sie behauptet aber
+     keine Wirkungskette. Genau das sagt der Schlussabsatz unten noch
+     einmal ausdruecklich. Die Vertiefung zur Auslieferung haengt sichtbar
+     unter Ebene 02 — sie ist ein Deep Dive der maschinellen Lesbarkeit,
+     kein sechstes gleichrangiges Thema. -->
 <section class="section" id="themen">
   <div class="wrap">
     <div class="section__head">
-      <h2 class="h-lg" data-reveal>Fünf Themen, die moderne Websites heute prägen.</h2>
+      <h2 class="h-lg" data-reveal>Fünf Fragen, die moderne Websites heute prägen.</h2>
       <p class="lead" data-reveal>Sie müssen nicht vorne anfangen. Steigen Sie dort ein, wo Ihre Frage liegt.</p>
     </div>
 
-    <div class="wk-grid">
-      <article class="wk tone tone--weiss" data-reveal>
-        <p class="wk__kat"><svg aria-hidden="true"><use href="#i-search"/></svg><span>Auffindbarkeit</span></p>
-        <span class="wk__mark" aria-hidden="true"><svg><use href="#i-arrow-ur"/></svg></span>
-        <h3 class="wk__titel h-sm"><a href="/wissen/seo-geo-ai-visibility/">SEO, GEO &amp; AI Visibility: Was ist der Unterschied?</a></h3>
-        <p class="wk__text small">Drei Begriffe für dieselbe Website: was klassisches SEO, GEO und AI Visibility jeweils fragen — und wie sie zusammenhängen.</p>
-      </article>
-      <article class="wk tone tone--blau" data-reveal>
-        <p class="wk__kat"><svg aria-hidden="true"><use href="#i-layout"/></svg><span>Maschinelle Lesbarkeit</span></p>
-        <span class="wk__mark" aria-hidden="true"><svg><use href="#i-arrow-ur"/></svg></span>
-        <h3 class="wk__titel h-sm"><a href="/wissen/wie-ki-websites-liest/">Was sehen KI-Systeme, wenn sie eine Website lesen?</a></h3>
-        <p class="wk__text small">Crawler, KI-Suchsysteme und Browser-Agenten können unterschiedliche Darstellungen derselben Seite erhalten — was dabei ankommt.</p>
-      </article>
-      <article class="wk tone tone--weiss" data-reveal>
-        <p class="wk__kat"><svg aria-hidden="true"><use href="#i-chat"/></svg><span>Antwortfähigkeit</span></p>
-        <span class="wk__mark" aria-hidden="true"><svg><use href="#i-arrow-ur"/></svg></span>
-        <h3 class="wk__titel h-sm"><a href="/wissen/answerability/">Kann Ihre Website konkrete Fragen klar beantworten?</a></h3>
-        <p class="wk__text small">Woran sich festmachen lässt, ob eine Website Maschinen eine klare, belastbare Antwort auf eine Kundenfrage gibt.</p>
-      </article>
-      <article class="wk tone tone--blau" data-reveal>
-        <p class="wk__kat"><svg aria-hidden="true"><use href="#i-radio"/></svg><span>Identität &amp; Vertrauen</span></p>
-        <span class="wk__mark" aria-hidden="true"><svg><use href="#i-arrow-ur"/></svg></span>
-        <h3 class="wk__titel h-sm"><a href="/wissen/entity-trust/">Können Systeme Ihr Unternehmen eindeutig zuordnen?</a></h3>
-        <p class="wk__text small">Ob Maschinen Unternehmen, Leistungen, Ort und Personen hinter einer Website zuverlässig zuordnen können.</p>
-      </article>
-      <article class="wk tone tone--weiss" data-reveal>
-        <p class="wk__kat"><svg aria-hidden="true"><use href="#i-gate"/></svg><span>Nutzbarkeit</span></p>
-        <span class="wk__mark" aria-hidden="true"><svg><use href="#i-arrow-ur"/></svg></span>
-        <h3 class="wk__titel h-sm"><a href="/wissen/agent-readiness/">Kann ein KI-Agent Ihre Website sinnvoll benutzen?</a></h3>
-        <p class="wk__text small">Lesen und Bedienen sind zwei verschiedene Fähigkeiten — was heute praktikabel ist und was Experiment bleibt.</p>
-      </article>
-    </div>
+    <ol class="ebenen">
+      <li class="ebene" data-reveal>
+        <p class="ebene__n">Ebene 01</p>
+        <div class="ebene__in">
+          <p class="ebene__k"><svg aria-hidden="true"><use href="#i-search"/></svg><span>Gefunden werden</span></p>
+          <h3 class="ebene__t h-sm"><a href="/wissen/seo-geo-ai-visibility/">SEO, GEO &amp; AI Visibility: Was ist der Unterschied?</a></h3>
+          <p class="ebene__p">Drei Begriffe für dieselbe Website: was klassisches SEO, GEO und AI Visibility jeweils fragen, wo sie sich überschneiden und was sich davon überhaupt messen lässt.</p>
+        </div>
+      </li>
+
+      <li class="ebene" data-reveal>
+        <p class="ebene__n">Ebene 02</p>
+        <div class="ebene__in">
+          <p class="ebene__k"><svg aria-hidden="true"><use href="#i-layout"/></svg><span>Maschinen erfassen die Website</span></p>
+          <h3 class="ebene__t h-sm"><a href="/wissen/wie-ki-websites-liest/">Was sehen KI-Systeme, wenn sie eine Website lesen?</a></h3>
+          <p class="ebene__p">Crawler, KI-Suchsysteme und Browser-Agenten rufen dieselbe Adresse auf und können unterschiedliche Darstellungen davon erhalten. Was dabei ankommt, hängt am System und am Abrufweg.</p>
+
+          <a class="vertiefung" href="/wissen/wie-websites-ausgeliefert-werden/">
+            <p class="vertiefung__k">Technische Vertiefung zu Ebene 02</p>
+            <p class="vertiefung__t h-sm">Wie moderne Websites gebaut und ausgeliefert werden</p>
+            <p>HTML, JavaScript, React, Next.js, Astro, WordPress: Was davon bestimmt, welche Inhalte beim Abruf wirklich ankommen — und warum der Frameworkname darüber nichts aussagt.</p>
+          </a>
+        </div>
+      </li>
+
+      <li class="ebene" data-reveal>
+        <p class="ebene__n">Ebene 03</p>
+        <div class="ebene__in">
+          <p class="ebene__k"><svg aria-hidden="true"><use href="#i-chat"/></svg><span>Informationen beantworten echte Fragen</span></p>
+          <h3 class="ebene__t h-sm"><a href="/wissen/answerability/">Kann Ihre Website konkrete Fragen klar beantworten?</a></h3>
+          <p class="ebene__p">Woran sich festmachen lässt, ob eine Website auf eine Kundenfrage eine ausgeschriebene, im Kontext vollständige und belegte Antwort gibt — und warum das kein Punktwert ist.</p>
+        </div>
+      </li>
+
+      <li class="ebene" data-reveal>
+        <p class="ebene__n">Ebene 04</p>
+        <div class="ebene__in">
+          <p class="ebene__k"><svg aria-hidden="true"><use href="#i-radio"/></svg><span>Das Unternehmen ist eindeutig erkennbar</span></p>
+          <h3 class="ebene__t h-sm"><a href="/wissen/entity-trust/">Können Systeme Ihr Unternehmen eindeutig zuordnen?</a></h3>
+          <p class="ebene__p">Ob Maschinen Unternehmen, Leistungen, Ort und Personen hinter einer Website zusammenbringen können — und was widersprüchliche Angaben an unterschiedlichen Stellen daraus machen.</p>
+        </div>
+      </li>
+
+      <li class="ebene" data-reveal>
+        <p class="ebene__n">Ebene 05</p>
+        <div class="ebene__in">
+          <p class="ebene__k"><svg aria-hidden="true"><use href="#i-gate"/></svg><span>Systeme können handeln</span></p>
+          <h3 class="ebene__t h-sm"><a href="/wissen/agent-readiness/">Kann ein KI-Agent Ihre Website sinnvoll benutzen?</a></h3>
+          <p class="ebene__p">Lesen und Bedienen sind zwei verschiedene Fähigkeiten. Was heute praktikabel ist, was Experiment bleibt und woran ein Handlungsweg tatsächlich scheitert.</p>
+        </div>
+      </li>
+    </ol>
+
+    <aside class="merke merke--warnung" data-reveal>
+      <p class="merke__k">Was die Nummern nicht bedeuten</p>
+      <p>Die fünf Ebenen sind eine Ordnung für den Gedanken, keine Wirkungskette. Erfasst zu werden führt nicht automatisch dazu, beantwortet zu werden; eindeutig zugeordnet zu sein führt nicht automatisch zu einer Nennung. Jede Ebene hat eigene Voraussetzungen, eigene Belege und eigene Grenzen — genau deshalb steht jede für sich.</p>
+    </aside>
   </div>
 </section>
 
-<!-- ===================== ANALYSE-HINWEIS ===================== -->
-<!-- Bewusst ohne inv (anders als auf den fuenf Beitragsseiten): direkt darunter folgt der dunkle Footer — zwei dunkle Bloecke waeren gestapelt. -->
-<section class="section" id="analyse-hinweis">
+<!-- ===================== NAECHSTER SCHRITT ===================== -->
+<!-- Bewusst ohne inv (anders als auf den Beitragsseiten): direkt darunter
+     folgt der dunkle Footer — zwei dunkle Bloecke waeren gestapelt. -->
+<section class="section" id="naechster-schritt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Wo steht Ihre eigene Website?</h2>
-      <p class="lead" data-reveal>Die kostenlose Website-Analyse sieht sich genau diese Fragen an Ihrer Website an.</p>
+      <p class="lead" data-reveal>Diese fünf Fragen lassen sich an einer konkreten Website nur nachsehen, nicht raten. Schreiben Sie uns, um welche Adresse es geht — wir sehen sie uns an und antworten mit einer Einschätzung, hinter der jemand steht.</p>
       <div data-reveal>
-        <a class="btn btn--split btn--primary" href="/website-analyse/"><span class="btn__label">Zur Website-Analyse</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+        <a class="btn btn--split btn--primary" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       </div>
     </div>
   </div>

@@ -6,10 +6,10 @@
 <title>Agent-Readiness · Pixelkiez Wissen</title>
 <meta name="description" content="Kann ein KI-Agent eine Website nicht nur lesen, sondern tatsächlich benutzen — Navigation, Formulare, bedienbare Elemente? Eine Einordnung des Begriffs Agent-Readiness.">
 <meta name="theme-color" content="#B6C7C4">
-<meta name="robots" content="noindex">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://pixelkiez.de/wissen/agent-readiness/"><!-- hreflang setzt der Build -->
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Pixelkiez">
 <meta property="og:title" content="Agent-Readiness · Pixelkiez Wissen">
@@ -30,10 +30,79 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/bds.css">
 
-<!-- ENTWURF (Slice 2): Content-Shell ohne freigegebene Fakten — noindex,
-     nicht in Sitemap oder Maschinenlisten, nicht von der Startseite verlinkt.
-     Bewusst KEIN JSON-LD, bis der Inhalt steht: strukturierte Daten sollen
-     nie mehr behaupten, als die Seite leistet. -->
+<!-- Strukturierte Daten nur fuer das, was sichtbar auf der Seite steht:
+     der Beitrag, die Seite und der Weg dorthin. Kein datePublished — das
+     Veroeffentlichungsdatum steht erst mit dem Merge fest, und ein Datum,
+     das sich nicht belegen laesst, gehoert nicht in maschinenlesbare
+     Angaben. dateModified setzt der Build aus der Aenderungszeit der
+     Quelldatei. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://pixelkiez.de/wissen/agent-readiness/#artikel",
+      "headline": "Agent-Readiness: Kann eine KI Ihre Website benutzen?",
+      "description": "Kann ein KI-Agent eine Website nicht nur lesen, sondern tatsächlich benutzen — Navigation, Formulare, bedienbare Elemente? Eine Einordnung des Begriffs Agent-Readiness.",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": {
+        "@id": "https://pixelkiez.de/wissen/agent-readiness/#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/wissen/agent-readiness/#webpage"
+      },
+      "author": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "publisher": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://pixelkiez.de/wissen/agent-readiness/#webpage",
+      "url": "https://pixelkiez.de/wissen/agent-readiness/",
+      "name": "Agent-Readiness",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/#website"
+      },
+      "about": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "breadcrumb": {
+        "@id": "https://pixelkiez.de/wissen/agent-readiness/#breadcrumb"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/wissen/agent-readiness/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://pixelkiez.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Wissen",
+          "item": "https://pixelkiez.de/wissen/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Agent-Readiness"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -47,8 +116,8 @@
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-15A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5Z"/></symbol>
 </svg>
 
-<!-- Unterseiten-Kopf wie auf der Analyse-Seite: Marke, ein Knopf zur
-     Website-Analyse, Sprachumschalter. Kein Dialog, kein Overlay. -->
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter.
+     Kein Dialog, kein Overlay. -->
 <header class="header" data-scrolled="true">
   <div class="wrap header__in">
     <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
@@ -56,7 +125,7 @@
       <span class="brand__sub">Webdesign Berlin</span>
     </a>
     <div class="header__act">
-      <a class="btn btn--split btn--primary btn--sm" href="/website-analyse/"><span class="btn__label">Zur Website-Analyse</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       <a class="lang" href="/en/knowledge/agent-readiness/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
     </div>
   </div>
@@ -67,11 +136,17 @@
 <!-- ===================== AUFTAKT ===================== -->
 <section class="section section--flush auftakt">
   <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/wissen/">Wissen</a></li>
+        <li aria-current="page">Agent-Readiness</li>
+      </ol>
+    </nav>
     <div class="section__head">
       <p class="kicker" data-reveal>Wissen · Nutzbarkeit</p>
       <h1 class="h-lg" data-reveal>Agent-Readiness: Kann eine KI Ihre Website benutzen?</h1>
       <p class="lead" data-reveal>Kann ein KI-Agent eine Website nicht nur lesen, sondern tatsächlich benutzen? Dieser Beitrag ordnet, was heute praktikabel ist und was Experiment bleibt.</p>
-      <p class="wissen-status" data-reveal>Dieser Beitrag ist in Vorbereitung. Die inhaltlichen Abschnitte werden nach fachlicher Prüfung ergänzt.</p>
     </div>
   </div>
 </section>
@@ -87,17 +162,68 @@
         <li><svg aria-hidden="true"><use href="#i-check"/></svg>Praktikables von Experimentellem trennen</li>
       </ul>
     </div>
+
+    <!-- Inhaltsverzeichnis: reine Sprungmarken. Kein Skript, keine
+         Aufklappmechanik — die Liste steht im ausgelieferten HTML und
+         funktioniert damit auch ohne JavaScript und mit der Tastatur. -->
+    <nav class="inhalt" aria-labelledby="inhalt-titel" data-reveal>
+      <h2 class="inhalt__t" id="inhalt-titel">In diesem Artikel</h2>
+      <ol>
+        <li><a href="#lesen-handeln">Lesen oder handeln</a></li>
+        <li><a href="#navigation">Navigation und semantische Struktur</a></li>
+        <li><a href="#formulare">Formulare und bedienbare Elemente</a></li>
+        <li><a href="#transaktionen">Anmeldung und Transaktionen</a></li>
+        <li><a href="#praktikabel">Was heute praktikabel ist</a></li>
+        <li><a href="#quellen">Quellen und Stand</a></li>
+      </ol>
+    </nav>
   </div>
 </section>
 
-<!-- ===================== GEPLANTE ABSCHNITTE ===================== -->
-<section class="section">
+<!-- ===================== 1. LESEN ODER HANDELN ===================== -->
+<section class="section" id="lesen-handeln">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Lesen oder handeln.</h2>
-      <p class="lead" data-reveal>Eine Seite zu verstehen und auf ihr etwas zu erledigen, sind zwei verschiedene Fähigkeiten — dieser Abschnitt grenzt sie voneinander ab.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Eine Seite lesen und auf ihr etwas erledigen sind nicht dasselbe. Dieser Beitrag hält vier Anforderungen auseinander: den Inhalt lesen, ein Bedienelement als Bedienelement erkennen, eine Handlung ausführen und am Ende einen eindeutigen Erfolgs- oder Fehlerzustand zurücklesen. Die Vierteilung ist die Ordnung dieses Beitrags. Anthropic und OpenAI beschreiben ihre Browser-Werkzeuge entlang derselben Trennung, und die WCAG 2.2 führt für einzelne dieser Anforderungen eigene Erfolgskriterien.</p>
     </div>
+
+    <p class="prose" data-reveal>Ein Programm, das den Text einer Seite liest, die Schaltfläche darauf aber nicht als Schaltfläche erkennt, steht davor wie ein Besucher vor einer Tür ohne Klinke. Es weiß, was drinsteht, und kommt trotzdem nicht hinein. Genau diese Lücke beschreibt ein Erfolgskriterium der Web Content Accessibility Guidelines in der Fassung 2.2: Für alle Bedienelemente der Benutzeroberfläche — genannt sind unter anderem Formularelemente, Links und von Skripten erzeugte Komponenten — müssen Name und Rolle maschinell bestimmbar sein, vom Nutzer setzbare Zustände, Eigenschaften und Werte müssen sich programmatisch setzen lassen, und Änderungen daran müssen für User Agents einschließlich Hilfstechnologien erkennbar sein. Das ist Erfolgskriterium 4.1.2 der Stufe A.</p>
+
+    <p class="prose" data-reveal>Die Norm ordnet dieses Kriterium selbst ein, und die Einordnung wird gern überlesen. Es richte sich in erster Linie an Autorinnen und Autoren, die eigene Bedienelemente entwickeln oder skripten; Standard-HTML-Steuerelemente erfüllten es bereits, wenn man sie spezifikationsgemäß verwendet. Der aufwendige Teil entsteht also dort, wo eine Schaltfläche kein Schaltflächenelement ist, sondern ein nachgebautes.</p>
+
+    <p class="prose" data-reveal>Diese Anforderungen stammen nicht aus der KI-Welt. Die WCAG 2.2 sagt von sich, sie definiere, wie Webinhalte für Menschen mit Behinderungen zugänglicher werden, und zählt dabei ein breites Feld auf — visuelle, auditive, körperliche, sprachliche, kognitive, sprachbezogene, lernbezogene und neurologische Behinderungen. Wer diese Kriterien erfüllt, tut das zuerst für Menschen. Ob ein Programm davon etwas hat, steht in dem Dokument nicht.</p>
+
+    <ol class="leiter">
+      <li data-reveal>
+        <b>01 · Lesen</b>
+        <h3 class="h-sm">Was steht auf der Seite?</h3>
+        <p class="small">Erfolgskriterium 1.3.1 der Stufe A verlangt, dass Information, Struktur und Beziehungen, die über die Darstellung vermittelt werden, entweder programmatisch bestimmbar sind oder in Textform verfügbar. Die beiden Wege stehen gleichrangig nebeneinander, verbunden durch ein Oder — wer nur den ersten nennt, gibt die Norm strenger wieder, als sie ist. Eine Reihenfolge gegenüber den Bedienkriterien stellt das Dokument dabei nicht auf; dass hier die erste Stufe steht, ist unsere Sortierung.</p>
+      </li>
+      <li data-reveal>
+        <b>02 · Erkennen</b>
+        <h3 class="h-sm">Was davon ist ein Bedienelement?</h3>
+        <p class="small">Erfolgskriterium 4.1.2 der Stufe A verlangt für jedes Bedienelement einen maschinell bestimmbaren Namen und eine maschinell bestimmbare Rolle. Ein Feld, das aussieht wie ein Auswahlfeld, aber keines ist, hat für ein Programm keinen Namen und keine Rolle. Für den Menschen an der Tastatur ist das dieselbe Hürde: Auch ein Screenreader kann nur ansagen, was ausgezeichnet ist.</p>
+      </li>
+      <li data-reveal>
+        <b>03 · Handeln</b>
+        <h3 class="h-sm">Lässt sich das Element betätigen?</h3>
+        <p class="small">Erfolgskriterium 2.1.1 der Stufe A verlangt, dass die Funktionalität des Inhalts über eine Tastaturschnittstelle bedienbar ist, ohne dass es auf die Zeitabstände einzelner Anschläge ankommt. Das Kriterium führt dazu eine Ausnahme für Eingaben, die vom Bewegungspfad abhängen. Und es verbietet die Maus nicht: Eine eigene Anmerkung hält ausdrücklich fest, dass Mauseingabe und andere Eingabearten zusätzlich zur Tastaturbedienung weder untersagt noch entmutigt werden sollen.</p>
+      </li>
+      <li data-reveal>
+        <b>04 · Zurücklesen</b>
+        <h3 class="h-sm">Ist es passiert?</h3>
+        <p class="small">Erfolgskriterium 4.1.3 der Stufe AA verlangt, dass in Inhalten, die mit Auszeichnungssprachen umgesetzt sind, Statusmeldungen über Rolle oder Eigenschaften programmatisch bestimmbar sind — und zwar so, dass Hilfstechnologien sie darstellen können, ohne dass der Fokus dorthin springt. Ein grüner Balken ohne Text erfüllt das nicht. Wer den Abschluss nur zeigt und nicht benennt, lässt die letzte Stufe offen.</p>
+      </li>
+    </ol>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Anthropics Dokumentation zum Browser-Werkzeug beschreibt eine Arbeitsweise, die genau zwischen Struktur und Bild unterscheidet. Das Werkzeug — in der Dokumentation unter der Kennung browser_toolset_20260801 geführt — arbeite mit einer Seite sowohl über deren Struktur, also Barrierefreiheitsbaum, Elemente, Formulare und Tabs, als auch über Pixel, also Screenshots und Koordinaten im sichtbaren Ausschnitt. Der Aufruf read_page gebe den Barrierefreiheitsbaum als Text zurück und markiere jedes Element mit einer Referenz, auf die sich später klicken lässt.</p>
+
+    <p class="prose" data-reveal>Ausschließlich über den Baum arbeitet dieses Werkzeug damit nicht. Dieselbe Seite formuliert die Struktur als Vorzug und empfiehlt Referenzen dort, wo eine Seite einen brauchbaren Barrierefreiheitsbaum hat; für alles andere nennt sie Koordinaten. Und die Werkzeugtabelle richtet sich an die Anwendung, die das Werkzeug einbindet — sie beschreibt, was deren Ausführungsschicht leisten soll, und sagt nicht zu, dass Anthropic den Baum selbst erzeugt.</p>
+
+    <p class="prose" data-reveal>Daneben, nicht dagegen, steht OpenAIs API-Werkzeug für die Rechnerbedienung. OpenAI beschreibt es bildschirmbasiert: Die aufrufende Anwendung stelle die Umgebung bereit und führe die Anfragen des Modells aus, und das Modell entscheide anhand von Screenshots und weiteren Werkzeugergebnissen, was als Nächstes zu tun sei. Eine vergleichende Aussage über andere Anbieter trifft diese Seite nicht. Dass hier zwei Arbeitsweisen nebeneinanderstehen, ist unsere Gegenüberstellung und keine Aussage von OpenAI.</p>
+
+    <p class="prose" data-reveal><strong>Ein betätigter Knopf ist noch kein Ergebnis.</strong> Die vierte Stufe fehlt genau dann, wenn eine Seite Erfolg oder Fehler nur zeigt und nicht benennt: eine grüne Fläche ohne Wort, eine rote Umrandung ohne Meldung. Für ein Programm ist das nicht schwerer zu lesen als für den Menschen, der nichts sieht — es ist dieselbe fehlende Angabe.</p>
 
     <!-- SZENE 5 (PXK-27): von links nach rechts vier Reifestufen — Inhalt lesen,
          Navigation und Bedienelement erkennen, Handlung ausfuehren, Ergebnis
@@ -165,61 +291,274 @@
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 2. NAVIGATION UND SEMANTISCHE STRUKTUR ===================== -->
+<section class="section" id="navigation">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Navigation und semantische Struktur.</h2>
-      <p class="lead" data-reveal>Wer sich auf einer Website bewegt, braucht Orientierung — dieser Abschnitt betrachtet, was Struktur dazu beiträgt.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Die Normen verlangen wiederkehrende Navigation in gleicher Reihenfolge, Überschriften und Beschriftungen, die Thema oder Zweck benennen, und ARIA nur dort, wo es die vorhandene Semantik nicht verdeckt — begründet ist das für Menschen. Was davon einem Programm nützt, sagen sie nicht. Und was hier verbindlich ist, steht seit dem 11. August 2026 in einer verabschiedeten W3C-Empfehlung, nicht mehr nur in einem eingestellten Entwurf.</p>
     </div>
+
+    <p class="prose" data-reveal>Drei Anforderungen der WCAG 2.2 betreffen die Orientierung auf einer Website unmittelbar. Wiederkehrende Navigationsmechanismen, die auf mehreren Seiten eines Seitensatzes vorkommen, müssen jedes Mal in derselben relativen Reihenfolge erscheinen, solange die Änderung nicht vom Nutzer ausgelöst wird — Erfolgskriterium 3.2.3 der Stufe AA. Überschriften und Beschriftungen müssen Thema oder Zweck beschreiben — Erfolgskriterium 2.4.6 derselben Stufe. Und darüber steht eine eigene Leitlinie mit dem Namen Vorhersehbarkeit: Webseiten sollen auf vorhersehbare Weise erscheinen und funktionieren.</p>
+
+    <p class="prose" data-reveal>Eine Feinheit gehört zu 2.4.6 dazu. Das Kriterium verlangt, dass vorhandene Überschriften und Beschriftungen Thema oder Zweck beschreiben. Dass eine Seite überhaupt Überschriften haben muss, steht dort nicht. Sinnvolle Beschriftung ist damit eine normative Anforderung und keine Stilfrage — die Gliederung selbst bleibt eine Empfehlung.</p>
+
+    <p class="prose" data-reveal><strong>Für wen diese Anforderungen geschrieben sind, entscheidet, was man aus ihnen ableiten darf.</strong> In den unten genannten W3C-Dokumenten zu WCAG 2.2, zu ARIA in HTML und zu WAI-ARIA 1.2 kommen KI-Agenten nicht vor. Sie sprechen von Menschen mit Behinderungen, von Hilfstechnologien, von User Agents und von Konformitätsprüfern. Wer semantische Struktur mit dem Nutzen für KI-Systeme begründet, verlässt damit die Norm. Belegen lässt sich dieser Nutzen nur produktbezogen — und dafür stehen unten zwei Anbieterdokumente.</p>
+
+    <p class="prose" data-reveal>Die normativen Regeln für ARIA in HTML stehen in der W3C-Empfehlung „ARIA in HTML“ mit dem Stand 11. August 2026. Die Statuszeile weist sie als Recommendation aus, veröffentlicht von der Arbeitsgruppe für Accessible Rich Internet Applications auf dem Recommendation-Track. Bei einer Norm ist der Status Teil der Aussage: Eine Recommendation ist nach der Selbstbeschreibung des W3C eine Spezifikation, die nach ausführlicher Konsensbildung von W3C und Mitgliedern getragen wird. Ein Entwurf ist etwas anderes.</p>
+
+    <p class="prose" data-reveal>Zwei Regeln dieses Dokuments betreffen die Praxis direkt. Autorinnen und Autoren dürfen ARIA-Rollen und ARIA-Attribute nicht so einsetzen, dass sie den Semantiken der beiden Konformitätstabellen der Spezifikation widersprechen — das Dokument schreibt dafür ein Muss-nicht in Großbuchstaben. Und es ist nicht empfohlen, Rolle und ARIA-Attribute auf Werte zu setzen, die der impliziten ARIA-Semantik des Elements entsprechen; das sei unnötig und könne zu unbeabsichtigten Folgen führen. Zu einem Verbot härten sollte man das nicht: Dieselbe Spezifikation hält an anderer Stelle fest, dass ein ausdrückliches Setzen in manchen Situationen hilfreich sein kann, etwa für User Agents, die implizite ARIA-Semantik nicht offenlegen.</p>
+
+    <p class="prose" data-reveal>Der Vorrang des vorhandenen Mittels vor dem nachgerüsteten steht in einem zweiten Dokument. WAI-ARIA in der Fassung 1.2 ist eine W3C-Empfehlung vom 6. Juni 2023; in ihrem Abschnitt zu Konflikten mit der Semantik der Wirtssprache steht eine Soll-Regel: Steht in der Wirtssprache eine Funktion mit identischer Rollensemantik und identischen Werten zur Verfügung und hat der Autor keinen zwingenden Grund, sie zu meiden, soll er diese Funktion nutzen, statt andere Elemente per WAI-ARIA umzuwidmen. Die Regel spricht von der Wirtssprache allgemein und nicht nur von HTML.</p>
+
+    <p class="prose" data-reveal>Die griffige Merkregel, die zu diesem Thema meist zitiert wird, steht in keinem der beiden Dokumente. Sie stammt aus dem Autorenleitfaden der Web Accessibility Initiative, wird dort anders geschrieben, als sie üblicherweise kursiert, und ist kein normativer Text. In „ARIA in HTML“ trägt sich dieselbe Sache über das Muss-nicht und das Nicht-empfohlen. Wer die Merkregel der Empfehlung zuschreibt, zitiert eine Quelle für einen Satz, der nicht in ihr steht.</p>
+
+    <p class="prose" data-reveal>Was falsch gesetztes ARIA anrichtet, zeigt derselbe Autorenleitfaden an einem kleinen Beispiel: Eine Aufzählungsliste, der man die Rolle einer Navigationsregion gibt, ist danach eine Navigationsregion und keine Liste mehr — die Listenpunkte darin stehen in keiner Liste. Der Abschnitt stellt beide Seiten nebeneinander. ARIA könne verdecken und ergänzen zugleich; manche Verwendungen wirkten wie Hosenträger oder Gürtel und fügten Bedeutung hinzu, die den ursprünglichen Inhalt trägt. Das Verdecken ist der Fall des falsch gesetzten ARIA, nicht die Regel.</p>
+
+    <p class="prose" data-reveal>Dass ein Anbieter ARIA tatsächlich auswertet, steht in einer Hilfeseite von OpenAI für Publisher und Entwickler. ChatGPT Atlas nutze ARIA-Tags — dieselben Beschriftungen und Rollen, die Screenreader stützen —, um Seitenstruktur und interaktive Elemente zu deuten. Dieselbe Seite empfiehlt Betreibern, den WAI-ARIA-Best-Practices zu folgen und interaktiven Elementen wie Schaltflächen, Menüs und Formularen beschreibende Rollen, Beschriftungen und Zustände zu geben. Die Aufzählung ist als Beispiel formuliert, nicht als abschließende Liste, und die Seite nennt einen Zweck, keine Leistungszusage. Sie spricht von ChatGPT Atlas und vom ChatGPT-Agenten darin — nicht von ChatGPT allgemein und nicht von anderen Anbietern.</p>
+
+    <p class="prose" data-reveal>Aus Anthropics Dokumentation lässt sich zur Struktur einer Website nur eine technische Nebenwirkung ablesen, und die ist bescheidener, als sie klingt. Elementreferenzen seien an den Tab gebunden, der sie erzeugt hat, und blieben nur gültig, bis dieser Tab navigiert oder sein DOM sich wesentlich ändert; die Schnittstelle könne eine veraltete oder unbekannte Referenz selbst nicht erkennen. Das ist eine Regel für die einbindende Anwendung. Eine Anforderung an die Website — etwa vorhersehbare Navigation — steht auf den unten genannten Anbieterseiten nicht.</p>
+
+    <p class="prose" data-reveal><strong>Semantische Elemente empfehlen wir trotzdem, und zwar als eigene Empfehlung.</strong> Ein Navigationsbereich, ein Hauptbereich, eine Schaltfläche, die auch ein Schaltflächenelement ist: Das trägt vier Dinge gleichzeitig — die Bedienbarkeit mit der Tastatur, die Ansage im Screenreader, die Prüfbarkeit gegen die Norm und, nach der oben genannten OpenAI-Seite, die Deutung durch ein benanntes Produkt. Auf den unten genannten Anbieterseiten werden diese Elemente allerdings nicht namentlich empfohlen. <strong>ARIA allein macht eine Seite nicht agent-ready.</strong> Es ergänzt Semantik, wo sie fehlt, und verdeckt sie, wo sie schon da war.</p>
+
+    <p class="prose" data-reveal>Vor dieser Frage steht eine andere: Semantik kann ein System nur auswerten, wenn sie beim Abruf überhaupt vorhanden ist. Ob eine Schaltfläche schon im ausgelieferten Dokument steht oder erst durch Client-JavaScript entsteht, entscheidet die Auslieferungsarchitektur — nachzulesen in <a href="/wissen/wie-websites-ausgeliefert-werden/">Wie moderne Websites gebaut und ausgeliefert werden</a>.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 3. FORMULARE UND BEDIENBARE ELEMENTE ===================== -->
+<section class="section" id="formulare">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Formulare und bedienbare Elemente.</h2>
-      <p class="lead" data-reveal>Anfragen, Buchungen, Kontakt: vieles läuft über Formulare — dieser Abschnitt sieht sich an, was Bedienbarkeit für Maschinen bedeutet.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Der HTML-Standard regelt, wie eine Beschriftung einem Feld zugeordnet wird, und die WCAG verlangen, dass eine Beschriftung überhaupt vorhanden ist. Ob ein Agent sie nutzt, steht in keinem der beiden Dokumente. Nachlesbar ist an dieser Stelle trotzdem viel: Beide Dokumente sind normativ und lassen sich Satz für Satz prüfen.</p>
     </div>
+
+    <p class="prose" data-reveal>Am Formular wird sichtbar, wofür Barrierefreiheit gemacht ist. Wo ein Inhalt eine Eingabe verlangt, müssen Beschriftungen oder Anweisungen vorhanden sein — Erfolgskriterium 3.3.2 der Stufe A. Wird ein Eingabefehler automatisch erkannt, muss das fehlerhafte Element benannt und der Fehler in Textform beschrieben werden — Erfolgskriterium 3.3.1, ebenfalls Stufe A. Eine rote Umrandung ist kein Text. Und sind Korrekturvorschläge bekannt, müssen sie genannt werden, es sei denn, das gefährdet Sicherheit oder Zweck des Inhalts — Erfolgskriterium 3.3.3 der Stufe AA, mit der Ausnahme im selben Satz.</p>
+
+    <p class="prose" data-reveal><strong>Diese Kriterien sind für Menschen mit Behinderungen geschrieben und für sie begründet.</strong> Wer sie erfüllt, baut ein Formular, das jemand mit Screenreader, jemand ohne Maus und jemand mit eingeschränkter Aufmerksamkeit tatsächlich zu Ende bringt. Dass ein Programm von derselben Auszeichnung etwas hat, ist plausibel, aber aus den Normdokumenten nicht belegbar — dort steht dazu nichts. <strong>Barrierefreiheit ist damit kein KI-Trick.</strong> Sie ist zuerst ein Nutzen für Menschen, und der Nebeneffekt für Maschinen ist Folge, nicht Zweck.</p>
+
+    <p class="prose" data-reveal>Wie eine Beschriftung technisch an ihr Feld kommt, regelt der HTML-Standard der WHATWG. Ein label-Element stellt danach eine Beschriftung in der Benutzeroberfläche dar, und die Verknüpfung mit dem Formularfeld entsteht entweder über das for-Attribut oder dadurch, dass das Feld im label-Element selbst steht. Das for-Attribut kann gesetzt werden; ist es gesetzt, muss sein Wert die Kennung eines beschriftbaren Elements im selben Baum sein. Von genau einem zugehörigen Feld spricht die Spezifikation dabei nicht wörtlich: Sie formuliert im Singular und wählt das erste passende Element in Baumreihenfolge — und ein label ganz ohne zugehöriges Feld ist ebenfalls vorgesehen.</p>
+
+    <ul class="leiter leiter--drei">
+      <li data-reveal>
+        <b>Beschriftung</b>
+        <h3 class="h-sm">Weiß man, was in das Feld gehört?</h3>
+        <p class="small">Ein Feld, dessen Beschriftung nur daneben steht und nicht mit ihm verknüpft ist, sieht richtig aus und ist es nicht. Der HTML-Standard kennt dafür zwei Wege: das for-Attribut oder das Feld innerhalb des label-Elements. Die WCAG verlangen mit 3.3.2, dass Beschriftung oder Anweisung überhaupt da ist. Für ARIA gilt dabei eine Grenze: aria-label und aria-labelledby dürfen nicht auf Elementen stehen, deren implizite ARIA-Rolle keine Benennung zulässt — das Wort implizit gehört dazu, denn wo die Rolle Benennung zulässt, erlaubt dieselbe Spezifikation beide Attribute ausdrücklich.</p>
+      </li>
+      <li data-reveal>
+        <b>Bedienbarkeit</b>
+        <h3 class="h-sm">Kommt man ohne Zeigegerät durch?</h3>
+        <p class="small">Erfolgskriterium 2.1.1 verlangt Bedienbarkeit über eine Tastaturschnittstelle, mit einer Ausnahme für Eingaben, die vom Bewegungspfad abhängen. Eine Anmerkung derselben Norm hält fest, dass Mauseingabe zusätzlich weder untersagt noch entmutigt ist. Der Autorenleitfaden der Web Accessibility Initiative erklärt, warum das bei nachgebauten Elementen Arbeit macht: Eine ARIA-Rolle sei ein Versprechen. Anders als HTML-Eingabeelemente veranlassten ARIA-Rollen den Browser nicht dazu, Tastaturverhalten oder Gestaltung bereitzustellen — wer ein Element zur Schaltfläche erklärt, muss das Verhalten selbst schreiben.</p>
+      </li>
+      <li data-reveal>
+        <b>Zustand und Fehler</b>
+        <h3 class="h-sm">Sagt die Seite, was passiert ist?</h3>
+        <p class="small">Erfolgskriterium 3.3.1 verlangt, dass ein automatisch erkannter Eingabefehler das betroffene Element benennt und den Fehler in Textform beschreibt; 3.3.3 ergänzt bekannte Korrekturvorschläge, sofern das nicht Sicherheit oder Zweck des Inhalts gefährdet. Und 4.1.3 verlangt für Statusmeldungen, dass sie über Rolle oder Eigenschaften programmatisch bestimmbar sind, ohne den Fokus zu ziehen. Welche technischen Mittel man dafür wählt, sagen die unten genannten Anbieterseiten nicht — dort kommen Live-Regionen und Statusrollen nicht vor. Die Empfehlung dazu ist unsere Ableitung aus der Norm.</p>
+      </li>
+    </ul>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Eine Regel wird in diesem Zusammenhang oft als geltender Standard zitiert, ist aber keiner mehr. Die klassische erste ARIA-Regel — lieber ein vorhandenes HTML-Element mit der gewünschten Bedeutung und dem gewünschten Verhalten als ein umgewidmetes Element mit nachgerüsteter Rolle — steht in einem W3C-Dokument, das sich selbst seit dem 24. Februar 2026 als eingestellten Entwurf führt und von sich sagt, es sei nur informativ. Als geltende Vorgabe trägt sich dieselbe Sache über die beiden Dokumente aus dem vorigen Abschnitt. Für die dritte Regel desselben Entwurfs — jedes interaktive ARIA-Bedienelement muss mit der Tastatur bedienbar sein — haben wir in den unten genannten Dokumenten kein normatives Gegenstück gefunden.</p>
+
+    <p class="prose" data-reveal>Auch für das label-Element selbst gibt es eine Konformitätsregel. Ist ein label-Element implizit oder explizit mit einem beschriftbaren Element verknüpft, darf ihm keine ARIA-Rolle gegeben werden; die Einleitung des Abschnitts sagt dazu, dass die implizite ARIA-Semantik oder die native Semantik des HTML-Elements nicht überschrieben werden darf. Ist das label mit keinem Element verknüpft, ist jede Rolle zulässig — die generische Rolle allerdings soll nicht verwendet werden.</p>
+
+    <p class="prose" data-reveal>Wie ein Werkzeug so ein Formular tatsächlich anfasst, beschreibt Anthropic für sein Browser-Werkzeug. Der Aufruf form_input setze den Wert eines Formularelements direkt: ein Wahrheitswert für Kontrollkästchen, für Auswahlfelder der Wert oder der sichtbare Text einer Option. Vorher muss das Element allerdings adressiert sein — der Aufruf arbeitet auf einer Referenz, die zuvor aus read_page oder aus find stammt. Der Aufruf find wiederum sucht Elemente anhand einer natürlichsprachlichen Beschreibung wie „search field“ oder „add to cart button“. Wie er eine solche Beschreibung auflöst, sagt die Seite nicht; von Beschriftungen oder zugänglichen Namen ist dort keine Rede.</p>
+
+    <p class="prose" data-reveal>Zum Zurücklesen hält dieselbe Seite eine Beobachtung bereit, die man nicht überdehnen sollte. Claude schließe eine Folge von Aufrufen typischerweise mit einem beobachtenden Aufruf ab — einem Screenshot, einem read_page oder einem get_page_text. Derselbe Absatz beginnt allerdings mit dem Hinweis, dass nach jedem Aufruf kein Screenshot nötig ist, und stellt es der einbindenden Anwendung frei, die Beobachtung selbst anzuhängen. Ein „jede Handlung endet mit einem Nachlesen“ steht dort nicht.</p>
+
+    <p class="prose" data-reveal>Und ein Teil des Themas ist in den unten genannten Dokumenten schlicht nicht behandelt. Zu Pflichtfeldern, zur Verknüpfung einer Fehlermeldung mit ihrem Feld, zu Fehlerzuständen, zum Ausfüllhinweis für Browser und zur Rückmeldung nach dem Absenden steht dort nichts, was sich hier belegen ließe. Wer diese Punkte umsetzt, tut das nach guter Praxis — nicht nach einer Stelle, die dieser Beitrag zitieren könnte.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 4. ANMELDUNG UND TRANSAKTIONEN ===================== -->
+<section class="section" id="transaktionen">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Anmeldung und Transaktionen als spätere Reifestufe.</h2>
-      <p class="lead" data-reveal>Manche Handlungen setzen Konten oder Zahlungen voraus — dieser Abschnitt ordnet sie als eigene Reifestufe ein.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Anmeldung und Zahlung behandeln die fünf hier herangezogenen Anbieterdokumente von drei Anbietern jeweils als eigenen Fall: gesperrt, erlaubnispflichtig oder an eine ausdrückliche Bestätigung des Nutzers gebunden. Dass daraus eine spätere Reifestufe wird, ist die Einordnung dieses Beitrags — keines der unten genannten Dokumente beschreibt Anmeldung oder Zahlung als Stufe einer Website.</p>
     </div>
+
+    <p class="prose" data-reveal>Für die Anmeldung hat die WCAG 2.2 ein eigenes, neues Erfolgskriterium bekommen. Nach 3.3.8 der Stufe AA darf kein Schritt eines Authentifizierungsvorgangs einen kognitiven Test verlangen — die Norm nennt als Beispiele das Merken eines Passworts und das Lösen eines Rätsels —, wenn dieser Schritt nicht mindestens eine von vier genannten Möglichkeiten bietet. Zwei davon sind Ausweichwege: eine Alternative ohne kognitiven Test und ein Mechanismus, der beim Bestehen hilft. Die anderen beiden sind erlaubte Arten des Tests selbst: dass der Test im Wiedererkennen von Objekten besteht, oder darin, Nicht-Text-Inhalte zu erkennen, die der Nutzer der Website selbst überlassen hat. Wer nur von Ausweichwegen spricht, stellt die Norm strenger dar, als sie ist.</p>
+
+    <p class="prose" data-reveal>Für die Transaktion selbst gilt ein zweites Kriterium. Bei Seiten, die rechtliche Verpflichtungen oder Finanztransaktionen für den Nutzer auslösen, die vom Nutzer kontrollierbare Daten in Datenspeichern ändern oder löschen oder die Testantworten einreichen, muss mindestens eines von drei Dingen zutreffen — die Eingabe ist umkehrbar, sie wird auf Fehler geprüft, oder sie lässt sich vor dem Abschluss bestätigen. Das ist Erfolgskriterium 3.3.4 der Stufe AA.</p>
+
+    <p class="prose" data-reveal>Ein drittes, ebenfalls neues Kriterium betrifft die Wiederholung. Nach 3.3.7 der Stufe A müssen Angaben, die im selben Vorgang schon einmal eingegeben wurden, entweder vorausgefüllt oder zur Auswahl angeboten werden. Der Satz bricht dort aber nicht ab: Er führt unmittelbar drei Ausnahmen an — wenn die erneute Eingabe wesentlich ist, wenn sie der Sicherheit des Inhalts dient oder wenn die früheren Angaben nicht mehr gültig sind. Gerade die Sicherheitsausnahme ist bei Anmeldeformularen einschlägig. Ein „darf nicht noch einmal abgefragt werden“ steht in diesem Kriterium nicht.</p>
+
+    <p class="prose" data-reveal>Was Anthropic, OpenAI und Google ihren eigenen Produkten an dieser Stelle erlauben, steht in fünf Dokumenten — und keines davon spricht über die beiden anderen Anbieter. Anthropic führt für Claude in Chrome eine Liste von Handlungen, die unabhängig von der gewählten Berechtigungsstufe untersagt sind; darin stehen Käufe und Finanztransaktionen, das Anlegen von Konten und der Umgang mit sensiblen Kreditkarten- oder Ausweisdaten, dazu sieben weitere Punkte. In einem zweiten Hilfeartikel steht, dass Claude vor dem Zugriff auf Finanzseiten um Erlaubnis fragt — Finanzseiten stehen dort also nicht auf der Sperrliste, sondern sind erlaubnispflichtig. Was als Finanzseite gilt, definiert Anthropic nicht und schränkt selbst ein, dass vermutlich nicht alle Seiten dieser Kategorien erfasst sind.</p>
+
+    <p class="prose" data-reveal>OpenAI trennt dieselbe Sache in zwei Dokumenten. Die Empfehlungen zur Einbindung des Computer-use-Werkzeugs führen einen Abschnitt mit der Überschrift, unmittelbar vor der Handlung zu bestätigen; genannt sind dort unter anderem das Senden, Veröffentlichen oder Einreichen gegenüber Dritten im Namen des Nutzers, das An- und Abmelden von Benachrichtigungen und das Bestätigen von Finanztransaktionen. Die Liste ist ausdrücklich als Beispielliste formuliert und richtet sich an Integratoren, nicht an Endnutzer. Für den Agenten in ChatGPT Atlas beschreibt eine Hilfeseite etwas anderes: Er halte bei bestimmten sensiblen Seiten wie Finanzinstituten an, um sicherzugehen, dass der Nutzer zusieht.</p>
+
+    <p class="prose" data-reveal>Google beschreibt für die selbsttätige Browsernutzung von Gemini in Chrome eine Aufforderung mit dem Namen „Take over task“. Gemini in Chrome könne den Nutzer bitten, die Aufgabe für bestimmte Schritte selbst zu übernehmen — genannt sind das Abschließen von Finanztransaktionen, das Akzeptieren von Nutzungsbedingungen und das Anlegen eines Kontos. Formuliert ist das als Kann und als offene Beispielliste. Und Google entwertet die eigene Aufzählung im selben Text zweimal ausdrücklich: Diese Vorkehrungen garantierten keinen Schutz vor allen Risiken.</p>
+
+    <p class="prose" data-reveal>Ein Risiko benennt Anthropic in der Dokumentation zum Computer-use-Werkzeug so deutlich, dass es hierher gehört. Unter Umständen befolge Claude Anweisungen, die es in Inhalten findet, auch wenn sie den Vorgaben des Auftraggebers widersprechen; Anweisungen auf Webseiten oder in Bildern könnten die eigenen Vorgaben überschreiben oder Fehler auslösen. Der Folgeabsatz derselben Seite nennt dazu Gegenmaßnahmen — Training, Klassifikatoren und eine Rückfrage beim Nutzer. Wer nur den Risikosatz zitiert, gibt die Seite verkürzt wieder.</p>
+
+    <p class="prose" data-reveal><strong>Belegt ist damit, was diese fünf Dokumente aussparen oder an eine menschliche Bestätigung binden — die Reifestufe ist unsere Einordnung.</strong> Zur Weitergabe von Zugangsdaten, zur Bot-Abwehr und zur Haftung bei automatisiert ausgelösten Transaktionen steht in der unten genannten WCAG 2.2 nichts; belegbar sind dort die drei Erfolgskriterien oben. Für einen Betrieb, der heute plant, heißt das: Der Weg bis zum abgeschickten Kontaktformular ist der Teil, für den dieser Beitrag Belege nennen kann. Alles hinter der Anmeldung ist ein zweiter Schritt — und Anthropic, OpenAI und Google haben ihn für ihre eigenen Produkte jeweils selbst eingeschränkt.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 5. PRAKTIKABEL ODER EXPERIMENT ===================== -->
+<section class="section" id="praktikabel">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Was heute praktikabel ist — und was Experiment bleibt.</h2>
-      <p class="lead" data-reveal>Zwischen Vorführung und Alltag liegt ein weiter Weg — dieser Abschnitt trennt beides nüchtern.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Was ein Agent heute mit einer fremden Website anfangen kann, steht in Anbieterdokumenten mit Produktnamen und Abrufdatum — nicht in der Norm, und in keinem der unten genannten Dokumente als Zahl. Für Seitenbetreiber nachlesbar sind Kennungen und das Verhalten gegenüber der robots.txt: Google, OpenAI, Anthropic und Perplexity führen dafür je eine eigene Seite. Ausdrücklich als Experiment bezeichnet ist die kryptografische Signatur des Agentenverkehrs — Google nennt sie selbst so.</p>
     </div>
+
+    <p class="prose" data-reveal>Was gilt, hängt am Datum des Dokuments, in dem es steht. Die WCAG 2.2 ist eine W3C-Empfehlung vom 12. Dezember 2024, und die Seite vermerkt selbst, dass Errata existieren. Sie erweitert die Fassung 2.1 von Juni 2018, und wer 2.2 erfüllt, erfüllt damit auch 2.0 und 2.1. Wo dieser Beitrag ein Datum nennt, ist das keine Formalie, sondern Teil der Aussage.</p>
+
+    <p class="prose" data-reveal>Auch ein W3C-Dokument kann seinen Status verlieren. „Using ARIA“ ist seit dem 24. Februar 2026 ein eingestellter Entwurf; die vier ARIA-Regeln würden dort aus historischen Gründen und zur leichteren Bezugnahme aufbewahrt, eine Weiterarbeit sei nicht geplant. Wer sich auf diese Regeln beruft, beruft sich auf einen Text, dessen eigene Statuszeile das ausschließt. Für die erste der vier Regeln steht das lebende Gegenstück in „ARIA in HTML“ und in WAI-ARIA 1.2; für die dritte haben wir keines gefunden.</p>
+
+    <p class="prose" data-reveal>Selbst innerhalb eines geltenden Dokuments ist nicht alles verbindlich, und die Grenze steht dort ausdrücklich. „ARIA in HTML“ hält in seinem Konformitätsabschnitt fest: Neben den als nicht-normativ gekennzeichneten Abschnitten sind auch sämtliche Autorenhinweise, Diagramme, Beispiele und Notizen nicht-normativ; alles Übrige ist normativ. Und die Schlüsselwörter wie „muss“ oder „soll“ gelten nur dann als solche, wenn sie in Großbuchstaben stehen. Wer eine Norm zitiert, zitiert damit auch immer eine Verbindlichkeitsstufe.</p>
+
+    <p class="prose" data-reveal>Wie weit die Norm überhaupt reicht, sagt sie ebenfalls selbst. Der Begriff der unterstützten Barrierefreiheit ist im W3C-Dokument an eine nachgewiesene Zusammenarbeit mit den Hilfsmitteln der Nutzer gebunden: Die Art, wie eine Webtechnologie verwendet wird, muss auf Interoperabilität mit den Hilfsmitteln der Nutzer in der Sprache des Inhalts geprüft worden sein — und das ist ausdrücklich nur die erste von zwei Bedingungen, die beide erfüllt sein müssen. Wie viel Unterstützung dafür nötig ist, legt das W3C in einer eigenen Anmerkung ausdrücklich nicht fest.</p>
+
+    <ul class="leiter leiter--drei">
+      <li data-reveal>
+        <b>nachlesbar</b>
+        <h3 class="h-sm">Kennungen und robots.txt</h3>
+        <p class="small">Google führt eine Liste nutzerausgelöster Abrufer und schreibt in deren Einleitung, solche Abrufer missachteten robots.txt-Regeln in der Regel, weil der Abruf von einem Nutzer angefordert wurde; die Liste bezeichnet sich selbst als nicht abschließend. Die Kennung Google-Agent verbindet dieselbe Seite mit Agenten, die auf Google-Infrastruktur im Web navigieren und auf Nutzeranfrage Handlungen ausführen — worauf sich diese Handlungen richten, sagt sie nicht. OpenAI führt vier Kennungen und schreibt zu ChatGPT-User, diese werde nicht für selbsttätiges Crawlen verwendet und robots.txt-Regeln gälten für diese nutzerausgelösten Handlungen möglicherweise nicht; für Suchergebnisse könne es nach einer Änderung der robots.txt etwa 24 Stunden dauern, bis die eigenen Systeme sie nachvollziehen. Anthropic führt drei Kennungen und sagt zu, „do not crawl“-Signale zu beachten, indem branchenübliche robots.txt-Direktiven eingehalten werden — mit dem Hinweis im selben Dokument, dass andere Wege wie das Sperren von IP-Adressen möglicherweise nicht richtig wirken. Perplexity schreibt auf seiner Crawler-Seite zur nutzerausgelösten Kennung Perplexity-User, dieser Abrufer missachte robots.txt-Regeln in der Regel, weil ein Nutzer den Abruf angefordert habe; die Nachbarzeile zu PerplexityBot trägt die gegenteilige Empfehlung, diesen in der robots.txt der eigenen Website zuzulassen — beides gehört nicht vermischt. Dieselbe Seite schreibt im Einleitungsabsatz, es könne bis zu 24 Stunden dauern, bis die eigenen Systeme Änderungen an der robots.txt abbilden.</p>
+      </li>
+      <li data-reveal>
+        <b>an Produkt gebunden</b>
+        <h3 class="h-sm">Was ein benanntes Werkzeug kann</h3>
+        <p class="small">OpenAI benennt für den Agenten in ChatGPT Atlas ausdrückliche Grenzen: Er könne im Browser keinen Code ausführen, keine Dateien herunterladen und keine Erweiterungen installieren. Anthropic beschreibt für Claude in Chrome hinterlegtes Wissen über die Navigation namentlich genannter Plattformen — Slack, Google Calendar, Gmail, Google Docs und GitHub — und nennt diese Fähigkeiten selbst plattformspezifisch; die Aufzählung ist ausdrücklich nicht abschließend und sagt etwas über hinterlegtes Wissen, nicht über Bedienbarkeit überhaupt. Dieselbe Erweiterung liest, klickt und navigiert Websites nach Anthropics Beschreibung an der Seite des Nutzers, und derselbe Einleitungsblock hält fest, dass ein direktes Handeln auf Websites im Auftrag des Nutzers weiterhin riskant ist. Perplexity beschreibt in der Entwicklerdokumentation zum Perplexity Computer MCP Server einen vollständigen Cloud-Browser: Verlange eine Aufgabe das Bedienen einer Website, das Ausfüllen von Formularen oder den Zugriff auf angemeldete Inhalte, starte Computer automatisch eine Browsersitzung. Was dieser Browser tut, führt dieselbe Seite in einer Fähigkeitentabelle auf — zu einer beliebigen Adresse navigieren, Elemente anklicken, Formulare ausfüllen und strukturierte Daten entnehmen. Das beschreibt eine Fähigkeit; dass es auf jeder Seite geschieht, sagt die Zeile nicht.</p>
+      </li>
+      <li data-reveal>
+        <b>Experiment</b>
+        <h3 class="h-sm">Signierter Agentenverkehr</h3>
+        <p class="small">Google testet für einen Teil der Agentenzugriffe ein kryptografisches Verfahren: Ein Teil der Anfragen von Google-Agent sei signiert und weise sich dann unter einer eigenen Adresse aus. Google bezeichnet die eigene Umsetzung als derzeit experimentell, schreibt, dass nicht alle Google-Kennungen das Verfahren verwenden, und empfiehlt, zusätzlich weiterhin auf IP-Adressen, Reverse DNS und User-Agent-Zeichenketten zu setzen, solange signierter Verkehr schrittweise ausgerollt wird. Den Schluss zieht die Seite selbst: Man solle sicherstellen, auf die etablierten Methoden der Bot-Prüfung zurückzufallen. Ob andere Anbieter dasselbe Verfahren einsetzen, sagt diese Seite nicht.</p>
+      </li>
+    </ul>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Wie zuverlässig das im Alltag ist, sagt keines dieser Dokumente in Zahlen. Anthropic formuliert für das Computer-use-Werkzeug immerhin eine Möglichkeit: Claude könne bei der Auswahl von Werkzeugen Fehler machen oder halluzinieren und unerwartete Handlungen ausführen; die Zuverlässigkeit könne bei Nischenanwendungen oder bei mehreren Anwendungen gleichzeitig geringer ausfallen. Das ist eine Möglichkeit und keine Feststellung — und eine Erfolgsquote für das Bedienen fremder Websites steht in keinem der unten genannten Dokumente.</p>
+
+    <p class="prose" data-reveal>Deshalb steht in diesem Beitrag keine Prozentzahl. Auch nicht zu Websites kleiner Unternehmen: Zu deutschsprachigen Seiten, zu Handwerks- oder Praxisauftritten und zu branchentypischen Buchungsstrecken sagt keines der unten genannten Anbieterdokumente etwas. Wer Ihnen dazu eine Quote nennt, sollte sagen, woher sie stammt — aus den unten genannten Anbieterdokumenten stammt sie nicht.</p>
+
+    <p class="prose" data-reveal><strong>Praktikabel ist heute vor allem das, was ohnehin gute Arbeit ist.</strong> Eine Seite, die ihre Inhalte in Text liefert, ihre Bedienelemente auszeichnet, ihre Formulare beschriftet und ihre Zustände benennt, ist für Menschen mit Hilfsmitteln besser bedienbar, gegen eine veröffentlichte Norm prüfbar und — nach der im zweiten Abschnitt genannten OpenAI-Seite — für ein benanntes Produkt besser deutbar. Das ist ein handfester Gewinn, und er hängt an keiner Anbieterzusage.</p>
+
+    <p class="prose" data-reveal><strong>Experiment ist alles, was darüber hinausgeht.</strong> Wer Ihnen zusagt, dass KI-Agenten heute Ihre Website zuverlässig bedienen, verspricht etwas, das Google, OpenAI und Anthropic in den unten genannten Dokumenten für ihre eigenen Produkte nicht versprechen: Google entwertet die eigenen Schutzvorkehrungen ausdrücklich, OpenAI zählt Funktionsgrenzen auf, und Anthropic nennt Fehler und geringere Zuverlässigkeit als Möglichkeit. Der Teil, den Sie in der Hand haben, ist die Seite. Was ein Agent daraus macht, ist der Teil, zu dem die unten genannten Dokumente keine Zusage geben.</p>
   </div>
 </section>
 
-<!-- ===================== ANALYSE-HINWEIS ===================== -->
-<section class="section inv">
+<!-- ===================== 6. QUELLEN ===================== -->
+<section class="section" id="quellen">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Quellen und Stand.</h2>
+      <p class="lead" data-reveal>Die Aussagen oben stützen sich auf die folgenden Primärquellen. Bei den Normen gehört der Status zur Aussage: Eine verabschiedete Empfehlung ist etwas anderes als ein eingestellter Entwurf, und beides steht hier nebeneinander. Anbieterangaben beschreiben, was ein Anbieter über sein eigenes System sagt — sie sind damit die beste verfügbare Quelle und zugleich jederzeit änderbar.</p>
+    </div>
+
+    <dl class="wissen-quellen" data-reveal>
+      <div>
+        <dt>W3C — WCAG 2.2</dt>
+        <dd>Die WCAG 2.2 enthält sämtliche Erfolgskriterien dieses Beitrags: 1.3.1, 4.1.2 und 2.1.1 im ersten Abschnitt, 3.2.3, 2.4.6 und Leitlinie 3.2 im zweiten, 3.3.1, 3.3.2, 3.3.3 und 4.1.3 im dritten, 3.3.4, 3.3.7 und 3.3.8 im vierten sowie Datum, Version und den Begriff der unterstützten Barrierefreiheit im fünften.</dd>
+        <dd><a href="https://www.w3.org/TR/WCAG22/" rel="noopener noreferrer" target="_blank">Web Content Accessibility Guidelines (WCAG) 2.2</a> <span class="stand">W3C Recommendation vom 12. Dezember 2024; die Seite vermerkt, dass Errata existieren. Ohne Browser antwortet sie mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>W3C — ARIA in HTML</dt>
+        <dd>Die Spezifikation nennt die normativen ARIA-Regeln im zweiten Abschnitt, die Grenze für aria-label und aria-labelledby sowie die Konformitätszeile zum label-Element im dritten und die Abgrenzung von normativ und nicht-normativ im fünften. Normative Spezifikation der Arbeitsgruppe für Accessible Rich Internet Applications, kein Entwurf und kein Leitfaden.</dd>
+        <dd><a href="https://www.w3.org/TR/html-aria/" rel="noopener noreferrer" target="_blank">ARIA in HTML</a> <span class="stand">W3C Recommendation vom 11. August 2026. Ohne Browser antwortet die Seite mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>W3C — WAI-ARIA 1.2</dt>
+        <dd>WAI-ARIA 1.2 weist im zweiten Abschnitt den Status als verabschiedete Empfehlung aus und nennt die Soll-Regel aus dem Abschnitt zu Konflikten mit der Semantik der Wirtssprache: die Funktion der Wirtssprache vor der Umwidmung anderer Elemente.</dd>
+        <dd><a href="https://www.w3.org/TR/wai-aria-1.2/" rel="noopener noreferrer" target="_blank">Accessible Rich Internet Applications (WAI-ARIA) 1.2</a> <span class="stand">W3C Recommendation vom 6. Juni 2023 — der Stand ist ausdrücklich nicht neuer. Ohne Browser antwortet die Seite mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>W3C — Using ARIA</dt>
+        <dd>Der Entwurf gibt im dritten Abschnitt den historischen Wortlaut der ersten und der dritten ARIA-Regel wieder und zeigt im fünften, dass ein W3C-Dokument seinen Status verlieren kann. Ausdrücklich ein eingestellter, nur informativer Entwurf — die geltenden Regeln stehen in „ARIA in HTML“ und in WAI-ARIA 1.2.</dd>
+        <dd><a href="https://www.w3.org/TR/using-aria/" rel="noopener noreferrer" target="_blank">Using ARIA</a> <span class="stand">W3C Discontinued Draft vom 24. Februar 2026. Ohne Browser antwortet die Seite mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>W3C WAI — Autorenleitfaden ARIA</dt>
+        <dd>Der Leitfaden bringt im zweiten Abschnitt das Beispiel der Liste, die durch eine Navigationsrolle keine Liste mehr ist, und die Gegenüberstellung von Verdecken und Ergänzen; im dritten den Grundsatz, dass eine Rolle ein Versprechen ist. Autorenleitfaden der Web Accessibility Initiative, nicht normativ.</dd>
+        <dd><a href="https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/" rel="noopener noreferrer" target="_blank">Read Me First — ARIA Authoring Practices Guide</a> <span class="stand">Ohne Datumsangabe auf der Seite. Ohne Browser antwortet sie mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>WHATWG — HTML Standard, Formulare</dt>
+        <dd>Der HTML-Standard legt im dritten Abschnitt die Regeln für Formularbeschriftungen fest: was ein label-Element ist, wie die Verknüpfung mit dem Feld entsteht und welche Anforderung für das for-Attribut gilt.</dd>
+        <dd><a href="https://html.spec.whatwg.org/multipage/forms.html" rel="noopener noreferrer" target="_blank">HTML Standard — 4.10 Forms</a> <span class="stand">Living Standard, zuletzt aktualisiert am 3. September 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Anthropic — Browser-Werkzeug</dt>
+        <dd>Anthropic beschreibt im ersten Abschnitt die Arbeitsweise über Struktur und Pixel und den Aufruf zum Auslesen der Seite, im zweiten den Verfall von Elementreferenzen und im dritten das Setzen von Formularwerten, die Suche über eine natürlichsprachliche Beschreibung und den beobachtenden Abschlussaufruf. Entwicklerdokumentation des Anbieters.</dd>
+        <dd><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/browser-use-tool" rel="noopener noreferrer" target="_blank">Browser use tool</a> <span class="stand">Ohne Datumsangabe auf der Seite; einziger Versionshinweis ist die Kennung des Werkzeugsatzes. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Anthropic — Computer-Werkzeug</dt>
+        <dd>Anthropic nennt im vierten Abschnitt das dokumentierte Risiko, dass Anweisungen aus Seiteninhalten die Vorgaben des Auftraggebers überschreiben, samt der im Folgeabsatz genannten Gegenmaßnahmen, und im fünften die Möglichkeitsaussage zu Fehlern und geringerer Zuverlässigkeit. Entwicklerdokumentation des Anbieters.</dd>
+        <dd><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use-tool" rel="noopener noreferrer" target="_blank">Computer use tool</a> <span class="stand">Ohne Datumsangabe auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Anthropic-Hilfe — Claude in Chrome</dt>
+        <dd>Das Hilfecenter führt im vierten Abschnitt die unabhängig von der Berechtigungsstufe untersagten Handlungen und die Erlaubnisabfrage vor Finanzseiten samt Anthropics eigener Einschränkung dazu auf, im fünften das plattformspezifisch hinterlegte Navigationswissen und die Beschreibung der Erweiterung, die an der Seite des Nutzers liest, klickt und navigiert. Hilfecenter-Artikel für Endnutzer, keine Entwicklerdokumentation.</dd>
+        <dd><a href="https://support.claude.com/en/articles/12902446-claude-in-chrome-permissions-guide" rel="noopener noreferrer" target="_blank">Claude in Chrome permissions guide</a> · <a href="https://support.claude.com/en/articles/12902428-use-claude-in-chrome-safely" rel="noopener noreferrer" target="_blank">Use Claude in Chrome safely</a> · <a href="https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome" rel="noopener noreferrer" target="_blank">Get started with Claude in Chrome</a> <span class="stand">Nur relative Datumsangaben auf den Seiten, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Anthropic-Hilfe — Crawler</dt>
+        <dd>Anthropic nennt im fünften Abschnitt die drei Kennungen des Anbieters, die Zusage zu branchenüblichen robots.txt-Direktiven und den im selben Dokument genannten Vorbehalt zu anderen Sperrwegen. Help-Center-Artikel aus der Sammlung zu Datenschutz und Recht.</dd>
+        <dd><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" rel="noopener noreferrer" target="_blank">Does Anthropic crawl data from the web, and how can site owners block the crawler?</a> <span class="stand">Seitenstand 7. April 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI — Computer use</dt>
+        <dd>OpenAI beschreibt im ersten Abschnitt die bildschirmbasierte Arbeitsweise und die Rollenverteilung zwischen Modell und aufrufender Anwendung, im vierten die Liste der Handlungen, vor denen unmittelbar zu bestätigen ist. Entwicklerdokumentation des Anbieters; die zweite Seite richtet sich ausdrücklich an Integratoren.</dd>
+        <dd><a href="https://developers.openai.com/api/docs/guides/tools-computer-use" rel="noopener noreferrer" target="_blank">Computer use</a> · <a href="https://developers.openai.com/api/docs/guides/tools-computer-use-integration" rel="noopener noreferrer" target="_blank">Computer use integration recipes</a> <span class="stand">Ohne Datumsangabe auf den Seiten, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI-Hilfe — Atlas und Publisher</dt>
+        <dd>Das OpenAI-Hilfecenter beschreibt im zweiten Abschnitt die Auswertung von ARIA-Tags durch ChatGPT Atlas und die Empfehlung, den WAI-ARIA-Best-Practices zu folgen, im vierten das Anhalten bei sensiblen Seiten und im fünften die Funktionsgrenzen des Agenten in Atlas. Hilfecenter-Artikel.</dd>
+        <dd><a href="https://help.openai.com/en/articles/12627856-publishers-and-developers-faq" rel="noopener noreferrer" target="_blank">Publishers and Developers — FAQ</a> · <a href="https://help.openai.com/en/articles/12628199-using-ask-chatgpt-sidebar-and-chatgpt-agent-on-atlas" rel="noopener noreferrer" target="_blank">Using Ask ChatGPT sidebar and ChatGPT Agent on Atlas</a> <span class="stand">Nur relative Datumsangaben auf den Seiten; ohne Browser antworten sie mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI — Crawler-Kennungen</dt>
+        <dd>OpenAI nennt im fünften Abschnitt die vier Kennungen des Anbieters, die Beschreibung von ChatGPT-User samt dem Vorbehalt, dass robots.txt-Regeln möglicherweise nicht gelten, und die Vorlaufzeit von etwa 24 Stunden für Suchergebnisse. Produkt- und Entwicklerdokumentation, kein Blogbeitrag.</dd>
+        <dd><a href="https://developers.openai.com/api/docs/bots" rel="noopener noreferrer" target="_blank">Overview of OpenAI Crawlers</a> <span class="stand">Ohne Datumsangabe auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google-Hilfe — Gemini in Chrome</dt>
+        <dd>Die Google-Hilfe fordert im vierten Abschnitt dazu auf, bestimmte Schritte selbst zu übernehmen — Finanztransaktionen abschließen, Nutzungsbedingungen akzeptieren, ein Konto anlegen — und spricht zweimal den Vorbehalt aus, dass die beschriebenen Vorkehrungen keinen Schutz vor allen Risiken garantieren. Hilfecenter-Artikel für Endnutzer.</dd>
+        <dd><a href="https://support.google.com/chrome/answer/16821166?hl=en" rel="noopener noreferrer" target="_blank">Ask Gemini in Chrome to complete tasks for you with auto browse</a> <span class="stand">Ohne Datumsangabe auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — nutzerausgelöste Abrufer</dt>
+        <dd>Google stellt im fünften Abschnitt einleitend fest, dass nutzerausgelöste Abrufer robots.txt-Regeln in der Regel missachten, bezeichnet die Liste selbst als nicht abschließend und beschreibt die Kennung Google-Agent. Herstellerseitige Referenzdokumentation, kein Blogbeitrag.</dd>
+        <dd><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/google-user-triggered-fetchers" rel="noopener noreferrer" target="_blank">List of Google user-triggered fetchers</a> <span class="stand">Seitenstand 19. August 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Web Bot Auth</dt>
+        <dd>Google beschreibt im fünften Abschnitt das Experiment mit signiertem Agentenverkehr: den signierten Teil der Anfragen, die ausdrückliche Kennzeichnung als experimentell, den Hinweis, dass nicht alle Kennungen das Verfahren verwenden, und die Empfehlung, weiterhin auf IP-Adressen, Reverse DNS und User-Agent-Zeichenketten zu setzen. Entwicklerdokumentation von Google, keine Ankündigung.</dd>
+        <dd><a href="https://developers.google.com/crawling/docs/crawlers-fetchers/web-bot-auth" rel="noopener noreferrer" target="_blank">Authenticate requests with Web Bot Auth (experimental)</a> <span class="stand">Seitenstand 4. Mai 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Perplexity — Computer MCP Server</dt>
+        <dd>Perplexity beschreibt im fünften Abschnitt den vollständigen Cloud-Browser, den Perplexity Computer bei Bedarf automatisch startet, und die Zeile der Fähigkeitentabelle zum Navigieren, Anklicken, Ausfüllen und Entnehmen. Entwicklerdokumentation des Anbieters, kein Blogbeitrag und kein Änderungsprotokoll.</dd>
+        <dd><a href="https://docs.perplexity.ai/docs/getting-started/integrations/computer-mcp-server" rel="noopener noreferrer" target="_blank">Perplexity Computer MCP Server</a> <span class="stand">Ohne sichtbares Datum auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Perplexity — Crawler-Kennungen</dt>
+        <dd>Perplexity beschreibt im fünften Abschnitt die nutzerausgelöste Kennung Perplexity-User, die gegenteilige Empfehlung in der Nachbarzeile zu PerplexityBot und die Vorlaufzeit von bis zu 24 Stunden für Änderungen an der robots.txt. Produkt- und Entwicklerdokumentation, keine Richtlinienseite.</dd>
+        <dd><a href="https://docs.perplexity.ai/docs/resources/perplexity-crawlers" rel="noopener noreferrer" target="_blank">Perplexity Crawlers</a> <span class="stand">Ohne sichtbares Datum auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+    </dl>
+
+    <p class="small" style="margin-top:clamp(16px,2vw,24px)" data-reveal>Stand dieses Beitrags: 4. September 2026. Anbieterangaben können sich ohne Ankündigung ändern; eine Messung bleibt an ihr Datum gebunden. Wo dieser Beitrag ein Datum nennt, ist das keine Formalie, sondern Teil der Aussage. Sieben der hier genannten Seiten antworten Abrufen ohne Browser mit HTTP 403 — die fünf Adressen beim W3C und die beiden im Hilfebereich von OpenAI. Wer nachprüfen möchte, braucht dafür einen Browser.</p>
+  </div>
+</section>
+
+<!-- ===================== NAECHSTER SCHRITT ===================== -->
+<section class="section inv" id="naechster-schritt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Wie gut lässt sich Ihre Website nicht nur lesen, sondern auch bedienen?</h2>
-      <p class="lead" data-reveal>Die kostenlose Website-Analyse prüft diese Frage an Ihrer eigenen Website und ordnet die Ergebnisse verständlich ein.</p>
+      <p class="lead" data-reveal>Diese Frage lässt sich an einer Website nur nachsehen, nicht raten. Schreiben Sie uns, um welche Adresse es geht — wir sehen sie uns an und antworten mit einer Einschätzung, hinter der jemand steht.</p>
       <div data-reveal>
-        <a class="btn btn--split btn--primary" href="/website-analyse/"><span class="btn__label">Eigene Website analysieren</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+        <a class="btn btn--split btn--primary" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===================== VERWANDTE THEMEN ===================== -->
-<section class="section">
+<section class="section" id="verwandt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Themen.</h2>
@@ -243,8 +582,6 @@
     </div>
 
     <p class="small wissen-alle" data-reveal><a href="/wissen/">Alle Themen im Überblick</a></p>
-
-    <p class="small wissen-platzhalter" data-reveal>Belege und Quellen werden mit den geprüften Inhalten ergänzt.</p>
   </div>
 </section>
 

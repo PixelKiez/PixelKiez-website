@@ -99,10 +99,16 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      # Kein gitleaks/gitleaks-action: die Action verlangt fuer Repos in einer
+      # Organisation einen Lizenzschluessel und bricht ohne ihn ab, bevor sie
+      # eine Zeile liest. Stattdessen das offizielle Abbild, im Skript ueber
+      # seinen Digest festgenagelt — eine Quelle der Wahrheit, keine zweite
+      # Versionsangabe hier.
+      - name: Prove the secret scanner can fail
+        run: bash scripts/ci-secret-scan.sh --kanarienvogel
+
       - name: Scan committed history for secrets
-        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/ci-secret-scan.sh
 
   codeql:
     name: CodeQL JavaScript/TypeScript

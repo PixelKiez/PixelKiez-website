@@ -21,6 +21,10 @@ const ZIEL = join(fileURLToPath(new URL('..', import.meta.url)), 'dist');
    hreflang noch Umschalter. `kanonisch` ist der Pfad, den das canonical der
    fertigen Seite nennen muss. */
 const DOMAIN = 'https://pixelkiez.de';
+/* Dieselbe Adresse einmal zerlegt. Wer Herkunft prueft, vergleicht Protokoll
+   und Wirt getrennt — ein Zeichenkettenvergleich auf den Anfang von DOMAIN
+   wuerde fremde Wirte einschliessen (siehe W-7). */
+const HERKUNFT = new URL(DOMAIN);
 const SEITEN = [
   { pfad: 'index.html',                    lang: 'de', kanonisch: '/',                       paar: { partner: '/en/',                 schalter: 'EN' } },
   { pfad: 'en/index.html',                 lang: 'en', kanonisch: '/en/',                    paar: { partner: '/',                    schalter: 'DE' } },
@@ -28,21 +32,24 @@ const SEITEN = [
   { pfad: 'en/website-analyse/index.html', lang: 'en', kanonisch: '/en/website-analyse/',    paar: { partner: '/website-analyse/',    schalter: 'DE' } },
   { pfad: 'impressum.html',                lang: 'de', kanonisch: '/impressum.html' },
   { pfad: 'datenschutz.html',              lang: 'de', kanonisch: '/datenschutz.html' },
-  /* Entwurfsseiten des Wissensbereichs: noindex ist Pflicht, sie stehen
-     weder in der Sitemap noch in llms.txt und sind nicht von der
-     Startseite verlinkt. */
-  { pfad: 'wissen/index.html',                          lang: 'de', kanonisch: '/wissen/',                          noindex: true, paar: { partner: '/en/knowledge/',                       schalter: 'EN' } },
-  { pfad: 'en/knowledge/index.html',                    lang: 'en', kanonisch: '/en/knowledge/',                    noindex: true, paar: { partner: '/wissen/',                            schalter: 'DE' } },
-  { pfad: 'wissen/seo-geo-ai-visibility/index.html',    lang: 'de', kanonisch: '/wissen/seo-geo-ai-visibility/',    noindex: true, paar: { partner: '/en/knowledge/seo-geo-ai-visibility/', schalter: 'EN' } },
-  { pfad: 'en/knowledge/seo-geo-ai-visibility/index.html', lang: 'en', kanonisch: '/en/knowledge/seo-geo-ai-visibility/', noindex: true, paar: { partner: '/wissen/seo-geo-ai-visibility/',   schalter: 'DE' } },
-  { pfad: 'wissen/wie-ki-websites-liest/index.html',    lang: 'de', kanonisch: '/wissen/wie-ki-websites-liest/',    noindex: true, paar: { partner: '/en/knowledge/how-ai-reads-websites/', schalter: 'EN' } },
-  { pfad: 'en/knowledge/how-ai-reads-websites/index.html', lang: 'en', kanonisch: '/en/knowledge/how-ai-reads-websites/', noindex: true, paar: { partner: '/wissen/wie-ki-websites-liest/',   schalter: 'DE' } },
-  { pfad: 'wissen/answerability/index.html',            lang: 'de', kanonisch: '/wissen/answerability/',            noindex: true, paar: { partner: '/en/knowledge/answerability/',        schalter: 'EN' } },
-  { pfad: 'en/knowledge/answerability/index.html',      lang: 'en', kanonisch: '/en/knowledge/answerability/',      noindex: true, paar: { partner: '/wissen/answerability/',              schalter: 'DE' } },
-  { pfad: 'wissen/entity-trust/index.html',             lang: 'de', kanonisch: '/wissen/entity-trust/',             noindex: true, paar: { partner: '/en/knowledge/entity-trust/',         schalter: 'EN' } },
-  { pfad: 'en/knowledge/entity-trust/index.html',       lang: 'en', kanonisch: '/en/knowledge/entity-trust/',       noindex: true, paar: { partner: '/wissen/entity-trust/',               schalter: 'DE' } },
-  { pfad: 'wissen/agent-readiness/index.html',          lang: 'de', kanonisch: '/wissen/agent-readiness/',          noindex: true, paar: { partner: '/en/knowledge/agent-readiness/',      schalter: 'EN' } },
-  { pfad: 'en/knowledge/agent-readiness/index.html',    lang: 'en', kanonisch: '/en/knowledge/agent-readiness/',    noindex: true, paar: { partner: '/wissen/agent-readiness/',            schalter: 'DE' } },
+  /* Wissensbereich, seit PXK-28/PXK-29 veroeffentlicht. `wissen` markiert
+     eine Seite des Bereichs; `hub` zusaetzlich die Uebersichtsseite, von
+     der aus jeder Beitrag erreichbar sein muss. Wo frueher noindex Pflicht
+     war, ist es jetzt verboten — dieselbe Tabelle, umgekehrtes Vorzeichen. */
+  { pfad: 'wissen/index.html',                          lang: 'de', kanonisch: '/wissen/',                          wissen: true, hub: true, paar: { partner: '/en/knowledge/',                       schalter: 'EN' } },
+  { pfad: 'en/knowledge/index.html',                    lang: 'en', kanonisch: '/en/knowledge/',                    wissen: true, hub: true, paar: { partner: '/wissen/',                            schalter: 'DE' } },
+  { pfad: 'wissen/seo-geo-ai-visibility/index.html',    lang: 'de', kanonisch: '/wissen/seo-geo-ai-visibility/',    wissen: true, paar: { partner: '/en/knowledge/seo-geo-ai-visibility/', schalter: 'EN' } },
+  { pfad: 'en/knowledge/seo-geo-ai-visibility/index.html', lang: 'en', kanonisch: '/en/knowledge/seo-geo-ai-visibility/', wissen: true, paar: { partner: '/wissen/seo-geo-ai-visibility/',   schalter: 'DE' } },
+  { pfad: 'wissen/wie-ki-websites-liest/index.html',    lang: 'de', kanonisch: '/wissen/wie-ki-websites-liest/',    wissen: true, paar: { partner: '/en/knowledge/how-ai-reads-websites/', schalter: 'EN' } },
+  { pfad: 'en/knowledge/how-ai-reads-websites/index.html', lang: 'en', kanonisch: '/en/knowledge/how-ai-reads-websites/', wissen: true, paar: { partner: '/wissen/wie-ki-websites-liest/',   schalter: 'DE' } },
+  { pfad: 'wissen/wie-websites-ausgeliefert-werden/index.html', lang: 'de', kanonisch: '/wissen/wie-websites-ausgeliefert-werden/', wissen: true, k6: true, paar: { partner: '/en/knowledge/how-websites-are-delivered/', schalter: 'EN' } },
+  { pfad: 'en/knowledge/how-websites-are-delivered/index.html', lang: 'en', kanonisch: '/en/knowledge/how-websites-are-delivered/', wissen: true, k6: true, paar: { partner: '/wissen/wie-websites-ausgeliefert-werden/', schalter: 'DE' } },
+  { pfad: 'wissen/answerability/index.html',            lang: 'de', kanonisch: '/wissen/answerability/',            wissen: true, paar: { partner: '/en/knowledge/answerability/',        schalter: 'EN' } },
+  { pfad: 'en/knowledge/answerability/index.html',      lang: 'en', kanonisch: '/en/knowledge/answerability/',      wissen: true, paar: { partner: '/wissen/answerability/',              schalter: 'DE' } },
+  { pfad: 'wissen/entity-trust/index.html',             lang: 'de', kanonisch: '/wissen/entity-trust/',             wissen: true, paar: { partner: '/en/knowledge/entity-trust/',         schalter: 'EN' } },
+  { pfad: 'en/knowledge/entity-trust/index.html',       lang: 'en', kanonisch: '/en/knowledge/entity-trust/',       wissen: true, paar: { partner: '/wissen/entity-trust/',               schalter: 'DE' } },
+  { pfad: 'wissen/agent-readiness/index.html',          lang: 'de', kanonisch: '/wissen/agent-readiness/',          wissen: true, paar: { partner: '/en/knowledge/agent-readiness/',      schalter: 'EN' } },
+  { pfad: 'en/knowledge/agent-readiness/index.html',    lang: 'en', kanonisch: '/en/knowledge/agent-readiness/',    wissen: true, paar: { partner: '/wissen/agent-readiness/',            schalter: 'DE' } },
 ];
 
 const fehler = [];
@@ -358,20 +365,26 @@ async function verify() {
       F(`${seite}: <html lang="${eintrag.lang}"> fehlt`);
     if (!html.includes(`<link rel="canonical" href="${DOMAIN}${eintrag.kanonisch}">`))
       F(`${seite}: canonical zeigt nicht auf ${DOMAIN}${eintrag.kanonisch}`);
-    /* --- Entwurfsseiten: noindex ist Pflicht, Indexfreigabe ein Fehler --- */
-    if (eintrag.noindex) {
-      if (!html.includes('<meta name="robots" content="noindex">'))
-        F(`${seite}: noindex fehlt — Entwurfsseite waere indexierbar`);
-      for (const m of html.matchAll(/<meta name="robots" content="([^"]*)">/g)) {
-        if (!m[1].includes('noindex'))
-          F(`${seite}: robots="${m[1]}" erlaubt Indexierung — Entwurfsstatus verletzt`);
+    /* --- W-1 Indexierbarkeit: die Wissensseiten sind freigegeben. Ein
+       zurueckgekehrtes noindex nimmt sie still wieder aus dem Index, ohne
+       dass der Seite etwas anzusehen waere — genau dafuer ist dieses Tor
+       da. Geprueft wird jede robots-Angabe der Seite, nicht nur die erste:
+       zwei widerspruechliche Angaben sind ebenfalls ein Fehler. --- */
+    if (eintrag.wissen) {
+      const robots = [...html.matchAll(/<meta name="robots" content="([^"]*)">/g)].map((m) => m[1]);
+      if (!robots.length) F(`${seite}: keine robots-Angabe — Freigabe waere nicht ausgesprochen`);
+      if (robots.length > 1) F(`${seite}: ${robots.length} robots-Angaben — widerspruechliche Signale`);
+      for (const r of robots) {
+        if (/noindex/i.test(r)) F(`${seite}: robots="${r}" enthaelt noindex — freigegebene Wissensseite waere unsichtbar`);
+        if (!/\bindex\b/.test(r) || !/\bfollow\b/.test(r))
+          F(`${seite}: robots="${r}" nennt nicht index und follow`);
       }
     }
     /* --- Wissensbereich: Themennetz, kein Kurs (Slice 2.1) ---
        Der Bereich ist als zusammenhaengendes Themensystem beschlossen, nicht
        als sequenzieller Lernpfad. Kurs-Wortlaut kaeme bei einer Ueberarbeitung
        leicht zurueck — deshalb hier gegen dist/ verankert. */
-    if (eintrag.noindex) {
+    if (eintrag.wissen) {
       const kursMuster = eintrag.lang === 'en'
         ? [/learning path/i, /five steps/i, /step \d of 5/i]
         : [/Lernpfad/, /fünf Schritte/, /Schritt \d von 5/,
@@ -478,43 +491,232 @@ async function verify() {
       F('index.html: kein Einstieg zur Website-Analyse (/website-analyse/) gefunden');
   }
 
-  /* --- Entwurfs-Gates: unveroeffentlichte Wissensseiten duerfen weder in
-     der Sitemap noch in llms.txt stehen und von keiner veroeffentlichten
-     Seite verlinkt sein. Geprueft gegen dist/ — gegen das, was ausgeliefert
-     wuerde, nicht gegen Absichten. --- */
-  const entwurfsPfade = SEITEN.filter((s) => s.noindex).map((s) => s.kanonisch);
-  if (entwurfsPfade.length) {
-    /* Der Build erzeugt sitemap.xml und llms.txt immer — fehlt eine davon,
-       ist das selbst ein Fehler. Ein Gate, das mit der Datei verschwindet,
-       prueft nichts. */
-    if (!(await existiert(join(ZIEL, 'sitemap.xml')))) {
-      F('sitemap.xml fehlt in dist/');
-    } else {
-      const sitemap = await readFile(join(ZIEL, 'sitemap.xml'), 'utf8');
-      for (const p of entwurfsPfade) {
-        // verankert auf < bzw. ": /wissen/ ist Praefix jeder Unterseite
-        if (sitemap.includes(`${DOMAIN}${p}<`) || sitemap.includes(`${DOMAIN}${p}"`))
-          F(`sitemap.xml nennt die Entwurfsseite ${p}`);
-      }
+  /* =====================================================================
+     Freigabe-Tore des Wissensbereichs (PXK-28/PXK-29).
+
+     Bis zu diesem Release stand hier das Gegenteil: die Wissensseiten
+     durften weder in der Sitemap noch in llms.txt stehen und von keiner
+     veroeffentlichten Seite verlinkt sein. Mit der Freigabe kehren sich
+     alle diese Tore um. Sie sind bewusst nicht geloescht worden — ein
+     Bereich, der oeffentlich ist, braucht mindestens so viel Abnahme wie
+     einer, der es nicht sein durfte.
+
+     Geprueft wird gegen dist/, also gegen das, was ausgeliefert wuerde.
+     ===================================================================== */
+  const wissensSeiten = SEITEN.filter((s) => s.wissen);
+  const wissensPfade = wissensSeiten.map((s) => s.kanonisch);
+  const hubs = wissensSeiten.filter((s) => s.hub);
+
+  /* --- W-2 Kein Entwurfsrest.
+
+     Zwei Klassen und ihre sichtbaren Etiketten markierten frueher, dass
+     ein Abschnitt noch nicht geschrieben war. Sie sind aus CSS und Markup
+     entfernt. Kaeme eine davon zurueck, saehe der Bereich auf einer
+     einzigen Seite wieder wie eine Baustelle aus — und niemandem faellt
+     das beim Bauen einer anderen Seite auf. --- */
+  for (const eintrag of wissensSeiten) {
+    const pfad = join(ZIEL, eintrag.pfad);
+    if (!(await existiert(pfad))) continue;
+    const html = await readFile(pfad, 'utf8');
+    for (const marke of ['wissen-status', 'wissen-platzhalter']) {
+      if (html.includes(marke)) F(`${eintrag.pfad}: Entwurfsmarkierung ${marke} — der Bereich ist freigegeben`);
     }
-    if (!(await existiert(join(ZIEL, 'llms.txt')))) {
-      F('llms.txt fehlt in dist/');
-    } else {
-      const llms = await readFile(join(ZIEL, 'llms.txt'), 'utf8');
-      for (const p of entwurfsPfade) {
-        if (new RegExp(regexEscape(p) + '(?![a-z0-9-])').test(llms))
-          F(`llms.txt nennt die Entwurfsseite ${p}`);
+  }
+
+  /* --- W-3 Jede freigegebene Wissensseite steht in der Sitemap.
+
+     Der Build nimmt nur Seiten mit entwurf:true heraus. Kaeme das Flag
+     zurueck oder fiele ein Eintrag aus dem Seitenregister, waere die Seite
+     weiterhin erreichbar, aber fuer eine Suchmaschine unangemeldet. --- */
+  if (!(await existiert(join(ZIEL, 'sitemap.xml')))) {
+    F('sitemap.xml fehlt in dist/');
+  } else {
+    const sitemap = await readFile(join(ZIEL, 'sitemap.xml'), 'utf8');
+    for (const pf of wissensPfade) {
+      if (!sitemap.includes(`<loc>${DOMAIN}${pf}</loc>`))
+        F(`sitemap.xml nennt die freigegebene Wissensseite ${pf} nicht`);
+    }
+  }
+
+  /* --- W-4 robots.txt sperrt den Bereich nicht.
+
+     Die Datei laesst heute alles zu. Eine spaetere Disallow-Zeile auf
+     /wissen/ waere ein stiller Rueckzug der Freigabe. --- */
+  if (!(await existiert(join(ZIEL, 'robots.txt')))) {
+    F('robots.txt fehlt in dist/');
+  } else {
+    const robots = await readFile(join(ZIEL, 'robots.txt'), 'utf8');
+    for (const zeile of robots.split(/\r?\n/)) {
+      const m = zeile.match(/^\s*Disallow:\s*(\S+)/i);
+      if (!m) continue;
+      for (const pf of wissensPfade) {
+        if (pf.startsWith(m[1])) F(`robots.txt sperrt ${pf} ueber "${zeile.trim()}"`);
       }
     }
   }
-  for (const seitenPfad of SEITEN.filter((s) => !s.noindex).map((s) => s.pfad)) {
-    if (!(await existiert(join(ZIEL, seitenPfad)))) continue;
-    const html = await readFile(join(ZIEL, seitenPfad), 'utf8');
-    for (const p of entwurfsPfade) {
-      const muster = new RegExp(`(?:href|action)="${regexEscape(p)}(?:#[^"]*)?"`);
-      if (muster.test(html))
-        F(`${seitenPfad}: verlinkt die unveroeffentlichte Wissensseite ${p}`);
+
+  /* --- W-5 Jeder Beitrag ist ueber seinen Hub erreichbar.
+
+     Eine Seite, die in der Sitemap steht, aber von nirgends verlinkt ist,
+     ist eine Waise. Geprueft wird sprachrein: der deutsche Hub muss die
+     deutschen Beitraege nennen, der englische die englischen. --- */
+  for (const hub of hubs) {
+    const pfad = join(ZIEL, hub.pfad);
+    if (!(await existiert(pfad))) { F(`${hub.pfad} fehlt — Wissens-Hub nicht gebaut`); continue; }
+    const html = await readFile(pfad, 'utf8');
+    for (const eintrag of wissensSeiten) {
+      if (eintrag.hub || eintrag.lang !== hub.lang) continue;
+      if (!html.includes(`href="${eintrag.kanonisch}"`))
+        F(`${hub.pfad}: verlinkt ${eintrag.kanonisch} nicht — der Beitrag waere nur ueber die Sitemap zu finden`);
     }
+  }
+
+  /* --- W-6 Kein interner Wissensverweis zeigt ins Leere.
+
+     Die Verweispruefung weiter oben faellt bei wurzelabsoluten Adressen
+     auf das Verzeichnis herein: dist/wissen/answerability/ existiert auch
+     dann, wenn darin keine index.html liegt. Hier wird die Datei selbst
+     verlangt. --- */
+  for (const eintrag of SEITEN) {
+    const pfad = join(ZIEL, eintrag.pfad);
+    if (!(await existiert(pfad))) continue;
+    const html = await readFile(pfad, 'utf8');
+    for (const m of html.matchAll(/href="(\/(?:wissen|en\/knowledge)\/[^"#]*)"/g)) {
+      const ziel = m[1].endsWith('/') ? m[1] + 'index.html' : m[1];
+      if (!(await existiert(join(ZIEL, ziel))))
+        F(`${eintrag.pfad}: Wissensverweis ${m[1]} fuehrt ins Leere`);
+    }
+  }
+
+  /* --- W-7 Strukturierte Daten sind vorhanden und vollstaendig.
+
+     Dass das JSON-LD gueltig ist, prueft die Schleife oben. Hier geht es
+     um das, was ein fehlender Block nicht meldet: dass er fehlt. Jede
+     Wissensseite braucht ihre Brotkrumen, jeder Beitrag zusaetzlich den
+     Artikelknoten, jeder Hub die Liste. --- */
+  for (const eintrag of wissensSeiten) {
+    const pfad = join(ZIEL, eintrag.pfad);
+    if (!(await existiert(pfad))) continue;
+    const html = await readFile(pfad, 'utf8');
+    const bloecke = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+    if (!bloecke.length) { F(`${eintrag.pfad}: kein JSON-LD — freigegebene Seite ohne strukturierte Daten`); continue; }
+    const typen = new Set();
+    const kennungen = new Set();
+    const sammle = (o) => {
+      if (Array.isArray(o)) return o.forEach(sammle);
+      if (!o || typeof o !== 'object') return;
+      if (typeof o['@type'] === 'string') typen.add(o['@type']);
+      if (typeof o['@id'] === 'string') kennungen.add(o['@id']);
+      Object.values(o).forEach(sammle);
+    };
+    for (const [, roh] of bloecke) { try { sammle(JSON.parse(roh)); } catch { /* die Schleife oben meldet es */ } }
+    const erwartet = eintrag.hub
+      ? ['CollectionPage', 'BreadcrumbList', 'ItemList']
+      : ['Article', 'WebPage', 'BreadcrumbList'];
+    for (const t of erwartet) {
+      if (!typen.has(t)) F(`${eintrag.pfad}: JSON-LD ohne ${t}`);
+    }
+    /* Die seitenbezogenen Kennungen muessen die eigene Adresse tragen —
+       sonst truegen die deutsche und die englische Fassung dieselbe @id
+       und eine Suchmaschine wuesste nicht, welches Dokument gemeint ist.
+
+       Geprueft wird die zerlegte Adresse, nicht ihr Anfang. Ein Praefixtest
+       (`k.startsWith(DOMAIN)`) haelt fremde Wirte fuer die eigene Domain,
+       weil hinter `https://pixelkiez.de` beliebiger Text folgen darf:
+       `https://pixelkiez.de.evil.example/…` haengt einen Punkt an,
+       `https://pixelkiez.de@evil.example/…` schiebt alles davor in den
+       Benutzernamen. Umgekehrt rutscht `https://evil.example/wissen/…`
+       durch den Filter und wird gar nicht erst geprueft — die gefaehrlichste
+       der drei Luecken. Der WHATWG-Parser trennt Protokoll, Anmeldedaten,
+       Wirt und Pfad; verglichen wird jedes Stueck fuer sich. */
+    for (const k of kennungen) {
+      let u;
+      try { u = new URL(k); } catch {
+        F(`${eintrag.pfad}: JSON-LD-Kennung ${k} ist keine gueltige Adresse`);
+        continue;
+      }
+      if (u.protocol !== HERKUNFT.protocol || u.host !== HERKUNFT.host
+          || u.username !== '' || u.password !== '') {
+        F(`${eintrag.pfad}: JSON-LD-Kennung ${k} gehoert zur fremden Herkunft `
+          + `${u.protocol}//${u.host} statt zu ${DOMAIN}`);
+        continue;
+      }
+      if (!k.includes('#')) continue;                // nur Marken benennen ein Dokument
+      if (u.pathname === '/') continue;              // #organisation, #website: bewusst geteilt
+      if (u.pathname !== eintrag.kanonisch)
+        F(`${eintrag.pfad}: JSON-LD-Kennung ${k} gehoert zu ${u.pathname}, nicht zu ${eintrag.kanonisch}`);
+    }
+  }
+
+  /* --- W-8 Der Deep Dive faellt nicht auf pauschale Behauptungen zurueck.
+
+     Der Beitrag zur Auslieferung nennt genau die Saetze, die er nicht
+     behauptet — in Anfuehrungszeichen, als Zitat einer verbreiteten
+     Fehlannahme. Genau deshalb genuegt eine Textsuche hier nicht: sie
+     wuerde von der Stelle erfuellt, gegen die sie schuetzt. Geprueft wird
+     deshalb die Verwendung, nicht das Vorkommen — jede Fundstelle muss in
+     Anfuehrungszeichen stehen. Steht der Satz als eigene Aussage da,
+     schlaegt das Tor an.
+
+     Zusaetzlich gibt es Formulierungen, die auch als Zitat nichts auf
+     diesen Seiten zu suchen haben: eine zugesagte Wirkung. --- */
+  const AUF = '[\u201e\u201c\u00ab\u2018]';
+  const ZU  = '[\u201c\u201d\u00bb\u2019]';
+  const NUR_ZITAT = [
+    'Astro rankt besser', 'React ist schlecht f\u00fcr KI', 'Next\\.js ist besser als WordPress',
+    'KI-Crawler f\u00fchren kein JavaScript aus', 'Google kann kein JavaScript',
+    'serverseitig gerenderte Seiten ranken besser',
+    'Astro ranks better', 'React is bad for AI', 'Next\\.js beats WordPress',
+    'AI crawlers skip JavaScript', 'Google fails at JavaScript',
+    'server-rendered pages rank better',
+  ];
+  /* Eine zugesagte Wirkung ist verboten — ihre Verneinung ist dagegen
+     genau der Ton, den diese Seiten treffen sollen ("garantiert keine
+     Nennungen", "does not guarantee visibility"). Ein blosses Muster
+     traefe beide gleich. Deshalb wird bei jeder Fundstelle das Umfeld
+     davor gelesen: steht dort eine Verneinung oder eine Warnung, ist es
+     eine Abgrenzung und kein Versprechen. */
+  const NIE = [
+    /\bSSR garantiert\b/i,
+    /\bgarantiert\s+(?:Ihnen\s+)?(?:bessere\s+)?(?:Rankings?|Sichtbarkeit|Nennungen|AI Visibility)/i,
+    /\bguarantees?\s+(?:better\s+)?(?:rankings?|visibility|citations|AI visibility)/i,
+    /\b(?:sorgt|sorgen)\s+f\u00fcr\s+(?:bessere\s+)?Rankings?/i,
+  ];
+  /* Verneinungen und Warnungen im Vorfeld einer Fundstelle. Das Fenster ist
+     bewusst kurz: es soll den Satzteil davor fassen, nicht den Absatz. */
+  const ABGRENZUNG = /\b(?:nicht|kein|keine|keinen|keiner|keinerlei|ohne|niemand|nie|warnt|warnung|not|no|never|without|fails|fail|cannot|avoid|warns|warn|rather than)\b/i;
+  for (const eintrag of wissensSeiten) {
+    const pfad = join(ZIEL, eintrag.pfad);
+    if (!(await existiert(pfad))) continue;
+    const html = await readFile(pfad, 'utf8');
+    const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/g, ' ');
+    for (const satz of NUR_ZITAT) {
+      const alle = new RegExp(satz, 'g');
+      const zitiert = new RegExp(AUF + '\\s*' + satz + '\\s*' + ZU, 'g');
+      const n = (text.match(alle) || []).length;
+      const z = (text.match(zitiert) || []).length;
+      if (n > z)
+        F(`${eintrag.pfad}: "${satz.replace(/\\\\/g, '')}" steht ${n - z}x als eigene Aussage statt als Zitat — verbotene Pauschalbehauptung`);
+    }
+    for (const muster of NIE) {
+      for (const t of text.matchAll(new RegExp(muster.source, muster.flags.includes('g') ? muster.flags : muster.flags + 'g'))) {
+        const vorfeld = text.slice(Math.max(0, t.index - 60), t.index);
+        if (ABGRENZUNG.test(vorfeld)) continue;
+        F(`${eintrag.pfad}: zugesagte Wirkung "${t[0]}" — auf einer Wissensseite unzulaessig`);
+      }
+    }
+  }
+
+  /* --- W-9 Die Startseite fuehrt in den Wissensbereich.
+
+     Ohne diesen Einstieg ist der Bereich fuer Besucher unsichtbar und fuer
+     einen Crawler nur ueber die Sitemap erreichbar. Geprueft wird je
+     Sprachfassung gegen den eigenen Hub. --- */
+  for (const [start, hubPfad] of [['index.html', '/wissen/'], ['en/index.html', '/en/knowledge/']]) {
+    if (!(await existiert(join(ZIEL, start)))) continue;
+    const html = await readFile(join(ZIEL, start), 'utf8');
+    if (!html.includes(`href="${hubPfad}"`))
+      F(`${start}: kein Einstieg in den Wissensbereich (${hubPfad}) gefunden`);
   }
 
   /* --- verwaiste Schriften --- */

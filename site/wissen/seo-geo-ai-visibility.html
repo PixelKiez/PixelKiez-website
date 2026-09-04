@@ -6,10 +6,10 @@
 <title>SEO, GEO, AI Visibility · Pixelkiez Wissen</title>
 <meta name="description" content="Was klassisches SEO, GEO und AI Visibility unterscheidet, wo sie sich überschneiden und wie sie zusammenhängen — eine Einordnung der drei Begriffe.">
 <meta name="theme-color" content="#B6C7C4">
-<meta name="robots" content="noindex">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://pixelkiez.de/wissen/seo-geo-ai-visibility/"><!-- hreflang setzt der Build -->
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Pixelkiez">
 <meta property="og:title" content="SEO, GEO, AI Visibility · Pixelkiez Wissen">
@@ -30,10 +30,79 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/bds.css">
 
-<!-- ENTWURF (Slice 2): Content-Shell ohne freigegebene Fakten — noindex,
-     nicht in Sitemap oder Maschinenlisten, nicht von der Startseite verlinkt.
-     Bewusst KEIN JSON-LD, bis der Inhalt steht: strukturierte Daten sollen
-     nie mehr behaupten, als die Seite leistet. -->
+<!-- Strukturierte Daten nur fuer das, was sichtbar auf der Seite steht:
+     der Beitrag, die Seite und der Weg dorthin. Kein datePublished — das
+     Veroeffentlichungsdatum steht erst mit dem Merge fest, und ein Datum,
+     das sich nicht belegen laesst, gehoert nicht in maschinenlesbare
+     Angaben. dateModified setzt der Build aus der Aenderungszeit der
+     Quelldatei. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/#artikel",
+      "headline": "SEO, GEO, AI Visibility: drei Begriffe, drei Fragen",
+      "description": "Was klassisches SEO, GEO und AI Visibility unterscheidet, wo sie sich überschneiden und wie sie zusammenhängen — eine Einordnung der drei Begriffe.",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": {
+        "@id": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/#webpage"
+      },
+      "author": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "publisher": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/#webpage",
+      "url": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/",
+      "name": "SEO, GEO, AI Visibility",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@id": "https://pixelkiez.de/#website"
+      },
+      "about": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "breadcrumb": {
+        "@id": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/#breadcrumb"
+      },
+      "dateModified": "2026-09-04"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/wissen/seo-geo-ai-visibility/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://pixelkiez.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Wissen",
+          "item": "https://pixelkiez.de/wissen/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "SEO, GEO, AI Visibility"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -47,8 +116,8 @@
   <symbol id="i-radio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M8.1 15.9a5.5 5.5 0 0 1 0-7.8M15.9 8.1a5.5 5.5 0 0 1 0 7.8M5.3 18.7a9.5 9.5 0 0 1 0-13.4M18.7 5.3a9.5 9.5 0 0 1 0 13.4"/></symbol>
 </svg>
 
-<!-- Unterseiten-Kopf wie auf der Analyse-Seite: Marke, ein Knopf zur
-     Website-Analyse, Sprachumschalter. Kein Dialog, kein Overlay. -->
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter.
+     Kein Dialog, kein Overlay. -->
 <header class="header" data-scrolled="true">
   <div class="wrap header__in">
     <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
@@ -56,7 +125,7 @@
       <span class="brand__sub">Webdesign Berlin</span>
     </a>
     <div class="header__act">
-      <a class="btn btn--split btn--primary btn--sm" href="/website-analyse/"><span class="btn__label">Zur Website-Analyse</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       <a class="lang" href="/en/knowledge/seo-geo-ai-visibility/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
     </div>
   </div>
@@ -67,11 +136,17 @@
 <!-- ===================== AUFTAKT ===================== -->
 <section class="section section--flush auftakt">
   <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/wissen/">Wissen</a></li>
+        <li aria-current="page">SEO, GEO, AI Visibility</li>
+      </ol>
+    </nav>
     <div class="section__head">
       <p class="kicker" data-reveal>Wissen · Auffindbarkeit</p>
       <h1 class="h-lg" data-reveal>SEO, GEO, AI Visibility: drei Begriffe, drei Fragen</h1>
       <p class="lead" data-reveal>Was unterscheidet klassisches SEO, GEO und AI Visibility — und wie hängen sie zusammen? Dieser Beitrag ordnet die drei Begriffe, ohne sie gegeneinander auszuspielen.</p>
-      <p class="wissen-status" data-reveal>Dieser Beitrag ist in Vorbereitung. Die inhaltlichen Abschnitte werden nach fachlicher Prüfung ergänzt.</p>
     </div>
   </div>
 </section>
@@ -87,17 +162,55 @@
         <li><svg aria-hidden="true"><use href="#i-check"/></svg>Messbares von Behauptetem trennen</li>
       </ul>
     </div>
+
+    <!-- Inhaltsverzeichnis: reine Sprungmarken. Kein Skript, keine
+         Aufklappmechanik — die Liste steht im ausgelieferten HTML und
+         funktioniert damit auch ohne JavaScript und mit der Tastatur. -->
+    <nav class="inhalt" aria-labelledby="inhalt-titel" data-reveal>
+      <h2 class="inhalt__t" id="inhalt-titel">In diesem Artikel</h2>
+      <ol>
+        <li><a href="#begriffe">Drei Begriffe, drei Fragen</a></li>
+        <li><a href="#ueberschneidung">Wo sie sich überschneiden</a></li>
+        <li><a href="#messung">AI Visibility: Messung, nicht Optimierung</a></li>
+        <li><a href="#klassische-suche">Warum klassische Suche weiter zählt</a></li>
+        <li><a href="#beobachtbar">Was sich beobachten lässt — und was nicht</a></li>
+        <li><a href="#quellen">Quellen und Stand</a></li>
+      </ol>
+    </nav>
   </div>
 </section>
 
-<!-- ===================== GEPLANTE ABSCHNITTE ===================== -->
-<section class="section">
+<!-- ===================== 1. DREI BEGRIFFE, DREI FRAGEN ===================== -->
+<section class="section" id="begriffe">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Drei Begriffe, drei Fragen.</h2>
-      <p class="lead" data-reveal>SEO, GEO und AI Visibility stellen jeweils eine andere Frage an dieselbe Website — dieser Abschnitt formuliert alle drei aus.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>SEO, GEO und AI Visibility stellen drei verschiedene Fragen an dieselbe Website. Keine der drei ist die Vorstufe einer anderen, und keine wird durch eine andere eingelöst — deshalb stehen sie in diesem Beitrag nebeneinander und nicht untereinander.</p>
     </div>
+
+    <ul class="leiter leiter--drei">
+      <li data-reveal>
+        <b>SEO</b>
+        <h3 class="h-sm">Versteht eine Suchmaschine den Inhalt, und finden Menschen darüber die Seite?</h3>
+        <p class="small">Google beschreibt SEO in der eigenen Einführung als Arbeit daran, Suchmaschinen den eigenen Inhalt verständlich zu machen und Menschen zu helfen, die Website zu finden und über einen Besuch zu entscheiden. Dieselbe Seite hält ausdrücklich fest, dass es hier keine Geheimnisse gibt, die eine Website in Google automatisch auf den ersten Platz bringen.</p>
+      </li>
+      <li data-reveal>
+        <b>GEO</b>
+        <h3 class="h-sm">Was ist gemeint, wenn von Optimierung für generative Antworten die Rede ist?</h3>
+        <p class="small">Der Begriff ist Google bekannt. Googles Leitfaden für generative KI-Funktionen löst die Abkürzungen selbst auf — AEO als „answer engine optimization“, GEO als „generative engine optimization“ — und rahmt beide als Begriffe, die einem im Netz begegnen können. Als eigene Kategorie übernimmt Google sie nicht: Aus der Perspektive der Google-Suche, schreibt der Leitfaden, sei Optimierung für generative KI-Suche Optimierung für das Sucherlebnis und damit weiterhin SEO.</p>
+      </li>
+      <li data-reveal>
+        <b>AI Visibility</b>
+        <h3 class="h-sm">Taucht die Website in der Antwort eines benannten Systems tatsächlich auf?</h3>
+        <p class="small">Das ist die einzige der drei Fragen, die sich nur durch Beobachtung beantworten lässt. Den Ausdruck setzt dieser Beitrag selbst: Auf Googles unten genannten Seiten kommt er nicht als feststehender Begriff vor, dort ist von besserer Sichtbarkeit in KI-Suchoberflächen die Rede. Microsoft verwendet ihn in der Hilfe der Bing Webmaster Tools als Abschnittsüberschrift, ohne ihn dort zu definieren.</p>
+      </li>
+    </ul>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Dass diese Fragen getrennt bleiben, kann man bei OpenAI und Anthropic selbst ablesen: Beide trennen ihre eigenen Zugriffe. OpenAI beschreibt OAI-SearchBot als den Zugriff, der das Erscheinen in ChatGPT-Suchergebnissen betrifft, und GPTBot als den, über den Inhalte in mögliches Training einfließen; die Einstellungen dafür seien nach eigener Darstellung voneinander unabhängig. Anthropic spricht von einer Reihe von Robotern und führt drei davon einzeln auf — einen für die Modellentwicklung, einen für die Websuche und einen für den Abruf von Webinhalten auf Wunsch von Nutzern.</p>
+
+    <p class="prose" data-reveal>Auch die klassische Suche ist kein einzelner Vorgang. Google beschreibt sie als drei Stufen — Crawling, Indexierung und Ausspielen der Suchergebnisse — und hält im selben Satz fest, dass nicht jede Seite jede Stufe erreicht.</p>
+
+    <p class="prose" data-reveal><strong>Eine Rangfolge ist damit nicht gesagt.</strong> Dass ein System eine Seite abrufen darf, belegt nicht, dass sie in einer Antwort auftaucht; und eine Nennung in einer Antwort macht klassische Auffindbarkeit nicht überflüssig. Die drei Fragen hängen zusammen, aber sie lösen einander nicht ein — so ist auch die Grafik gebaut: drei gleichwertige Blickrichtungen auf dieselbe Website, ohne Pfeilkette dazwischen.</p>
 
     <!-- SZENE 2 (PXK-27): drei gleichwertige Linsen oben — Suche, kontrollierbare
          Grundlagen, beobachtbare Praesenz in Antwortsystemen —, darunter EINE
@@ -145,61 +258,275 @@
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 2. WO SIE SICH UEBERSCHNEIDEN ===================== -->
+<section class="section" id="ueberschneidung">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Wo sie sich überschneiden.</h2>
-      <p class="lead" data-reveal>Manche Grundlagen zahlen auf mehrere Felder zugleich ein — dieser Abschnitt zeigt, wo sich die Arbeitsfelder berühren.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Klassische Suche und die KI-Funktionen der Google-Suche setzen bei Google auf derselben Grundlage auf: technisch erreichbarer, indexierbarer Inhalt in Textform, der zu dem passt, was auf der Seite sichtbar steht. Und dieselbe Grundlage hat dieselben Grenzen — die robots.txt regelt den Abruf, nicht das Erscheinen, und keine erfüllte Anforderung ist eine Zusage.</p>
     </div>
+
+    <p class="prose" data-reveal>Google nennt für die eigene Suche technische Mindestanforderungen, damit eine Seite für die Indexierung überhaupt in Frage kommt. Es sind drei: Der Googlebot ist nicht blockiert, die Seite antwortet mit dem Statuscode HTTP 200, und die Seite hat indexierbaren Inhalt. Unmittelbar dahinter steht der Vorbehalt — dass eine Seite diese Anforderungen erfüllt, bedeutet nicht, dass sie indexiert wird; Indexierung ist nicht garantiert.</p>
+
+    <p class="prose" data-reveal>Für die KI-Funktionen der eigenen Suche beschreibt Google dieselbe Grundlage. Damit eine Seite als unterstützender Link in AI Overviews oder im AI Mode erscheinen kann, muss sie indexiert sein, mit Snippet ausspielbar sein und die technischen Anforderungen der Suche erfüllen. Zusätzliche technische Anforderungen gebe es nicht. Auch hier setzt die Quelle den Vorbehalt gleich dahinter: Indexierung und Ausspielung sind nicht zugesagt.</p>
+
+    <p class="prose" data-reveal>Ein Sondermarkup verlangt Google für diese Funktionen ebenfalls nicht. Nach eigener Angabe braucht es keine neuen maschinenlesbaren Dateien, keine KI-Textdateien und kein besonderes schema.org-Markup, um darin zu erscheinen. Dateien wie llms.txt oder Markdown-Fassungen einer Seite nutze die Google-Suche selbst nicht — auch nicht für ihre generativen Funktionen. Das ist eine Aussage über die Google-Suche und über nichts sonst.</p>
+
+    <p class="prose" data-reveal>Daraus wird leicht eine gemeinsame Anbieterlinie gemacht, die es in den unten genannten Dokumenten nicht gibt. Google sagt für die eigene generative Suche, dass kein besonderes schema.org-Markup nötig ist. Microsoft empfiehlt in seinen Webmaster-Hilfen im selben Zeitraum Schema-Auszeichnung; anders als alles andere hier steht diese Empfehlung unten nicht mit eigener Quelle. Wer beides zu einer Regel zusammenzieht, legt zwei Selbstaussagen über zwei verschiedene Systeme übereinander.</p>
+
+    <p class="prose" data-reveal>Was danach übrig bleibt, ist unspektakulär und für alle drei Fragen dasselbe. Wir ordnen es in vier Bausteine; die Anforderungen dahinter stammen aus den unten genannten Dokumenten.</p>
+
+    <ul class="leiter">
+      <li data-reveal>
+        <b>erreichbar</b>
+        <h3 class="h-sm">Kommt ein System überhaupt an den Inhalt?</h3>
+        <p class="small">Zugänge, Statuscode, robots.txt. Genau das führt Google als Mindestanforderungen auf: ein nicht blockierter Googlebot, eine Seite, die mit HTTP 200 antwortet, und indexierbarer Inhalt.</p>
+      </li>
+      <li data-reveal>
+        <b>benannt</b>
+        <h3 class="h-sm">Stehen Name, Leistung, Ort und Kontaktweg als Text auf der Seite?</h3>
+        <p class="small">Google führt als Praxis auf, wichtige Inhalte in Textform verfügbar zu machen. Dass klare oder einheitliche Unternehmensangaben Rankings, Nennungen oder eine Aufnahme in einen Wissensgraphen sichern, steht in keinem der unten genannten Dokumente — dieser Baustein betrifft die Auffindbarkeit einer Angabe, nicht ihre Wirkung.</p>
+      </li>
+      <li data-reveal>
+        <b>beantwortet</b>
+        <h3 class="h-sm">Steht die Antwort auf die Frage, um die es geht, ausgeschrieben da?</h3>
+        <p class="small">Was ein System übernehmen soll, muss auf der Seite tatsächlich stehen. Wie stark eine ausgeschriebene Angabe gegenüber verstreuten Hinweisen wirkt, sagt keines der unten genannten Anbieterdokumente — dieser Baustein beschreibt, was vorhanden ist, nicht was es bewirkt.</p>
+      </li>
+      <li data-reveal>
+        <b>belegt</b>
+        <h3 class="h-sm">Passt die Auszeichnung zu dem, was ein Mensch auf der Seite liest?</h3>
+        <p class="small">Google führt es ausdrücklich als Praxis auf, dass die strukturierten Daten zum sichtbaren Text der Seite passen. Kein Sondermarkup nötig heißt deshalb nicht, dass Auszeichnung gleichgültig wäre — es heißt, dass Google für diese Funktionen keine zusätzliche Auszeichnung verlangt.</p>
+      </li>
+    </ul>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Ein Missverständnis gehört an dieser Stelle ausgeräumt. <strong>Die robots.txt ist eine Abrufsteuerung, kein Schloss und kein Löschknopf.</strong> Google beschreibt sie als Datei, die Suchmaschinen-Crawlern sagt, welche URLs sie auf der Website abrufen dürfen, und hält im selben Absatz fest: Sie ist kein Mittel, um eine Seite aus Google herauszuhalten. Wer das erreichen will, soll die Indexierung mit noindex blockieren oder die Seite mit einem Passwort schützen.</p>
+
+    <p class="prose" data-reveal>Die Grenzen benennt dieselbe Seite selbst. Eine per robots.txt gesperrte Seite kann trotzdem indexiert werden, wenn von anderen Websites auf sie verlinkt wird — Google formuliert das als Möglichkeit, nicht als Regelfall. Ihre URL kann dann in den Suchergebnissen auftauchen, allerdings ohne Beschreibungstext. Und die Anweisungen in der Datei können das Verhalten von Crawlern nicht erzwingen: Ob sie befolgt werden, liegt beim jeweiligen Crawler, und die Regeln werden möglicherweise nicht von allen Suchmaschinen unterstützt. Als den dafür vorgesehenen Weg, das Erscheinen einer URL in den Suchergebnissen zu verhindern, nennt Google Passwortschutz auf dem Server, das noindex-Meta-Tag beziehungsweise den entsprechenden Response-Header oder das vollständige Entfernen der Seite.</p>
+
+    <p class="prose" data-reveal>Der Robots-Standard selbst sagt dasselbe in einem Satz: Die Regeln in der robots.txt sind keine Form von Zugriffsberechtigung. Ob die Datei KI-Systeme steuert, steht auf Googles Einführungsseite zur robots.txt übrigens nicht — sie spricht von Suchmaschinen-Crawlern und vom Googlebot.</p>
+
+    <p class="prose" data-reveal>Bei OpenAI kommt zur Freigabe eine zweite Bedingung hinzu. Damit eine Website in Suchergebnissen erscheint, empfiehlt OpenAI, OAI-SearchBot in der robots.txt zuzulassen und Anfragen aus den veröffentlichten IP-Bereichen durchzulassen. Auf Anthropics unten genannter Hilfeseite steht eine vergleichbare Bedingung nicht. Über weitere Anbieter sagen diese beiden Seiten nichts.</p>
+
+    <p class="prose" data-reveal>Über allem steht ein Satz, den Google selbst in die Search Essentials geschrieben hat: Auch wenn eine Seite alle dortigen Anforderungen und Empfehlungen erfüllt, bedeutet das nicht, dass Google ihre Inhalte crawlt, indexiert oder ausspielt.</p>
+
+    <p class="prose" data-reveal>Der erste dieser Bausteine — erreichbar — hängt technisch daran, was eine Adresse überhaupt ausliefert. Welche Wege es dafür gibt und warum ein Frameworkname darüber nichts aussagt, steht in der Vertiefung <a href="/wissen/wie-websites-ausgeliefert-werden/">Wie moderne Websites gebaut und ausgeliefert werden</a>.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 3. MESSUNG STATT OPTIMIERUNG ===================== -->
+<section class="section" id="messung">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>AI Visibility: Messung, nicht Optimierung.</h2>
-      <p class="lead" data-reveal>AI Visibility beschreibt, was sich beobachten lässt — dieser Abschnitt grenzt Messung von Optimierungsversprechen ab.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Wer Präsenz in KI-Antworten messen will, findet bei Google und bei Microsoft je ein Zählwerk — und die beiden zählen Verschiedenes. Was dabei herauskommt, hängt außerdem daran, wann, wo und in welchem System gemessen wurde.</p>
     </div>
+
+    <p class="prose" data-reveal>Messung und Optimierung stellt keines der unten genannten Anbieterdokumente gegeneinander — Googles Leitfaden ist selbst ein Optimierungsleitfaden, und Microsofts Hilfeartikel hat einen eigenen Abschnitt mit Inhaltsempfehlungen. Der Unterschied liegt woanders: Microsoft gibt in diesem Hilfeartikel Empfehlungen, sagt aber kein Ergebnis zu und zieht keinen Kausalschluss.</p>
+
+    <ul class="leiter leiter--drei">
+      <li data-reveal>
+        <b>Google</b>
+        <h3 class="h-sm">Search Console: Impressionen in generativen KI-Funktionen</h3>
+        <p class="small">Für die Frage, wie Inhalte in den generativen KI-Funktionen abschneiden, verweist Google auf einen eigenen Bericht in der Search Console. Gezählt werden dort Impressionen: wie oft Links zur eigenen Website Nutzern in einer generativen KI-Funktion der Google-Suche gezeigt wurden. Gruppieren lässt sich das nach Seiten, Ländern, Datum und Geräten; eine Dimension für einzelne Suchanfragen führt der Hilfeartikel nicht auf.</p>
+      </li>
+      <li data-reveal>
+        <b>Microsoft</b>
+        <h3 class="h-sm">Bing Webmaster Tools: Zitationen als Zählgröße</h3>
+        <p class="small">Im AI-Performance-Bericht der Bing Webmaster Tools steht die Kennzahl Total Citations. Der Hilfeartikel beschreibt sie darunter als die Gesamtzahl der Male, die Inhalte der eigenen Website im gewählten Zeitraum sichtbar als Quelle in KI-generierten Antworten referenziert oder gezeigt wurden. Daneben steht Citation Share: nach Microsofts Ankündigung der Prozentsatz der Zitationen, die der eigenen Website zugerechnet werden, gemessen an allen Zitationen, die für dieselbe Grounding-Query über alle Websites hinweg angezeigt wurden. Microsoft unterscheidet beide ausdrücklich — die eine sagt, wie oft zitiert wurde, die andere, welchen Anteil am Zitationsraum einer bestimmten Grounding-Query eine Website bekommt.</p>
+      </li>
+      <li data-reveal>
+        <b>OpenAI</b>
+        <h3 class="h-sm">Ein Parameter, der Klicks zählt</h3>
+        <p class="small">Bei OpenAI ist das Messbare ein Verweisparameter: An Verweis-URLs aus der ChatGPT-Suche hängt ChatGPT utm_source=chatgpt.com an, was eine klare Auswertung des eingehenden Verkehrs erlaubt. Voraussetzung ist nach derselben Quelle, dass OAI-SearchBot auf die Inhalte zugreifen darf. Gemessen werden damit Klicks, keine Nennungen.</p>
+      </li>
+    </ul>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>Seit Juni 2026 hat Microsoft diesen Bericht um vier Funktionen erweitert: Intents, Topics, Citation Share und Compare. Der Ankündigungsbeitrag führt sie als Vorschau — „in preview“ — und hält im Abschnitt zur Verfügbarkeit fest, dass sie weltweit auszurollen beginnen. Ob jedes Konto sie heute sieht, sagt keines der unten genannten Dokumente. Intents klassifiziert dabei die Grounding-Queries im AI-Performance-Bericht in breitere Kategorien wie Informational, Commercial, Navigational, Learn and Solve, Research, Creation, Local und weitere; der Beitrag selbst ordnet diese Einteilung als vorläufig ein.</p>
+
+    <p class="prose" data-reveal>Der bemerkenswerteste Satz zu diesen Zahlen stammt von Microsoft selbst. Citation Share sei nach eigener Darstellung als Beobachtungsgröße ausgelegt — nicht als Rankingsystem und nicht als Wettbewerbs-Rangliste; die Kennzahl zeige weder Wettbewerberdomains noch Traffic-Anteile noch Qualitätsbewertungen. Das ist eine Aussage über die Absicht hinter der Kennzahl, kein von außen bestätigter Befund.</p>
+
+    <p class="prose" data-reveal>Google warnt in derselben Sache vor Werkzeugen, die Ranking-Erfolg versprechen oder behaupten, interne Google-Metriken zu nutzen: Kein Werkzeug eines Drittanbieters habe Zugang zu Googles internen Ranking- oder KI-Systemen. Eine Pauschalablehnung ist das nicht — Google schreibt im selben Absatz, man solle solche Werkzeuge ruhig nutzen, wenn sie der eigenen Arbeit helfen, ihre Empfehlungen aber an der offiziellen Dokumentation messen.</p>
+
+    <p class="prose" data-reveal>Was eine Messung ergibt, kann von den Umständen abhängen — Google und OpenAI beschreiben das für ihre eigenen Systeme jeweils selbst. Google nennt Zeit, Ort, Sprache und Personalisierung als Gründe dafür, dass Suchergebnisse zwischen Personen abweichen können, und hält auf derselben Seite fest, dass man auch dieselben oder ähnliche Ergebnisse bekommen kann wie jemand anderes. Für ChatGPT beschreibt OpenAI, dass ein VPN oder der Netzwerkstandort die aus der IP-Adresse abgeleitete ungefähre Position beeinflussen kann und dass gespeicherte Standortinformationen die Suchergebnisse ebenfalls mitbeeinflussen können. Und für Suchergebnisse kann es nach OpenAIs Angabe rund 24 Stunden dauern, bis eine Änderung an der robots.txt in deren Systemen nachvollzogen ist.</p>
+
+    <p class="prose" data-reveal><strong>Daraus folgt eine Methode, und zwar unsere, nicht die eines Anbieters.</strong> Pixelkiez beobachtet AI Visibility an einem vorher festgelegten Satz von Fragen, in einem benannten System, zu einem festgehaltenen Zeitpunkt und in einer festgehaltenen Sprach- und Länderfassung. Keines der unten genannten Anbieterdokumente nennt diese Auswertung, empfiehlt sie oder verlangt sie. Sie macht eine Beobachtung nachvollziehbar — eine Zusage über künftige Antworten wird daraus nicht.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 4. KLASSISCHE SUCHE ===================== -->
+<section class="section" id="klassische-suche">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Warum klassische Suche weiter zählt.</h2>
-      <p class="lead" data-reveal>Klassische Suche und neue Antwortsysteme bestehen nebeneinander — dieser Abschnitt ordnet das Verhältnis ein.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Google sagt über die eigene Suche, dass die SEO-Grundlagen relevant bleiben, weil die generativen Funktionen in den Kernsystemen der Suche wurzeln. Microsoft sagt über den eigenen Index, dass Grounding die Suche nicht ersetzt, sondern auf derselben Infrastruktur aufsetzt. OpenAI sagt über die eigene Suche, dass sie mitunter mit anderen Suchanbietern zusammenarbeitet. Drei Anbieter, drei Selbstaussagen über drei eigene Systeme — mehr behauptet dieser Abschnitt nicht.</p>
     </div>
+
+    <p class="prose" data-reveal>Googles Leitfaden stellt die Frage, ob SEO für generative KI-Suche noch relevant sei, und beantwortet sie mit Ja. Die bewährten SEO-Praktiken blieben relevant, weil die generativen KI-Funktionen der Google-Suche in den Kern-Ranking- und Qualitätssystemen der Suche wurzelten. An anderer Stelle beschreibt dieselbe Seite diese Systeme genauer — die Kern-Rankingsysteme achteten auf hochwertige Inhalte, andere Systeme wehrten Spam ab, und die generativen KI-Funktionen seien auf beide Systemgruppen angewiesen. Der Aufzählungspunkt, unter dem das steht, warnt davor, unechten Nennungen nachzujagen; er hält im selben Zug fest, dass die generativen Funktionen zeigen können, was im Netz über Produkte und Leistungen gesagt wird.</p>
+
+    <p class="prose" data-reveal>Wie oft die KI-Antwortfläche überhaupt erscheint, beschreibt Google zurückhaltend: AI Overviews würden nur ausgespielt, wenn Googles Systeme sie als Ergänzung zur klassischen Suche einstuften, und lösten entsprechend oft gar nicht aus. Ein von außen prüfbares Kriterium für Websitebetreiber ist das nicht — es ist eine Entscheidung der Systeme. Für die Steuerung verweist Google auf die robots.txt-Anweisungen für den Googlebot; mit ihnen lässt sich verwalten, wie Seiten für die Suche gecrawlt werden. Um das Gezeigte zu begrenzen, nennt derselbe Abschnitt nosnippet, data-nosnippet, max-snippet und noindex. Und für Training und Grounding in einigen anderen Google-Systemen verweist er auf Google-Extended.</p>
+
+    <p class="prose" data-reveal>Microsoft argumentiert in einem Beitrag im eigenen Bing-Blog über die Rolle des Index. Das klassische Modell aus Crawling, Qualitätsbewertung und Ranking habe außerordentlich gut funktioniert — und tue es weiterhin. In einem eigenen Abschnitt über zwei Systeme mit zwei Zuständigkeiten heißt es, klassische Suche und Grounding-Systeme teilten dasselbe Fundament aus Crawling, Verstehen und Ranking des Web, seien aber auf grundlegend verschiedene Ergebnisse hin optimiert. Ein weiterer Abschnitt räumt ausdrücklich mit einem verbreiteten Missverständnis auf: Grounding ersetze die Suche nicht. Es baue auf derselben Infrastruktur auf — denselben Crawlern, denselben Qualitätssignalen, demselben tiefen Verständnis des Web — und lege darüber eine zusätzliche Optimierungsschicht. Zusammengefasst wird das dort in zwei Sätzen: Die Infrastruktur ist geteilt. Der Zweck ist ein anderer.</p>
+
+    <p class="prose" data-reveal>Wichtig für die Einordnung: Dieser Beitrag ist ein Positionsartikel von vier Microsoft-Autoren im Unternehmensblog. Er beschreibt und begründet eine Indexstrategie; eine Produktdokumentation oder eine Vorgabe für Websitebetreiber ist er nicht.</p>
+
+    <p class="prose" data-reveal>OpenAI sagt über die eigene Suche einen dritten, ganz anderen Satz: Die ChatGPT-Suche arbeite mitunter mit anderen Suchanbietern zusammen und schreibe die Frage dann typischerweise in eine oder mehrere gezielte Suchanfragen an diese Anbieter um. Welche Anbieter das sind, nennt der Fließtext dieser Seite nicht — und mitunter heißt mitunter.</p>
+
+    <p class="prose" data-reveal>Ein Nebenbefund betrifft die Zählung: Websites, die in Googles KI-Funktionen erscheinen, sind laut Google wie der Rest der Suchergebnisseite im gesamten Suchverkehr der Search Console enthalten. Das beschreibt, wie die Search Console zählt — nicht, wie sich die Systeme zueinander verhalten.</p>
+
+    <p class="prose" data-reveal><strong>Was daraus folgt, ist eine Einordnung und kein Marktbefund.</strong> Pixelkiez liest die drei Selbstaussagen als Koexistenz: Klassische Auffindbarkeit und Präsenz in Antwortsystemen bestehen nebeneinander, und keine von beiden ist mit der anderen erledigt. Keines der unten genannten Anbieterdokumente formuliert diese These — jedes spricht nur über die eigenen Systeme. Es geht hier um Google, Microsoft und OpenAI; über Anthropic, Perplexity oder andere Anbieter sagt dieser Abschnitt nichts, auch keine Absage. Und es steht bewusst keine Zahl in diesem Abschnitt: Zu Marktanteilen, Nutzungsanteilen oder Klickverlusten liegt aus den unten genannten Dokumenten kein Wert vor.</p>
   </div>
 </section>
 
-<section class="section">
+<!-- ===================== 5. BEOBACHTBAR UND NICHT ===================== -->
+<section class="section" id="beobachtbar">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Was sich beobachten lässt — und was nicht.</h2>
-      <p class="lead" data-reveal>Nicht jede Aussage über Sichtbarkeit ist überprüfbar — dieser Abschnitt trennt Beobachtbares von Behauptetem.</p>
-      <p class="small wissen-platzhalter" data-reveal>Dieser Abschnitt folgt nach fachlicher Prüfung.</p>
+      <p class="lead" data-reveal>Beobachtbar ist der prüfbare Zustand einer Seite, der gemessene Verweis-Traffic und das, was ein Anbieter selbst zählt. Nicht überprüfbar ist, ob ein System eine bestimmte Seite nennt — und in den unten genannten Dokumenten schließen Google, Microsoft und OpenAI eine solche Zusage jeweils selbst aus.</p>
     </div>
+
+    <ul class="leiter leiter--drei">
+      <li data-reveal>
+        <b>beobachtbar</b>
+        <h3 class="h-sm">Was sich messen und wiederholen lässt</h3>
+        <p class="small">Der Zustand einer Seite: Statuscodes, Weiterleitungen, robots.txt, und ob die tragenden Angaben im ausgelieferten Dokument stehen. Dazu der Verweis-Traffic, den ChatGPT über seinen Parameter kenntlich macht — Klicks, keine Nennungen. Und das, was ein Anbieter selbst zählt: Impressionen in der Search Console, Zitationen im AI-Performance-Bericht der Bing Webmaster Tools.</p>
+      </li>
+      <li data-reveal>
+        <b>erschlossen</b>
+        <h3 class="h-sm">Was sich mit Gründen ableiten lässt</h3>
+        <p class="small">Microsoft schreibt, die gezeigten Werte seien eine Stichprobe der gesamten Zitationsaktivität und könnten mit weiterer Datenverarbeitung noch präzisiert werden. Daraus folgt, dass eine Null im Bericht kein Beleg für eine Null in der Wirklichkeit ist. Wie groß die Lücke ist, folgt daraus nicht: Microsoft nennt weder Anteil noch Abdeckung noch Fehlerspanne — eine Schätzung wäre an dieser Stelle erfunden.</p>
+      </li>
+      <li data-reveal>
+        <b>nicht überprüfbar</b>
+        <h3 class="h-sm">Was von außen offen bleibt</h3>
+        <p class="small">Ob ein KI-System eine bestimmte Seite in einer bestimmten Antwort nennt, lässt sich vorher nicht feststellen und hinterher nur für die tatsächlich beobachteten Antworten sagen. Ebenfalls offen: was mit nutzerausgelösten Abrufen geschieht, nachdem sie erfolgt sind. In den unten genannten Dokumenten von OpenAI, Anthropic und Perplexity ist das nicht dokumentiert.</p>
+      </li>
+    </ul>
+
+    <p class="prose" style="margin-top:clamp(26px,3.5vw,44px)" data-reveal>An dieser Stelle ist Google deutlicher als der Markt, der über solche Systeme spricht. Google hält fest, dass es nicht garantiert, eine Seite zu crawlen, zu indexieren oder auszuspielen — auch dann nicht, wenn die Seite den Google Search Essentials folgt. Für die KI-Funktionen steht derselbe Satz noch einmal: Auch wenn eine Seite alle Anforderungen und Empfehlungen erfüllt und die Richtlinien einhält, bedeutet das nicht, dass Google ihre Inhalte crawlt, indexiert oder ausspielt. Indexierung und Ausspielung sind nicht garantiert. Für strukturierte Daten gilt dasselbe — korrektes Markup erzwingt keine Anzeige. Und bei Rangzusagen wird Google grundsätzlich: Niemand könne einen ersten Platz bei Google garantieren. Vor Dienstleistern, die Rankings garantieren, eine besondere Beziehung zu Google behaupten oder eine bevorzugte Aufnahme bewerben, warnt dieselbe Seite ausdrücklich.</p>
+
+    <p class="prose" data-reveal>Microsoft zieht die Grenzen für den eigenen Bericht ähnlich klar. Der AI-Performance-Bericht messe keine Rankings, keine Autorität, keine Leistung und keine Wichtigkeit; er zeige lediglich, welche Inhalte zitiert wurden. Bessere Qualität, Struktur und Aktualität könnten Inhalte stärken, garantierten aber kein bestimmtes Zitationsergebnis. Und der Kausalschluss ist ausdrücklich ausgeschlossen: Citation Share könne helfen zu beobachten, ob sich der eigene Anteil nach Inhaltsänderungen über die Zeit verändert, stelle aber keine kausale Verbindung her.</p>
+
+    <p class="prose" data-reveal>OpenAI beschreibt für ChatGPT, wonach die Suchergebnisse geordnet werden, und hält im selben Abschnitt fest: Eine Platzierung ist nicht garantiert. Zwei Bedingungen nennt dieselbe Seite dafür, dass eine Website für die Aufnahme überhaupt in Frage kommt — OAI-Searchbot darf die Seite crawlen, und der Hoster oder das Auslieferungsnetz lässt Verkehr aus den veröffentlichten Searchbot-IP-Adressen zu. In die andere Richtung gilt: Erhält OpenAI die Adresse einer gesperrten Seite aus einer anderen Quelle und liegen Signale für die Relevanz zur Nutzerfrage vor, kann in ChatGPT Atlas allein der Link mit dem Seitentitel auftauchen. Das Gegenmittel nennt die Quelle gleich mit — das noindex-Meta-Tag.</p>
+
+    <p class="prose" data-reveal>Bei nutzerausgelösten Abrufen gehen die drei unten genannten Dokumente auseinander. Perplexity schreibt zum eigenen nutzerausgelösten Abrufer, dieser ignoriere robots.txt in der Regel, weil ein Nutzer den Abruf angefordert habe. OpenAI schreibt für die entsprechenden Zugriffe, robots.txt-Regeln gälten möglicherweise nicht, weil die Handlung von einem Nutzer ausgelöst werde. Anthropic verpflichtet seine Bots pauschal auf die branchenüblichen Angaben in der robots.txt, ohne für den nutzerausgelösten Abrufer eine eigene Zusage zu machen. Das gilt für genau diese drei Seiten.</p>
+
+    <p class="prose" data-reveal>Der Robots-Standard sagt dazu das Nötige: Er ersetzt keine gültigen Maßnahmen zur Inhaltssicherheit, und aufgeführte Pfade werden durch ihre Nennung öffentlich auffindbar. Eine Lücke im Zahlenwerk benennt Google selbst — Daten aus Experimenten in den Search Labs fließen nicht in die Search Console ein, weil diese Experimente noch in aktiver Entwicklung sind.</p>
+
+    <p class="prose" data-reveal><strong>Aus einem Garantieausschluss folgt nichts in die Gegenrichtung.</strong> Dass in den unten genannten Dokumenten keine Nennung zugesagt wird, heißt nicht, dass eine Nennung unwahrscheinlich wäre; es heißt, dass die Frage sich nur beobachtend beantworten lässt. Wer Ihnen eine Nennung in KI-Antworten oder einen Platz in der Suche zusichert, sagt etwas zu, das Google, Microsoft und OpenAI in den unten genannten Dokumenten für ihre eigenen Systeme ausdrücklich nicht zusagen.</p>
   </div>
 </section>
 
-<!-- ===================== ANALYSE-HINWEIS ===================== -->
-<section class="section inv">
+<!-- ===================== 6. QUELLEN ===================== -->
+<section class="section" id="quellen">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Quellen und Stand.</h2>
+      <p class="lead" data-reveal>Die Aussagen oben stützen sich auf die folgenden Primärquellen. Anbieterangaben beschreiben, was ein Anbieter über sein eigenes System sagt — sie sind damit die beste verfügbare Quelle und zugleich jederzeit änderbar.</p>
+    </div>
+
+    <dl class="wissen-quellen" data-reveal>
+      <div>
+        <dt>Google — SEO und Suche</dt>
+        <dd>Google beschreibt SEO und die drei Stufen der Google-Suche und hält fest, dass Google Crawling, Indexierung und Ausspielung auch bei erfüllten Search Essentials nicht garantiert.</dd>
+        <dd><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noopener noreferrer" target="_blank">SEO Starter Guide: The Basics</a> · <a href="https://developers.google.com/search/docs/fundamentals/how-search-works" rel="noopener noreferrer" target="_blank">In-depth guide to how Google Search works</a> <span class="stand">Seitenstand 10. und 18. Dezember 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — generative KI-Funktionen</dt>
+        <dd>Google löst GEO und AEO auf, ordnet beide als SEO ein und nennt die Angabe zu llms.txt, den Verweis auf den Search-Console-Bericht, die Warnung vor Werkzeugen Dritter und die Verwurzelung der KI-Funktionen in den Kernsystemen der Suche.</dd>
+        <dd><a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide" rel="noopener noreferrer" target="_blank">Optimizing your website for generative AI features on Google Search</a> <span class="stand">Seitenstand 10. Juli 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — KI-Funktionen und Website</dt>
+        <dd>Google beschreibt die gemeinsame technische Grundlage, die Praxishinweise zu Textform und Auszeichnung, die Auslösebedingung für AI Overviews, die Steuerungsmittel und die Zählweise der Search Console.</dd>
+        <dd><a href="https://developers.google.com/search/docs/appearance/ai-features" rel="noopener noreferrer" target="_blank">AI features and your website</a> <span class="stand">Seitenstand 10. Dezember 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Anforderungen</dt>
+        <dd>Google nennt die drei technischen Mindestanforderungen und hält fest, dass auch alle erfüllten Anforderungen und Empfehlungen keine Zusage sind.</dd>
+        <dd><a href="https://developers.google.com/search/docs/essentials" rel="noopener noreferrer" target="_blank">Google Search Essentials</a> · <a href="https://developers.google.com/search/docs/essentials/technical" rel="noopener noreferrer" target="_blank">Google Search technical requirements</a> <span class="stand">Seitenstand 10. und 18. Dezember 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — robots.txt</dt>
+        <dd>Google erklärt, was eine robots.txt regelt und was nicht, ihre Grenzen und die dafür vorgesehenen Mittel gegen ein Erscheinen in den Suchergebnissen.</dd>
+        <dd><a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro" rel="noopener noreferrer" target="_blank">Introduction to robots.txt</a> <span class="stand">Seitenstand 10. Dezember 2025, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google — Garantieausschlüsse</dt>
+        <dd>Google hält fest, dass korrektes Markup keine Anzeige erzwingt, und erteilt jeder Ranking-Garantie eine Absage.</dd>
+        <dd><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" rel="noopener noreferrer" target="_blank">General structured data guidelines</a> · <a href="https://developers.google.com/search/docs/fundamentals/do-i-need-seo" rel="noopener noreferrer" target="_blank">Do you need an SEO?</a> <span class="stand">Seitenstand 10. Juli 2026 und 5. Juni 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google Search Console-Hilfe</dt>
+        <dd>Die Search-Console-Hilfe definiert die Impressionen und nennt die Dimensionen des Berichts sowie den Ausschluss der Daten aus den Search Labs.</dd>
+        <dd><a href="https://support.google.com/webmasters/answer/16984139" rel="noopener noreferrer" target="_blank">Generative AI performance report (Search)</a> <span class="stand">Ohne Aktualisierungsdatum auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Google Suche-Hilfe</dt>
+        <dd>Die Google-Suche-Hilfe erklärt, dass Zeit, Ort, Sprache und Personalisierung zu abweichenden Suchergebnissen führen können.</dd>
+        <dd><a href="https://support.google.com/websearch/answer/12412910" rel="noopener noreferrer" target="_blank">Why your Google Search results differ from others</a> <span class="stand">Ohne Aktualisierungsdatum auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — Bing Webmaster Tools</dt>
+        <dd>Microsoft nennt die Kennzahl Total Citations, die Unterscheidung zu Citation Share, die Verwendung von „AI Visibility“ als Abschnittsüberschrift sowie die Nichtmessung von Ranking und Wichtigkeit, die Empfehlungen ohne Ergebniszusage, den ausgeschlossenen Kausalschluss und den Stichprobencharakter der Daten.</dd>
+        <dd><a href="https://www.bing.com/webmasters/help/ai-performance-9f8e7d6c" rel="noopener noreferrer" target="_blank">AI Performance in Bing Webmaster Tools</a> <span class="stand">Ohne Datums- oder Versionsangabe auf der Seite; der Artikeltext wird erst durch JavaScript sichtbar. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — AI Visibility Insights</dt>
+        <dd>Microsoft gibt die Formel für Citation Share an, führt die vier Funktionen in der Vorschau und die Intents-Kategorien auf und ordnet Citation Share als Beobachtungsgröße ein. Unternehmensblog, keine Produktdokumentation.</dd>
+        <dd><a href="https://blogs.bing.com/search/June-2026/New-AI-Visibility-Insights-in-Bing-Webmaster-Tools-Intents-Topics-Citation-Share-Compare" rel="noopener noreferrer" target="_blank">New AI Visibility Insights in Bing Webmaster Tools: Intents, Topics, Citation Share, Compare</a> <span class="stand">Veröffentlicht am 16. Juni 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Microsoft — Rolle des Index</dt>
+        <dd>Microsoft beschreibt das geteilte Fundament von klassischer Suche und Grounding. Positionsbeitrag im Unternehmensblog, keine Vorgabe für Websitebetreiber.</dd>
+        <dd><a href="https://blogs.bing.com/search/May-2026/Evolving-role-of-the-index-From-ranking-pages-to-supporting-answers" rel="noopener noreferrer" target="_blank">Evolving role of the index: From ranking pages to supporting answers</a> <span class="stand">Veröffentlicht am 6. Mai 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI</dt>
+        <dd>OpenAI unterscheidet OAI-SearchBot und GPTBot und nennt die Empfehlung zu Freigabe und Erreichbarkeit, die Angabe von rund 24 Stunden für Änderungen an der robots.txt und die Behandlung nutzerausgelöster Abrufe.</dd>
+        <dd><a href="https://developers.openai.com/api/docs/bots" rel="noopener noreferrer" target="_blank">Overview of OpenAI Crawlers</a> <span class="stand">Ohne Datumsangabe auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>OpenAI Help Center</dt>
+        <dd>Das OpenAI Help Center beschreibt die Aufnahmebedingungen und den Ausschluss einer Platzierungsgarantie, den Einfluss von Netzwerkstandort und gespeicherten Standortangaben, die Zusammenarbeit mit anderen Suchanbietern, den Verweisparameter und das Erscheinen gesperrter Seiten in ChatGPT Atlas.</dd>
+        <dd><a href="https://help.openai.com/en/articles/9237897-searching-the-web-with-chatgpt" rel="noopener noreferrer" target="_blank">Searching the web with ChatGPT</a> · <a href="https://help.openai.com/en/articles/12627856-publishers-and-developers-faq" rel="noopener noreferrer" target="_blank">Publishers and Developers — FAQ</a> <span class="stand">Nur relative Datumsangabe auf den Seiten; ohne Browser antworten sie mit HTTP 403. Abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Anthropic Help Center</dt>
+        <dd>Das Anthropic Help Center beschreibt drei Roboter einzeln mit drei getrennten Zwecken und verpflichtet sich pauschal auf die Angaben in der robots.txt.</dd>
+        <dd><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler" rel="noopener noreferrer" target="_blank">Does Anthropic crawl data from the web, and how can site owners block the crawler?</a> <span class="stand">Seitenstand 7. April 2026, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>Perplexity</dt>
+        <dd>Perplexity gibt an, dass der nutzerausgelöste Abrufer robots.txt in der Regel ignoriert.</dd>
+        <dd><a href="https://docs.perplexity.ai/docs/resources/perplexity-crawlers" rel="noopener noreferrer" target="_blank">Perplexity Crawlers</a> <span class="stand">Ohne Datumsangabe auf der Seite, abgerufen am 4. September 2026</span></dd>
+      </div>
+      <div>
+        <dt>IETF — RFC Editor</dt>
+        <dd>Der RFC hält fest, dass die Regeln in der robots.txt keine Form von Zugriffsberechtigung sind und keine Maßnahme zur Inhaltssicherheit ersetzen.</dd>
+        <dd><a href="https://www.rfc-editor.org/rfc/rfc9309.html" rel="noopener noreferrer" target="_blank">RFC 9309: Robots Exclusion Protocol</a> <span class="stand">Veröffentlicht im September 2022, abgerufen am 4. September 2026</span></dd>
+      </div>
+    </dl>
+
+    <p class="small" style="margin-top:clamp(16px,2vw,24px)" data-reveal>Stand dieses Beitrags: 4. September 2026. Anbieterangaben können sich ohne Ankündigung ändern; eine Messung bleibt an ihr Datum gebunden. Zwei der hier genannten Seiten antworten Abrufen ohne Browser mit HTTP 403, eine weitere zeigt ihren Text erst nach Ausführung von JavaScript — wer nachprüfen möchte, braucht dafür einen Browser.</p>
+  </div>
+</section>
+
+<!-- ===================== NAECHSTER SCHRITT ===================== -->
+<section class="section inv" id="naechster-schritt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Wie sichtbar ist Ihre Website heute für klassische Suche und KI-Systeme?</h2>
-      <p class="lead" data-reveal>Die kostenlose Website-Analyse prüft diese Frage an Ihrer eigenen Website und ordnet die Ergebnisse verständlich ein.</p>
+      <p class="lead" data-reveal>Diese Frage lässt sich an einer Website nur nachsehen, nicht raten. Schreiben Sie uns, um welche Adresse es geht — wir sehen sie uns an und antworten mit einer Einschätzung, hinter der jemand steht.</p>
       <div data-reveal>
-        <a class="btn btn--split btn--primary" href="/website-analyse/"><span class="btn__label">Eigene Website analysieren</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+        <a class="btn btn--split btn--primary" href="/#kontakt"><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===================== VERWANDTE THEMEN ===================== -->
-<section class="section">
+<section class="section" id="verwandt">
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Themen.</h2>
@@ -223,8 +550,6 @@
     </div>
 
     <p class="small wissen-alle" data-reveal><a href="/wissen/">Alle Themen im Überblick</a></p>
-
-    <p class="small wissen-platzhalter" data-reveal>Belege und Quellen werden mit den geprüften Inhalten ergänzt.</p>
   </div>
 </section>
 

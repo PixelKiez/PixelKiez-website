@@ -11,6 +11,14 @@
 - `Startseite (englisch) → https://pixelkiez.de/en/`: dieselben Inhalte auf Englisch.
 - `Website-Analyse → https://pixelkiez.de/website-analyse/`: kostenlose, persönlich erstellte Analyse einer Website — Technik, SEO, GEO, KI-Auffindbarkeit, Answerability, Agent-Readiness. Anfrage per Formular, Ergebnis per E-Mail.
 - `Website-Analyse (englisch) → https://pixelkiez.de/en/website-analyse/`: dieselbe Seite auf Englisch.
+- `Wissen → https://pixelkiez.de/wissen/`: Wissensbereich mit sechs Beiträgen zu Auffindbarkeit, maschineller Lesbarkeit, Antwortfähigkeit, Unternehmenszuordnung und Agent-Readiness.
+- `Wissen (englisch) → https://pixelkiez.de/en/knowledge/`: derselbe Bereich auf Englisch.
+- `SEO, GEO und AI Visibility → https://pixelkiez.de/wissen/seo-geo-ai-visibility/`: Was die drei Begriffe unterscheidet, wo sie sich überschneiden und was sich davon messen lässt.
+- `Wie KI Websites liest → https://pixelkiez.de/wissen/wie-ki-websites-liest/`: Warum dieselbe Adresse bei verschiedenen Systemen unterschiedlich ankommen kann.
+- `Wie Websites ausgeliefert werden → https://pixelkiez.de/wissen/wie-websites-ausgeliefert-werden/`: HTML, JavaScript, Frameworks und die vier Auslieferungswege — technische Vertiefung zur maschinellen Lesbarkeit.
+- `Answerability → https://pixelkiez.de/wissen/answerability/`: Wann eine Website eine konkrete Frage explizit, im Kontext und belegt beantwortet.
+- `Entity Clarity → https://pixelkiez.de/wissen/entity-trust/`: Ob Maschinen Unternehmen, Leistungen, Ort und Personen eindeutig zuordnen können.
+- `Agent-Readiness → https://pixelkiez.de/wissen/agent-readiness/`: Was ein Agent braucht, um auf einer Website nicht nur zu lesen, sondern etwas zu erledigen.
 - `Impressum → https://pixelkiez.de/impressum.html`: Anbieterkennzeichnung nach § 5 DDG.
 - `Datenschutzerklärung → https://pixelkiez.de/datenschutz.html`: Verarbeitung, Auftragsverarbeiter, Betroffenenrechte.
 
@@ -48,5 +56,8 @@ tragen soll.
 Alle Inhalte sind serverseitig gerendert und ohne JavaScript lesbar. Die
 Startseite trägt strukturierte Daten nach schema.org (ProfessionalService,
 WebSite, WebPage, Service, FAQPage, ImageObject, Person) im Kopfbereich als
-JSON-LD.
+JSON-LD; der Wissens-Hub trägt CollectionPage, ItemList und BreadcrumbList,
+die sechs Beiträge jeweils Article, WebPage und BreadcrumbList.
+Dieser Eintrag beschreibt, was es gibt. Er ist keine Zusage darüber, ob ein
+System die Datei liest oder die genannten Seiten verwendet.
 Sämtliche Crawler sind in `https://pixelkiez.de/robots.txt` zugelassen.
