@@ -1639,52 +1639,58 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
    Satz noch einmal beginnt. Deshalb hat die semantische Eindeutigkeit hier
    Vorrang bekommen — sechs Fragen, sechs Kaesten, ein Raster.
 
-   Das Raster braucht keine Bewegung, um die Reihe zu tragen: die Kaesten
-   fuellen die Breite und brechen nach unten um. Das Einblenden beim
-   Scrollen (data-reveal) bleibt, es haengt nicht am Inhalt.
+   Zwei Endlosbaender statt eines Rasters: das obere laeuft nach links, das
+   untere nach rechts. Je Band drei Fragen.
+
+   Frueher lief der Umlauf ueber eine zweite, identische Reihe: die
+   Animation schob um -50%, und weil dort dasselbe noch einmal stand, sah
+   das Ende aus wie der Anfang. Sechs Fragen standen so sechsmal im
+   Dokument.
+
+   Jetzt reicht das Skript die Karte weiter, die auf der einen Seite
+   hinausgelaufen ist, und setzt sie auf der anderen wieder an. Es gibt
+   nichts zu verdoppeln — weder im Quelltext noch im Browser. Die Bewegung
+   ist dieselbe, nur ihre Buchfuehrung ist eine andere.
+
+   Damit das lueckenlos bleibt, muss die Bahn breiter sein als das Fenster
+   plus eine Karte: sonst waere zwischen der letzten und der wieder
+   angesetzten ersten Karte fuer einen Moment nichts. Drei Karten schaffen
+   das nur, wenn jede rund die halbe Breite fuellt — daher die 44vw. Das
+   Skript rechnet es nach und vergroessert notfalls den Abstand.
+
+   Ohne Skript und bei prefers-reduced-motion steht das Band still. Die
+   Reihe bleibt lesbar und laesst sich seitlich schieben.
    ------------------------------------------------------------------------- */
-.fq{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.fq{display:grid;gap:12px}
+.fq__row{
+  overflow:hidden;
+  /* Weiche Kante statt harter Schnitt: eine Karte, die an einer Linie
+     abgeschnitten wird, sieht nach Fehler aus, eine ausblendende nach
+     Fortsetzung. */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+/* Solange das Skript nicht laeuft, ist die Reihe eine gewoehnliche,
+   schiebbare Zeile. data-laeuft setzt es, sobald es die Bahn uebernimmt. */
+.fq__row:not([data-laeuft]){overflow-x:auto;scrollbar-width:none}
+.fq__row:not([data-laeuft])::-webkit-scrollbar{display:none}
+.fq__track{display:flex;gap:12px;width:max-content}
+/* Das Skript setzt nur die Zahl, verschoben wird hier. So bleibt die
+   Darstellung im Stylesheet und das Skript kennt kein CSS. */
+.fq__row[data-laeuft] .fq__track{transform:translate3d(var(--fq-x,0px),0,0);will-change:transform}
+
 .fq__b{
+  flex:none;width:clamp(280px,44vw,560px);
   border:1px solid var(--line);border-radius:var(--radius);
   background:var(--paper-2);padding:18px 20px;
   transition:border-color var(--dur) var(--ease),background-color var(--dur) var(--ease);
 }
-.fq__b:hover{border-color:var(--ink-45);background:var(--paper-3)}
+.fq__row:hover .fq__b:hover{border-color:var(--ink-45);background:var(--paper-3)}
 .fq__q{
   font-family:var(--font-display);font-weight:600;
   font-size:.9375rem;letter-spacing:-.015em;line-height:1.3;
 }
 .fq__a{margin-top:8px;font-size:.8125rem;line-height:1.55;color:var(--ink-70)}
-
-/* Schmal laufen die Fragen auf derselben Bahn wie die Leistungskarten
-   (Abschnitt 10). Am Schreibtisch stehen die sechs Kaesten als Raster
-   nebeneinander; untereinander gestapelt kosteten sie rund 1450px, in
-   denen sechsmal dieselbe Kastenform untereinander steht. Nebeneinander
-   bleibt es dieselbe Ansicht wie am Schreibtisch, nur gewischt statt
-   ueberblickt — und der Abschnitt passt wieder auf ein Bild.
-
-   Die Kaesten einer Bahn sind gleich hoch (flex streckt sie), so wie sie
-   es im Raster zeilenweise auch sind. */
-@media (max-width:819px){
-  .fq{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    overscroll-behavior-x:contain;
-    gap:12px;
-    margin-inline:calc(var(--gutter) * -1);
-    padding-inline:var(--gutter);
-    scroll-padding-inline:var(--gutter);
-    scrollbar-width:none;
-  }
-  .fq::-webkit-scrollbar{display:none}
-  .fq__b{
-    flex:0 0 min(86%,380px);
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-  }
-  .carou__dots--fq{display:flex}
-}
 
 /* Mobile first: 13px sind am Schreibtisch eine Auszeichnungsgroesse, am
    Handy aber zusammenhaengender Fliesstext, den man liest. Betroffen sind
@@ -1755,8 +1761,16 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   padding:15px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);
   background:var(--paper-2);
 }
+/* 24px, nicht 22: WCAG 2.2 verlangt in 2.5.8 eine Trefferflaeche von
+   mindestens 24x24 CSS-Pixeln. Bei 22 lag das Kaestchen zwei Punkte
+   darunter — nachgemessen im Browser, nicht geschaetzt. Die Ausnahme fuer
+   Inline-Ziele greift hier nicht: das Kaestchen steht als eigenes
+   Bedienelement neben dem Text, nicht in einem Satz.
+
+   margin-top faellt entsprechend von 1px auf 0, damit das Kaestchen weiter
+   auf der ersten Zeile des Labels sitzt statt einen Punkt darunter. */
 .consent input{
-  width:22px;height:22px;margin:1px 0 0;accent-color:var(--accent);cursor:pointer;flex:none;
+  width:24px;height:24px;margin:0;accent-color:var(--accent);cursor:pointer;flex:none;
 }
 .consent label{font-size:.875rem;line-height:1.55;color:var(--ink-70);cursor:pointer}
 .consent a{color:var(--accent-ink);text-underline-offset:3px}
@@ -1994,6 +2008,19 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 /* ---------- 16. Rechtsseiten --------------------------------------------- */
 .legal{padding-block:clamp(48px,6vw,80px) clamp(56px,7vw,96px)}
 .legal__body{max-width:70ch}
+
+/* Hinweis auf die massgebliche Fassung, nur auf den englischen Rechtstexten.
+   Abgesetzt, aber nicht als Warnung: es ist eine Einordnung, keine Stoerung.
+   Steht vor dem ersten Abschnitt, weil danach niemand mehr fragt, welche
+   Fassung gilt. */
+.hinweis-fassung{
+  margin:0 0 clamp(28px,3.5vw,44px);
+  padding:14px 16px;
+  border-left:2px solid var(--accent);
+  background:var(--paper-2);
+  font-size:.875rem;line-height:1.55;color:var(--ink-70);
+}
+.hinweis-fassung a{color:var(--accent-ink);text-underline-offset:3px}
 .legal__body h2{
   font-family:var(--font-display);font-weight:600;letter-spacing:-.028em;
   font-size:clamp(1.35rem,2.4vw,1.8rem);line-height:1.2;margin-top:2.4em;

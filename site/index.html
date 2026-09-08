@@ -853,18 +853,32 @@
       <p class="kicker" data-reveal>07 · Häufige Fragen</p>
       <h2 class="h-lg tb tb--weiss" data-textblock>Was Unternehmen vorher wissen wollen.</h2>
     </div>
+      <!-- Zwei Endlosbaender: das obere laeuft nach links, das untere nach
+           rechts. Je Band drei Fragen, jede genau einmal im Dokument und
+           genau einmal im Browser.
+
+           Frueher lief das Band ueber eine zweite, identische Reihe im
+           Quelltext — sechs Fragen wurden so zu 36 <article>. Es geht
+           ohne: das Skript reicht die Karte, die links hinausgelaufen
+           ist, hinten wieder an. Der Lauf ist derselbe, es gibt nur
+           nichts zu verdoppeln. Ohne Skript steht das Band still und
+           laesst sich seitlich schieben. -->
       <div class="fq" data-reveal>
-        <article class="fq__b"><h3 class="fq__q">Was kostet eine Website bei Pixelkiez?</h3><p class="fq__a">Den verbindlichen Festpreis nennen wir nach der Diagnose. Er richtet sich nach Umfang und Systemtiefe, ohne versteckte Posten. Über das Kontaktformular erhalten Sie ihn innerhalb eines Werktags.</p></article>
-        <article class="fq__b"><h3 class="fq__q">Bietet Pixelkiez Werbeanzeigen-Management an?</h3><p class="fq__a">Nein. Werbeanzeigen-Management (Google Ads, Instagram/Meta Ads), Social-Media-Community-Management, Branding als Einzelleistung, native App-Entwicklung und individuelle Automatisierungsstrecken gehören nicht zum Portfolio.</p></article>
-        <article class="fq__b"><h3 class="fq__q">Für welche Unternehmen arbeitet Pixelkiez?</h3><p class="fq__a">Für mittelständische Unternehmen, unabhängig von der Branche. Entscheidend ist nicht das Geschäftsfeld, sondern dass die Website Anfragen, Termine oder Bewerbungen tragen soll. Sitz ist Berlin, Projekte werden deutschlandweit umgesetzt.</p></article>
-        <article class="fq__b"><h3 class="fq__q">Wie schnell erhalte ich eine Antwort auf meine Anfrage?</h3><p class="fq__a">Jede Anfrage erhält innerhalb eines Werktags eine qualifizierte Antwort. Diese Zusage wird gemessen.</p></article>
-        <article class="fq__b"><h3 class="fq__q">Was bedeutet GEO beziehungsweise Auffindbarkeit in KI-Suchen?</h3><p class="fq__a">GEO steht für die Auffindbarkeit in KI-Suchsystemen wie ChatGPT, Perplexity oder Copilot. Dazu gehören strukturierte Daten, zitierfähige Faktenblöcke, identische Einträge auf Google Business Profile, Bing Places und Apple Business Connect sowie Freigaben für KI-Crawler.</p></article>
-        <article class="fq__b"><h3 class="fq__q">Gehört mir die Website nach dem Projekt?</h3><p class="fq__a">Ja. Das Eigentum an der Website liegt vollständig beim Kunden, inklusive Übergabe mit Einweisung und Dokumentation.</p></article>
+        <div class="fq__row fq__row--rl">
+          <div class="fq__track">
+            <article class="fq__b"><h3 class="fq__q">Was kostet eine Website bei Pixelkiez?</h3><p class="fq__a">Den verbindlichen Festpreis nennen wir nach der Diagnose. Er richtet sich nach Umfang und Systemtiefe, ohne versteckte Posten. Über das Kontaktformular erhalten Sie ihn innerhalb eines Werktags.</p></article>
+            <article class="fq__b"><h3 class="fq__q">Bietet Pixelkiez Werbeanzeigen-Management an?</h3><p class="fq__a">Nein. Werbeanzeigen-Management (Google Ads, Instagram/Meta Ads), Social-Media-Community-Management, Branding als Einzelleistung, native App-Entwicklung und individuelle Automatisierungsstrecken gehören nicht zum Portfolio.</p></article>
+            <article class="fq__b"><h3 class="fq__q">Für welche Unternehmen arbeitet Pixelkiez?</h3><p class="fq__a">Für mittelständische Unternehmen, unabhängig von der Branche. Entscheidend ist nicht das Geschäftsfeld, sondern dass die Website Anfragen, Termine oder Bewerbungen tragen soll. Sitz ist Berlin, Projekte werden deutschlandweit umgesetzt.</p></article>
+          </div>
+        </div>
+        <div class="fq__row fq__row--lr">
+          <div class="fq__track">
+            <article class="fq__b"><h3 class="fq__q">Wie schnell erhalte ich eine Antwort auf meine Anfrage?</h3><p class="fq__a">Jede Anfrage erhält innerhalb eines Werktags eine qualifizierte Antwort. Diese Zusage wird gemessen.</p></article>
+            <article class="fq__b"><h3 class="fq__q">Was bedeutet GEO beziehungsweise Auffindbarkeit in KI-Suchen?</h3><p class="fq__a">GEO steht für die Auffindbarkeit in KI-Suchsystemen wie ChatGPT, Perplexity oder Copilot. Dazu gehören strukturierte Daten, zitierfähige Faktenblöcke, identische Einträge auf Google Business Profile, Bing Places und Apple Business Connect sowie Freigaben für KI-Crawler.</p></article>
+            <article class="fq__b"><h3 class="fq__q">Gehört mir die Website nach dem Projekt?</h3><p class="fq__a">Ja. Das Eigentum an der Website liegt vollständig beim Kunden, inklusive Übergabe mit Einweisung und Dokumentation.</p></article>
+          </div>
+        </div>
       </div>
-      <!-- Dieselbe Bahn wie bei den Leistungskarten: schmal stehen die Kaesten
-           nebeneinander statt untereinander, gewischt wird per scroll-snap.
-           Die Punkte kommen aus demselben Skript und sind dieselbe Anzeige. -->
-      <div class="carou__dots carou__dots--fq" data-dots=".fq" role="group" aria-label="Fragen durchblättern" data-beschriftung="Frage % anzeigen"></div>
   </div>
 </section>
 
@@ -953,7 +967,12 @@
           <span class="channel__i"><svg aria-hidden="true"><use href="#i-lock"/></svg></span>
           <div>
             <h3 class="h-sm">Was mit Ihren Daten passiert</h3>
-            <p class="small" style="margin-top:5px">Ihre Angaben gehen verschlüsselt an unseren eigenen Server und von dort direkt in unser Postfach, sie werden dort nicht gespeichert. Kein Drittanbieter-Formulardienst, kein Tracking-Pixel, keine Weitergabe.</p>
+            <!-- Der Satz stand vorher absolut: "kein Drittanbieter-Formulardienst,
+                 keine Weitergabe". Das war gegenueber der eigenen Datenschutz-
+                 erklaerung nicht haltbar — dort stehen Railway, Resend und
+                 Hostinger als Auftragsverarbeiter. Was zusagbar ist, bleibt
+                 zugesagt; wer beteiligt ist, sagt die Datenschutzerklaerung. -->
+            <p class="small" style="margin-top:5px">Ihre Angaben werden verschlüsselt zur Bearbeitung Ihrer Anfrage übertragen. Es gibt kein Tracking-Pixel und keine Nutzung Ihrer Anfrage zu Werbezwecken. Welche technischen Dienstleister an Verarbeitung und Zustellung beteiligt sind, erläutern wir in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
           </div>
         </div>
       </div>

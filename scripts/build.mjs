@@ -27,7 +27,7 @@ import * as esbuild from 'esbuild';
 import { minify as minifyHtml } from 'html-minifier-terser';
 import { uebersetze } from './i18n.mjs';
 import { uebersetzeJs } from './i18n-js.mjs';
-import { EINSPRACHIG, SPRACHPAARE } from './seiten.mjs';
+import { EINSPRACHIG, SPRACHPAARE, EIGENE_PAARE } from './seiten.mjs';
 
 const WURZEL = fileURLToPath(new URL('..', import.meta.url));
 const QUELLE = join(WURZEL, 'site');
@@ -196,9 +196,12 @@ async function baueEnglisch(paar, mittel) {
   html = html.replace(schalter, () =>
     `<a class="lang" href="${paar.pfadDe}" hreflang="de" lang="de" aria-label="Auf Deutsch wechseln" data-lang-switch>DE</a>`);
 
-  /* --- Rechtsseiten bleiben deutsch und liegen im Wurzelverzeichnis.
-         Ein relativer Verweis zeigte von /en/ aus auf /en/impressum.html. --- */
-  html = html.replace(/href="(impressum|datenschutz)\.html"/g, (m, n) => `href="/${n}.html"`);
+  /* --- Rechtsseiten haben seit der englischen Fassung eigene Quellen unter
+         /en/. Verweise aus dem englischen Bestand zeigen dorthin, nicht auf
+         den deutschen Text. Beide Schreibweisen werden getroffen: die
+         Startseite verlinkt relativ, Unterseiten und Formulare absolut. --- */
+  html = html.replace(/href="\/?(impressum|datenschutz)\.html"/g,
+    (m, n) => `href="${n === 'impressum' ? '/en/imprint.html' : '/en/privacy.html'}"`);
 
   /* --- Sprachverweise und kanonische Adresse --- */
   html = setzeAlternates(html, 'en', paar);
@@ -444,6 +447,18 @@ async function build() {
     sitemapEintraege.push({ pfad: paar.pfadDe, quelle: paar.quelle, alternates });
     sitemapEintraege.push({ pfad: paar.pfadEn, quelle: paar.quelle, alternates });
   }
+  /* Eigene Paare: zwei Adressen, beide mit Alternates — genau wie bei den
+     erzeugten Paaren. Die englische Fassung hat eine eigene Quelle, deshalb
+     bestimmt sie ihr eigenes lastmod. */
+  for (const paar of EIGENE_PAARE) {
+    const alternates = [
+      `    <xhtml:link rel="alternate" hreflang="de" href="${DOMAIN}${paar.pfadDe}"/>`,
+      `    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}${paar.pfadEn}"/>`,
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}${paar.pfadDe}"/>`,
+    ].join('\n');
+    sitemapEintraege.push({ pfad: paar.pfadDe, quelle: paar.quelle,   alternates });
+    sitemapEintraege.push({ pfad: paar.pfadEn, quelle: paar.quelleEn, alternates });
+  }
   for (const seite of EINSPRACHIG) {
     sitemapEintraege.push({ pfad: `/${seite}`, quelle: seite });
   }
@@ -511,11 +526,18 @@ async function build() {
      Rechtsseiten. `ziel` darf in einem Unterverzeichnis liegen — saubere
      Adressen wie /website-analyse/ entstehen als website-analyse/index.html. */
   const deutscheSeiten = [
-    ...SPRACHPAARE.map((p) => ({ quelle: p.quelle, ziel: p.zielDe, paar: p })),
-    ...EINSPRACHIG.map((s) => ({ quelle: s, ziel: s })),
+    ...SPRACHPAARE.map((p) => ({ quelle: p.quelle, ziel: p.zielDe, paar: p, sprache: 'de' })),
+    /* Beide Fassungen der eigenen Paare laufen hier durch: sie sind von Hand
+       geschrieben und duerfen die Uebersetzungstabelle nicht sehen. Nur die
+       Sprache unterscheidet, wohin Canonical und Umschalter zeigen. */
+    ...EIGENE_PAARE.flatMap((p) => [
+      { quelle: p.quelle,   ziel: p.zielDe, paar: p, sprache: 'de' },
+      { quelle: p.quelleEn, ziel: p.zielEn, paar: p, sprache: 'en' },
+    ]),
+    ...EINSPRACHIG.map((s) => ({ quelle: s, ziel: s, sprache: 'de' })),
   ];
 
-  for (const { quelle: seite, ziel, paar } of deutscheSeiten) {
+  for (const { quelle: seite, ziel, paar, sprache } of deutscheSeiten) {
     let html = await readFile(join(QUELLE, seite), 'utf8');
     const vorher = Buffer.byteLength(html);
 
@@ -571,7 +593,7 @@ async function build() {
 
     /* 4d. Sprachverweise: jede Seite nennt ihre Gegenstuecke. Auf den
            Rechtsseiten gibt es keine englische Fassung, dort entfaellt es. */
-    if (paar) html = setzeAlternates(html, 'de', paar);
+    if (paar) html = setzeAlternates(html, sprache, paar);
 
     /* 4e. HTML minifizieren */
     html = await minifyHtml(html, HTML_OPTIONEN);
