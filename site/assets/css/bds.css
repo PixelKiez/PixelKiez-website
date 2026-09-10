@@ -73,6 +73,8 @@
   --ease:cubic-bezier(.23,1,.32,1);
   --ease-morph:cubic-bezier(.77,0,.175,1);
   --ease-press:cubic-bezier(.2,0,.2,1);
+  /* Fuellflaeche der Knoepfe: langsam los, schnell durch, weich an. */
+  --ease-fuell:cubic-bezier(.785,.135,.15,.86);
   --dur:220ms;
   --dur-press:150ms;
 
@@ -374,6 +376,110 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 @media (hover:hover) and (pointer:fine){
   .btn--split:hover .btn__ico svg:nth-of-type(1){transform:translateX(22px)}
   .btn--split:hover .btn__ico svg:nth-of-type(2){transform:translateX(0)}
+}
+
+/* --- Fuellflaeche beim Ueberfahren --------------------------------------
+   Statt die Farbe umzuschalten, laeuft eine Flaeche ueber den Knopf: sie
+   sitzt in Ruhe als Kreis unter dem Pfeilfenster und zieht sich beim
+   Ueberfahren zur ganzen Pille auf. Die Beschriftung wechselt dabei nicht
+   auf einen Schlag die Farbe, sondern genau dort, wo die Kante gerade
+   steht — deshalb liegt ueber ihr eine zweite, mitgeschnittene Kopie.
+
+   Diese Kopie steht NICHT im Quelltext. Sie entsteht aus attr(data-fuell),
+   das erst das Skript setzt. Damit gibt es keine zweite Textfassung im
+   Dokument, keinen zweiten Eintrag in der Uebersetzungstabelle und nichts,
+   was eine Suchmaschine doppelt zu lesen bekommt.
+
+   Ohne Skript fehlt data-fuell, die Regeln greifen nicht, und es bleibt bei
+   dem Farbwechsel, den es vorher gab. Genau deshalb haengt alles an
+   [data-fuell] und nicht an .btn.
+
+   Knoepfe ohne Pfeilfenster starten mit einer Flaeche der Breite null: sie
+   ist in Ruhe unsichtbar und faehrt beim Ueberfahren von rechts ein. Ein
+   Kreis ohne Pfeil darin saehe aus wie ein vergessenes Element.
+   ------------------------------------------------------------------------ */
+.btn[data-fuell]{
+  /* position:relative nur, wenn der Knopf nicht schon selbst eine Lage
+     bestimmt. Ohne den Vorbehalt schlaegt diese Regel (Klasse plus
+     Attribut) jede Regel mit nur einer Klasse — der schwebende
+     Schnellkontakt verlor dadurch sein position:fixed und stand im
+     Textfluss unten links, halb aus dem Bild. Gefunden am 10.09.
+     position:fixed ist selbst ein Bezugsrahmen, die Flaeche braucht
+     dort also nichts weiter. */
+  position:relative;overflow:hidden;isolation:isolate;
+  /* Grundwerte, falls eine Variante nichts eigenes setzt. */
+  --btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper);
+  /* Kreisdurchmesser und Abstand zum rechten Rand. Der Kreis sitzt mittig
+     unter dem Pfeilfenster: dessen Mitte liegt bei Innenabstand plus halber
+     Pfeilbreite vom Rand. */
+  --fuell-kreis:34px;
+  --fuell-rechts:14px;
+  --fuell-oben:calc((100% - var(--fuell-kreis)) / 2);
+  --fuell-links:calc(100% - var(--fuell-rechts) - var(--fuell-kreis));
+}
+.btn[data-fuell]:not(.btn--split){--fuell-kreis:0px;--fuell-rechts:0px}
+.btn--sm[data-fuell]{--fuell-kreis:28px;--fuell-rechts:10px}
+
+.btn[data-fuell] > *{position:relative;z-index:1}
+/* Knoepfe, die ihre Lage selbst bestimmen, behalten sie. */
+.btn.sticky-cta[data-fuell]{position:fixed}
+
+/* Die Flaeche. inset ist eine Kurzform fuer vier Laengen und laesst sich
+   deshalb animieren; der Radius bleibt die ganze Zeit die volle Pille,
+   damit aus dem Kreis eine Pille wird und keine Ecken entstehen. */
+.btn[data-fuell]::before{
+  content:"";position:absolute;z-index:0;
+  inset:var(--fuell-oben) var(--fuell-rechts) var(--fuell-oben) var(--fuell-links);
+  border-radius:999px;background:var(--btn-fill-bg);
+  transition:inset 450ms var(--ease-fuell),background-color 450ms var(--ease-fuell);
+}
+
+/* Die mitgeschnittene Kopie der Beschriftung. Sie liegt ueber allem und
+   zeigt nur, was die Flaeche schon erreicht hat. Innenabstand und
+   Ausrichtung entsprechen dem Knopf; beim geteilten Knopf wird rechts um
+   Abstand und Pfeilfenster verkuerzt, damit der Text an genau derselben
+   Stelle steht wie das Original darunter. */
+.btn[data-fuell]::after{
+  content:attr(data-fuell);
+  position:absolute;inset:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 22px;
+  color:var(--btn-fill-fg);
+  font:inherit;letter-spacing:inherit;white-space:nowrap;
+  pointer-events:none;
+  clip-path:inset(var(--fuell-oben) var(--fuell-rechts) var(--fuell-oben) var(--fuell-links) round 999px);
+  transition:clip-path 450ms var(--ease-fuell),color 450ms var(--ease-fuell);
+}
+.btn--split[data-fuell]::after{padding-right:calc(22px + 10px + 18px)}
+.btn--sm[data-fuell]::after{padding:10px 16px}
+.btn--split.btn--sm[data-fuell]::after{padding-right:calc(16px + 10px + 15px)}
+
+/* In Ruhe sitzt der Pfeil schon auf der Flaeche und braucht deren Schrift-
+   farbe, sonst verschwaende er darin. */
+.btn[data-fuell] .btn__ico{color:var(--btn-fill-fg)}
+
+@media (hover:hover) and (pointer:fine){
+  .btn[data-fuell]:hover::before{inset:0}
+  .btn[data-fuell]:hover::after{clip-path:inset(0 0 0 0 round 999px)}
+}
+/* Auf Tippgeraeten uebernimmt der Druck, was dort der Zeiger nicht kann. */
+.btn[data-fuell]:active::before{inset:0}
+.btn[data-fuell]:active::after{clip-path:inset(0 0 0 0 round 999px)}
+
+/* Der direkte Farbumschlag entfaellt fuer diese Knoepfe — die Flaeche macht
+   ihn. Nur der Rand zieht mit, damit die Pille nicht zweifarbig umrandet
+   dasteht. */
+.btn--primary[data-fuell]{--btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper)}
+.btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--ink)}
+.sec--orange .btn--primary[data-fuell]{--btn-fill-bg:var(--paper);--btn-fill-fg:var(--ink)}
+.sec--orange .btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--paper)}
+.btn--ghost[data-fuell]{--btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper)}
+.btn--ghost[data-fuell]:hover{--btn-bg:transparent;--btn-fg:var(--ink);--btn-bd:var(--ink)}
+
+/* Wer weniger Bewegung eingestellt hat, bekommt denselben Zustand ohne den
+   Weg dorthin. */
+@media (prefers-reduced-motion:reduce){
+  .btn[data-fuell]::before,.btn[data-fuell]::after{transition:none}
 }
 
 /* --- Druckfeedback -------------------------------------------------------
@@ -2583,3 +2689,10 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   color:var(--ink-70);text-underline-offset:4px;
 }
 .weg__wissen:hover{color:var(--accent-ink)}
+
+/* Der schwebende Schnellkontakt schrumpft schmal zum Kreis und blendet seine
+   Beschriftung aus. Die mitgeschnittene Kopie muss dann mit verschwinden,
+   sonst stuende sie im Kreis und wuerde abgeschnitten. */
+@media (max-width:559px){
+  .sticky-cta[data-fuell]::after{content:""}
+}

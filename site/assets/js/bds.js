@@ -128,6 +128,41 @@
     });
   }
 
+  /* --- 1b. Fuellflaeche der Knoepfe --------------------------------------
+     Der Effekt braucht die Beschriftung ein zweites Mal: eine Kopie liegt
+     ueber dem Original und wird mit der Flaeche mitgeschnitten, damit die
+     Schrift genau dort die Farbe wechselt, wo die Kante steht.
+
+     Diese Kopie steht bewusst nicht im Quelltext. Sie entsteht im
+     Stylesheet aus attr(data-fuell) — hier wird nur das Attribut gesetzt.
+     Damit taucht kein Satz zweimal im Dokument auf, die
+     Uebersetzungstabelle bekommt keinen zweiten Eintrag, und ohne Skript
+     bleibt es bei dem Farbwechsel, den es vorher gab.
+
+     Knoepfe ohne Beschriftung bleiben aussen vor: bei einem reinen
+     Symbolknopf gaebe es nichts zu schneiden.
+     ---------------------------------------------------------------------- */
+  var fuelleKnoepfe = function (bereich) {
+    $$('.btn', bereich || document).forEach(function (knopf) {
+      var etikett = $('.btn__label', knopf);
+      var text = ((etikett ? etikett.textContent : knopf.textContent) || '').trim();
+      if (text) knopf.dataset.fuell = text;
+    });
+  };
+  fuelleKnoepfe();
+
+  /* Das Ergebnis des Projekt-Checks wird bei jeder Antwort neu geschrieben.
+     Der Knopf darin ist danach ein anderes Element und haette das Attribut
+     nicht mehr — ohne diesen Beobachter waere er der einzige Knopf der Seite
+     ohne den Effekt. Beobachtet wird nur dieser eine Kasten, nicht das
+     Dokument: die Fragenbaender verschieben staendig Karten, ein
+     dokumentweiter Beobachter liefe dauernd mit. */
+  var ergebnis = $('#check-result');
+  if (ergebnis && typeof MutationObserver !== 'undefined') {
+    new MutationObserver(function () { fuelleKnoepfe(ergebnis); })
+      .observe(ergebnis, { childList: true, subtree: true });
+  }
+
   /* --- 2. Reveal beim Scrollen ------------------------------------------
      Sichtbarkeit ist der Grundzustand, Bewegung die Zutat. Das Verstecken
      vor dem Einblenden haengt allein am Merkmal data-reveal-anim auf dem
