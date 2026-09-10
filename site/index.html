@@ -1036,7 +1036,10 @@
 </footer>
 
 <!-- Sticky-Schnellkontakt: von jeder Scrollposition erreichbar -->
-<button type="button" class="btn btn--primary sticky-cta" data-open-contact aria-label="Schnellkontakt öffnen">
+<!-- Startet verborgen: das Skript blendet ihn erst nach der Buehne ein. Ohne
+     den Ausgangszustand stand er schon beim Laden da und blieb ohne
+     JavaScript dauerhaft ueber den Rechtsverweisen der Fusszeile stehen. -->
+<button type="button" class="btn btn--primary sticky-cta" data-hidden="true" data-open-contact aria-label="Schnellkontakt öffnen">
   <svg aria-hidden="true"><use href="#i-chat"/></svg><span class="label">Schnellkontakt</span>
 </button>
 
