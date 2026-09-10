@@ -1492,9 +1492,10 @@
   var sticky = $('.sticky-cta');
   if (sticky) {
     var hero = $('.hero');
-    var inHero = false, inKontakt = false;
+    var fuss = $('.footer');
+    var inHero = false, inKontakt = false, inFuss = false;
     var syncSticky = function () {
-      var aus = (inHero || inKontakt);
+      var aus = (inHero || inKontakt || inFuss);
       sticky.dataset.hidden = aus ? 'true' : 'false';
       /* Der Knopf im Kopf und der schwebende Knopf fuehren zum selben
          Formular. Sobald der schwebende erscheint, verschwindet der obere —
@@ -1512,6 +1513,16 @@
       if (section) new IntersectionObserver(function (e) {
         inKontakt = e[0].isIntersecting; syncSticky();
       }, { threshold: 0.14 }).observe(section);
+      /* Die Fusszeile traegt unten rechts die Rechtsverweise — genau dort, wo
+         der schwebende Knopf steht. Er verdeckte den Datenschutz-Verweis:
+         sobald der Kontaktabschnitt aus dem Bild lief, galt er als verlassen
+         und der Knopf kam zurueck, obwohl man laengst am Seitenende war.
+         Schwelle 0 statt eines Anteils, damit er geht, sobald die Fusszeile
+         ueberhaupt anfaengt — nicht erst, wenn ein Teil von ihr steht.
+         Gefunden am 11.09. */
+      if (fuss) new IntersectionObserver(function (e) {
+        inFuss = e[0].isIntersecting; syncSticky();
+      }, { threshold: 0 }).observe(fuss);
       inHero = true; syncSticky();
     }
   }

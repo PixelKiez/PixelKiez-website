@@ -24,6 +24,13 @@
   --accent-ink:#8F2410;      /* Nebenfarbe als TEXT — 4,9:1 auf der Hauptfarbe */
   --accent-soft:#E9CFC9;
   --on-accent:#0E1413;       /* Text auf der Nebenfarbe — 5,5:1 */
+  /* Fuellfarben der Knopfflaeche. Bewusst feste Werte und NICHT --ink oder
+     --paper: die beiden kippen in .inv und .sec--orange. Die Flaeche nahm
+     dort die Hintergrundfarbe des Abschnitts an — in 06 lief der schwarze
+     Knopf orange voll und loeste sich im orangen Grund auf. Diese zwei
+     Werte kippen nie. Gefunden am 11.09. */
+  --fuell-dunkel:#0E1413;
+  --fuell-hell:#B6C7C4;
 
   --font-display:'Archivo','Helvetica Neue',Arial,sans-serif;
   --font-body:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
@@ -407,8 +414,8 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
      position:fixed ist selbst ein Bezugsrahmen, die Flaeche braucht
      dort also nichts weiter. */
   position:relative;overflow:hidden;isolation:isolate;
-  /* Grundwerte, falls eine Variante nichts eigenes setzt. */
-  --btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper);
+  /* Grundwert: dunkle Flaeche auf hellen Abschnitten. */
+  --btn-fill-bg:var(--fuell-dunkel);--btn-fill-fg:var(--fuell-hell);
   /* Kreisdurchmesser und Abstand zum rechten Rand. Der Kreis sitzt mittig
      unter dem Pfeilfenster: dessen Mitte liegt bei Innenabstand plus halber
      Pfeilbreite vom Rand. */
@@ -466,15 +473,28 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .btn[data-fuell]:active::before{inset:0}
 .btn[data-fuell]:active::after{clip-path:inset(0 0 0 0 round 999px)}
 
+/* Auf dunklen und orangen Flaechen kehrt die Fuellung sich um — sonst waere
+   sie dort die Hintergrundfarbe des Abschnitts. Die Regel haengt am Knopf
+   selbst statt an der Variante und gilt damit fuer jeden Knopf in diesen
+   Abschnitten, auch fuer kuenftige. */
+.inv .btn[data-fuell],
+.sec--orange .btn[data-fuell]{--btn-fill-bg:var(--fuell-hell);--btn-fill-fg:var(--fuell-dunkel)}
+
 /* Der direkte Farbumschlag entfaellt fuer diese Knoepfe — die Flaeche macht
    ihn. Nur der Rand zieht mit, damit die Pille nicht zweifarbig umrandet
-   dasteht. */
-.btn--primary[data-fuell]{--btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper)}
-.btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--ink)}
-.sec--orange .btn--primary[data-fuell]{--btn-fill-bg:var(--paper);--btn-fill-fg:var(--ink)}
-.sec--orange .btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--paper)}
-.btn--ghost[data-fuell]{--btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper)}
-.btn--ghost[data-fuell]:hover{--btn-bg:transparent;--btn-fg:var(--ink);--btn-bd:var(--ink)}
+   dasteht; er nimmt dazu die Fuellfarbe an, welche das im Abschnitt auch
+   immer ist. */
+.btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--btn-fill-bg)}
+.btn--ghost[data-fuell]:hover{--btn-bg:transparent;--btn-fg:var(--ink);--btn-bd:var(--btn-fill-bg)}
+
+/* Der Analyse-Streifen dreht den Hauptknopf um: schwarz in Ruhe, die
+   Nebenfarbe laeuft beim Ueberfahren ein. Ueberall sonst ist es andersherum.
+   Der Streifen hat keine eigene Flaeche und sitzt auf --paper; schwarz steht
+   dort mit 10,6:1, die einlaufende Nebenfarbe traegt ihren Text mit 5,5:1.
+   Auf Wunsch des Auftraggebers am 11.09. */
+.analyse-band .btn--primary{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--ink)}
+.analyse-band .btn--primary[data-fuell]{--btn-fill-bg:var(--accent);--btn-fill-fg:var(--on-accent)}
+.analyse-band .btn--primary[data-fuell]:hover{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--btn-fill-bg)}
 
 /* Wer weniger Bewegung eingestellt hat, bekommt denselben Zustand ohne den
    Weg dorthin. */
