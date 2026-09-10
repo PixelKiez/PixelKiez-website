@@ -73,6 +73,8 @@
   --ease:cubic-bezier(.23,1,.32,1);
   --ease-morph:cubic-bezier(.77,0,.175,1);
   --ease-press:cubic-bezier(.2,0,.2,1);
+  /* Fuellflaeche der Knoepfe: langsam los, schnell durch, weich an. */
+  --ease-fuell:cubic-bezier(.785,.135,.15,.86);
   --dur:220ms;
   --dur-press:150ms;
 
@@ -374,6 +376,110 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 @media (hover:hover) and (pointer:fine){
   .btn--split:hover .btn__ico svg:nth-of-type(1){transform:translateX(22px)}
   .btn--split:hover .btn__ico svg:nth-of-type(2){transform:translateX(0)}
+}
+
+/* --- Fuellflaeche beim Ueberfahren --------------------------------------
+   Statt die Farbe umzuschalten, laeuft eine Flaeche ueber den Knopf: sie
+   sitzt in Ruhe als Kreis unter dem Pfeilfenster und zieht sich beim
+   Ueberfahren zur ganzen Pille auf. Die Beschriftung wechselt dabei nicht
+   auf einen Schlag die Farbe, sondern genau dort, wo die Kante gerade
+   steht — deshalb liegt ueber ihr eine zweite, mitgeschnittene Kopie.
+
+   Diese Kopie steht NICHT im Quelltext. Sie entsteht aus attr(data-fuell),
+   das erst das Skript setzt. Damit gibt es keine zweite Textfassung im
+   Dokument, keinen zweiten Eintrag in der Uebersetzungstabelle und nichts,
+   was eine Suchmaschine doppelt zu lesen bekommt.
+
+   Ohne Skript fehlt data-fuell, die Regeln greifen nicht, und es bleibt bei
+   dem Farbwechsel, den es vorher gab. Genau deshalb haengt alles an
+   [data-fuell] und nicht an .btn.
+
+   Knoepfe ohne Pfeilfenster starten mit einer Flaeche der Breite null: sie
+   ist in Ruhe unsichtbar und faehrt beim Ueberfahren von rechts ein. Ein
+   Kreis ohne Pfeil darin saehe aus wie ein vergessenes Element.
+   ------------------------------------------------------------------------ */
+.btn[data-fuell]{
+  /* position:relative nur, wenn der Knopf nicht schon selbst eine Lage
+     bestimmt. Ohne den Vorbehalt schlaegt diese Regel (Klasse plus
+     Attribut) jede Regel mit nur einer Klasse — der schwebende
+     Schnellkontakt verlor dadurch sein position:fixed und stand im
+     Textfluss unten links, halb aus dem Bild. Gefunden am 10.09.
+     position:fixed ist selbst ein Bezugsrahmen, die Flaeche braucht
+     dort also nichts weiter. */
+  position:relative;overflow:hidden;isolation:isolate;
+  /* Grundwerte, falls eine Variante nichts eigenes setzt. */
+  --btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper);
+  /* Kreisdurchmesser und Abstand zum rechten Rand. Der Kreis sitzt mittig
+     unter dem Pfeilfenster: dessen Mitte liegt bei Innenabstand plus halber
+     Pfeilbreite vom Rand. */
+  --fuell-kreis:34px;
+  --fuell-rechts:14px;
+  --fuell-oben:calc((100% - var(--fuell-kreis)) / 2);
+  --fuell-links:calc(100% - var(--fuell-rechts) - var(--fuell-kreis));
+}
+.btn[data-fuell]:not(.btn--split){--fuell-kreis:0px;--fuell-rechts:0px}
+.btn--sm[data-fuell]{--fuell-kreis:28px;--fuell-rechts:10px}
+
+.btn[data-fuell] > *{position:relative;z-index:1}
+/* Knoepfe, die ihre Lage selbst bestimmen, behalten sie. */
+.btn.sticky-cta[data-fuell]{position:fixed}
+
+/* Die Flaeche. inset ist eine Kurzform fuer vier Laengen und laesst sich
+   deshalb animieren; der Radius bleibt die ganze Zeit die volle Pille,
+   damit aus dem Kreis eine Pille wird und keine Ecken entstehen. */
+.btn[data-fuell]::before{
+  content:"";position:absolute;z-index:0;
+  inset:var(--fuell-oben) var(--fuell-rechts) var(--fuell-oben) var(--fuell-links);
+  border-radius:999px;background:var(--btn-fill-bg);
+  transition:inset 450ms var(--ease-fuell),background-color 450ms var(--ease-fuell);
+}
+
+/* Die mitgeschnittene Kopie der Beschriftung. Sie liegt ueber allem und
+   zeigt nur, was die Flaeche schon erreicht hat. Innenabstand und
+   Ausrichtung entsprechen dem Knopf; beim geteilten Knopf wird rechts um
+   Abstand und Pfeilfenster verkuerzt, damit der Text an genau derselben
+   Stelle steht wie das Original darunter. */
+.btn[data-fuell]::after{
+  content:attr(data-fuell);
+  position:absolute;inset:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  padding:14px 22px;
+  color:var(--btn-fill-fg);
+  font:inherit;letter-spacing:inherit;white-space:nowrap;
+  pointer-events:none;
+  clip-path:inset(var(--fuell-oben) var(--fuell-rechts) var(--fuell-oben) var(--fuell-links) round 999px);
+  transition:clip-path 450ms var(--ease-fuell),color 450ms var(--ease-fuell);
+}
+.btn--split[data-fuell]::after{padding-right:calc(22px + 10px + 18px)}
+.btn--sm[data-fuell]::after{padding:10px 16px}
+.btn--split.btn--sm[data-fuell]::after{padding-right:calc(16px + 10px + 15px)}
+
+/* In Ruhe sitzt der Pfeil schon auf der Flaeche und braucht deren Schrift-
+   farbe, sonst verschwaende er darin. */
+.btn[data-fuell] .btn__ico{color:var(--btn-fill-fg)}
+
+@media (hover:hover) and (pointer:fine){
+  .btn[data-fuell]:hover::before{inset:0}
+  .btn[data-fuell]:hover::after{clip-path:inset(0 0 0 0 round 999px)}
+}
+/* Auf Tippgeraeten uebernimmt der Druck, was dort der Zeiger nicht kann. */
+.btn[data-fuell]:active::before{inset:0}
+.btn[data-fuell]:active::after{clip-path:inset(0 0 0 0 round 999px)}
+
+/* Der direkte Farbumschlag entfaellt fuer diese Knoepfe — die Flaeche macht
+   ihn. Nur der Rand zieht mit, damit die Pille nicht zweifarbig umrandet
+   dasteht. */
+.btn--primary[data-fuell]{--btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper)}
+.btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--ink)}
+.sec--orange .btn--primary[data-fuell]{--btn-fill-bg:var(--paper);--btn-fill-fg:var(--ink)}
+.sec--orange .btn--primary[data-fuell]:hover{--btn-bg:var(--accent);--btn-fg:var(--on-accent);--btn-bd:var(--paper)}
+.btn--ghost[data-fuell]{--btn-fill-bg:var(--ink);--btn-fill-fg:var(--paper)}
+.btn--ghost[data-fuell]:hover{--btn-bg:transparent;--btn-fg:var(--ink);--btn-bd:var(--ink)}
+
+/* Wer weniger Bewegung eingestellt hat, bekommt denselben Zustand ohne den
+   Weg dorthin. */
+@media (prefers-reduced-motion:reduce){
+  .btn[data-fuell]::before,.btn[data-fuell]::after{transition:none}
 }
 
 /* --- Druckfeedback -------------------------------------------------------
@@ -1639,52 +1745,58 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
    Satz noch einmal beginnt. Deshalb hat die semantische Eindeutigkeit hier
    Vorrang bekommen — sechs Fragen, sechs Kaesten, ein Raster.
 
-   Das Raster braucht keine Bewegung, um die Reihe zu tragen: die Kaesten
-   fuellen die Breite und brechen nach unten um. Das Einblenden beim
-   Scrollen (data-reveal) bleibt, es haengt nicht am Inhalt.
+   Zwei Endlosbaender statt eines Rasters: das obere laeuft nach links, das
+   untere nach rechts. Je Band drei Fragen.
+
+   Frueher lief der Umlauf ueber eine zweite, identische Reihe: die
+   Animation schob um -50%, und weil dort dasselbe noch einmal stand, sah
+   das Ende aus wie der Anfang. Sechs Fragen standen so sechsmal im
+   Dokument.
+
+   Jetzt reicht das Skript die Karte weiter, die auf der einen Seite
+   hinausgelaufen ist, und setzt sie auf der anderen wieder an. Es gibt
+   nichts zu verdoppeln — weder im Quelltext noch im Browser. Die Bewegung
+   ist dieselbe, nur ihre Buchfuehrung ist eine andere.
+
+   Damit das lueckenlos bleibt, muss die Bahn breiter sein als das Fenster
+   plus eine Karte: sonst waere zwischen der letzten und der wieder
+   angesetzten ersten Karte fuer einen Moment nichts. Drei Karten schaffen
+   das nur, wenn jede rund die halbe Breite fuellt — daher die 44vw. Das
+   Skript rechnet es nach und vergroessert notfalls den Abstand.
+
+   Ohne Skript und bei prefers-reduced-motion steht das Band still. Die
+   Reihe bleibt lesbar und laesst sich seitlich schieben.
    ------------------------------------------------------------------------- */
-.fq{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.fq{display:grid;gap:12px}
+.fq__row{
+  overflow:hidden;
+  /* Weiche Kante statt harter Schnitt: eine Karte, die an einer Linie
+     abgeschnitten wird, sieht nach Fehler aus, eine ausblendende nach
+     Fortsetzung. */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+/* Solange das Skript nicht laeuft, ist die Reihe eine gewoehnliche,
+   schiebbare Zeile. data-laeuft setzt es, sobald es die Bahn uebernimmt. */
+.fq__row:not([data-laeuft]){overflow-x:auto;scrollbar-width:none}
+.fq__row:not([data-laeuft])::-webkit-scrollbar{display:none}
+.fq__track{display:flex;gap:12px;width:max-content}
+/* Das Skript setzt nur die Zahl, verschoben wird hier. So bleibt die
+   Darstellung im Stylesheet und das Skript kennt kein CSS. */
+.fq__row[data-laeuft] .fq__track{transform:translate3d(var(--fq-x,0px),0,0);will-change:transform}
+
 .fq__b{
+  flex:none;width:clamp(280px,44vw,560px);
   border:1px solid var(--line);border-radius:var(--radius);
   background:var(--paper-2);padding:18px 20px;
   transition:border-color var(--dur) var(--ease),background-color var(--dur) var(--ease);
 }
-.fq__b:hover{border-color:var(--ink-45);background:var(--paper-3)}
+.fq__row:hover .fq__b:hover{border-color:var(--ink-45);background:var(--paper-3)}
 .fq__q{
   font-family:var(--font-display);font-weight:600;
   font-size:.9375rem;letter-spacing:-.015em;line-height:1.3;
 }
 .fq__a{margin-top:8px;font-size:.8125rem;line-height:1.55;color:var(--ink-70)}
-
-/* Schmal laufen die Fragen auf derselben Bahn wie die Leistungskarten
-   (Abschnitt 10). Am Schreibtisch stehen die sechs Kaesten als Raster
-   nebeneinander; untereinander gestapelt kosteten sie rund 1450px, in
-   denen sechsmal dieselbe Kastenform untereinander steht. Nebeneinander
-   bleibt es dieselbe Ansicht wie am Schreibtisch, nur gewischt statt
-   ueberblickt — und der Abschnitt passt wieder auf ein Bild.
-
-   Die Kaesten einer Bahn sind gleich hoch (flex streckt sie), so wie sie
-   es im Raster zeilenweise auch sind. */
-@media (max-width:819px){
-  .fq{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    overscroll-behavior-x:contain;
-    gap:12px;
-    margin-inline:calc(var(--gutter) * -1);
-    padding-inline:var(--gutter);
-    scroll-padding-inline:var(--gutter);
-    scrollbar-width:none;
-  }
-  .fq::-webkit-scrollbar{display:none}
-  .fq__b{
-    flex:0 0 min(86%,380px);
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-  }
-  .carou__dots--fq{display:flex}
-}
 
 /* Mobile first: 13px sind am Schreibtisch eine Auszeichnungsgroesse, am
    Handy aber zusammenhaengender Fliesstext, den man liest. Betroffen sind
@@ -1755,8 +1867,16 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   padding:15px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);
   background:var(--paper-2);
 }
+/* 24px, nicht 22: WCAG 2.2 verlangt in 2.5.8 eine Trefferflaeche von
+   mindestens 24x24 CSS-Pixeln. Bei 22 lag das Kaestchen zwei Punkte
+   darunter — nachgemessen im Browser, nicht geschaetzt. Die Ausnahme fuer
+   Inline-Ziele greift hier nicht: das Kaestchen steht als eigenes
+   Bedienelement neben dem Text, nicht in einem Satz.
+
+   margin-top faellt entsprechend von 1px auf 0, damit das Kaestchen weiter
+   auf der ersten Zeile des Labels sitzt statt einen Punkt darunter. */
 .consent input{
-  width:22px;height:22px;margin:1px 0 0;accent-color:var(--accent);cursor:pointer;flex:none;
+  width:24px;height:24px;margin:0;accent-color:var(--accent);cursor:pointer;flex:none;
 }
 .consent label{font-size:.875rem;line-height:1.55;color:var(--ink-70);cursor:pointer}
 .consent a{color:var(--accent-ink);text-underline-offset:3px}
@@ -1994,6 +2114,19 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 /* ---------- 16. Rechtsseiten --------------------------------------------- */
 .legal{padding-block:clamp(48px,6vw,80px) clamp(56px,7vw,96px)}
 .legal__body{max-width:70ch}
+
+/* Hinweis auf die massgebliche Fassung, nur auf den englischen Rechtstexten.
+   Abgesetzt, aber nicht als Warnung: es ist eine Einordnung, keine Stoerung.
+   Steht vor dem ersten Abschnitt, weil danach niemand mehr fragt, welche
+   Fassung gilt. */
+.hinweis-fassung{
+  margin:0 0 clamp(28px,3.5vw,44px);
+  padding:14px 16px;
+  border-left:2px solid var(--accent);
+  background:var(--paper-2);
+  font-size:.875rem;line-height:1.55;color:var(--ink-70);
+}
+.hinweis-fassung a{color:var(--accent-ink);text-underline-offset:3px}
 .legal__body h2{
   font-family:var(--font-display);font-weight:600;letter-spacing:-.028em;
   font-size:clamp(1.35rem,2.4vw,1.8rem);line-height:1.2;margin-top:2.4em;
@@ -2556,3 +2689,10 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   color:var(--ink-70);text-underline-offset:4px;
 }
 .weg__wissen:hover{color:var(--accent-ink)}
+
+/* Der schwebende Schnellkontakt schrumpft schmal zum Kreis und blendet seine
+   Beschriftung aus. Die mitgeschnittene Kopie muss dann mit verschwinden,
+   sonst stuende sie im Kreis und wuerde abgeschnitten. */
+@media (max-width:559px){
+  .sticky-cta[data-fuell]::after{content:""}
+}

@@ -30,8 +30,13 @@ const SEITEN = [
   { pfad: 'en/index.html',                 lang: 'en', kanonisch: '/en/',                    paar: { partner: '/',                    schalter: 'DE' } },
   { pfad: 'website-analyse/index.html',    lang: 'de', kanonisch: '/website-analyse/',       paar: { partner: '/en/website-analyse/', schalter: 'EN' } },
   { pfad: 'en/website-analyse/index.html', lang: 'en', kanonisch: '/en/website-analyse/',    paar: { partner: '/website-analyse/',    schalter: 'DE' } },
-  { pfad: 'impressum.html',                lang: 'de', kanonisch: '/impressum.html' },
-  { pfad: 'datenschutz.html',              lang: 'de', kanonisch: '/datenschutz.html' },
+  /* Rechtstexte: zweisprachig, aber mit je eigener Quelle (EIGENE_PAARE in
+     seiten.mjs). Fuer die Abnahme sind es gewoehnliche Sprachpaare — sie
+     muessen aufeinander zeigen wie alle anderen auch. */
+  { pfad: 'impressum.html',                lang: 'de', kanonisch: '/impressum.html',   paar: { partner: '/en/imprint.html', schalter: 'EN' } },
+  { pfad: 'en/imprint.html',               lang: 'en', kanonisch: '/en/imprint.html',  paar: { partner: '/impressum.html',  schalter: 'DE' } },
+  { pfad: 'datenschutz.html',              lang: 'de', kanonisch: '/datenschutz.html', paar: { partner: '/en/privacy.html', schalter: 'EN' } },
+  { pfad: 'en/privacy.html',               lang: 'en', kanonisch: '/en/privacy.html',  paar: { partner: '/datenschutz.html', schalter: 'DE' } },
   /* Wissensbereich, seit PXK-28/PXK-29 veroeffentlicht. `wissen` markiert
      eine Seite des Bereichs; `hub` zusaetzlich die Uebersichtsseite, von
      der aus jeder Beitrag erreichbar sein muss. Wo frueher noindex Pflicht
@@ -418,7 +423,18 @@ async function verify() {
       }
     }
     if (en) {
-      if (/[äöüÄÖÜß]/.test(html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/g, ' ')))
+      /* Eigennamen, die auch auf einer englischen Seite deutsch bleiben
+         muessen: die Aufsichtsbehoerde heisst so, wie sie heisst — uebersetzt
+         findet sie niemand wieder. Die Liste steht namentlich da und ist
+         bewusst kurz. Eine weiche Regel ("Umlaute in Absaetzen erlauben")
+         haette den Test entwertet, der genau dafuer da ist, vergessene
+         deutsche Reste zu finden. */
+      const DEUTSCHE_EIGENNAMEN = [
+        'Berliner Beauftragte für Datenschutz und Informationsfreiheit',
+      ];
+      let sichtbar = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/g, ' ');
+      for (const name of DEUTSCHE_EIGENNAMEN) sichtbar = sichtbar.split(name).join(' ');
+      if (/[äöüÄÖÜß]/.test(sichtbar))
         F(`${seite}: Umlaute im sichtbaren Text — vermutlich deutscher Rest`);
 
       /* Englische Seiten verweisen auf englische Fassungen. Ein href oder
@@ -428,7 +444,14 @@ async function verify() {
          gehaltenen Rechtsseiten. Gefunden am 30.08.2026: das Analyse-Band
          und der Footer-Link der englischen Startseite zeigten auf
          /website-analyse/ statt /en/website-analyse/. */
-      const ohneSchalter = html.replace(/<a class="lang"[^>]*data-lang-switch>[^<]*<\/a>/, '');
+      /* Zwei Stellen duerfen bewusst auf die deutsche Fassung zeigen: der
+         Sprachumschalter und, auf den englischen Rechtstexten, der Hinweis
+         darauf, welche Fassung die massgebliche ist. Eine Uebersetzung ist
+         eine Lesehilfe; der Verweis auf das Original gehoert dazu und ist
+         kein vergessener Link. */
+      const ohneSchalter = html
+        .replace(/<a class="lang"[^>]*data-lang-switch>[^<]*<\/a>/, '')
+        .replace(/<p class="hinweis-fassung">[\s\S]*?<\/p>/, '');
       const dePfade = SEITEN.filter((s) => s.lang === 'de' && s.paar).map((s) => s.kanonisch);
       for (const dePfad of dePfade) {
         const muster = new RegExp(

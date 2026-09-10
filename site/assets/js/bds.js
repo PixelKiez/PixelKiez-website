@@ -128,6 +128,41 @@
     });
   }
 
+  /* --- 1b. Fuellflaeche der Knoepfe --------------------------------------
+     Der Effekt braucht die Beschriftung ein zweites Mal: eine Kopie liegt
+     ueber dem Original und wird mit der Flaeche mitgeschnitten, damit die
+     Schrift genau dort die Farbe wechselt, wo die Kante steht.
+
+     Diese Kopie steht bewusst nicht im Quelltext. Sie entsteht im
+     Stylesheet aus attr(data-fuell) — hier wird nur das Attribut gesetzt.
+     Damit taucht kein Satz zweimal im Dokument auf, die
+     Uebersetzungstabelle bekommt keinen zweiten Eintrag, und ohne Skript
+     bleibt es bei dem Farbwechsel, den es vorher gab.
+
+     Knoepfe ohne Beschriftung bleiben aussen vor: bei einem reinen
+     Symbolknopf gaebe es nichts zu schneiden.
+     ---------------------------------------------------------------------- */
+  var fuelleKnoepfe = function (bereich) {
+    $$('.btn', bereich || document).forEach(function (knopf) {
+      var etikett = $('.btn__label', knopf);
+      var text = ((etikett ? etikett.textContent : knopf.textContent) || '').trim();
+      if (text) knopf.dataset.fuell = text;
+    });
+  };
+  fuelleKnoepfe();
+
+  /* Das Ergebnis des Projekt-Checks wird bei jeder Antwort neu geschrieben.
+     Der Knopf darin ist danach ein anderes Element und haette das Attribut
+     nicht mehr — ohne diesen Beobachter waere er der einzige Knopf der Seite
+     ohne den Effekt. Beobachtet wird nur dieser eine Kasten, nicht das
+     Dokument: die Fragenbaender verschieben staendig Karten, ein
+     dokumentweiter Beobachter liefe dauernd mit. */
+  var ergebnis = $('#check-result');
+  if (ergebnis && typeof MutationObserver !== 'undefined') {
+    new MutationObserver(function () { fuelleKnoepfe(ergebnis); })
+      .observe(ergebnis, { childList: true, subtree: true });
+  }
+
   /* --- 2. Reveal beim Scrollen ------------------------------------------
      Sichtbarkeit ist der Grundzustand, Bewegung die Zutat. Das Verstecken
      vor dem Einblenden haengt allein am Merkmal data-reveal-anim auf dem
@@ -958,6 +993,117 @@
      ist entfallen — mit ihm das Skript, das die Werte tauschte, und die beiden
      Fassungen im Markup. Die Preise stehen jetzt als gewoehnlicher Text in den
      Karten und stehen damit auch ohne Skript. */
+
+  /* --- 7c. Endlosbaender im Fragenteil -----------------------------------
+     Zwei Baender, das obere nach links, das untere nach rechts.
+
+     Der uebliche Weg zu einem Umlauf ist, die Reihe zweimal hinzuschreiben
+     und um ihre halbe Breite zu schieben: das Ende sieht dann aus wie der
+     Anfang. Genau das stand hier frueher — sechs Fragen als 36 <article>,
+     achtzehn davon unter aria-hidden. Eine Vervielfachung, die nur die
+     Animation brauchte.
+
+     Hier laeuft es ohne Kopie: die Karte, die auf der einen Seite
+     hinausgelaufen ist, wird ans andere Ende gehaengt, und der Versatz wird
+     um ihre Breite verrechnet. Fuer das Auge ist es dieselbe Bewegung, im
+     Dokument wie im Browser steht jede Frage genau einmal.
+
+     Lueckenlos ist das nur, wenn die Bahn breiter ist als das Fenster plus
+     eine Karte — sonst klaffte zwischen der letzten und der wieder
+     angesetzten ersten Karte fuer einen Moment nichts. Das Stylesheet legt
+     die Kartenbreite darauf aus; hier wird nachgerechnet und im Zweifel der
+     Abstand vergroessert. Lieber ein weiterer Abstand als ein Loch.
+
+     Angehalten wird bei Hover und Tastaturfokus (Lesen und Laufen schliessen
+     sich aus) und ausserhalb des Bildes (ein Band, das niemand sieht, muss
+     keinen Strom kosten). Bei prefers-reduced-motion faengt es gar nicht an,
+     dann bleibt die Reihe eine schiebbare Zeile.
+     ---------------------------------------------------------------------- */
+  (function baender() {
+    if (reduced) return;
+    var TEMPO = 32;                                  // Punkte je Sekunde
+
+    $$('.fq__row').forEach(function (reihe) {
+      var bahn = $('.fq__track', reihe);
+      if (!bahn) return;
+      var karten = Array.prototype.slice.call(bahn.children);
+      if (karten.length < 2) return;
+
+      var vor = reihe.classList.contains('fq__row--lr') ? 1 : -1;
+      var versatz = 0, ruht = false, sichtbar = true, letzte = 0;
+
+      // Breite einer Karte samt Abstand dahinter. Bei jedem Weiterreichen
+      // frisch gemessen: nach einem Schriftwechsel sind die Karten nicht
+      // mehr so breit wie beim ersten Messen.
+      var abstand = function () { return parseFloat(getComputedStyle(bahn).columnGap) || 0; };
+      var spanne  = function (el) { return el.getBoundingClientRect().width + abstand(); };
+      var setze   = function () { bahn.style.setProperty('--fq-x', versatz.toFixed(2) + 'px'); };
+
+      /* Nachrechnen, ob die Bahn traegt: n Karten decken das Fenster nur,
+         wenn (n-1) Schritte mindestens die Fensterbreite ergeben. Fehlt
+         etwas, wird der Abstand vergroessert — lieber weiter auseinander
+         als fuer einen Moment ein Loch. */
+      var pruefeBreite = function () {
+        bahn.style.columnGap = '';
+        var fenster = reihe.clientWidth;
+        var breiteste = karten.reduce(function (m, k) {
+          return Math.max(m, k.getBoundingClientRect().width);
+        }, 0);
+        var noetig = fenster / (karten.length - 1);
+        if (breiteste + abstand() < noetig) bahn.style.columnGap = (noetig - breiteste) + 'px';
+      };
+
+      var schritt = function (jetzt) {
+        var dt = letzte ? Math.min((jetzt - letzte) / 1000, 0.05) : 0;
+        letzte = jetzt;
+        if (!ruht && sichtbar) {
+          versatz += vor * TEMPO * dt;
+          // Weiterreichen, solange eine Karte vollstaendig draussen ist.
+          if (vor < 0) {
+            while (versatz <= -spanne(bahn.firstElementChild)) {
+              versatz += spanne(bahn.firstElementChild);
+              bahn.appendChild(bahn.firstElementChild);
+            }
+          } else {
+            while (versatz >= 0) {
+              var l = bahn.lastElementChild;
+              versatz -= spanne(l);
+              bahn.insertBefore(l, bahn.firstElementChild);
+            }
+          }
+          setze();
+        }
+        window.requestAnimationFrame(schritt);
+      };
+
+      pruefeBreite();
+      // Nach rechts beginnt es eine Karte weiter links, sonst liefe von der
+      // ersten Karte aus nichts nach.
+      if (vor > 0) {
+        var l0 = bahn.lastElementChild;
+        bahn.insertBefore(l0, bahn.firstElementChild);
+        versatz = -spanne(l0);
+      }
+      setze();
+      reihe.dataset.laeuft = 'true';
+
+      // Lesen und Laufen schliessen sich aus.
+      reihe.addEventListener('mouseenter', function () { ruht = true; });
+      reihe.addEventListener('mouseleave', function () { ruht = false; });
+      reihe.addEventListener('focusin',    function () { ruht = true; });
+      reihe.addEventListener('focusout',   function () { ruht = false; });
+
+      // Ein Band, das niemand sieht, muss keinen Strom kosten.
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; })
+          .observe(reihe);
+      }
+      // Die Kartenbreite haengt an vw. Aendert sich das Fenster, muss die
+      // Rechnung noch einmal laufen.
+      window.addEventListener('resize', pruefeBreite);
+      window.requestAnimationFrame(schritt);
+    });
+  })();
 
   /* --- 8. Projekt-Check -------------------------------------------------- */
   var AUSGANG = {

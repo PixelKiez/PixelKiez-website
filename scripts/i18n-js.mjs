@@ -31,7 +31,7 @@ const CODE = [
 const EXAKT_CODE = new Set([
   'Escape', 'Enter', 'IntersectionObserver', 'POST', 'Content-Type',
   'textPath', 'startOffset',
-  '--d', '--i', '--n', '<i class="',
+  '--d', '--i', '--n', '--fq-x', '<i class="',
 ]);
 
 /* Bleibt nach dem Entfernen aller Tags und Entitaeten kein Buchstabe uebrig,

@@ -29,7 +29,39 @@
    gegenseitig bestaetigen koennen.
    ========================================================================= */
 
-export const EINSPRACHIG = ['impressum.html', 'datenschutz.html'];
+export const EINSPRACHIG = [];
+
+/* EIGENE_PAARE: Seiten, deren englische Fassung eine eigene Quelldatei ist
+   statt aus der deutschen erzeugt zu werden.
+
+   Fuer die Rechtstexte ist der Weg ueber die Uebersetzungstabelle der
+   falsche. Die Tabelle tauscht Satz gegen Satz; ein Rechtstext ist aber
+   kein Satzvorrat, sondern ein Dokument, dessen Gliederung, Verweise und
+   Rechtsgrundlagen zusammengehoeren. Ausserdem stuenden dann rund zweihundert
+   juristische Saetze in en.json neben den Werbetexten, und jede Aenderung am
+   deutschen Wortlaut liesse den Build abbrechen, bis jemand die englische
+   Entsprechung nachpflegt — bei Rechtstexten ist das kein Schutz, sondern
+   eine Bremse an der falschen Stelle.
+
+   Beide Fassungen laufen deshalb durch dieselbe deutsche Aufbereitung
+   (CSS einbetten, Pfade hashen), bekommen aber getrennte Quellen. Der
+   Build setzt ihnen Canonical und hreflang wie jedem anderen Paar.
+
+   Die englischen Fassungen tragen sichtbar den Hinweis, dass die deutsche
+   Fassung die massgebliche ist. Eine Uebersetzung ist eine Lesehilfe, keine
+   zweite Rechtsgrundlage. */
+export const EIGENE_PAARE = [
+  {
+    quelle: 'impressum.html',   quelleEn: 'en/imprint.html',
+    zielDe: 'impressum.html',   zielEn: 'en/imprint.html',
+    pfadDe: '/impressum.html',  pfadEn: '/en/imprint.html',
+  },
+  {
+    quelle: 'datenschutz.html',   quelleEn: 'en/privacy.html',
+    zielDe: 'datenschutz.html',   zielEn: 'en/privacy.html',
+    pfadDe: '/datenschutz.html',  pfadEn: '/en/privacy.html',
+  },
+];
 
 export const SPRACHPAARE = [
   {
