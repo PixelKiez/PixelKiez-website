@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Care &amp; Weiterentwicklung · Pixelkiez</title>
+<meta name="description" content="Betreuung nach dem Launch: Betrieb, Monitoring, Updates, Backups und vereinbarte Änderungen — mit klarer Trennung zwischen Care und Weiterentwicklung.">
+<meta name="theme-color" content="#B6C7C4">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://pixelkiez.de/care/"><!-- hreflang setzt der Build -->
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Pixelkiez">
+<meta property="og:title" content="Care &amp; Weiterentwicklung · Pixelkiez">
+<meta property="og:description" content="Betreuung nach dem Launch: Betrieb, Monitoring, Updates, Backups und vereinbarte Änderungen — mit klarer Trennung zwischen Care und Weiterentwicklung.">
+<meta property="og:url" content="https://pixelkiez.de/care/">
+<meta property="og:image" content="assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pixelkiez">
+
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="/icon-512.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/bds.css">
+
+<!-- Strukturierte Daten der Leistungsseite: die Seite selbst, die darauf
+     beschriebene Leistung und der Weg hierher. Ohne Preis- und
+     Bewertungsangaben — der Umfang wird je Projekt vereinbart. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://pixelkiez.de/care/#webpage",
+      "url": "https://pixelkiez.de/care/",
+      "name": "Care & Weiterentwicklung",
+      "description": "Betreuung nach dem Launch: Betrieb, Monitoring, Updates, Backups und vereinbarte Änderungen — mit klarer Trennung zwischen Care und Weiterentwicklung.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@id": "https://pixelkiez.de/#website" },
+      "about": { "@id": "https://pixelkiez.de/#organisation" },
+      "publisher": { "@id": "https://pixelkiez.de/#organisation" },
+      "breadcrumb": { "@id": "https://pixelkiez.de/care/#breadcrumb" },
+      "mainEntity": { "@id": "https://pixelkiez.de/care/#leistung" }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://pixelkiez.de/care/#leistung",
+      "name": "Care & Weiterentwicklung",
+      "serviceType": "Website-Betreuung, Wartung und Weiterentwicklung",
+      "description": "Betrieb, technische Betreuung und vereinbarte Weiterentwicklung einer Website nach dem Launch: Monitoring, Sicherheits- und Dependency-Updates, Backups, Fehlerbehebung und kleinere Änderungen.",
+      "provider": { "@id": "https://pixelkiez.de/#organisation" },
+      "areaServed": { "@type": "Country", "name": "Deutschland" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pixelkiez.de/care/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://pixelkiez.de/" },
+        { "@type": "ListItem", "position": 2, "name": "Care & Weiterentwicklung" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Zum Inhalt springen</a>
+
+<!-- Icon-Sprite: Teilmenge des Startseiten-Sets, gleiche Strichstärke -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 20V9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 5 6v5.4c0 4.2 2.8 7.6 7 9.4 4.2-1.8 7-5.2 7-9.4V6z"/><path d="m9.2 12 2 2 3.6-3.8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-6M12 20V6M17 20v-9"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-15A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5Z"/></symbol>
+</svg>
+
+<!-- Unterseiten-Kopf: Marke, ein Knopf zum Kontakt, Sprachumschalter. -->
+<header class="header" data-scrolled="true">
+  <div class="wrap header__in">
+    <a class="brand" href="/" aria-label="Pixelkiez, Startseite">
+      <img class="brand__mark" src="assets/img/logo-klein.webp" alt="Pixelkiez" width="480" height="111" decoding="async">
+      <span class="brand__sub">Webdesign Berlin</span>
+    </a>
+    <div class="header__act">
+      <a class="btn btn--split btn--primary btn--sm" href="/#kontakt" data-open-contact data-anliegen="Anfrage zu Care und Weiterentwicklung: Bitte um ein Gespräch."><span class="btn__label">Gespräch anfragen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="lang" href="/en/care/" hreflang="en" lang="en" aria-label="Switch to English" data-lang-switch>EN</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===================== AUFTAKT ===================== -->
+<section class="section section--flush auftakt">
+  <div class="wrap">
+    <nav class="krumen" aria-label="Sie sind hier">
+      <ol>
+        <li><a href="/">Startseite</a></li>
+        <li aria-current="page">Care &amp; Weiterentwicklung</li>
+      </ol>
+    </nav>
+    <div class="section__head">
+      <p class="kicker" data-reveal>Leistung 04</p>
+      <h1 class="h-lg" data-reveal>Betreuung nach dem Launch. Planbar und klar definiert.</h1>
+      <p class="lead" data-reveal>Eine Website ist nach dem Launch nicht abgeschlossen. Browser, Server, Abhängigkeiten, externe Dienste und Inhalte verändern sich weiter.</p>
+      <p class="prose" data-reveal>Auf Wunsch übernimmt Pixelkiez deshalb Betrieb, technische Betreuung und vereinbarte Weiterentwicklung.</p>
+      <div data-reveal>
+        <a class="btn btn--split btn--primary" href="/#kontakt" data-open-contact data-anliegen="Anfrage zu Care: Bitte um ein Gespräch über die Betreuung nach dem Launch."><span class="btn__label">Care besprechen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 1. AUSGANGSLAGE ===================== -->
+<section class="section" id="ausgangslage">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Der Launch ist nicht das Ende.</h2>
+      <p class="lead" data-reveal>Auch ohne aktives Redesign verändert sich die technische Umgebung einer Website.</p>
+    </div>
+
+    <div class="pl">
+      <div data-reveal>
+        <h3 class="h-sm">Mögliche Ursachen</h3>
+        <ul class="pl__list">
+          <li>Browser-Updates</li>
+          <li>Server-Änderungen</li>
+          <li>externe Dienste</li>
+          <li>Sicherheitsupdates</li>
+          <li>veraltete Dependencies</li>
+          <li>Zertifikate</li>
+          <li>technische Änderungen an Schnittstellen</li>
+        </ul>
+      </div>
+      <div class="pl__col--fix" data-reveal>
+        <h3 class="h-sm">Ohne klare Zuständigkeit entstehen häufig</h3>
+        <ul class="pl__list">
+          <li>technische Fehler</li>
+          <li>veraltete Komponenten</li>
+          <li>fehlende Backups</li>
+          <li>Performance-Probleme</li>
+          <li>Unsicherheit darüber, wer zuständig ist</li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="merke pl-schluss" data-reveal>
+      <p class="merke__k">Wofür Care da ist</p>
+      <p>Care schafft einen klaren technischen Verantwortungsbereich nach dem Launch.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 2. BETRIEB UND MONITORING ===================== -->
+<section class="section" id="betrieb">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Betrieb und Monitoring.</h2>
+      <p class="lead" data-reveal>Je nach Care-Modell können wir übernehmen:</p>
+    </div>
+
+    <ol class="pruefliste">
+      <li data-reveal>Hosting</li>
+      <li data-reveal>SSL</li>
+      <li data-reveal>Backups</li>
+      <li data-reveal>Uptime-Monitoring</li>
+      <li data-reveal>technische Basisüberwachung</li>
+      <li data-reveal>definierte Funktionschecks</li>
+    </ol>
+
+    <aside class="merke merke--warnung" data-reveal>
+      <p class="merke__k">Was wir dabei nicht versprechen</p>
+      <p>Das Ziel ist nicht, eine ausfallfreie Website zuzusagen. Das Ziel ist, Probleme früh zu erkennen, Risiken zu reduzieren und schneller reagieren zu können.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 3. TECHNISCHE BETREUUNG ===================== -->
+<section class="section inv" id="technik">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Technische Betreuung.</h2>
+      <p class="lead" data-reveal>Je nach eingesetzter Technologie können dazu gehören:</p>
+    </div>
+
+    <div class="pl">
+      <div data-reveal>
+        <h3 class="h-sm">Aktualität und Sicherheit</h3>
+        <ul class="pl__list">
+          <li>Sicherheitsupdates</li>
+          <li>Dependency-Updates</li>
+          <li>Kompatibilitätsprüfungen</li>
+        </ul>
+      </div>
+      <div data-reveal>
+        <h3 class="h-sm">Laufender Betrieb</h3>
+        <ul class="pl__list">
+          <li>Fehlerbehebung im bestehenden Umfang</li>
+          <li>kleinere technische Korrekturen</li>
+          <li>Performance-Kontrollen</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sek-fuss">
+      <p class="prose" data-reveal>Dabei gilt: Nicht jede Website benötigt dieselbe Art von Wartung. Ein statischer Webauftritt stellt andere Anforderungen als ein CMS oder eine Website mit mehreren externen Integrationen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4. BACKUPS ===================== -->
+<section class="section" id="backups">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Backups und Wiederherstellung.</h2>
+      <p class="lead" data-reveal>Backups bilden die Grundlage dafür, bei technischen Problemen oder Datenverlust reagieren zu können. Je nach Projektarchitektur können dazu gehören:</p>
+    </div>
+
+    <ol class="pruefliste">
+      <li data-reveal>regelmäßige Sicherungen</li>
+      <li data-reveal>getrennte Speicherung</li>
+      <li data-reveal>definierte Aufbewahrung</li>
+      <li data-reveal>Wiederherstellungsprozesse</li>
+    </ol>
+
+    <div class="sek-fuss">
+      <p class="prose" data-reveal>Wir versprechen keine „garantierte sofortige Wiederherstellung“, sondern schaffen eine belastbare technische Rückfallebene.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. KLEINE AENDERUNGEN ===================== -->
+<section class="section" id="aenderungen">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Kleine Änderungen ohne neues Projekt.</h2>
+      <p class="lead" data-reveal>Websites verändern sich auch inhaltlich. Je nach Care-Paket können kleinere Anpassungen enthalten sein:</p>
+    </div>
+
+    <ol class="pruefliste">
+      <li data-reveal>Textkorrekturen</li>
+      <li data-reveal>Bildaustausch</li>
+      <li data-reveal>kleinere Inhaltsänderungen</li>
+      <li data-reveal>begrenzte Layoutkorrekturen</li>
+    </ol>
+
+    <div class="sek-fuss">
+      <p class="small" data-reveal>Der konkrete Umfang wird vorab definiert.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6. CARE ODER WEITERENTWICKLUNG ===================== -->
+<section class="section" id="abgrenzung">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Care oder Weiterentwicklung?</h2>
+      <p class="lead" data-reveal>Diese Trennung ist zentral. Care hält den bestehenden Stand technisch stabil und aktuell. Weiterentwicklung verändert oder erweitert das bestehende System.</p>
+    </div>
+
+    <div class="pl">
+      <div data-reveal>
+        <h3 class="h-sm">Care</h3>
+        <ul class="pl__list">
+          <li>Monitoring</li>
+          <li>Updates</li>
+          <li>Backups</li>
+          <li>Fehlerbehebung</li>
+          <li>kleinere Änderungen</li>
+        </ul>
+      </div>
+      <div class="pl__col--fix" data-reveal>
+        <h3 class="h-sm">Weiterentwicklung</h3>
+        <ul class="pl__list">
+          <li>neue Seitenstrukturen</li>
+          <li>neue größere Funktionen</li>
+          <li>neue Integrationen</li>
+          <li>Redesigns</li>
+          <li>Kampagnen</li>
+          <li>umfangreiches Copywriting</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sek-fuss">
+      <p class="small" data-reveal>Solche Leistungen werden separat geplant und kalkuliert.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 7. SICHTBARKEIT ===================== -->
+<section class="section" id="sichtbarkeit">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Sichtbarkeit mitbetreuen.</h2>
+      <p class="lead" data-reveal>Technische SEO-Grundlagen können ebenfalls regelmäßig kontrolliert werden.</p>
+    </div>
+
+    <div class="pl">
+      <div data-reveal>
+        <h3 class="h-sm">Je nach Paket oder Zusatzmodul</h3>
+        <ul class="pl__list">
+          <li>Indexierung</li>
+          <li>Sitemap</li>
+          <li>Canonicals</li>
+          <li>strukturierte Daten</li>
+          <li>Crawling-Probleme</li>
+          <li>technische Sichtbarkeit</li>
+        </ul>
+      </div>
+      <div data-reveal>
+        <h3 class="h-sm">Mögliche erweiterte Leistungen</h3>
+        <ul class="pl__list">
+          <li>Query-Monitoring</li>
+          <li>Erwähnungsmonitoring</li>
+          <li>Quellenanalyse</li>
+          <li>Entity-/Schema-Prüfung</li>
+          <li>Content-Gap-Analyse</li>
+          <li>technische AI-Crawler-Prüfung</li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="merke merke--warnung pl-schluss" data-reveal>
+      <p class="merke__k">Die Grenze dieser Arbeit</p>
+      <p>Darüber hinaus können SEO, GEO und AI Visibility als zusätzliche Betreuung angeboten werden. Dabei bleiben AI-Ergebnisse nicht garantierbar.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 8. KEINE ABHAENGIGKEIT ===================== -->
+<section class="section" id="unabhaengigkeit">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Betreuung ohne künstliche Abhängigkeit.</h2>
+      <p class="lead" data-reveal>Care soll entlasten, nicht binden.</p>
+    </div>
+
+    <ol class="pruefliste">
+      <li data-reveal>Die Domain bleibt beim Kunden.</li>
+      <li data-reveal>Die Inhalte bleiben beim Kunden.</li>
+      <li data-reveal>Vereinbarte Zugänge werden bereitgestellt.</li>
+      <li data-reveal>Der Leistungsumfang wird transparent dokumentiert.</li>
+    </ol>
+
+    <div class="sek-fuss">
+      <p class="small" data-reveal>Externe Software, Lizenzen und Drittanbieterdienste können eigene Vertragsbedingungen besitzen.</p>
+    </div>
+
+    <aside class="merke pl-schluss" data-reveal>
+      <p class="merke__k">Unser Prinzip</p>
+      <p>Betreuung, weil sie einen Mehrwert bietet – nicht weil der Kunde technisch gefangen ist.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== 9. ABGRENZUNG ===================== -->
+<section class="section" id="nicht-enthalten">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Was Care nicht automatisch umfasst.</h2>
+      <p class="lead" data-reveal>Diese Leistungen können separat angeboten werden:</p>
+    </div>
+
+    <div class="pl">
+      <div data-reveal>
+        <h3 class="h-sm">Umbau und Ausbau</h3>
+        <ul class="pl__list">
+          <li>vollständige Redesigns</li>
+          <li>neue umfangreiche Seitenbereiche</li>
+          <li>neue komplexe Funktionen</li>
+          <li>umfangreiche CRM-/API-Integrationen</li>
+          <li>Shops</li>
+        </ul>
+      </div>
+      <div data-reveal>
+        <h3 class="h-sm">Marketing und Inhalte</h3>
+        <ul class="pl__list">
+          <li>Kampagnen</li>
+          <li>Ads</li>
+          <li>umfangreiche Contentproduktion</li>
+          <li>vollständige SEO- oder GEO-Kampagnen</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABSCHLUSS ===================== -->
+<section class="section sec--orange" id="naechster-schritt">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Wer kümmert sich nach dem Launch?</h2>
+      <p class="lead" data-reveal>Care schafft eine klare Zuständigkeit für Betrieb, technische Pflege und vereinbarte Änderungen.</p>
+      <div class="btn-row" data-reveal>
+        <a class="btn btn--split btn--primary" href="/#kontakt" data-open-contact data-anliegen="Anfrage zu Care: Bitte um ein Gespräch über die Betreuung nach dem Launch."><span class="btn__label">Care besprechen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></a>
+        <a class="btn btn--ghost" href="/#check" data-fuell="Projekt-Check starten">Projekt-Check starten</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VERWANDTE LEISTUNGEN ===================== -->
+<section class="section" id="verwandt">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="h-lg" data-reveal>Verwandte Leistungen.</h2>
+    </div>
+
+    <div class="wissen-weiter">
+      <div class="channel" data-reveal>
+        <span class="channel__i"><svg aria-hidden="true"><use href="#i-layout"/></svg></span>
+        <div>
+          <h3 class="h-sm"><a href="/webdesign-redesign/">Webdesign &amp; Redesign</a></h3>
+          <p class="small" style="margin-top:5px">Struktur, Gestaltung und technische Umsetzung — neu entwickelt oder auf vorhandener Basis modernisiert.</p>
+        </div>
+      </div>
+      <div class="channel" data-reveal>
+        <span class="channel__i"><svg aria-hidden="true"><use href="#i-search"/></svg></span>
+        <div>
+          <h3 class="h-sm"><a href="/wissen/seo-geo-ai-visibility/">SEO, GEO &amp; AI Visibility</a></h3>
+          <p class="small" style="margin-top:5px">Was klassisches SEO, GEO und AI Visibility jeweils fragen — und was sich davon überhaupt messen lässt.</p>
+        </div>
+      </div>
+      <div class="channel" data-reveal>
+        <span class="channel__i"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>
+        <div>
+          <h3 class="h-sm"><a href="/digitale-funktionen/">Conversion &amp; digitale Funktionen</a></h3>
+          <p class="small" style="margin-top:5px">Anfragewege, Termine und Integrationen, die reale Abläufe vereinfachen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer inv">
+  <div class="wrap">
+    <div class="footer__bar">
+      <span>© Pixelkiez · Berlin</span>
+      <nav aria-label="Weitere Seiten">
+        <a href="/wissen/" style="text-decoration:none">Wissen</a>
+        <a href="/impressum.html" style="text-decoration:none">Impressum</a>
+        <a href="/datenschutz.html" style="text-decoration:none">Datenschutz</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ===================== KONTAKTFENSTER ===================== -->
+<dialog class="dialog" id="kontakt-dialog" aria-labelledby="dlg-title">
+  <div class="dialog__in">
+    <div class="dialog__head">
+      <div>
+        <p class="kicker">Schnellkontakt</p>
+        <h2 class="h-md" id="dlg-title" style="margin-top:9px">Reden wir über Ihr Projekt.</h2>
+        <p class="small" style="margin-top:7px">Antwort innerhalb eines Werktags.</p>
+      </div>
+      <button type="button" class="dialog__x" data-dialog-close aria-label="Schließen"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+
+    <div id="dialog-slot">
+      <form class="form" id="kontaktform" novalidate>
+        <p class="form__pflicht">Felder mit * sind Pflichtfelder.</p>
+
+        <div class="field">
+          <label for="f-name">Name <span class="pflicht" aria-hidden="true">*</span></label>
+          <input class="input" type="text" id="f-name" name="name" autocomplete="name" required placeholder="Vor- und Nachname">
+        </div>
+
+        <div class="field">
+          <label for="f-kontakt">Wie erreichen wir Sie? <span class="pflicht" aria-hidden="true">*</span></label>
+          <input class="input" type="text" id="f-kontakt" name="kontakt" autocomplete="email" required placeholder="E-Mail oder Telefonnummer" aria-describedby="hint-kontakt">
+          <p class="hint" id="hint-kontakt">Eines von beidem genügt. Kein Pflicht-Telefonfeld.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-ausgangspunkt">Ausgangspunkt <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+          <select class="select" id="f-ausgangspunkt" name="ausgangspunkt">
+            <option value="">Bitte wählen</option>
+            <option value="keine">Noch keine Website</option>
+            <option value="alt">Website ist veraltet</option>
+            <option value="unsichtbar">Website vorhanden, aber unsichtbar</option>
+            <option value="relaunch">Relaunch ist geplant</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="f-anliegen">Anliegen <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+          <textarea class="textarea" id="f-anliegen" name="anliegen" placeholder="Worum geht es?"></textarea>
+        </div>
+
+        <!-- Honeypot statt Captcha: für Menschen unsichtbar, für Bots verlockend -->
+        <div class="hp" aria-hidden="true"><label for="f-firma">Firma</label><input type="text" id="f-firma" name="firma" tabindex="-1" autocomplete="off"></div>
+
+        <div class="consent">
+          <input type="checkbox" id="f-consent" name="consent" required>
+          <label for="f-consent">Ich bin damit einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden. Details in der <a href="/datenschutz.html">Datenschutzerklärung</a>. Die Einwilligung ist jederzeit widerrufbar. <span class="pflicht" aria-hidden="true">*</span></label>
+        </div>
+
+        <div class="btn-row">
+          <button type="submit" class="btn btn--split btn--primary" id="form-submit"><span class="btn__label" data-label>Anfrage senden</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
+          <span class="mono" style="color:var(--ink-45)">Antwort in 1 Werktag</span>
+        </div>
+
+        <p class="form__status" id="form-status" role="status" aria-live="polite" data-show="false"></p>
+      </form>
+    </div>
+
+    <!-- Ablage, solange das Fenster zu ist. -->
+    <div id="form-host"></div>
+  </div>
+</dialog>
+
+<script src="assets/js/bds.js" defer></script>
+</body>
+</html>

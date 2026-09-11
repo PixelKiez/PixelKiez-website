@@ -76,6 +76,11 @@ export const SPRACHPAARE = [
       ['/#pfad', '/en/#pfad'],
       ['/#faq', '/en/#faq'],
       ['/#website', '/en/#website'],
+      /* Zwei Service-Knoten nennen seit den Leistungsseiten die Seite, die
+         sie beschreibt. Ohne diese beiden Zeilen zeigte die englische
+         Startseite im JSON-LD auf die deutsche Fassung. */
+      ['/digitale-funktionen/', '/en/digital-features/'],
+      ['/care/', '/en/care/'],
     ],
   },
   {
@@ -88,6 +93,59 @@ export const SPRACHPAARE = [
       ['/website-analyse/', '/en/website-analyse/'],
       ['/website-analyse/#webpage', '/en/website-analyse/#webpage'],
       // isPartOf zeigt auf den WebSite-Knoten der jeweiligen Sprachfassung
+      ['/#website', '/en/#website'],
+    ],
+  },
+  /* --- Leistungsseiten.
+
+     Drei der vier Leistungsfelder der Startseite haben eine eigene Seite.
+     Das vierte — SEO, GEO und AI Visibility — hat bewusst keine: seine
+     fachliche Vertiefung steht bereits im Wissensbereich, und eine zweite
+     Seite daneben waere dieselbe Erklaerung unter einer zweiten Adresse.
+     Die Leistungskarte verweist deshalb auf /wissen/seo-geo-ai-visibility/.
+
+     Die englischen Adressen uebersetzen den Slug, wie im Wissensbereich und
+     anders als bei /website-analyse/. /care/ heisst in beiden Fassungen
+     gleich, weil der Begriff selbst schon englisch ist. */
+  {
+    quelle: 'webdesign-redesign.html',
+    zielDe: 'webdesign-redesign/index.html',
+    zielEn: 'en/web-design/index.html',
+    pfadDe: '/webdesign-redesign/',
+    pfadEn: '/en/web-design/',
+    ldTausch: [
+      ['/webdesign-redesign/', '/en/web-design/'],
+      ['/webdesign-redesign/#webpage', '/en/web-design/#webpage'],
+      ['/webdesign-redesign/#leistung', '/en/web-design/#leistung'],
+      ['/webdesign-redesign/#breadcrumb', '/en/web-design/#breadcrumb'],
+      ['/#website', '/en/#website'],
+    ],
+  },
+  {
+    quelle: 'digitale-funktionen.html',
+    zielDe: 'digitale-funktionen/index.html',
+    zielEn: 'en/digital-features/index.html',
+    pfadDe: '/digitale-funktionen/',
+    pfadEn: '/en/digital-features/',
+    ldTausch: [
+      ['/digitale-funktionen/', '/en/digital-features/'],
+      ['/digitale-funktionen/#webpage', '/en/digital-features/#webpage'],
+      ['/digitale-funktionen/#leistung', '/en/digital-features/#leistung'],
+      ['/digitale-funktionen/#breadcrumb', '/en/digital-features/#breadcrumb'],
+      ['/#website', '/en/#website'],
+    ],
+  },
+  {
+    quelle: 'care.html',
+    zielDe: 'care/index.html',
+    zielEn: 'en/care/index.html',
+    pfadDe: '/care/',
+    pfadEn: '/en/care/',
+    ldTausch: [
+      ['/care/', '/en/care/'],
+      ['/care/#webpage', '/en/care/#webpage'],
+      ['/care/#leistung', '/en/care/#leistung'],
+      ['/care/#breadcrumb', '/en/care/#breadcrumb'],
       ['/#website', '/en/#website'],
     ],
   },
