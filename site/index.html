@@ -79,7 +79,7 @@
       "@type": "ProfessionalService",
       "@id": "https://pixelkiez.de/#organisation",
       "name": "Pixelkiez",
-      "description": "Webdesign-Agentur aus Berlin für mittelständische Unternehmen. Websites als Geschäftssystem: Webdesign und Redesign, Recruiting über die eigene Website, SEO und Local SEO sowie Auffindbarkeit in KI-Suchen (GEO) und Agent-Readiness. Sitz in Berlin-Reinickendorf, Projekte deutschlandweit.",
+      "description": "Webdesign-Agentur aus Berlin für mittelständische Unternehmen. Websites als Geschäftssystem in vier Leistungsfeldern: Webdesign und Redesign, SEO mit Local SEO und Auffindbarkeit in KI-Suchen (GEO und AI Visibility), Conversion und digitale Funktionen sowie Betreuung nach dem Launch. Sitz in Berlin-Reinickendorf, Projekte deutschlandweit.",
       "url": "https://pixelkiez.de/",
       "email": "kontakt@pixelkiez.de",
       "logo": { "@id": "https://pixelkiez.de/#logo" },
@@ -123,7 +123,8 @@
           { "@type": "Offer", "itemOffered": { "@id": "https://pixelkiez.de/#service-3" } },
           { "@type": "Offer", "itemOffered": { "@id": "https://pixelkiez.de/#service-4" } },
           { "@type": "Offer", "itemOffered": { "@id": "https://pixelkiez.de/#service-5" } },
-          { "@type": "Offer", "itemOffered": { "@id": "https://pixelkiez.de/#service-6" } }
+          { "@type": "Offer", "itemOffered": { "@id": "https://pixelkiez.de/#service-6" } },
+          { "@type": "Offer", "itemOffered": { "@id": "https://pixelkiez.de/#service-7" } }
         ]
       }
     },
@@ -297,8 +298,23 @@
     {
       "@type": "Service",
       "@id": "https://pixelkiez.de/#service-6",
-      "name": "Recruiting ueber die eigene Website",
-      "description": "Karriereseiten je Zielrolle und 60-Sekunden-Bewerbung ohne Anschreiben, PDF-Upload oder Registrierung. Sichtbarkeit im Google-Jobs-Block ueber Datenmarkup. Recruiting-System",
+      "name": "Conversion und digitale Funktionen",
+      "url": "https://pixelkiez.de/digitale-funktionen/",
+      "description": "Gefuehrte Anfragewege, Terminbuchung, Bewerbungsstrecken, Standort- und Servicefinder sowie die Anbindung bestehender Systeme ueber CRM, Webhooks und ausgewaehlte Schnittstellen. Recruiting ist dabei ein moeglicher Anwendungsfall, keine eigene Kernleistung.",
+      "provider": {
+        "@id": "https://pixelkiez.de/#organisation"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Deutschland"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://pixelkiez.de/#service-7",
+      "name": "Care und Weiterentwicklung",
+      "url": "https://pixelkiez.de/care/",
+      "description": "Betreuung nach dem Launch: Betrieb, Monitoring, Sicherheits- und Dependency-Updates, Backups, Fehlerbehebung im bestehenden Umfang und kleinere Aenderungen. Weiterentwicklung wird davon getrennt geplant und kalkuliert. Keine Zusage einer ausfallfreien Website.",
       "provider": {
         "@id": "https://pixelkiez.de/#organisation"
       },
@@ -485,84 +501,98 @@
       <p class="lead" data-reveal>Jedes Feld ist einzeln buchbar und greift ins nächste. Der verbindliche Festpreis entsteht nach der Diagnose, mit Umfang und Ausschlüssen.</p>
     </div>
 
+      <!-- Jede Karte fuehrt auf ihre Leistungsseite. Feld 02 bekommt bewusst
+           keine eigene Seite: die fachliche Vertiefung zu SEO, GEO und AI
+           Visibility steht seit PXK-28 im Wissensbereich, und eine zweite
+           Seite daneben waere dieselbe Erklaerung ein zweites Mal. Die Karte
+           verweist deshalb auf die vorhandene Route. -->
       <div class="crc-grid">
-      <article data-vorhang="orange" class="crc tone tone--weiss" tabindex="0">
+      <a href="/webdesign-redesign/" data-vorhang="orange" class="crc tone tone--weiss">
         <span class="crc__vorhang" aria-hidden="true"></span>
         <div class="crc__lage">
           <p class="crc__num"><svg><use href="#i-layout"/></svg></p>
           <span class="crc__mark"><svg><use href="#i-arrow-ur"/></svg></span>
           <div class="crc__inhalt">
             <h3 class="h-md">Webdesign &amp; Redesign</h3>
-            <p class="crc__kick">Das Fundament: eine Website, die konvertiert.</p>
+            <p class="crc__kick">Das Fundament: Struktur, Gestaltung, Technik.</p>
             <div class="crc__mehr"><div class="crc__mehr-i">
-              <p class="crc__sum">Strategie, Design und Technik. Mobil-first, schnell, rechtssicher, mit mindestens einem messbaren Anfrage- oder Terminpfad.</p>
+              <p class="crc__sum">Neue Unternehmenswebsites und modernisierte Auftritte. Die Website soll das Angebot verständlich machen, technisch sauber funktionieren und zum nächsten Schritt führen.</p>
               <ul class="crc__list">
-                <li><span>One-Page-Website</span></li>
-                <li><span>Business-Website</span></li>
-                <li><span>System-Website</span></li>
-                <li><span>Redesign</span></li>
+                <li><span>Informationsarchitektur</span></li>
+                <li><span>UX/UI Design</span></li>
+                <li><span>Responsive Entwicklung</span></li>
+                <li><span>Relaunch &amp; SEO-Migration</span></li>
               </ul>
             </div></div>
+            <span class="crc__cta">Mehr erfahren <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </div>
         </div>
-      </article>
-      <article data-vorhang="schwarz" class="crc tone tone--blau" tabindex="0">
-        <span class="crc__vorhang" aria-hidden="true"></span>
-        <div class="crc__lage">
-          <p class="crc__num"><svg><use href="#i-users"/></svg></p>
-          <span class="crc__mark"><svg><use href="#i-arrow-ur"/></svg></span>
-          <div class="crc__inhalt">
-            <h3 class="h-md">Recruiting &amp; Bewerbungen</h3>
-            <p class="crc__kick">Mitarbeiter über die eigene Website.</p>
-            <div class="crc__mehr"><div class="crc__mehr-i">
-              <p class="crc__sum">Karriereseiten je Zielrolle und die 60-Sekunden-Bewerbung: mobil, ohne Anschreiben, ohne PDF-Upload, ohne Registrierung.</p>
-              <ul class="crc__list">
-                <li><span>Recruiting-System</span></li>
-                <li><span>Google-for-Jobs-Setup</span></li>
-                <li><span>Landingpage-Sprint</span></li>
-              </ul>
-            </div></div>
-          </div>
-        </div>
-      </article>
-      <article data-vorhang="weiss" class="crc tone tone--orange" tabindex="0">
+      </a>
+      <a href="/wissen/seo-geo-ai-visibility/" data-vorhang="schwarz" class="crc tone tone--blau">
         <span class="crc__vorhang" aria-hidden="true"></span>
         <div class="crc__lage">
           <p class="crc__num"><svg><use href="#i-search"/></svg></p>
           <span class="crc__mark"><svg><use href="#i-arrow-ur"/></svg></span>
           <div class="crc__inhalt">
-            <h3 class="h-md">SEO</h3>
-            <p class="crc__kick">Gefunden werden: Technik, Inhalte, Standort.</p>
+            <h3 class="h-md">SEO, GEO &amp; AI Visibility</h3>
+            <p class="crc__kick">Sichtbarkeit beginnt in Struktur und Technik.</p>
             <div class="crc__mehr"><div class="crc__mehr-i">
-              <p class="crc__sum">Das technische Fundament steckt in jedem Projekt. Darauf bauen Inhalte, Standortsignale und ein aktiver Bewertungsprozess auf.</p>
+              <p class="crc__sum">Klassische SEO-Grundlagen, Local SEO sowie die strukturierte Vorbereitung und Beobachtung von AI Visibility — systematische Arbeit, keine Zusage über Platzierungen oder Erwähnungen.</p>
               <ul class="crc__list">
-                <li><span>SEO-Fundament</span></li>
-                <li><span>SEO-Ausbau</span></li>
+                <li><span>Technische SEO-Basis</span></li>
                 <li><span>Local SEO</span></li>
+                <li><span>Content- und Informationsstruktur</span></li>
+                <li><span>Strukturierte Unternehmensdaten</span></li>
+                <li><span>GEO / AI Visibility</span></li>
+                <li><span>Visibility-Monitoring</span></li>
               </ul>
             </div></div>
+            <span class="crc__cta">Mehr erfahren <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </div>
         </div>
-      </article>
-      <article data-vorhang="blau" class="crc tone tone--schwarz" tabindex="0">
+      </a>
+      <a href="/digitale-funktionen/" data-vorhang="weiss" class="crc tone tone--orange">
         <span class="crc__vorhang" aria-hidden="true"></span>
         <div class="crc__lage">
-          <p class="crc__num"><svg><use href="#i-radio"/></svg></p>
+          <p class="crc__num"><svg><use href="#i-chat"/></svg></p>
           <span class="crc__mark"><svg><use href="#i-arrow-ur"/></svg></span>
           <div class="crc__inhalt">
-            <h3 class="h-md">GEO &amp; Agent-Readiness</h3>
-            <p class="crc__kick">Sichtbar, wenn Kunden die KI fragen.</p>
+            <h3 class="h-md">Conversion &amp; digitale Funktionen</h3>
+            <p class="crc__kick">Funktionen, die reale Abläufe vereinfachen.</p>
             <div class="crc__mehr"><div class="crc__mehr-i">
-              <p class="crc__sum">Strukturierte Daten, zitierfähige Faktenblöcke und identische Unternehmensangaben über alle Verzeichnisse hinweg — die kontrollierbare Grundlage, nicht eine Zusage über die Quellenwahl einzelner KI-Systeme.</p>
+              <p class="crc__sum">Anfragen strukturieren, Termine vereinfachen, wiederkehrende Prozesse unterstützen — dort, wo es einen konkreten Nutzen für Nutzer und Unternehmen schafft.</p>
               <ul class="crc__list">
-                <li><span>GEO-Audit</span></li>
-                <li><span>GEO-Setup</span></li>
-                <li><span>Agent-Readiness</span></li>
+                <li><span>Geführte Anfragewege</span></li>
+                <li><span>Terminbuchung</span></li>
+                <li><span>Bewerbungsstrecken</span></li>
+                <li><span>Standort- und Servicefinder</span></li>
               </ul>
             </div></div>
+            <span class="crc__cta">Mehr erfahren <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </div>
         </div>
-      </article>
+      </a>
+      <a href="/care/" data-vorhang="blau" class="crc tone tone--schwarz">
+        <span class="crc__vorhang" aria-hidden="true"></span>
+        <div class="crc__lage">
+          <p class="crc__num"><svg><use href="#i-shield"/></svg></p>
+          <span class="crc__mark"><svg><use href="#i-arrow-ur"/></svg></span>
+          <div class="crc__inhalt">
+            <h3 class="h-md">Care &amp; Weiterentwicklung</h3>
+            <p class="crc__kick">Betreuung nach dem Launch, planbar definiert.</p>
+            <div class="crc__mehr"><div class="crc__mehr-i">
+              <p class="crc__sum">Browser, Server, Abhängigkeiten und externe Dienste verändern sich weiter. Care schafft dafür einen klaren technischen Verantwortungsbereich.</p>
+              <ul class="crc__list">
+                <li><span>Betrieb &amp; Monitoring</span></li>
+                <li><span>Updates &amp; Backups</span></li>
+                <li><span>Kleine Änderungen</span></li>
+                <li><span>Weiterentwicklung</span></li>
+              </ul>
+            </div></div>
+            <span class="crc__cta">Mehr erfahren <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </div>
+        </div>
+      </a>
       </div>
       <div class="carou__dots carou__dots--crc" data-dots=".crc-grid" role="group" aria-label="Leistungen durchblättern" data-beschriftung="Leistungsfeld % anzeigen"></div>
   </div>
@@ -996,11 +1026,14 @@
 
       <div>
         <h4>Leistungen</h4>
+        <!-- Die Verweise fuehren jetzt auf die Leistungsseiten und nicht mehr
+             auf den Abschnitt der Startseite. Feld 02 bleibt die Ausnahme:
+             seine Vertiefung steht im Wissensbereich. -->
         <nav aria-label="Leistungen">
-          <a href="#leistungen">Webdesign &amp; Redesign</a>
-          <a href="#leistungen">Recruiting &amp; Bewerbungen</a>
-          <a href="#leistungen">SEO</a>
-          <a href="#leistungen">GEO &amp; Agent-Readiness</a>
+          <a href="/webdesign-redesign/">Webdesign &amp; Redesign</a>
+          <a href="/wissen/seo-geo-ai-visibility/">SEO, GEO &amp; AI Visibility</a>
+          <a href="/digitale-funktionen/">Conversion &amp; digitale Funktionen</a>
+          <a href="/care/">Care &amp; Weiterentwicklung</a>
                   </nav>
       </div>
 

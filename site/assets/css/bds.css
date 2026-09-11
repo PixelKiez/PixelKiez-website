@@ -1013,6 +1013,12 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   border:1px solid var(--line);border-radius:var(--radius);
   background:var(--paper);color:var(--ink);
   transition:border-color var(--dur) var(--ease);
+  /* Die Karte ist seit den Leistungsseiten ein <a> und nicht mehr ein
+     <article> mit tabindex. Damit stimmt, was der Pfeil oben rechts immer
+     schon behauptet hat, und :focus-within kommt ohne kuenstlichen
+     Tabstopp aus. Ohne diese Zeile unterstriche der Browser den gesamten
+     Karteninhalt — Ueberschrift, Zusammenfassung und Liste. */
+  text-decoration:none;
 }
 .crc:hover,.crc:focus-visible{border-color:var(--ink-45)}
 .crc__vorhang{
@@ -1040,6 +1046,20 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .crc__mark svg{width:16px;height:16px}
 .crc__kick{margin-top:8px;color:var(--accent-ink);font-weight:500;font-size:.9375rem;line-height:1.4}
 .crc__sum{margin-top:9px;color:var(--ink-70);font-size:.875rem;line-height:1.5}
+/* Der sichtbare Weiterverweis am Fuss der Karte. Kein eigenes <a>: die ganze
+   Karte ist bereits eines, und ein Link im Link ist ungueltig — der Browser
+   bricht die Verschachtelung auf und das Ziel der Flaeche ginge verloren.
+   Der Zug liegt also auf der Karte, dieser Text sagt nur, dass es einen gibt.
+   Er steht ausserhalb von .crc__mehr und bleibt damit auch im geschlossenen
+   Ruhezustand sichtbar — genau dort wird er gebraucht. */
+.crc__cta{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:16px;padding-block:3px;
+  font-family:var(--font-mono);font-size:.8125rem;letter-spacing:.01em;
+  color:var(--accent-ink);
+  text-decoration:underline;text-underline-offset:4px;
+}
+.crc__cta svg{width:15px;height:15px;flex:none}
 .crc__list{margin-top:13px;border-top:1px solid var(--line-soft)}
 .crc__list li{
   display:flex;align-items:baseline;justify-content:space-between;gap:16px;

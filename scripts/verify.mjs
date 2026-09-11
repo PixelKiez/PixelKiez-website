@@ -37,6 +37,15 @@ const SEITEN = [
   { pfad: 'en/imprint.html',               lang: 'en', kanonisch: '/en/imprint.html',  paar: { partner: '/impressum.html',  schalter: 'DE' } },
   { pfad: 'datenschutz.html',              lang: 'de', kanonisch: '/datenschutz.html', paar: { partner: '/en/privacy.html', schalter: 'EN' } },
   { pfad: 'en/privacy.html',               lang: 'en', kanonisch: '/en/privacy.html',  paar: { partner: '/datenschutz.html', schalter: 'DE' } },
+  /* Leistungsseiten. Drei der vier Leistungsfelder der Startseite haben eine
+     eigene Seite; das vierte (SEO, GEO und AI Visibility) verweist bewusst
+     auf den vorhandenen Wissensbeitrag statt auf eine eigene Adresse. */
+  { pfad: 'webdesign-redesign/index.html',    lang: 'de', kanonisch: '/webdesign-redesign/',    leistung: true, paar: { partner: '/en/web-design/',          schalter: 'EN' } },
+  { pfad: 'en/web-design/index.html',         lang: 'en', kanonisch: '/en/web-design/',         leistung: true, paar: { partner: '/webdesign-redesign/',     schalter: 'DE' } },
+  { pfad: 'digitale-funktionen/index.html',   lang: 'de', kanonisch: '/digitale-funktionen/',   leistung: true, paar: { partner: '/en/digital-features/',    schalter: 'EN' } },
+  { pfad: 'en/digital-features/index.html',   lang: 'en', kanonisch: '/en/digital-features/',   leistung: true, paar: { partner: '/digitale-funktionen/',    schalter: 'DE' } },
+  { pfad: 'care/index.html',                  lang: 'de', kanonisch: '/care/',                  leistung: true, paar: { partner: '/en/care/',               schalter: 'EN' } },
+  { pfad: 'en/care/index.html',               lang: 'en', kanonisch: '/en/care/',               leistung: true, paar: { partner: '/care/',                  schalter: 'DE' } },
   /* Wissensbereich, seit PXK-28/PXK-29 veroeffentlicht. `wissen` markiert
      eine Seite des Bereichs; `hub` zusaetzlich die Uebersichtsseite, von
      der aus jeder Beitrag erreichbar sein muss. Wo frueher noindex Pflicht
@@ -768,9 +777,20 @@ async function verify() {
      Struktur geprueft, nicht auf Wortlaut. */
   const LEISTUNGEN_DE = [
     'Webdesign & Redesign',
-    'Recruiting & Bewerbungen',
-    'SEO',
-    'GEO & Agent-Readiness',
+    'SEO, GEO & AI Visibility',
+    'Conversion & digitale Funktionen',
+    'Care & Weiterentwicklung',
+  ];
+  /* Wohin jede Karte fuehrt, in derselben Reihenfolge. Feld 02 hat bewusst
+     keine eigene Seite: seine Vertiefung steht im Wissensbereich, und eine
+     zweite Seite daneben waere dieselbe Erklaerung unter einer zweiten
+     Adresse. Das Ziel steht hier mit, damit ein spaeterer Griff nach einer
+     eigenen SEO-Seite an dieser Tabelle auffaellt statt still zu passieren. */
+  const LEISTUNGEN_ZIEL_DE = [
+    '/webdesign-redesign/',
+    '/wissen/seo-geo-ai-visibility/',
+    '/digitale-funktionen/',
+    '/care/',
   ];
 
   /* Sichtbaren Text vergleichbar machen: Auszeichnung raus, Entitaeten
@@ -873,8 +893,12 @@ async function verify() {
     }
 
     /* ----- H-4 Die Leistungskarten tragen ihren Text einmal ----- */
-    const karten = [...startHtml.matchAll(/<article[^>]*\bclass="[^"]*\bcrc\b[^"]*"[^>]*>([\s\S]*?)<\/article>/g)]
-      .map((m) => m[1]);
+    /* Die Karte ist ein <a> und kein <article> mehr: sie fuehrt seit den
+       Leistungsseiten auf ihr Ziel, und der Pfeil oben rechts sagt damit die
+       Wahrheit. Das oeffnende Tag wird mitgefangen, weil H-4 jetzt auch das
+       Ziel prueft — eine Karte ohne href waere eine Sackgasse mit Pfeil. */
+    const kartenTreffer = [...startHtml.matchAll(/<a\b([^>]*\bclass="[^"]*\bcrc\b[^"]*"[^>]*)>([\s\S]*?)<\/a>/g)];
+    const karten = kartenTreffer.map((m) => m[2]);
     if (karten.length !== LEISTUNGEN_ANZAHL)
       F(start + ': ' + karten.length + ' Leistungskarten statt ' + LEISTUNGEN_ANZAHL);
 
@@ -903,6 +927,31 @@ async function verify() {
         if (titel[n] !== erwartet)
           F(start + ': Leistungskarte ' + (n + 1) + ' heisst "' + kurz(titel[n]) + '" statt "' + erwartet + '"');
       }
+    }
+
+    /* Jede Karte muss irgendwohin fuehren — in beiden Fassungen. Der Pfeil
+       oben rechts verspricht einen Weg; eine Karte ohne Ziel bricht dieses
+       Versprechen, und zwar lautlos. In der deutschen Fassung steht ausserdem
+       fest, wohin: Feld 02 auf den vorhandenen Wissensbeitrag, die drei
+       anderen auf ihre Leistungsseite. Die englische Fassung traegt an diesen
+       Stellen die uebersetzten Adressen und wird nur auf Vorhandensein
+       geprueft — den Pfadtausch selbst nimmt W-3 auseinander. */
+    for (const [n, m] of kartenTreffer.entries()) {
+      const ziel = /\bhref="([^"]*)"/.exec(m[1]);
+      if (!ziel || !ziel[1]) {
+        F(start + ': Leistungskarte ' + (n + 1) + ' hat kein Ziel');
+        continue;
+      }
+      /* Der sichtbare Weiterverweis. Der Pfeil oben rechts allein war zu
+         leise — man sah der Karte nicht an, dass sie irgendwohin fuehrt.
+         Er muss ausserhalb von .crc__mehr stehen: was darin liegt, ist auf
+         dem Desktop zugeklappt und im Ruhezustand unsichtbar. */
+      const ohneMehr = m[2].replace(/<div[^>]*\bclass="[^"]*\bcrc__mehr\b[^"]*"[\s\S]*?<\/div><\/div>/, '');
+      if (!/\bclass="[^"]*\bcrc__cta\b/.test(ohneMehr))
+        F(start + ': Leistungskarte ' + (n + 1) + ' zeigt im Ruhezustand keinen Weiterverweis (.crc__cta)');
+      if (start === 'index.html' && n < LEISTUNGEN_ZIEL_DE.length && ziel[1] !== LEISTUNGEN_ZIEL_DE[n])
+        F(start + ': Leistungskarte ' + (n + 1) + ' fuehrt auf "' + kurz(ziel[1])
+          + '" statt "' + LEISTUNGEN_ZIEL_DE[n] + '"');
     }
   }
 

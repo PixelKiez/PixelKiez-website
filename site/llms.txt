@@ -11,6 +11,12 @@
 - `Startseite (englisch) → https://pixelkiez.de/en/`: dieselben Inhalte auf Englisch.
 - `Website-Analyse → https://pixelkiez.de/website-analyse/`: kostenlose, persönlich erstellte Analyse einer Website — Technik, SEO, GEO, KI-Auffindbarkeit, Answerability, Agent-Readiness. Anfrage per Formular, Ergebnis per E-Mail.
 - `Website-Analyse (englisch) → https://pixelkiez.de/en/website-analyse/`: dieselbe Seite auf Englisch.
+- `Webdesign & Redesign → https://pixelkiez.de/webdesign-redesign/`: Leistungsseite. Wann ein Redesign auf vorhandener Basis reicht und wann eine Neuentwicklung sinnvoll wird, Informationsarchitektur vor Gestaltung, UX/Performance/Accessibility, Relaunch mit strukturierter SEO-Migration.
+- `Webdesign & Redesign (englisch) → https://pixelkiez.de/en/web-design/`: dieselbe Seite auf Englisch.
+- `Conversion & digitale Funktionen → https://pixelkiez.de/digitale-funktionen/`: Leistungsseite. Geführte Anfragewege, Terminbuchung, Bewerbungsstrecken, Standort- und Servicefinder, Anbindung bestehender Systeme — und die Grenze zum separaten Entwicklungsprojekt.
+- `Conversion & digitale Funktionen (englisch) → https://pixelkiez.de/en/digital-features/`: dieselbe Seite auf Englisch.
+- `Care & Weiterentwicklung → https://pixelkiez.de/care/`: Leistungsseite. Betrieb, Monitoring, Updates, Backups und kleinere Änderungen nach dem Launch, mit klarer Trennung zwischen Care und Weiterentwicklung.
+- `Care & Weiterentwicklung (englisch) → https://pixelkiez.de/en/care/`: dieselbe Seite auf Englisch.
 - `Wissen → https://pixelkiez.de/wissen/`: Wissensbereich mit sechs Beiträgen zu Auffindbarkeit, maschineller Lesbarkeit, Antwortfähigkeit, Unternehmenszuordnung und Agent-Readiness.
 - `Wissen (englisch) → https://pixelkiez.de/en/knowledge/`: derselbe Bereich auf Englisch.
 - `SEO, GEO und AI Visibility → https://pixelkiez.de/wissen/seo-geo-ai-visibility/`: Was die drei Begriffe unterscheidet, wo sie sich überschneiden und was sich davon messen lässt.
@@ -24,10 +30,13 @@
 
 ## Was Pixelkiez macht
 
-- **Webdesign und Redesign** — neue Websites und Überarbeitung bestehender Auftritte.
-- **Recruiting über die eigene Website** — Karriereseiten, die Bewerbungen auslösen statt nur Stellen zu listen.
-- **SEO und Local SEO** — Auffindbarkeit bei Google, insbesondere für Suchen mit Ortsbezug in Berlin.
-- **GEO und Agent-Readiness** — Auffindbarkeit in KI-Suchen wie ChatGPT, Perplexity, Claude und Google AI Overviews: strukturierte Daten, zitierfähige Textblöcke, offene Crawler-Zugänge.
+Vier Leistungsfelder. Drei haben eine eigene Seite; die Vertiefung zum vierten
+steht im Wissensbereich.
+
+- **Webdesign und Redesign** — neue Websites und Überarbeitung bestehender Auftritte, einschließlich Relaunch mit SEO-Migration.
+- **SEO, GEO und AI Visibility** — technische SEO-Basis, Local SEO, Informationsstruktur, strukturierte Unternehmensdaten und die Vorbereitung und Beobachtung von Auffindbarkeit in KI-Suchen wie ChatGPT, Perplexity, Claude und Google AI Overviews. Systematische Arbeit, keine Zusage über Platzierungen oder Erwähnungen.
+- **Conversion und digitale Funktionen** — geführte Anfragewege, Terminbuchung, Bewerbungsstrecken, Standort- und Servicefinder, Anbindung bestehender Systeme. Recruiting ist hier ein möglicher Anwendungsfall, keine eigene Kernleistung.
+- **Care und Weiterentwicklung** — Betrieb, Monitoring, Updates, Backups und kleinere Änderungen nach dem Launch; Weiterentwicklung wird davon getrennt geplant und kalkuliert.
 
 ## Was Pixelkiez nicht macht
 
@@ -57,7 +66,8 @@ Alle Inhalte sind serverseitig gerendert und ohne JavaScript lesbar. Die
 Startseite trägt strukturierte Daten nach schema.org (ProfessionalService,
 WebSite, WebPage, Service, FAQPage, ImageObject, Person) im Kopfbereich als
 JSON-LD; der Wissens-Hub trägt CollectionPage, ItemList und BreadcrumbList,
-die sechs Beiträge jeweils Article, WebPage und BreadcrumbList.
+die sechs Beiträge jeweils Article, WebPage und BreadcrumbList, die drei
+Leistungsseiten jeweils WebPage, Service und BreadcrumbList.
 Dieser Eintrag beschreibt, was es gibt. Er ist keine Zusage darüber, ob ein
 System die Datei liest oder die genannten Seiten verwendet.
 Sämtliche Crawler sind in `https://pixelkiez.de/robots.txt` zugelassen.
