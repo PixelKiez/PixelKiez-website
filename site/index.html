@@ -648,8 +648,12 @@
 </section>
 
 <!-- ===================== PAKETE ===================== -->
-<section class="section section--flush naht-anker" id="pakete">
-  <span class="naht naht--von-schwarz" aria-hidden="true"></span>
+<!-- Dunkle Flaeche wie im Referenzbereich: die Preise bekommen den
+     staerksten Kontrast der Seite. Die Naht faellt damit weg — sie blendete
+     von der dunklen Diagnose in eine helle Flaeche, und die gibt es hier
+     nicht mehr. Der davorliegende Abschnitt 03 ist ebenfalls dunkel; die
+     beiden trennt jetzt die Kante der Karten, nicht ein Farbwechsel. -->
+<section class="section section--flush inv" id="pakete">
   <div class="wrap">
     <!-- Die Ordnungszahl steht ausserhalb des mittigen Kopfes und damit an
          derselben linken Kante wie die uebrigen sieben Abschnittsnummern.
@@ -673,14 +677,16 @@
          die Zahl fuer Verbraucher zu lesen. -->
     <p class="preis-hinweis" data-reveal>Alle Preise verstehen sich netto zzgl. gesetzlicher Mehrwertsteuer und richten sich ausschließlich an Unternehmen, Selbstständige, Freiberufler und Institutionen.</p>
 
-    <div class="grid grid--3">
-      <article class="card card--tint pack" data-reveal>
-        <p class="tag">Launch</p>
+    <div class="pack-karten">
+      <article class="pack" data-reveal>
+        <div class="pack__kopf">
+          <h3 class="pack__name">Launch</h3>
+          <p class="pack__pos">Kompakter Einstieg für eine professionelle One-Page-Website.</p>
+        </div>
         <p class="pack__preis">
           <span class="pack__wert">995 €</span>
           <span class="pack__einheit">einmalig*</span>
         </p>
-        <p class="pack__pos">Kompakter Einstieg für eine professionelle One-Page-Website.</p>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>One-Page mit bis zu 6 Inhaltsbereichen</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelles, responsives Webdesign</span></li>
@@ -690,7 +696,6 @@
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Eine strukturierte Korrekturrunde</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Technische Veröffentlichung</span></li>
         </ul>
-        <p class="pack__foot"><strong>Ideal für:</strong> kompakte Unternehmensauftritte mit vorbereitetem Content.</p>
         <details class="pack__mehr">
           <summary>Leistungsumfang ansehen</summary>
           <ul class="pack__mehr-liste">
@@ -702,20 +707,21 @@
             <li>Technische Auslieferung und Veröffentlichung</li>
           </ul>
         </details>
-        <div class="btn-row">
-          <button type="button" class="btn btn--primary btn--sm" data-fuell="Launch anfragen" data-paket="Launch" data-open-contact data-anliegen="Anfrage zum Paket Launch: Bitte um ein verbindliches Angebot.">Launch anfragen</button>
+        <div class="btn-row pack__cta">
+          <button type="button" class="btn btn--primary" data-fuell="Projekt besprechen" data-paket="Launch" data-open-contact data-anliegen="Anfrage zum Paket Launch: Bitte um ein verbindliches Angebot.">Projekt besprechen</button>
         </div>
         <p class="pack__fussnote">* Mit <a href="/care/">Care Essential</a> 59 € / Monat, Mindestlaufzeit 12 Monate. Ohne Care: 1.290 € einmalig.</p>
       </article>
 
-      <article class="card card--tint pack pack--empfohlen" data-reveal>
-        <p class="pack__badge">Empfohlen</p>
-        <p class="tag">Business</p>
+      <article class="pack" data-reveal>
+        <div class="pack__kopf">
+          <h3 class="pack__name">Business</h3>
+          <p class="pack__pos">Die vollständige Unternehmenswebsite für mehrere Leistungsbereiche.</p>
+        </div>
         <p class="pack__preis">
           <span class="pack__wert">ab 2.490 €</span>
           <span class="pack__einheit">einmalig</span>
         </p>
-        <p class="pack__pos">Die vollständige Unternehmenswebsite für mehrere Leistungsbereiche.</p>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>4–6 individuell strukturierte Seiten</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelles UX/UI Design</span></li>
@@ -725,7 +731,6 @@
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Strukturierte Unternehmensdaten</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Qualitätssicherung, Übergabe &amp; Dokumentation</span></li>
         </ul>
-        <p class="pack__foot"><strong>Ideal für:</strong> Unternehmen, die Leistungen professionell darstellen und Interessenten gezielt zur Anfrage führen möchten.</p>
         <details class="pack__mehr">
           <summary>Leistungsumfang ansehen</summary>
           <ul class="pack__mehr-liste">
@@ -737,19 +742,21 @@
             <li>Zwei strukturierte Korrekturrunden, Übergabe und Dokumentation</li>
           </ul>
         </details>
-        <div class="btn-row">
-          <button type="button" class="btn btn--primary btn--sm" data-fuell="Business-Projekt prüfen" data-paket="Business" data-open-contact data-anliegen="Anfrage zum Paket Business: Bitte um Prüfung meines Projekts.">Business-Projekt prüfen</button>
+        <div class="btn-row pack__cta">
+          <button type="button" class="btn btn--primary" data-fuell="Projekt besprechen" data-paket="Business" data-open-contact data-anliegen="Anfrage zum Paket Business: Bitte um Prüfung meines Projekts.">Projekt besprechen</button>
         </div>
         <p class="pack__fussnote">Mehr als 6 Seiten und laufende SEO-Arbeit werden separat vereinbart.</p>
       </article>
 
-      <article class="card card--tint pack" data-reveal>
-        <p class="tag">Enterprise</p>
+      <article class="pack" data-reveal>
+        <div class="pack__kopf">
+          <h3 class="pack__name">Enterprise</h3>
+          <p class="pack__pos">Für umfangreichere Websites, individuelle Nutzerwege und zusätzliche Funktionen.</p>
+        </div>
         <p class="pack__preis">
           <span class="pack__wert">ab 4.900 €</span>
           <span class="pack__einheit">einmalig</span>
         </p>
-        <p class="pack__pos">Für umfangreichere Websites, individuelle Nutzerwege und zusätzliche Funktionen.</p>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ab ca. 7–10 Inhaltsseiten</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelle Informationsarchitektur</span></li>
@@ -759,7 +766,6 @@
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Relaunch- &amp; Migrationsplanung</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Erweiterte technische SEO- &amp; Qualitätsbasis</span></li>
         </ul>
-        <p class="pack__foot"><strong>Ideal für:</strong> Unternehmen mit komplexeren Prozessen, Integrationen oder anspruchsvolleren Relaunch-Anforderungen.</p>
         <details class="pack__mehr">
           <summary>Leistungsumfang ansehen</summary>
           <ul class="pack__mehr-liste">
@@ -771,8 +777,8 @@
             <li>Bis zu drei strukturierte Iterationsrunden</li>
           </ul>
         </details>
-        <div class="btn-row">
-          <button type="button" class="btn btn--primary btn--sm" data-fuell="Enterprise anfragen" data-paket="Enterprise" data-open-contact data-anliegen="Anfrage zum Paket Enterprise: Bitte um ein individuelles Angebot.">Enterprise anfragen</button>
+        <div class="btn-row pack__cta">
+          <button type="button" class="btn btn--primary" data-fuell="Projekt besprechen" data-paket="Enterprise" data-open-contact data-anliegen="Anfrage zum Paket Enterprise: Bitte um ein individuelles Angebot.">Projekt besprechen</button>
         </div>
         <p class="pack__fussnote">Komplexe Portale, umfangreiche APIs und Systemlösungen werden separat kalkuliert.</p>
       </article>
