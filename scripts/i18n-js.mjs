@@ -23,6 +23,10 @@ const CODE = [
   /^(use strict|true|false|null)$/,
   /^HTTP $/,
   /@/,                             // E-Mail-Adressen
+  /* Reine Zeilenumbrueche. Im Quelltext stehen sie als \n und tragen damit
+     ein "n" — fuer die Buchstabenpruefung sieht das aus wie Text, obwohl
+     nichts zu uebersetzen ist. */
+  /^(\\n)+$/,
 ];
 
 /* Bezeichner, die zufaellig wie Text aussehen. Bewusst als exakte Liste und

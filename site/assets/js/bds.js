@@ -1169,7 +1169,7 @@
       warum: 'Ihr Anliegen ist klar umrissen und kommt mit Standardfunktionen aus.' },
     { id: 'business',    name: 'Business',    preis: 'ab 2.490 €',
       warum: 'Ihr Anliegen betrifft mehrere Bereiche, und Ihr Ausgangspunkt bringt eigene Aufgaben mit.' },
-    { id: 'individuell', name: 'Individuell', preis: 'ab 4.900 €',
+    { id: 'individuell', name: 'Enterprise',   preis: 'ab 4.900 €',
       warum: 'Thema und Ausgangspunkt verlangen eigene Abläufe und eine individuelle Struktur.' }
   ];
 
@@ -1471,6 +1471,24 @@
       var vorgabe = b.getAttribute('data-anliegen');
       var feld = $('#f-anliegen');
       if (vorgabe && feld && !feld.value.trim()) feld.value = vorgabe;
+      /* Kommt der Klick von einer Preiskarte, nennt der Kopf des Formulars
+         das Paket. Im Anliegen steht es ohnehin — aber dort weit unten und
+         in einem Feld, das man selbst beschreibt; wer das Formular oeffnet,
+         soll oben sehen, worauf er antwortet. Jeder andere Knopf raeumt das
+         Schild wieder weg, sonst haftete das Paket am naechsten Aufruf. */
+      var paket = b.getAttribute('data-paket');
+      var schild = $('#dlg-paket');
+      if (schild) {
+        var wert = $('#dlg-paket-wert');
+        if (paket && wert) wert.textContent = paket;
+        schild.hidden = !paket;
+      }
+      /* Dasselbe Paket in das verborgene Feld, damit es mitgesendet wird und
+         in der Mail steht. Immer setzen — auch auf leer: sonst truege eine
+         spaetere Anfrage ueber den Schnellkontakt noch das Paket des
+         vorherigen Klicks. */
+      var paketFeld = $('#f-paket');
+      if (paketFeld) paketFeld.value = paket || '';
       openContact();
     });
   });
@@ -1547,9 +1565,15 @@
       if (String(data.get('firma') || '').trim() !== '') return;      // Honeypot: still verwerfen
       if (!form.reportValidity()) return;
 
+      /* Die Nutzlast wird Feld fuer Feld aufgebaut und nicht aus dem Formular
+         durchgereicht — wer hier ein Feld vergisst, sendet es nie, auch wenn
+         es im Formular steht. Deshalb stehen unternehmen und paket
+         ausdruecklich mit drin. */
       var payload = {
         name:          String(data.get('name') || '').trim(),
         kontakt:       String(data.get('kontakt') || '').trim(),
+        unternehmen:   String(data.get('unternehmen') || '').trim(),
+        paket:         String(data.get('paket') || '').trim(),
         ausgangspunkt: AUSGANG[data.get('ausgangspunkt')] || String(data.get('ausgangspunkt') || ''),
         anliegen:      String(data.get('anliegen') || '').trim(),
         consent:       data.get('consent') === 'on',
@@ -1580,9 +1604,12 @@
       // Ohne konfiguriertes Backend: Nachricht im E-Mail-Programm vorbereiten.
       if (!ENDPOINT) {
         window.location.href = 'mailto:' + MAILTO +
-          '?subject=' + encodeURIComponent('Anfrage über die Website von ' + payload.name) +
+          '?subject=' + encodeURIComponent(
+            (payload.paket ? 'Paket ' + payload.paket + ' · Anfrage von ' : 'Anfrage über die Website von ') + payload.name) +
           '&body=' + encodeURIComponent(
+            (payload.paket ? 'ANGEFRAGTES PAKET: ' + payload.paket + '\n\n' : '') +
             'Name: '     + payload.name +
+            (payload.unternehmen ? '\nUnternehmen: ' + payload.unternehmen : '') +
             '\nKontakt: '  + payload.kontakt +
             '\nAusgangspunkt: '  + (payload.ausgangspunkt || 'keine Angabe') +
             '\n\nAnliegen:\n' + (payload.anliegen || 'keine Angabe') +

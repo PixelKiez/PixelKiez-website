@@ -17,6 +17,10 @@
 export const ATTRIBUTE = ['alt', 'title', 'aria-label', 'placeholder', 'content',
   /* Vorbelegung des Anliegen-Feldes — landet sichtbar im Formular */
   'data-anliegen',
+  /* Name des angefragten Pakets. Das Skript schreibt ihn in den Kopf des
+     Kontaktfensters; ohne diesen Eintrag stuende dort "Individuell", waehrend
+     die Karte daneben "Bespoke" heisst. */
+  'data-paket',
   /* Beschriftung der Karussellpunkte. Das Skript setzt sie als aria-label
      auf die erzeugten Knoepfe; sie wird also vorgelesen und gehoert damit
      zur Sprachfassung, auch wenn sie im Markup als Datenattribut steht. */
@@ -37,6 +41,14 @@ const istUebersetzbar = (s) => {
   const t = s.trim();
   if (!t) return false;
   if (UNVERAENDERT.has(t.toLowerCase())) return false;
+  /* Geldbetraege sind uebersetzbar, obwohl kein Buchstabe darin steht.
+     Ihre Schreibweise haengt an der Sprache: deutsch "1.290 €" mit Punkt als
+     Tausendertrennung und dem Zeichen hinten, englisch "€1,290" mit Komma und
+     dem Zeichen vorn. Ohne diese Zeile blieb "995 €" in der englischen
+     Preisliste stehen, waehrend "ab 2.490 €" daneben zu "from €2,490" wurde —
+     zwei Schreibweisen in einer Zeile, weil die eine Zahl ein Wort trug und
+     die andere nicht. Steht vor der Buchstabenpruefung, sonst greift sie nie. */
+  if (/[€$£]/.test(t) && /[0-9]/.test(t)) return true;
   // Reine Zahlen, Satzzeichen, Symbole
   if (!/[a-zA-ZäöüÄÖÜß]/.test(t)) return false;
   // Einzelne Buchstaben

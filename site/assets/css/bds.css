@@ -310,6 +310,26 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 }
 .section__head .lead{margin-top:2px}
 
+/* Mittig statt linksbuendig. Nur fuer die Preise: dort steht unter dem Kopf
+   der zentrierte Netto-Hinweis und darunter drei gleich breite Karten — eine
+   linksbuendige Ueberschrift stand quer zu dieser Symmetrie.
+
+   margin-inline:auto ruecht den Kopfkasten selbst in die Mitte des Rasters;
+   ohne das bliebe er links kleben und nur sein Text waere zentriert. Die
+   Kinder behalten bewusst die volle Breite (kein justify-items:center): der
+   Wischblock der Ueberschrift ist so breit wie seine Zeile, und ein auf die
+   Textbreite geschrumpfter Kasten wuerde den Umbruch mitverschieben. */
+.section__head--mitte{
+  text-align:center;
+  margin-inline:auto;
+}
+.section__head--mitte .lead{margin-inline:auto}
+
+/* Kicker ausserhalb des mittigen Kopfes: er steht an der linken Kante des
+   Rasters wie die Nummern aller anderen Abschnitte. Der Abstand nach unten
+   ersetzt die Rasterluecke, die er im Kopf hatte. */
+.kicker--kante{margin-bottom:20px}
+
 .grid{display:grid;gap:clamp(16px,2vw,24px)}
 @media (min-width:760px){
   .grid--3{grid-template-columns:repeat(3,1fr)}
@@ -495,6 +515,22 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .analyse-band .btn--primary{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--ink)}
 .analyse-band .btn--primary[data-fuell]{--btn-fill-bg:var(--accent);--btn-fill-fg:var(--on-accent)}
 .analyse-band .btn--primary[data-fuell]:hover{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--btn-fill-bg)}
+
+/* Dieselbe Umkehrung in den Preiskarten: schwarz in Ruhe, die Nebenfarbe
+   laeuft beim Ueberfahren ein. Drei orange Flaechen nebeneinander haetten
+   mit dem Schild der empfohlenen Karte und den Haken der Merkmalslisten um
+   dieselbe Farbe konkurriert; schwarz laesst dem Preis die Aufmerksamkeit
+   und dem Akzent seine Aufgabe. Der Knopf sitzt mittig in seiner Saeule —
+   er schliesst die Karte ab und steht nicht in einer Textspalte. */
+.pack .btn-row{justify-content:center}
+/* Was den Knopf einrahmt, steht mit ihm auf einer Achse: der Aufklapper
+   darueber, der Sternchenhinweis darunter. Das summary ist ein Flex-Kasten
+   (Text plus Haken) und braucht deshalb justify-content statt text-align. */
+.pack .pack__mehr>summary{justify-content:center}
+.pack .pack__fussnote{text-align:center}
+.pack .btn--primary{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--ink)}
+.pack .btn--primary[data-fuell]{--btn-fill-bg:var(--accent);--btn-fill-fg:var(--on-accent)}
+.pack .btn--primary[data-fuell]:hover{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--btn-fill-bg)}
 
 /* Wer weniger Bewegung eingestellt hat, bekommt denselben Zustand ohne den
    Weg dorthin. */
@@ -1447,6 +1483,23 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   margin:0 0 clamp(28px,3.4vw,44px);
 }
 
+/* Bedingung direkt unter der Zahl. Launch kostet 995 EUR nur zusammen mit
+   Care Essential; ohne Betreuung sind es 1.290 EUR. Diese Bedingung gehoert
+   an die Zahl und nicht in eine Fussnote weiter unten — eine Zahl, deren
+   Voraussetzung man erst spaeter erfaehrt, ist keine Preisangabe, sondern
+   ein Koeder. Der negative obere Rand holt sie an die Preiszeile heran,
+   gegen die 14px Abstand des .pack-Rasters. */
+.pack__hinweis{
+  margin-top:-7px;
+  font-size:.8125rem;color:var(--ink-45);line-height:1.5;
+}
+.pack__hinweis b{font-weight:500;color:var(--ink-70)}
+
+/* Hier standen Regeln fuer eine Liste zubuchbarer Leistungen und fuer vier
+   Care-Stufen als eigene Preiskarten. Der Abschnitt zeigt nur noch die drei
+   Projektpakete; beide Regelsaetze sind mitgegangen, statt als totes Blatt
+   im Stylesheet zu bleiben. */
+
 /* --- Preiszeile --------------------------------------------------------- */
 .pack__preis{
   display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
@@ -1521,12 +1574,20 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 /* Vorzustand nur, wenn das Skript ihn auch wieder aufloesen kann — PXK-23.
    Hier haengt Geschaeftsinhalt daran: ohne die Bindung standen die Merkmale
    der Preiskarten ohne JavaScript dauerhaft auf opacity:0. */
-:root[data-reveal-anim] .pack ul li{opacity:0;transform:translate3d(-6px,0,0)}
-.pack.in ul li{animation:packMerkmal 380ms var(--ease) forwards}
-.pack.in ul li:nth-child(1){animation-delay:240ms}
-.pack.in ul li:nth-child(2){animation-delay:285ms}
-.pack.in ul li:nth-child(3){animation-delay:330ms}
-.pack.in ul li:nth-child(4){animation-delay:375ms}
+/* Der Vorzustand gilt nur fuer die sichtbare Merkmalsliste, nicht fuer die
+   Punkte im aufklappbaren Leistungsumfang: die stecken in einem
+   geschlossenen <details> und wuerden beim Aufklappen mit opacity:0
+   dastehen — die Einblendung ist laengst gelaufen, als sie noch niemand
+   sehen konnte. */
+:root[data-reveal-anim] .pack>ul li{opacity:0;transform:translate3d(-6px,0,0)}
+.pack.in>ul li{animation:packMerkmal 380ms var(--ease) forwards}
+.pack.in>ul li:nth-child(1){animation-delay:240ms}
+.pack.in>ul li:nth-child(2){animation-delay:285ms}
+.pack.in>ul li:nth-child(3){animation-delay:330ms}
+.pack.in>ul li:nth-child(4){animation-delay:375ms}
+.pack.in>ul li:nth-child(5){animation-delay:420ms}
+.pack.in>ul li:nth-child(6){animation-delay:465ms}
+.pack.in>ul li:nth-child(7){animation-delay:510ms}
 @keyframes packMerkmal{to{opacity:1;transform:none}}
 
 /* Das Schild kommt zuletzt und aus 0.8 — nicht aus dem Nichts, sondern aus
@@ -1560,8 +1621,17 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   .pack__badge{opacity:1;transform:translateY(-50%);animation:none}
 }
 
+/* Der Fuss der Karte beginnt bei allen drei Paketen auf derselben Linie.
+   Frueher drueckte margin-top:auto ihn von unten hoch — dadurch hing seine
+   Lage daran, wie viel darunter stand, und die Karte ohne Fussnote setzte
+   ihren Knopf 50px tiefer. Jetzt nimmt die Merkmalsliste den freien Raum
+   auf (.pack>ul{flex:1}), und die drei Bloecke, deren Textlaenge schwankt,
+   bekommen eine Mindesthoehe: Positionierung drei Zeilen, "Ideal fuer"
+   vier, Fussnote zwei. Gemessen am laengsten Text beider Sprachfassungen,
+   in em statt Pixeln, damit es mit der Schriftgroesse mitwaechst. */
 .pack__foot{
-  margin-top:auto;padding-top:16px;border-top:1px solid var(--line);
+  padding-top:16px;border-top:1px solid var(--line);
+  min-height:calc(6.2em + 17px);
   font-size:.875rem;color:var(--ink-45);line-height:1.55;
 }
 .pack__foot br{display:none}
@@ -1570,6 +1640,85 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   font-family:var(--font-mono);font-size:.875rem;font-weight:500;
   color:var(--ink);line-height:1.5;
 }
+/* "Ideal fuer:" laeuft im Satz weiter und darf deshalb nicht auf die
+   Blockregel von .pack__foot b treffen. */
+.pack__foot strong{font-weight:500;color:var(--ink-70)}
+
+/* Ein Satz, der sagt, wofuer das Paket da ist — zwischen Zahl und Merkmalen.
+   Er traegt die Entscheidung, die Liste belegt sie nur. */
+.pack__pos{
+  min-height:4.5em;
+  font-size:.9375rem;line-height:1.5;color:var(--ink);font-weight:500;
+}
+/* Die Liste nimmt auf, was an Hoehe uebrig bleibt — dadurch steht der Fuss
+   der Karte ueberall gleich, unabhaengig von der Zahl der Merkmalszeilen.
+   Nur die direkte Liste: die Punkte im Aufklappbereich sollen nicht
+   auseinandergezogen werden. */
+.pack>ul{flex:1}
+
+/* Der aufklappbare Leistungsumfang. Natives <details>: es oeffnet ohne
+   Skript, ist per Tastatur bedienbar und wird von Vorlesewerkzeugen als
+   Aufklappbereich angesagt — fuer eine Seite, die ohne JavaScript lesbar
+   bleiben soll, ist alles andere ein Rueckschritt. */
+.pack__mehr{border-top:1px solid var(--line);padding-top:14px}
+.pack__mehr>summary{
+  display:flex;align-items:center;gap:9px;
+  padding-block:4px;cursor:pointer;list-style:none;
+  font-family:var(--font-mono);font-size:.75rem;letter-spacing:.05em;
+  color:var(--accent-ink);
+}
+/* Das Standarddreieck faellt weg, der eigene Haken steht rechts daneben. */
+.pack__mehr>summary::-webkit-details-marker{display:none}
+.pack__mehr>summary::after{
+  content:"";width:6px;height:6px;flex:none;
+  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  rotate:45deg;translate:0 -2px;
+  transition:rotate 240ms var(--ease),translate 240ms var(--ease);
+}
+.pack__mehr[open]>summary::after{rotate:-135deg;translate:0 1px}
+.pack__mehr>summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.pack__mehr-liste{display:grid;gap:7px;margin-top:13px}
+.pack__mehr-liste li{
+  font-size:.8125rem;line-height:1.5;color:var(--ink-45);
+  padding-left:13px;position:relative;
+}
+.pack__mehr-liste li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:5px;height:1px;background:var(--ink-45);
+}
+
+/* Sternchenhinweis am Fuss der Karte. Gehoert zur Zahl oben, steht aber
+   unten — deshalb klein, ruhig und ohne eigene Linie. */
+.pack__fussnote{
+  min-height:3em;
+  font-size:.75rem;line-height:1.5;color:var(--ink-45);
+}
+
+/* Schild im Kopf des Kontaktfensters: welches Paket angefragt wird. Traegt
+   die Akzentfarbe, damit es sich vom uebrigen Kopftext abhebt, ohne mit der
+   Ueberschrift zu konkurrieren. [hidden] braucht die eigene Regel, weil
+   display:inline-flex sonst staerker waere als das Attribut. */
+.dlg-paket{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:12px;padding:5px 12px;border-radius:999px;
+  border:1px solid var(--accent);
+  font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--accent-ink);
+}
+.dlg-paket[hidden]{display:none}
+.dlg-paket b{font-weight:500;color:var(--ink)}
+
+/* Was in jedem Projekt gilt: einmal unter den Karten statt dreimal darin.
+   Waagerecht umbrechende Reihe, damit die sechs Punkte nicht als siebte
+   Liste wirken, sondern als gemeinsame Grundlinie. */
+.proj-standards{
+  display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:16px;
+}
+.proj-standards li{
+  display:flex;align-items:center;gap:9px;
+  font-size:.875rem;color:var(--ink-70);
+}
+.proj-standards svg{width:15px;height:15px;color:var(--accent);flex:none}
 
 /* ---------- Ablauf: waagerechte Zeitleiste --------------------------------
    Die Schritte laufen von links nach rechts. Jeder sitzt mit einem Punkt auf
