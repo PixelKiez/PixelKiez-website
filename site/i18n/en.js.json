@@ -40,7 +40,6 @@
   "ab 995 €": "from €995",
   "Business": "Business",
   "ab 2.490 €": "from €2,490",
-  "Individuell": "Bespoke",
   "ab 4.900 €": "from €4,900",
   "Ihr Anliegen ist klar umrissen und kommt mit Standardfunktionen aus.": "Your need is clearly bounded and works with standard features.",
   "Einstieg über das Sichtbarkeits-Audit.": "Start with the visibility audit.",
@@ -80,5 +79,10 @@
   "Ihr Ausgangspunkt": "your starting point",
   "\\nAusgangspunkt: ": "\\nStarting point: ",
   "Aufbau oder Überarbeitung der Website": "Building or reworking the website",
-  "Website: ": "Website: "
+  "Website: ": "Website: ",
+  "Enterprise": "Enterprise",
+  "Paket ": "Package ",
+  " · Anfrage von ": " · Enquiry from ",
+  "ANGEFRAGTES PAKET: ": "PACKAGE REQUESTED: ",
+  "\\nUnternehmen: ": "\\nCompany: "
 }

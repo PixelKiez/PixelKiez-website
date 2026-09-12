@@ -234,7 +234,7 @@
       "@type": "Service",
       "@id": "https://pixelkiez.de/#service-1",
       "name": "Webdesign",
-      "description": "Websites mit messbarem Anfrage- oder Terminpfad: mobil-first, mit Ladezeit-Budget, rechtssicher aufgesetzt. One-Page-Website900 €, System-Website",
+      "description": "Websites mit messbarem Anfrage- oder Terminpfad: mobil-first, mit Ladezeit-Budget, rechtssicher aufgesetzt. Vom One-Pager bis zur mehrseitigen Unternehmenswebsite. Preise stehen sichtbar auf der Seite.",
       "provider": {
         "@id": "https://pixelkiez.de/#organisation"
       },
@@ -651,32 +651,61 @@
 <section class="section section--flush naht-anker" id="pakete">
   <span class="naht naht--von-schwarz" aria-hidden="true"></span>
   <div class="wrap">
-    <div class="section__head">
-      <p class="kicker" data-reveal>04 · Preise</p>
+    <!-- Die Ordnungszahl steht ausserhalb des mittigen Kopfes und damit an
+         derselben linken Kante wie die uebrigen sieben Abschnittsnummern.
+         Nur Ueberschrift und Fliesstext ruecken in die Mitte. -->
+    <p class="kicker kicker--kante" data-reveal>04 · Preise</p>
+
+    <div class="section__head section__head--mitte">
       <h2 class="h-lg tb tb--weiss" data-textblock>Ein klarer Einstieg. Ein Festpreis vor dem Start.</h2>
       <p class="lead" data-reveal>Der genaue Preis richtet sich nach Umfang und Funktionen. Vor Projektbeginn erhalten Sie ein verbindliches Angebot, ohne offene Agenturstunden.</p>
     </div>
 
-    <!-- Nur die Umsetzung der Website. Die Betreuung nach dem Launch steht in
-         Abschnitt 06 und bekommt hier bewusst keine Zahl: zwei Preisachsen an
-         einer Stelle waren eine Entscheidung zu viel, und der einmalige
-         Festpreis ist die Zahl, wegen der jemand diesen Abschnitt aufsucht. -->
-    <p class="preis-hinweis" data-reveal>Einmaliger Festpreis, verbindlich vor Projektbeginn.</p>
+    <!-- Bis zur Preisrecherche stand hier nur die einmalige Umsetzung; Care
+         bekam bewusst keine Zahl, weil zwei Preisachsen an einer Stelle eine
+         Entscheidung zu viel waren. Das gilt nicht mehr: Launch kostet 995 EUR
+         nur zusammen mit Care Essential. Die Bedingung laesst sich nicht
+         weglassen, ohne dass die Zahl etwas Falsches behauptet — also steht
+         Care jetzt hier, unterhalb der Karten und klar getrennt.
+
+         Der Hinweis nennt netto und B2B. Beides ist Pflicht, nicht Kosmetik:
+         die Preise richten sich an Unternehmen, und ohne diese Angabe waere
+         die Zahl fuer Verbraucher zu lesen. -->
+    <p class="preis-hinweis" data-reveal>Alle Preise verstehen sich netto zzgl. gesetzlicher Mehrwertsteuer und richten sich ausschließlich an Unternehmen, Selbstständige, Freiberufler und Institutionen.</p>
 
     <div class="grid grid--3">
       <article class="card card--tint pack" data-reveal>
         <p class="tag">Launch</p>
         <p class="pack__preis">
-          <span class="pack__wert">ab 995 €</span>
-          <span class="pack__einheit">einmalig</span>
+          <span class="pack__wert">995 €</span>
+          <span class="pack__einheit">einmalig*</span>
         </p>
+        <p class="pack__pos">Kompakter Einstieg für eine professionelle One-Page-Website.</p>
         <ul>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Eine Seite</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Vorhandene Inhalte</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Standardfunktionen</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Begrenzte Korrekturen</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>One-Page mit bis zu 6 Inhaltsbereichen</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelles, responsives Webdesign</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Kontaktformular mit E-Mail-Weiterleitung</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Technische SEO-Basis</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Bild- &amp; Ladezeitoptimierung</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Eine strukturierte Korrekturrunde</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Technische Veröffentlichung</span></li>
         </ul>
-        <p class="pack__foot">Für klar begrenzte One-Page-Projekte.</p>
+        <p class="pack__foot"><strong>Ideal für:</strong> kompakte Unternehmensauftritte mit vorbereitetem Content.</p>
+        <details class="pack__mehr">
+          <summary>Leistungsumfang ansehen</summary>
+          <ul class="pack__mehr-liste">
+            <li>Meta-Tags und OpenGraph-Grundlagen</li>
+            <li>XML-Sitemap und robots.txt</li>
+            <li>Favicons</li>
+            <li>Cookie- und Consent-Basis, sofern technisch erforderlich und im Projektumfang vereinbart</li>
+            <li>Übernahme fertig bereitgestellter Texte, Logos und Bilder</li>
+            <li>Technische Auslieferung und Veröffentlichung</li>
+          </ul>
+        </details>
+        <div class="btn-row">
+          <button type="button" class="btn btn--primary btn--sm" data-fuell="Launch anfragen" data-paket="Launch" data-open-contact data-anliegen="Anfrage zum Paket Launch: Bitte um ein verbindliches Angebot.">Launch anfragen</button>
+        </div>
+        <p class="pack__fussnote">* Mit <a href="/care/">Care Essential</a> 59 € / Monat, Mindestlaufzeit 12 Monate. Ohne Care: 1.290 € einmalig.</p>
       </article>
 
       <article class="card card--tint pack pack--empfohlen" data-reveal>
@@ -686,33 +715,86 @@
           <span class="pack__wert">ab 2.490 €</span>
           <span class="pack__einheit">einmalig</span>
         </p>
+        <p class="pack__pos">Die vollständige Unternehmenswebsite für mehrere Leistungsbereiche.</p>
         <ul>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Mehrere Inhaltsbereiche</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Lokale Sichtbarkeit</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>4–6 individuell strukturierte Seiten</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelles UX/UI Design</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Responsive Umsetzung</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Klarer Anfrage- oder Terminweg</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Sichtbarkeit bei Google und KI-Suchen</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>SEO- &amp; Local-SEO-Grundlage</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Strukturierte Unternehmensdaten</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Qualitätssicherung, Übergabe &amp; Dokumentation</span></li>
         </ul>
-        <p class="pack__foot">Für Unternehmen mit mehreren Leistungsbereichen.</p>
+        <p class="pack__foot"><strong>Ideal für:</strong> Unternehmen, die Leistungen professionell darstellen und Interessenten gezielt zur Anfrage führen möchten.</p>
+        <details class="pack__mehr">
+          <summary>Leistungsumfang ansehen</summary>
+          <ul class="pack__mehr-liste">
+            <li>Technische und semantische Grundlage für Suchmaschinen und AI-Crawler</li>
+            <li>Crawlerfreundliche Seitenarchitektur und Überschriftenstruktur</li>
+            <li>Strukturierte Unternehmensdaten nach Schema.org, sofern passend</li>
+            <li>Performance-Optimierung im Auslieferungszustand, Lazy Loading und Medienoptimierung</li>
+            <li>Indexierbarkeit, Canonicals und Sitemap</li>
+            <li>Zwei strukturierte Korrekturrunden, Übergabe und Dokumentation</li>
+          </ul>
+        </details>
+        <div class="btn-row">
+          <button type="button" class="btn btn--primary btn--sm" data-fuell="Business-Projekt prüfen" data-paket="Business" data-open-contact data-anliegen="Anfrage zum Paket Business: Bitte um Prüfung meines Projekts.">Business-Projekt prüfen</button>
+        </div>
+        <p class="pack__fussnote">Mehr als 6 Seiten und laufende SEO-Arbeit werden separat vereinbart.</p>
       </article>
 
       <article class="card card--tint pack" data-reveal>
-        <p class="tag">Individuell</p>
+        <p class="tag">Enterprise</p>
         <p class="pack__preis">
           <span class="pack__wert">ab 4.900 €</span>
           <span class="pack__einheit">einmalig</span>
         </p>
+        <p class="pack__pos">Für umfangreichere Websites, individuelle Nutzerwege und zusätzliche Funktionen.</p>
         <ul>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelle Benutzerführung</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Umfangreichere Inhalte</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Zusätzliche Funktionsmodule</span></li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Messbare Anfragestrecke</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ab ca. 7–10 Inhaltsseiten</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelle Informationsarchitektur</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Maßgeschneidertes UX/UI Design</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Geführte Anfrage- &amp; Multi-Step-Prozesse</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ausgewählte CRM-, Tool- oder API-Anbindungen</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Relaunch- &amp; Migrationsplanung</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Erweiterte technische SEO- &amp; Qualitätsbasis</span></li>
         </ul>
-        <p class="pack__foot">Für individuellere Struktur und Funktionen.</p>
+        <p class="pack__foot"><strong>Ideal für:</strong> Unternehmen mit komplexeren Prozessen, Integrationen oder anspruchsvolleren Relaunch-Anforderungen.</p>
+        <details class="pack__mehr">
+          <summary>Leistungsumfang ansehen</summary>
+          <ul class="pack__mehr-liste">
+            <li>Redirect-Mapping beim Relaunch</li>
+            <li>Staging-Umgebung</li>
+            <li>Accessibility-orientierte technische Umsetzung</li>
+            <li>Ausgewählte CRM-, Webhook- oder API-Anbindungen nach technischer Prüfung</li>
+            <li>Erweiterte strukturierte Daten</li>
+            <li>Bis zu drei strukturierte Iterationsrunden</li>
+          </ul>
+        </details>
+        <div class="btn-row">
+          <button type="button" class="btn btn--primary btn--sm" data-fuell="Enterprise anfragen" data-paket="Enterprise" data-open-contact data-anliegen="Anfrage zum Paket Enterprise: Bitte um ein individuelles Angebot.">Enterprise anfragen</button>
+        </div>
+        <p class="pack__fussnote">Komplexe Portale, umfangreiche APIs und Systemlösungen werden separat kalkuliert.</p>
       </article>
     </div>
 
+    <!-- Was unabhaengig vom Paket gilt. Steht einmal unter den drei Karten
+         statt dreimal darin — sonst traegt jede Karte dieselben sechs Zeilen
+         und die Unterschiede gehen darin unter. -->
+    <div class="pl-schluss">
+      <h3 class="h-sm" data-reveal>In jedem Pixelkiez-Projekt</h3>
+      <ul class="proj-standards" data-reveal>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Responsive Umsetzung</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Klar definierter Projektumfang</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Festpreis vor Projektstart</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Technische Qualitätsprüfung</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Direkter Ansprechpartner</span></li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Saubere Übergabe</span></li>
+      </ul>
+    </div>
+
     <div class="sek-fuss">
-      <p class="small" data-reveal>Komplexe Systeme, Portale und Integrationen werden individuell kalkuliert. Die Betreuung nach dem Launch ist optional und wird getrennt vereinbart.</p>
+      <p class="small" data-reveal><a href="/care/">Care</a>, zusätzliche Seiten, laufendes SEO/GEO, Copywriting und komplexe Integrationen werden abhängig vom Projekt separat vereinbart.</p>
       <div class="btn-row" data-reveal>
         <button type="button" class="btn btn--split btn--primary" data-open-contact data-anliegen="Preisanfrage: Bitte um ein verbindliches Angebot."><span class="btn__label">Projekt besprechen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
       </div>
@@ -939,6 +1021,11 @@
           </div>
 
           <div class="field">
+            <label for="f-unternehmen">Unternehmen <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+            <input class="input" type="text" id="f-unternehmen" name="unternehmen" autocomplete="organization" placeholder="Firmenname">
+          </div>
+
+          <div class="field">
             <label for="f-ausgangspunkt">Ausgangspunkt <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
             <select class="select" id="f-ausgangspunkt" name="ausgangspunkt">
               <option value="">Bitte wählen</option>
@@ -953,6 +1040,11 @@
             <label for="f-anliegen">Anliegen <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
             <textarea class="textarea" id="f-anliegen" name="anliegen" placeholder="Worum geht es?"></textarea>
           </div>
+
+          <!-- Traegt das angefragte Paket mit. Das Skript fuellt es beim Klick
+               auf eine Preiskarte; ohne Skript bleibt es leer und die Anfrage
+               kommt ohne Paketangabe an, statt gar nicht. -->
+          <input type="hidden" id="f-paket" name="paket" value="">
 
           <!-- Honeypot statt Captcha: für Menschen unsichtbar, für Bots verlockend -->
           <div class="hp" aria-hidden="true"><label for="f-firma">Firma</label><input type="text" id="f-firma" name="firma" tabindex="-1" autocomplete="off"></div>
@@ -1084,6 +1176,10 @@
         <p class="kicker">Schnellkontakt</p>
         <h2 class="h-md" id="dlg-title" style="margin-top:9px">Reden wir über Ihr Projekt.</h2>
         <p class="small" style="margin-top:7px">Antwort innerhalb eines Werktags.</p>
+        <!-- Nennt das Paket, wenn die Anfrage von einer Preiskarte kommt.
+             Startet verborgen: ohne Skript erscheint es gar nicht erst, und
+             ein leeres Schild waere schlimmer als keines. -->
+        <p class="dlg-paket" id="dlg-paket" hidden>Angefragtes Paket: <b id="dlg-paket-wert"></b></p>
       </div>
       <button type="button" class="dialog__x" data-dialog-close aria-label="Schließen"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
