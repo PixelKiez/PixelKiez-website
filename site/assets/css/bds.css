@@ -527,7 +527,10 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
    darueber, der Sternchenhinweis darunter. Das summary ist ein Flex-Kasten
    (Text plus Haken) und braucht deshalb justify-content statt text-align. */
 .pack .pack__mehr>summary{justify-content:center}
-.pack .pack__fussnote{text-align:center}
+.pack .pack__fussnote{
+  margin-top:12px;
+  font-size:.75rem;line-height:1.5;color:var(--ink-45);text-align:center;
+}
 .pack .btn--primary{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--ink)}
 .pack .btn--primary[data-fuell]{--btn-fill-bg:var(--accent);--btn-fill-fg:var(--on-accent)}
 .pack .btn--primary[data-fuell]:hover{--btn-bg:var(--ink);--btn-fg:var(--paper);--btn-bd:var(--btn-fill-bg)}
@@ -1462,18 +1465,58 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .pc__side{display:grid;gap:12px;align-content:start}
 .pc__note{font-size:.8125rem;color:var(--ink-70);line-height:1.5}
 
-/* ---------- 12. Pakete / Ablauf / Zusagen -------------------------------- */
-.pack{display:flex;flex-direction:column;gap:14px;height:100%}
+/* ---------- 12. Pakete / Ablauf / Zusagen --------------------------------
+
+   Drei eigenstaendige Karten mit sichtbarem Abstand — kein durchgehendes
+   Raster. Der Zwischenraum macht sie zu drei Angeboten; geschlossene Linien
+   zwischen den Spalten hatten daraus eine Vergleichstabelle gemacht, und
+   genau das soll dieser Abschnitt nicht sein.
+
+   Die Hoehe bestimmt der Inhalt. Keine Mindesthoehe, keine gestreckte
+   Flaeche: die Karten sollen kompakt sein, nicht bildschirmhoch. */
+.pack-karten{
+  display:grid;grid-template-columns:1fr;
+  gap:clamp(14px,1.8vw,22px);
+}
+@media (min-width:860px){
+  .pack-karten{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+.pack{
+  display:flex;flex-direction:column;min-width:0;height:auto;
+  padding:clamp(24px,2.6vw,32px);
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--paper);
+}
+
+/* Kopf der Karte: Name, darunter die Einordnung. Der Preis folgt dicht
+   darauf — stark, aber nicht in der Kartenmitte schwebend. */
+.pack__kopf{display:grid;gap:6px}
+.pack__name{
+  font-family:var(--font-display);font-weight:600;
+  font-size:1.1875rem;letter-spacing:-.01em;line-height:1.25;
+}
 .pack__quote{
   font-family:var(--font-display);font-weight:600;
   font-size:clamp(1.15rem,1.9vw,1.4rem);letter-spacing:-.024em;line-height:1.22;
 }
 .pack__quote span{color:var(--ink-45)}
-.pack ul{display:grid;gap:9px;margin-top:2px}
-.pack ul li{
-  display:flex;gap:10px;font-size:.9375rem;color:var(--ink-70);line-height:1.5;
+/* Merkmale kompakt untereinander, jede Zeile mit orangem Haken. flex:1
+   laesst die Liste den Hoehenunterschied zwischen den Karten aufnehmen,
+   damit die Knoepfe darunter auf einer Linie bleiben. */
+.pack>ul{
+  display:grid;gap:0;flex:1;
+  margin-top:clamp(18px,2vw,24px);
+  border-top:1px solid var(--line-soft);
 }
-.pack ul svg{width:15px;height:15px;color:var(--accent);flex:none;margin-top:4px}
+.pack>ul li{
+  display:flex;gap:10px;align-items:flex-start;
+  padding-block:9px;border-bottom:1px solid var(--line-soft);
+  font-size:.875rem;color:var(--ink-70);line-height:1.45;
+}
+/* Der Haken traegt die Akzentfarbe. Sie haengt nicht an --ink und kippt
+   deshalb im dunklen Abschnitt nicht mit — orange bleibt orange. */
+.pack>ul svg{width:15px;height:15px;color:var(--accent);flex:none;margin-top:3px}
 /* --- Hinweis ueber den Preiskarten ---------------------------------------
    Stand hier bis August unter einem Umschalter zwischen Projektpreis und
    monatlicher Betreuung. Der Abschnitt zeigt jetzt nur die einmalige
@@ -1489,11 +1532,8 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
    Voraussetzung man erst spaeter erfaehrt, ist keine Preisangabe, sondern
    ein Koeder. Der negative obere Rand holt sie an die Preiszeile heran,
    gegen die 14px Abstand des .pack-Rasters. */
-.pack__hinweis{
-  margin-top:-7px;
-  font-size:.8125rem;color:var(--ink-45);line-height:1.5;
-}
-.pack__hinweis b{font-weight:500;color:var(--ink-70)}
+
+
 
 /* Hier standen Regeln fuer eine Liste zubuchbarer Leistungen und fuer vier
    Care-Stufen als eigene Preiskarten. Der Abschnitt zeigt nur noch die drei
@@ -1503,71 +1543,38 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 /* --- Preiszeile --------------------------------------------------------- */
 .pack__preis{
   display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+  margin-top:clamp(16px,1.8vw,22px);
   font-family:var(--font-display);font-weight:600;
-  font-size:clamp(1.5rem,2.6vw,2rem);letter-spacing:-.028em;line-height:1.1;
+  font-size:clamp(1.75rem,2.9vw,2.25rem);letter-spacing:-.028em;line-height:1.1;
 }
 .pack__wert{display:inline-block}
 .pack__einheit{
   font-family:var(--font-mono);font-weight:400;
-  font-size:.6875rem;letter-spacing:.11em;text-transform:uppercase;
-  color:var(--ink-45);
+  font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-45);white-space:nowrap;
 }
 
-/* Die empfohlene Karte hebt sich ab — ueber den Rahmen, nicht ueber Groesse.
-   Eine groessere Karte bricht das Raster, ein kraeftigerer Rand nicht. */
-.pack--empfohlen{border-color:var(--accent);position:relative}
 
-/* Die empfohlene Karte steht etwas groesser da. Bewusst NICHT ueber
-   transform:scale() — das rechnet Schrift und Haarlinien weich, und bei
-   1,04 sieht man es genau dort, wo es weh tut: an den Ziffern des Preises.
-   Stattdessen echte Hoehe ueber Innenabstand, nach oben und unten aus der
-   Reihe gezogen. Alles bleibt gerastert und scharf.
 
-   Erst ab 900px, denn darunter stehen die Karten untereinander — dort gibt
-   es keine Mitte, die sich abheben koennte. */
-/* Ab 760px — dort schaltet das Raster auf drei Spalten, dort gibt es
-   ueberhaupt erst eine Mitte. */
-@media (min-width:760px){
-  .pack--empfohlen{
-    /* height:auto ist der entscheidende Teil: .pack traegt height:100% und
-       waere damit exakt zeilenhoch, der negative Aussenabstand wuerde die
-       Karte nur verschieben statt vergroessern. Ohne die feste Hoehe rechnet
-       das Raster zeilenhoehe + 2x Aussenabstand — die Karte wird wirklich
-       groesser, oben und unten gleich viel. */
-    height:auto;
-    margin-block:calc(-1 * clamp(12px,1.4vw,20px));
-    padding-block:calc(clamp(22px,2.6vw,32px) + clamp(12px,1.4vw,20px));
-  }
-  /* Der Preis traegt die Aufwertung mit, sonst wirkt die Karte nur leerer. */
-  .pack--empfohlen .pack__wert{font-size:clamp(1.7rem,3vw,2.3rem)}
-}
 
-.pack__badge{
-  position:absolute;top:0;right:clamp(22px,2.6vw,32px);
-  transform:translateY(-50%);
-  padding:5px 12px;border-radius:999px;
-  background:var(--accent);color:#0E1413;
-  font-family:var(--font-mono);font-size:.625rem;letter-spacing:.12em;
-  text-transform:uppercase;
-}
 /* --- Bewegung der Preiskarten -------------------------------------------
    Dieselbe Sprache wie die Stationen in Abschnitt 01: eine Kante zieht durch,
    wenn die Karte ins Bild kommt. Danach laufen die Merkmale gestaffelt ein.
    Kein neues Vokabular — dieselbe Geste an einer zweiten Stelle liest sich
    als System, drei verschiedene Gesten als Sammelsurium.
 
-   Die Kante sitzt um den Eckradius eingerueckt. Ueber die volle Breite liefe
-   sie an den Rundungen ins Leere, und "overflow:hidden" ist hier keine Option:
-   das Empfohlen-Schild ragt absichtlich ueber die Oberkante hinaus. */
+   Die Kante lief frueher um den Eckradius eingerueckt, weil jede Karte ihre
+   eigenen Rundungen hatte. Im Raster hat nur der aeussere Rahmen Radien, die
+   Spalten selbst sind gerade — die Kante laeuft deshalb ueber die volle
+   Spaltenbreite und trifft die senkrechten Trennlinien sauber. */
 .pack{position:relative}
 .pack::before{
-  content:"";position:absolute;top:0;left:var(--radius);
-  height:2px;width:0;max-width:calc(100% - var(--radius) * 2);
-  background:var(--line-strong);border-radius:2px;
+  content:"";position:absolute;top:0;left:0;
+  height:2px;width:0;max-width:100%;
+  background:var(--line-strong);
   transition:width 620ms var(--ease) 160ms;
 }
 .pack.in::before{width:100%}
-.pack--empfohlen::before{background:var(--accent)}
 
 /* Die Merkmale kommen einzeln, nicht als Block. 45ms Abstand: genug, dass man
    die Reihenfolge wahrnimmt, zu wenig, um darauf zu warten. */
@@ -1590,27 +1597,12 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .pack.in>ul li:nth-child(7){animation-delay:510ms}
 @keyframes packMerkmal{to{opacity:1;transform:none}}
 
-/* Das Schild kommt zuletzt und aus 0.8 — nicht aus dem Nichts, sondern aus
-   etwas, das schon da war. */
-/* Vorzustand nur, wenn das Skript ihn auch wieder aufloesen kann — PXK-23.
-   Das Schild nennt die empfohlene Karte; ohne JavaScript blieb es weg. */
-:root[data-reveal-anim] .pack__badge{opacity:0;transform:translateY(-50%) scale(.8)}
-.pack.in .pack__badge{
-  animation:packSchild 320ms var(--ease) 520ms forwards;
-}
-@keyframes packSchild{to{opacity:1;transform:translateY(-50%) scale(1)}}
-
-/* Anheben beim Ueberfahren. Nur mit echtem Zeiger — auf dem Telefon bliebe
-   die angetippte Karte sonst angehoben stehen. */
+/* Frueher hob sich die ueberfahrene Karte an und warf einen Schatten. Das
+   passt zu einzelnen Kacheln, nicht zu einem Raster: eine Spalte, die sich
+   aus der gemeinsamen Flaeche loest, zerreisst die Trennlinien zu ihren
+   Nachbarn. Geblieben ist die Farbe am Preis — sie zeigt dieselbe
+   Aufmerksamkeit, ohne die Geometrie anzutasten. */
 @media (hover:hover) and (pointer:fine){
-  .pack{transition:transform 260ms var(--ease),border-color var(--dur) var(--ease),
-                   box-shadow 260ms var(--ease)}
-  .pack:hover{
-    transform:translateY(-5px);
-    border-color:var(--ink-45);
-    box-shadow:0 20px 44px -32px rgba(14,20,19,.55);
-  }
-  .pack--empfohlen:hover{border-color:var(--accent)}
   .pack:hover .pack__wert{color:var(--accent-ink)}
 }
 .pack__wert{transition:color 220ms var(--ease)}
@@ -1618,7 +1610,6 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 @media (prefers-reduced-motion:reduce){
   .pack::before{width:100%;transition:none}
   .pack ul li{opacity:1;transform:none;animation:none}
-  .pack__badge{opacity:1;transform:translateY(-50%);animation:none}
 }
 
 /* Der Fuss der Karte beginnt bei allen drei Paketen auf derselben Linie.
@@ -1629,26 +1620,19 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
    bekommen eine Mindesthoehe: Positionierung drei Zeilen, "Ideal fuer"
    vier, Fussnote zwei. Gemessen am laengsten Text beider Sprachfassungen,
    in em statt Pixeln, damit es mit der Schriftgroesse mitwaechst. */
-.pack__foot{
-  padding-top:16px;border-top:1px solid var(--line);
-  min-height:calc(6.2em + 17px);
-  font-size:.875rem;color:var(--ink-45);line-height:1.55;
-}
-.pack__foot br{display:none}
-.pack__foot b{
-  display:block;margin-top:10px;
-  font-family:var(--font-mono);font-size:.875rem;font-weight:500;
-  color:var(--ink);line-height:1.5;
-}
+
+
+
 /* "Ideal fuer:" laeuft im Satz weiter und darf deshalb nicht auf die
-   Blockregel von .pack__foot b treffen. */
-.pack__foot strong{font-weight:500;color:var(--ink-70)}
+   Blockregel von 
 
 /* Ein Satz, der sagt, wofuer das Paket da ist — zwischen Zahl und Merkmalen.
    Er traegt die Entscheidung, die Liste belegt sie nur. */
 .pack__pos{
+  /* Drei Zeilen Mindesthoehe: der laengste Descriptor braucht sie, und ohne
+     sie beginnt der Preis in einer Karte tiefer als in den anderen. */
   min-height:4.5em;
-  font-size:.9375rem;line-height:1.5;color:var(--ink);font-weight:500;
+  font-size:.9375rem;line-height:1.5;color:var(--ink-45);font-weight:400;
 }
 /* Die Liste nimmt auf, was an Hoehe uebrig bleibt — dadurch steht der Fuss
    der Karte ueberall gleich, unabhaengig von der Zahl der Merkmalszeilen.
@@ -1686,6 +1670,12 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   content:"";position:absolute;left:0;top:.62em;
   width:5px;height:1px;background:var(--ink-45);
 }
+
+/* Der Abschluss jeder Karte: ein Knopf ueber die volle Kartenbreite. Er
+   ersetzt den frueheren "Ideal fuer"-Block — jede Karte endet mit dem Weg
+   nach vorn, nicht mit einer weiteren Textzone. */
+.pack__cta{margin-top:clamp(18px,2vw,24px)}
+.pack__cta .btn{width:100%}
 
 /* Sternchenhinweis am Fuss der Karte. Gehoert zur Zahl oben, steht aber
    unten — deshalb klein, ruhig und ohne eigene Linie. */
