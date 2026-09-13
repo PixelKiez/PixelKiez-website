@@ -1461,16 +1461,40 @@
       openDialog();
     }
   };
+
+  /* Sobald jemand selbst tippt, ist der Inhalt keine Vorgabe mehr und wird
+     von keinem spaeteren Knopf ueberschrieben. Einmal genuegt — die Marke
+     kommt nur ueber eine neue Vorbelegung zurueck. */
+  (function () {
+    var anliegen = $('#f-anliegen');
+    if (!anliegen) return;
+    anliegen.addEventListener('input', function () {
+      delete anliegen.dataset.vorbelegt;
+    });
+  })();
+
   $$('[data-open-contact]').forEach(function (b) {
     b.addEventListener('click', function (e) {
       e.preventDefault();
       /* Ein Knopf darf sein Anliegen mitgeben — dann steht es schon im
          Formular und die Anfrage kommt beschriftet an, statt als leeres Feld.
-         Nur setzen, wenn noch nichts drinsteht: sonst ueberschriebe ein
-         zweiter Klick, was jemand schon getippt hat. */
+
+         Frueher wurde nur gesetzt, wenn das Feld leer war. Damit blieb eine
+         einmal gesetzte Vorgabe fuer immer stehen: wer ein Paket angeklickt
+         und dann den Schnellkontakt geoeffnet hatte, sah dort weiterhin
+         "Anfrage zum Paket Business". Eine Paketanfrage, die niemand
+         gestellt hat.
+
+         Das Feld merkt sich jetzt, ob sein Inhalt vom Knopf kam. Vorbelegtes
+         darf ueberschrieben und geleert werden, Getipptes nie — die Marke
+         faellt beim ersten Tastendruck weg. */
       var vorgabe = b.getAttribute('data-anliegen');
       var feld = $('#f-anliegen');
-      if (vorgabe && feld && !feld.value.trim()) feld.value = vorgabe;
+      if (feld && (!feld.value.trim() || feld.dataset.vorbelegt === 'ja')) {
+        feld.value = vorgabe || '';
+        if (vorgabe) feld.dataset.vorbelegt = 'ja';
+        else delete feld.dataset.vorbelegt;
+      }
       /* Kommt der Klick von einer Preiskarte, nennt der Kopf des Formulars
          das Paket. Im Anliegen steht es ohnehin — aber dort weit unten und
          in einem Feld, das man selbst beschreibt; wer das Formular oeffnet,
@@ -1502,7 +1526,16 @@
       a.value = 'Projekt-Check: ' + AUSGANG[pick.ausgangspunkt] + ' · ' + t.label + ' · ' + ZEIT[pick.zeit].label +
                 '\nSchwächste Aufgabe: ' + AUFGABEN[AUFGABE_ZU[pick.thema]] +
                 '\nEmpfehlung: ' + stufe.name + ' (' + stufe.preis + ')';
+      /* Auch das Ergebnis des Projekt-Checks ist eine Vorgabe und kein
+         getippter Text — sonst bliebe es beim naechsten Aufruf stehen. */
+      a.dataset.vorbelegt = 'ja';
     }
+    /* Der Check fuehrt zu keinem bestimmten Paket. Was von einem frueheren
+       Klick auf eine Preiskarte noch steht, wird hier abgeraeumt. */
+    var schild = $('#dlg-paket');
+    if (schild) schild.hidden = true;
+    var paketFeld = $('#f-paket');
+    if (paketFeld) paketFeld.value = '';
     openContact();
   }
 
