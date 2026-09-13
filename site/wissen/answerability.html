@@ -113,6 +113,7 @@
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-15A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5Z"/></symbol>
   <symbol id="i-radio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M8.1 15.9a5.5 5.5 0 0 1 0-7.8M15.9 8.1a5.5 5.5 0 0 1 0 7.8M5.3 18.7a9.5 9.5 0 0 1 0-13.4M18.7 5.3a9.5 9.5 0 0 1 0 13.4"/></symbol>
   <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 20V9"/></symbol>
 </svg>
@@ -565,7 +566,8 @@
 </section>
 
 <!-- ===================== NAECHSTER SCHRITT ===================== -->
-<section class="section inv" id="naechster-schritt">
+<section class="section inv naht-anker" id="naechster-schritt">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Kann Ihre Website zentrale Kundenfragen klar beantworten?</h2>
@@ -578,7 +580,8 @@
 </section>
 
 <!-- ===================== VERWANDTE THEMEN ===================== -->
-<section class="section" id="verwandt">
+<section class="section naht-anker" id="verwandt">
+  <span class="naht naht--von-schwarz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Themen.</h2>
@@ -608,7 +611,8 @@
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<footer class="footer inv">
+<footer class="footer inv naht-anker">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="footer__bar">
       <span>© Pixelkiez · Berlin</span>
@@ -621,6 +625,14 @@
   </div>
 </footer>
 
+
+<!-- Derselbe schwebende Schnellkontakt wie auf der Startseite. Er startet
+     verborgen; das Skript blendet ihn ein, sobald man zu lesen beginnt, und
+     nimmt ihn an der Fusszeile wieder weg, damit er die Rechtsverweise nicht
+     verdeckt. Ohne JavaScript erscheint er gar nicht erst. -->
+<button type="button" class="btn btn--primary sticky-cta" data-hidden="true" data-open-contact aria-label="Schnellkontakt öffnen">
+  <svg aria-hidden="true"><use href="#i-chat"/></svg><span class="label">Schnellkontakt</span>
+</button>
 
 <!-- ===================== KONTAKTFENSTER =====================
      Dasselbe Formular wie auf der Startseite, hier als Overlay: wer im

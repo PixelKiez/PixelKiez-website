@@ -112,7 +112,7 @@
       </ol>
     </nav>
     <div class="section__head">
-      <p class="kicker" data-reveal>Leistung 01</p>
+      <p class="kicker" data-reveal>Leistung</p>
       <h1 class="h-lg" data-reveal>Webdesign &amp; Redesign für Unternehmen</h1>
       <p class="lead" data-reveal>Eine Unternehmenswebsite sollte mehr leisten als modern auszusehen. Sie muss Ihr Angebot verständlich machen, professionell wirken, technisch sauber funktionieren und Besucher gezielt zum nächsten Schritt führen.</p>
       <p class="prose" data-reveal>Pixelkiez entwickelt neue Unternehmenswebsites und modernisiert bestehende Auftritte – von der Informationsarchitektur über UX/UI bis zur technischen Umsetzung.</p>
@@ -147,7 +147,8 @@
 </section>
 
 <!-- ===================== 2. REDESIGN ODER NEU ===================== -->
-<section class="section inv" id="redesign-oder-neu">
+<section class="section inv naht-anker" id="redesign-oder-neu">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Redesign oder Neuentwicklung?</h2>
@@ -183,7 +184,8 @@
 </section>
 
 <!-- ===================== 3. STRUKTUR VOR OBERFLAECHE ===================== -->
-<section class="section" id="struktur">
+<section class="section naht-anker" id="struktur">
+  <span class="naht naht--von-schwarz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Struktur vor Oberfläche.</h2>
@@ -311,7 +313,8 @@
 </section>
 
 <!-- ===================== ABSCHLUSS ===================== -->
-<section class="section sec--orange" id="naechster-schritt">
+<section class="section sec--orange naht-anker" id="naechster-schritt">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Redesign oder Neuentwicklung?</h2>
@@ -325,7 +328,8 @@
 </section>
 
 <!-- ===================== VERWANDTE LEISTUNGEN ===================== -->
-<section class="section" id="verwandt">
+<section class="section naht-anker" id="verwandt">
+  <span class="naht naht--von-orange" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Leistungen.</h2>
@@ -360,7 +364,8 @@
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<footer class="footer inv">
+<footer class="footer inv naht-anker">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="footer__bar">
       <span>© Pixelkiez · Berlin</span>
@@ -373,6 +378,14 @@
   </div>
 </footer>
 
+
+<!-- Derselbe schwebende Schnellkontakt wie auf der Startseite. Er startet
+     verborgen; das Skript blendet ihn ein, sobald man zu lesen beginnt, und
+     nimmt ihn an der Fusszeile wieder weg, damit er die Rechtsverweise nicht
+     verdeckt. Ohne JavaScript erscheint er gar nicht erst. -->
+<button type="button" class="btn btn--primary sticky-cta" data-hidden="true" data-open-contact aria-label="Schnellkontakt öffnen">
+  <svg aria-hidden="true"><use href="#i-chat"/></svg><span class="label">Schnellkontakt</span>
+</button>
 
 <!-- ===================== KONTAKTFENSTER =====================
      Dasselbe Formular wie auf der Startseite, hier als Overlay: wer auf

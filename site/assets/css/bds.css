@@ -1558,23 +1558,10 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 
 
 /* --- Bewegung der Preiskarten -------------------------------------------
-   Dieselbe Sprache wie die Stationen in Abschnitt 01: eine Kante zieht durch,
-   wenn die Karte ins Bild kommt. Danach laufen die Merkmale gestaffelt ein.
-   Kein neues Vokabular — dieselbe Geste an einer zweiten Stelle liest sich
-   als System, drei verschiedene Gesten als Sammelsurium.
-
-   Die Kante lief frueher um den Eckradius eingerueckt, weil jede Karte ihre
-   eigenen Rundungen hatte. Im Raster hat nur der aeussere Rahmen Radien, die
-   Spalten selbst sind gerade — die Kante laeuft deshalb ueber die volle
-   Spaltenbreite und trifft die senkrechten Trennlinien sauber. */
-.pack{position:relative}
-.pack::before{
-  content:"";position:absolute;top:0;left:0;
-  height:2px;width:0;max-width:100%;
-  background:var(--line-strong);
-  transition:width 620ms var(--ease) 160ms;
-}
-.pack.in::before{width:100%}
+   Hier lief bis zuletzt eine Kante ueber die Oberkante jeder Karte ein.
+   Bei drei einzelnen Karten wirkte sie wie ein aufgesetzter Balken, der die
+   Karte oben abschneidet statt sie einzufuehren — deshalb ist sie weg. Die
+   Merkmale kommen weiterhin gestaffelt. */
 
 /* Die Merkmale kommen einzeln, nicht als Block. 45ms Abstand: genug, dass man
    die Reihenfolge wahrnimmt, zu wenig, um darauf zu warten. */
@@ -1608,7 +1595,6 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .pack__wert{transition:color 220ms var(--ease)}
 
 @media (prefers-reduced-motion:reduce){
-  .pack::before{width:100%;transition:none}
   .pack ul li{opacity:1;transform:none;animation:none}
 }
 

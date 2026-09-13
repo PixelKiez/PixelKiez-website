@@ -113,7 +113,7 @@
       </ol>
     </nav>
     <div class="section__head">
-      <p class="kicker" data-reveal>Leistung 04</p>
+      <p class="kicker" data-reveal>Leistung</p>
       <h1 class="h-lg" data-reveal>Betreuung nach dem Launch. Planbar und klar definiert.</h1>
       <p class="lead" data-reveal>Eine Website ist nach dem Launch nicht abgeschlossen. Browser, Server, Abhängigkeiten, externe Dienste und Inhalte verändern sich weiter.</p>
       <p class="prose" data-reveal>Auf Wunsch übernimmt Pixelkiez deshalb Betrieb, technische Betreuung und vereinbarte Weiterentwicklung.</p>
@@ -189,7 +189,8 @@
 </section>
 
 <!-- ===================== 3. TECHNISCHE BETREUUNG ===================== -->
-<section class="section inv" id="technik">
+<section class="section inv naht-anker" id="technik">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Technische Betreuung.</h2>
@@ -222,7 +223,8 @@
 </section>
 
 <!-- ===================== 4. BACKUPS ===================== -->
-<section class="section" id="backups">
+<section class="section naht-anker" id="backups">
+  <span class="naht naht--von-schwarz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Backups und Wiederherstellung.</h2>
@@ -400,7 +402,8 @@
 </section>
 
 <!-- ===================== ABSCHLUSS ===================== -->
-<section class="section sec--orange" id="naechster-schritt">
+<section class="section sec--orange naht-anker" id="naechster-schritt">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Wer kümmert sich nach dem Launch?</h2>
@@ -414,7 +417,8 @@
 </section>
 
 <!-- ===================== VERWANDTE LEISTUNGEN ===================== -->
-<section class="section" id="verwandt">
+<section class="section naht-anker" id="verwandt">
+  <span class="naht naht--von-orange" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Leistungen.</h2>
@@ -449,7 +453,8 @@
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<footer class="footer inv">
+<footer class="footer inv naht-anker">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="footer__bar">
       <span>© Pixelkiez · Berlin</span>
@@ -462,6 +467,14 @@
   </div>
 </footer>
 
+
+<!-- Derselbe schwebende Schnellkontakt wie auf der Startseite. Er startet
+     verborgen; das Skript blendet ihn ein, sobald man zu lesen beginnt, und
+     nimmt ihn an der Fusszeile wieder weg, damit er die Rechtsverweise nicht
+     verdeckt. Ohne JavaScript erscheint er gar nicht erst. -->
+<button type="button" class="btn btn--primary sticky-cta" data-hidden="true" data-open-contact aria-label="Schnellkontakt öffnen">
+  <svg aria-hidden="true"><use href="#i-chat"/></svg><span class="label">Schnellkontakt</span>
+</button>
 
 <!-- ===================== KONTAKTFENSTER ===================== -->
 <dialog class="dialog" id="kontakt-dialog" aria-labelledby="dlg-title">
