@@ -79,6 +79,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
   <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-15A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5Z"/></symbol>
   <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 20V9"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"/><circle cx="9.5" cy="7" r="3.2"/><path d="M17 11.2a3.2 3.2 0 0 0 0-6.2M21 20v-1.5a4 4 0 0 0-3-3.8"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.3l3.4 2"/></symbol>
@@ -113,7 +114,7 @@
       </ol>
     </nav>
     <div class="section__head">
-      <p class="kicker" data-reveal>Leistung 03</p>
+      <p class="kicker" data-reveal>Leistung</p>
       <h1 class="h-lg" data-reveal>Digitale Funktionen, die reale Abläufe vereinfachen</h1>
       <p class="lead" data-reveal>Eine Website sollte Besucher nicht nur informieren. Sie kann Anfragen strukturieren, Termine vereinfachen und wiederkehrende Prozesse sinnvoll unterstützen.</p>
       <p class="prose" data-reveal>Pixelkiez integriert Funktionen dort, wo sie einen konkreten Nutzen für Nutzer und Unternehmen schaffen.</p>
@@ -149,7 +150,8 @@
 </section>
 
 <!-- ===================== 2. DIE RICHTIGE FRAGE ===================== -->
-<section class="section inv" id="frage">
+<section class="section inv naht-anker" id="frage">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Nicht jede Funktion ist automatisch sinnvoll.</h2>
@@ -164,7 +166,8 @@
 </section>
 
 <!-- ===================== 3. GEFUEHRTE ANFRAGEWEGE ===================== -->
-<section class="section" id="anfragewege">
+<section class="section naht-anker" id="anfragewege">
+  <span class="naht naht--von-schwarz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Geführte Anfragewege.</h2>
@@ -322,7 +325,8 @@
 </section>
 
 <!-- ===================== ABSCHLUSS ===================== -->
-<section class="section sec--orange" id="naechster-schritt">
+<section class="section sec--orange naht-anker" id="naechster-schritt">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Welche Funktion würde Ihren Ablauf tatsächlich vereinfachen?</h2>
@@ -336,7 +340,8 @@
 </section>
 
 <!-- ===================== VERWANDTE LEISTUNGEN ===================== -->
-<section class="section" id="verwandt">
+<section class="section naht-anker" id="verwandt">
+  <span class="naht naht--von-orange" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
       <h2 class="h-lg" data-reveal>Verwandte Leistungen.</h2>
@@ -371,7 +376,8 @@
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<footer class="footer inv">
+<footer class="footer inv naht-anker">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="footer__bar">
       <span>© Pixelkiez · Berlin</span>
@@ -384,6 +390,14 @@
   </div>
 </footer>
 
+
+<!-- Derselbe schwebende Schnellkontakt wie auf der Startseite. Er startet
+     verborgen; das Skript blendet ihn ein, sobald man zu lesen beginnt, und
+     nimmt ihn an der Fusszeile wieder weg, damit er die Rechtsverweise nicht
+     verdeckt. Ohne JavaScript erscheint er gar nicht erst. -->
+<button type="button" class="btn btn--primary sticky-cta" data-hidden="true" data-open-contact aria-label="Schnellkontakt öffnen">
+  <svg aria-hidden="true"><use href="#i-chat"/></svg><span class="label">Schnellkontakt</span>
+</button>
 
 <!-- ===================== KONTAKTFENSTER ===================== -->
 <dialog class="dialog" id="kontakt-dialog" aria-labelledby="dlg-title">

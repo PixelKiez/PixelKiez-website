@@ -1541,7 +1541,12 @@
       if (fuss) new IntersectionObserver(function (e) {
         inFuss = e[0].isIntersecting; syncSticky();
       }, { threshold: 0 }).observe(fuss);
-      inHero = true; syncSticky();
+      /* Startzustand: auf der Startseite steht man in der Buehne, der Knopf
+         bleibt zunaechst weg. Unterseiten haben keine Buehne — dort feuert
+         der Observer nie, und ein hart gesetztes true liesse den Knopf
+         dauerhaft verborgen. Deshalb haengt der Anfangswert daran, ob es
+         ueberhaupt eine Buehne gibt. */
+      inHero = !!hero; syncSticky();
     }
   }
 

@@ -220,7 +220,8 @@
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<footer class="footer inv">
+<footer class="footer inv naht-anker">
+  <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="footer__bar">
       <span>© Pixelkiez · Berlin</span>
@@ -233,6 +234,14 @@
   </div>
 </footer>
 
+
+<!-- Derselbe schwebende Schnellkontakt wie auf der Startseite. Er startet
+     verborgen; das Skript blendet ihn ein, sobald man zu lesen beginnt, und
+     nimmt ihn an der Fusszeile wieder weg, damit er die Rechtsverweise nicht
+     verdeckt. Ohne JavaScript erscheint er gar nicht erst. -->
+<button type="button" class="btn btn--primary sticky-cta" data-hidden="true" data-open-contact aria-label="Schnellkontakt öffnen">
+  <svg aria-hidden="true"><use href="#i-chat"/></svg><span class="label">Schnellkontakt</span>
+</button>
 
 <!-- ===================== KONTAKTFENSTER =====================
      Dasselbe Formular wie auf der Startseite, hier als Overlay: wer im
