@@ -826,6 +826,16 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .hero[data-drift="an"] .hero__logo{opacity:0}
 .hero[data-drift="an"] .hero__logo-drift{opacity:1}
 .hero__logo{transition:opacity 260ms var(--ease)}
+/* Solange der Partikeleffekt zu erwarten ist (Merkmal aus dem Vorlauf im
+   <head>, siehe scripts/build.mjs), steht das Bild gar nicht erst da — sonst
+   blitzte die Wortmarke beim Laden schwarz auf, bevor die Partikel sie
+   ersetzen. Ohne Ueberblendung: der Anflug selbst ist der Auftritt.
+   Die Leinwand steht dabei von Anfang an auf voller Deckkraft — sie ist bis
+   zum ersten Partikel ohnehin leer. Sprang sie erst beim Start von 0 auf 1,
+   legte der Browser genau in diesem Moment eine neue Ebene an und malte die
+   Seite neu: gemessen ein Bild von ueber 100 ms, mitten im Einblenden. */
+:root[data-logo-drift] .hero__logo{opacity:0;transition:none}
+:root[data-logo-drift] .hero__logo-drift{opacity:1;transition:none}
 
 /* --- Schwebende Pillennavigation --- */
 /* --- Untere Komposition --- */

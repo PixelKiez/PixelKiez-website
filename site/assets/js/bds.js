@@ -272,13 +272,23 @@
      stehen. Ebenso, wenn die Abtastung nichts findet.
      ---------------------------------------------------------------------- */
   (function pixelDrift () {
+    /* Der Vorlauf im <head> hat das Bild vorsorglich versteckt
+       (data-logo-drift, siehe scripts/build.mjs). Jeder Weg, auf dem der
+       Effekt nicht zustande kommt, muss es hierueber zurueckgeben — sonst
+       fehlte die Wortmarke ganz. */
+    var aufgeben = function () {
+      if (hero && hero.dataset.drift === 'an') return;
+      wurzel.removeAttribute('data-logo-drift');
+    };
     var hero = $('.hero');
-    if (!hero || reduced) return;
+    if (!hero || reduced) { aufgeben(); return; }
     var bild = $('.hero__logo', hero);
     var leinwand = $('.hero__logo-drift', hero);
-    if (!bild || !leinwand) return;
+    if (!bild || !leinwand) { aufgeben(); return; }
     var ctx = leinwand.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) { aufgeben(); return; }
+    // Uebernommen: ab hier entscheidet dieser Block, nicht der Rueckfall.
+    if (wurzel.hasAttribute('data-logo-drift')) wurzel.setAttribute('data-logo-drift', 'an');
 
     /* Fester Ton, das Schwarz der Seite. Nicht aus dem Bild mitteln: die
        Datei traegt reines Schwarz, das ist ein anderer Ton als dieser, und
@@ -297,7 +307,13 @@
     var FUELLUNG = 0.75;
     var RADIUS  = 50;    // Wirkradius des Zeigers
     var KRAFT   = 30;    // Staerke des Stosses
-    var AUFBAU  = 1000;  // Millisekunden bis das Feld steht
+    /* Millisekunden bis das Feld steht. Mit 1000 und der frueheren, kubischen
+       Kurve sprangen die sichtbaren Partikel bis zu 75 Punkte je Bild — bei
+       60 Hz liest sich das als Flackern, nicht als Flug. Zusammen mit dem
+       engeren Startring unten und der sanfteren Kurve in zeichnen() sind es
+       bei 1200 hoechstens etwa 42. 1400 war ruhiger (36), wirkte aber
+       zaeh; darunter naehert sich der Sprung wieder dem Flackern. */
+    var AUFBAU  = 1200;
 
     var anzahl = 0, ox, oy, sx, sy, px, py, repX, repY, farbe;
     var cssW = 0, cssH = 0, dpr = 1, maxWeg = 0;
@@ -367,11 +383,15 @@
       repX = new Float32Array(platz); repY = new Float32Array(platz);
       farbe = new Uint8Array(platz);
 
-      /* Startpunkte auf einem Ring weit AUSSERHALB der Leinwand. Weil die
+      /* Startpunkte auf einem Ring AUSSERHALB der Leinwand. Weil die
          Leinwand den ganzen Hero abdeckt, liegt dieser Ring jenseits des
-         Bildschirms — die Partikel kommen also wirklich von draussen. */
+         Bildschirms — die Partikel kommen also wirklich von draussen.
+         0,55 der Diagonale liegt schon hinter jeder Ecke (die Ecke selbst
+         sitzt bei 0,5). Weiter draussen verlaengerte sich nur der Weg, den
+         die Partikel unsichtbar zuruecklegen, und damit ihr Tempo, sobald
+         sie ins Bild kommen. */
       var mx = cssW / 2, my = cssH / 2;
-      var weit = Math.sqrt(cssW * cssW + cssH * cssH) * 0.62;
+      var weit = Math.sqrt(cssW * cssW + cssH * cssH) * 0.55;
       var halbeZelle = RASTER / 2;
 
       i = 0;
@@ -386,7 +406,7 @@
             ox[i] = bx + x * RASTER + halbeZelle;
             oy[i] = by + y * RASTER + halbeZelle;
             var w = Math.random() * Math.PI * 2;
-            var r = weit * (1 + Math.random() * 0.7);
+            var r = weit * (1 + Math.random() * 0.45);
             sx[i] = mx + Math.cos(w) * r;
             sy[i] = my + Math.sin(w) * r;
             px[i] = sx[i]; py[i] = sy[i];
@@ -464,7 +484,21 @@
       if (verborgen) return true;
 
       var baut = wert < 1;
-      var anteil = wert;
+      /* Der Aufbauwert laeuft gleichmaessig, der Flug nicht: abbremsend.
+         Linear lagen die Partikel gemessen die ersten ~880 ms ausserhalb der
+         Buehne oder fast durchsichtig — die Marke war damit fast eine Sekunde
+         lang einfach weg, obwohl der Effekt lief.
+
+         Quadratisch, nicht kubisch. Die kubische Kurve startet mit dreifachem
+         Durchschnittstempo; die Partikel waren damit zwar frueh da, sprangen
+         aber gerade dann am weitesten, wenn sie sichtbar wurden. Quadratisch
+         startet mit doppeltem Tempo, landet genauso weich, und mit Startring
+         und Dauer oben sind die ersten Partikel nach ~150 ms im Bild.
+         Weil die Kurve nur aus "wert" gerechnet wird, bleibt der Aufbau
+         umkehrbar, ohne zu springen. */
+      var fehlt = 1 - wert;
+      var anteil = 1 - fehlt * fehlt;
+      var alpha = baut ? Math.min(1, Math.max(0, anteil)) : 1;
 
       var stoss = tempo;
       tempo *= 0.88;
@@ -490,6 +524,12 @@
         if (baut) {
           px[i] = sx[i] + (oxi - sx[i]) * anteil;
           py[i] = sy[i] + (oyi - sy[i]) * anteil;
+          /* Was nicht zu sehen ist, wird nicht gezeichnet: ausserhalb der
+             Leinwand, oder solange alles noch durchsichtig ist. Gerade die
+             ersten Bilder des Aufbaus kosteten sonst die volle Zeichenarbeit
+             fuer nichts — und fallen genau in den Moment, in dem die Seite
+             ohnehin noch mit dem Laden zu tun hat. */
+          if (alpha < 0.01 || px[i] < -RASTER || py[i] < -RASTER || px[i] > cssW + RASTER || py[i] > cssH + RASTER) continue;
           eimer[farbe[i]].push(i);
           continue;
         }
@@ -536,7 +576,7 @@
         eimer[farbe[i]].push(i);
       }
 
-      ctx.globalAlpha = baut ? Math.min(1, Math.max(0, anteil)) : 1;
+      ctx.globalAlpha = alpha;
       for (b = 0; b < eimer.length; b++) {
         if (!eimer[b].length) continue;
         ctx.fillStyle = FARBEN[b];
@@ -636,9 +676,18 @@
        Bildschirmschritte lang erneut versuchen, falls die Lage im Hero noch
        nicht steht — etwa weil die Schrift gerade erst eintrifft und den
        Aufbau noch verschiebt. */
+    /* Wirft das Abtasten (etwa drawImage auf ein kaputtes Bild), muss das
+       Bild zurueck. Frueher stand es dann einfach weiter da; seit der Vorlauf
+       es vorab versteckt, bliebe statt der Marke eine leere Flaeche. */
+    var sicherAnwerfen = function () {
+      try { return anwerfen(); }
+      catch (e) { aufgeben(); return null; }
+    };
     var versuchen = function (rest) {
-      if (anwerfen()) return;
+      var ok = sicherAnwerfen();
+      if (ok || ok === null) return;
       if (rest > 0) requestAnimationFrame(function () { versuchen(rest - 1); });
+      else aufgeben();                     // Bild zeigen; resize kann noch nachholen
     };
 
     var bereitmachen = function () {
@@ -649,7 +698,11 @@
     };
 
     if (bild.complete && bild.naturalWidth) bereitmachen();
-    else bild.addEventListener('load', bereitmachen);
+    else if (bild.complete) aufgeben();    // schon fehlgeschlagen
+    else {
+      bild.addEventListener('load', bereitmachen);
+      bild.addEventListener('error', aufgeben);
+    }
 
     // Nur laufen lassen, solange der Hero im Bild ist — das spart Rechenzeit
     // beim Scrollen. Der Zustand bleibt dabei ABSICHTLICH stehen: der Aufbau
@@ -684,7 +737,7 @@
            Gelegenheit, ihn nachzuholen — frueher stand an dieser Stelle ein
            hartes "return", wenn drift nicht an war. Damit konnte ein
            gescheiterter Erststart nie mehr aufgeholt werden. */
-        if (hero.dataset.drift !== 'an') { anwerfen(); return; }
+        if (hero.dataset.drift !== 'an') { sicherAnwerfen(); return; }
         var breite = Math.round(window.innerWidth);
         if (breite === letzteBreite) return;
         letzteBreite = breite;
