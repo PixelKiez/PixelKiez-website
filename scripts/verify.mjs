@@ -191,8 +191,9 @@ function laufVorlauf(code) {
   });
   runInContext(code, kontext, { timeout: 2000 });
   return {
-    merkmal: () => (merkmale.has(MERKMAL) ? merkmale.get(MERKMAL) : null),
-    uebernimm: (wert) => { merkmale.set(MERKMAL, wert); },   // das tut bds.js, wenn der Beobachter steht
+    merkmal: (name = MERKMAL) => (merkmale.has(name) ? merkmale.get(name) : null),
+    // das tut bds.js, sobald es den Zustand wirklich traegt
+    uebernimm: (wert, name = MERKMAL) => { merkmale.set(name, wert); },
     feuere: (typ) => {
       const treffer = lauscher.filter(([t]) => t === typ);
       for (const [, fn] of treffer) fn({ type: typ });
@@ -202,38 +203,53 @@ function laufVorlauf(code) {
 }
 
 /* Liefert die Liste dessen, was am Verhalten eines Vorlaufs fehlt — leer
-   heisst: er deckt den Ausfall von bds.js ab. */
-function vorlaufMaengel(code) {
+   heisst: er deckt den Ausfall von bds.js ab. `name` ist das Merkmal, um
+   das es geht; derselbe Vorlauf spannt auch data-logo-drift auf (siehe
+   pruefeLogoDrift). */
+function vorlaufMaengel(code, name = MERKMAL) {
   const maengel = [];
   let lauf;
   try { lauf = laufVorlauf(code); }
   catch (e) { return [`der Vorlauf wirft beim Ausfuehren (${e.message})`]; }
 
-  if (lauf.merkmal() !== 'bereit')
-    maengel.push(`er spannt den Vorzustand nicht auf (${MERKMAL} steht nach dem Lauf auf ${JSON.stringify(lauf.merkmal())} statt "bereit")`);
+  if (lauf.merkmal(name) !== 'bereit')
+    maengel.push(`er spannt den Vorzustand nicht auf (${name} steht nach dem Lauf auf ${JSON.stringify(lauf.merkmal(name))} statt "bereit")`);
 
   /* Ab hier laeuft KEIN weiteres Skript — das ist der ganze Punkt: genau so
      sieht die Seite aus, wenn bds.js nicht ankommt. */
   if (!lauf.feuere('DOMContentLoaded'))
     maengel.push('er meldet sich nicht auf DOMContentLoaded an — bleibt bds.js aus, nimmt niemand den Vorzustand zurueck');
-  else if (lauf.merkmal() !== null)
-    maengel.push(`er nimmt ${MERKMAL} zu DOMContentLoaded nicht zurueck (steht danach auf ${JSON.stringify(lauf.merkmal())}) — bleibt bds.js aus, bliebe der Inhalt unsichtbar`);
+  else if (lauf.merkmal(name) !== null)
+    maengel.push(`er nimmt ${name} zu DOMContentLoaded nicht zurueck (steht danach auf ${JSON.stringify(lauf.merkmal(name))}) — bleibt bds.js aus, bliebe der Inhalt unsichtbar`);
 
   /* Die Gegenrichtung derselben Zeile: hat bds.js den Vorzustand
      uebernommen ("an"), darf der Rueckfall ihm nicht dazwischenfahren,
-     sonst faellt das Einblenden bei jedem Aufruf aus. */
+     sonst faellt die Bewegung bei jedem Aufruf aus. */
   try {
     const zweit = laufVorlauf(code);
-    if (zweit.merkmal() === 'bereit') {
-      zweit.uebernimm('an');
+    if (zweit.merkmal(name) === 'bereit') {
+      zweit.uebernimm('an', name);
       zweit.feuere('DOMContentLoaded');
-      if (zweit.merkmal() !== 'an')
-        maengel.push(`er raeumt ${MERKMAL} auch dann ab, wenn bds.js es bereits auf "an" uebernommen hat — das Einblenden fiele bei jedem Aufruf aus`);
+      if (zweit.merkmal(name) !== 'an')
+        maengel.push(`er raeumt ${name} auch dann ab, wenn bds.js es bereits auf "an" uebernommen hat — die Bewegung fiele bei jedem Aufruf aus`);
     }
   } catch (e) { maengel.push(`der zweite Lauf wirft (${e.message})`); }
 
   return maengel;
 }
+
+const verbirgt = (d) =>
+  /(?:^|;)\s*opacity\s*:\s*(?:0|0?\.0+)\s*(?:!important)?\s*(?:;|$)/.test(d) ||
+  /(?:^|;)\s*visibility\s*:\s*hidden/.test(d) ||
+  /(?:^|;)\s*display\s*:\s*none/.test(d);
+
+/* Inline-Skripte im <head>, ohne JSON-LD — nur dort kann ein Vorzustand
+   stehen, bevor das erste Bild gemalt ist. */
+const kopfSkripte = (html) => {
+  const kopfEnde = html.search(/<\/head>/i);
+  return [...html.slice(0, kopfEnde === -1 ? 0 : kopfEnde)
+    .matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+};
 
 function pruefeReveal(seite, html, skripte) {
   const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
@@ -241,10 +257,6 @@ function pruefeReveal(seite, html, skripte) {
   const regeln = alle.filter((r) => REVEAL_SEL.test(r.selektor));
   if (!regeln.length) return;                       // Seite kennt kein Reveal
 
-  const verbirgt = (d) =>
-    /(?:^|;)\s*opacity\s*:\s*(?:0|0?\.0+)\s*(?:!important)?\s*(?:;|$)/.test(d) ||
-    /(?:^|;)\s*visibility\s*:\s*hidden/.test(d) ||
-    /(?:^|;)\s*display\s*:\s*none/.test(d);
   const zeigt = (d) => /(?:^|;)\s*opacity\s*:\s*(?:1|100%)/.test(d);
   const gedeckt = (sel) => sel.includes(`[${MERKMAL}]`);
 
@@ -292,10 +304,7 @@ function pruefeReveal(seite, html, skripte) {
      Vorzustand tatsaechlich aufspannen. */
   if (!setzt(code)) return;
 
-  const kopfEnde = html.search(/<\/head>/i);
-  const kopfSkripte = [...html.slice(0, kopfEnde === -1 ? 0 : kopfEnde)
-    .matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
-  const vorlaeufe = kopfSkripte.filter(setzt);
+  const vorlaeufe = kopfSkripte(html).filter(setzt);
   if (!vorlaeufe.length) {
     F(`${seite}: ${MERKMAL} wird erst nach dem <head> gesetzt — der fertige Inhalt blitzte auf, bevor er sich versteckt`);
     return;
@@ -308,6 +317,73 @@ function pruefeReveal(seite, html, skripte) {
     const maengel = vorlaufMaengel(vorlauf);
     if (maengel.length)
       F(`${seite}: der Vorlauf im <head> deckt den Ausfall von bds.js nicht ab — ${maengel.join('; ')}`);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Dieselbe Pflicht fuer die Wortmarke im Hero.
+
+   Das Logo-Bild ist die Quelle der Wahrheit: ohne Skript, bei reduzierter
+   Bewegung und wenn die Abtastung scheitert, steht es da. Verstecken darf
+   es nur ein Merkmal, das ein Skript setzt — data-drift="an" am Hero (bds.js,
+   sobald das Partikelfeld steht) oder data-logo-drift am Dokument.
+
+   Das zweite steht im <head>, damit das Bild beim Laden nicht erst schwarz
+   dasteht und dann den Partikeln weicht. Genau dieser Sprung war der Fehler;
+   setzte erst bds.js das Merkmal, kaeme er zurueck. Und wie beim Einblenden
+   gilt: wer es aufspannt, nimmt es zu DOMContentLoaded zurueck, wenn bds.js
+   ausbleibt — sonst fehlte die Marke ganz.
+
+   Auf Seiten mit dem Partikeleffekt ist beides Pflicht, nicht Kuer: die
+   Regel, die das Bild vorab versteckt, und dass bds.js den Zustand auf "an"
+   uebernimmt. Fehlt die Regel, steht das Bild schwarz da, bis es abgetastet
+   ist. Fehlt die Uebernahme, raeumt der Rueckfall das Merkmal zu
+   DOMContentLoaded ab — das Bild ist dann meist noch gar nicht geladen und
+   blitzt auf, sobald es eintrifft. Beides ist der alte Sprung.
+   ------------------------------------------------------------------------- */
+const LOGO_MERKMAL = 'data-logo-drift';
+const LOGO_SEL = /\.hero__logo(?![-\w])/;
+const setztLogo = (c) => new RegExp(`setAttribute\\(\\s*["']${LOGO_MERKMAL}["']`).test(c);
+const uebernimmtLogo = (c) => new RegExp(`setAttribute\\(\\s*["']${LOGO_MERKMAL}["']\\s*,\\s*["']an["']`).test(c);
+
+function pruefeLogoDrift(seite, html, skripte) {
+  if (!/<img\b[^>]*\bclass="[^"]*\bhero__logo(?![-\w])/.test(html)) return;
+  const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
+  /* Selektorlisten Glied fuer Glied: esbuild fasst Regeln mit gleichen
+     Deklarationen zusammen, und ein ungedecktes Glied darf sich nicht hinter
+     einem gedeckten in derselben Liste verstecken. */
+  const glieder = stilRegeln(css).filter((r) => verbirgt(r.dekl))
+    .flatMap((r) => r.selektor.split(',').map((s) => s.trim()))
+    .filter((s) => LOGO_SEL.test(s));
+  const vorab = (sel) => sel.includes(`[${LOGO_MERKMAL}]`);
+  const imLauf = (sel) => /\[data-drift=["']?an["']?\]/.test(sel);
+
+  const offen = glieder.filter((s) => !vorab(s) && !imLauf(s));
+  if (offen.length)
+    F(`${seite}: .hero__logo wird ohne Skript-Merkmal versteckt — ohne JavaScript fehlte die Wortmarke (${offen[0]})`);
+
+  const code = skripte.join('\n');
+  const effekt = /<canvas\b[^>]*\bclass="[^"]*\bhero__logo-drift(?![-\w])/.test(html)
+    && code.includes('hero__logo-drift');
+  if (effekt) {
+    if (!glieder.some(vorab))
+      F(`${seite}: kein Vorab-Verstecken der Wortmarke unter [${LOGO_MERKMAL}] — das Logo stuende beim Laden schwarz da und spraenge dann auf die Partikel`);
+    if (!uebernimmtLogo(code))
+      F(`${seite}: kein Skript uebernimmt ${LOGO_MERKMAL} auf "an" — der Rueckfall raeumt es zu DOMContentLoaded ab, und das Logo blitzt schwarz auf, sobald das Bild eintrifft`);
+  }
+
+  if (!glieder.some(vorab)) return;          // nichts vorab versteckt, nichts zu decken
+  if (!setztLogo(code)) return;              // niemand setzt es — nichts versteckt
+
+  const vorlaeufe = kopfSkripte(html).filter(setztLogo);
+  if (!vorlaeufe.length) {
+    F(`${seite}: ${LOGO_MERKMAL} wird erst nach dem <head> gesetzt — das Logo stuende beim Laden schwarz da und spraenge dann auf die Partikel`);
+    return;
+  }
+  for (const vorlauf of vorlaeufe) {
+    const maengel = vorlaufMaengel(vorlauf, LOGO_MERKMAL);
+    if (maengel.length)
+      F(`${seite}: der Vorlauf im <head> deckt den Ausfall von bds.js fuer die Wortmarke nicht ab — ${maengel.join('; ')}`);
   }
 }
 
@@ -360,6 +436,7 @@ async function verify() {
 
     /* --- Reveal bleibt fail-open (PXK-23) --- */
     pruefeReveal(seite, html, skripte.map(([, c]) => c));
+    pruefeLogoDrift(seite, html, skripte.map(([, c]) => c));
 
     /* --- JSON-LD --- */
     for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {

@@ -83,15 +83,24 @@ const DOMAIN = 'https://pixelkiez.de';
    Dokuments seine Gelegenheit hatte. Bis dahin ist "bereit" gesetzt; wer
    den Zustand uebernimmt, schreibt "an" darueber (siehe bds.js, Abschnitt
    2) und schuetzt ihn damit vor dem Rueckfall.
+   Nach demselben Muster data-logo-drift fuer die Wortmarke im Hero. Ohne
+   es stand das Logo-Bild beim Laden zuerst als schwarze Flaeche da und
+   wich erst dem Partikelfeld, sobald bds.js das Bild dekodiert und
+   abgetastet hatte — ein sichtbarer Sprung. Mit dem Merkmal ist das Bild
+   von Anfang an unsichtbar (Platz haelt es weiter), und der Partikelaufbau
+   ist das Erste, was man von der Marke sieht. bds.js (Abschnitt 3)
+   bestaetigt mit "an" oder raeumt ab, sobald der Effekt scheitert; kommt
+   bds.js gar nicht an, raeumt der Rueckfall auf DOMContentLoaded ab.
    ------------------------------------------------------------------------- */
 const REVEAL_VORLAUF = '<script>' + [
   '(function(){var d=document.documentElement;try{',
-  'if(!("IntersectionObserver" in window))return;',
   'if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;',
-  'd.setAttribute("data-reveal-anim","bereit");',
+  'd.setAttribute("data-logo-drift","bereit");',
+  'if("IntersectionObserver" in window)d.setAttribute("data-reveal-anim","bereit");',
   'document.addEventListener("DOMContentLoaded",function(){',
   'if(d.getAttribute("data-reveal-anim")==="bereit")d.removeAttribute("data-reveal-anim");',
-  '});}catch(e){d.removeAttribute("data-reveal-anim");}})();',
+  'if(d.getAttribute("data-logo-drift")==="bereit")d.removeAttribute("data-logo-drift");',
+  '});}catch(e){d.removeAttribute("data-reveal-anim");d.removeAttribute("data-logo-drift");}})();',
 ].join('') + '</script>';
 
 /* Nur Seiten, die bds.js mitbringen, duerfen den Vorzustand ueberhaupt
