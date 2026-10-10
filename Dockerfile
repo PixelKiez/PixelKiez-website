@@ -22,16 +22,17 @@ RUN test -f dist/index.html && test -d dist/assets/fonts
 # Caddy wird aus der offiziellen Quelle neu uebersetzt.
 #
 # Warum nicht einfach das fertige Laufzeitbinary nehmen: das offizielle
-# caddy:2.11.4-alpine liefert ein Binary, das mit Go 1.26.3 und den
-# Modulstaenden vom Release-Tag gebaut ist. Trivy meldet darin 15 HIGH und
-# 1 CRITICAL (golang.org/x/crypto CVE-2026-56854). 2.11.4 ist die neueste
-# Caddy-Freigabe (03.06.2026) — ein neueres offizielles Laufzeitimage, in dem
-# diese Funde behoben waeren, gibt es nicht; der Tagwechsel 2-alpine ->
-# 2.11.4-alpine trifft dasselbe Binary.
+# Laufzeitimage liefert ein Binary mit den Modulstaenden vom Release-Tag und
+# der Go-Version vom Tag der Freigabe. Bei 2.11.4 meldete Trivy darin 15 HIGH
+# und 1 CRITICAL (golang.org/x/crypto CVE-2026-56854); ein neueres
+# offizielles Laufzeitimage, in dem solche Funde behoben sind, kommt immer
+# erst mit der naechsten Caddy-Freigabe.
 #
 # Das offizielle Builder-Image derselben Version traegt dagegen eine aktuelle
-# Go-Toolchain (Stand 03.09.2026: go1.26.8). Uebersetzt wird damit exakt
-# dieselbe Quelle — Modulpfad github.com/caddyserver/caddy/v2, Tag v2.11.4,
+# Go-Toolchain (Stand 10.10.2026, Caddy 2.11.7: go1.27.2 — 2.11.4 trug noch
+# go1.26.8 und damit drei stdlib-Funde, CVE-2026-78667, -78669, -97031).
+# Uebersetzt wird damit exakt dieselbe Quelle — Modulpfad
+# github.com/caddyserver/caddy/v2, Tag v2.11.7,
 # ueber die Go-Checksum-Datenbank geprueft —, nur mit aktuellem stdlib und mit
 # den vier von Trivy benannten Modulen ausdruecklich angehoben. Keine
 # Erweiterung, kein Plugin, kein fremdes Laufzeitimage.
@@ -40,7 +41,7 @@ RUN test -f dist/index.html && test -d dist/assets/fonts
 # ein Rebuild soll kuenftige stdlib-Korrekturen mitnehmen. Festgenagelt ist,
 # worauf es fuer die Reproduzierbarkeit ankommt — die Caddy-Version und die
 # vier Modulstaende. Der Bauschritt gibt beides ins Protokoll aus.
-FROM caddy:2.11.4-builder-alpine AS caddybuild
+FROM caddy:2.11.7-builder-alpine AS caddybuild
 ENV CGO_ENABLED=0
 WORKDIR /caddy
 COPY caddy/main.go ./main.go
@@ -60,16 +61,21 @@ COPY caddy/main.go ./main.go
 # allen vieren, und zwar auf dem Stand, den x/crypto v0.55.0 ohnehin
 # mitbringt statt auf dem jeweiligen Minimum.
 #
+# Stand 10.10.2026: alle vier auf ihrer jeweils neuesten Fassung. Trivy
+# verlangte x/net >= v0.60.0 (CVE-2026-78669) und grpc >= v1.83.2
+# (CVE-2026-84445); die neuesten Fassungen sind untereinander stimmig, sodass
+# keine die andere zuruecksetzt.
+#
 # Weil beide Ruecknahmen lautlos passieren, steht danach eine Gegenprobe:
 # stimmt eine der vier Versionen nicht, bricht der Bauschritt ab, statt ein
 # Binary auszuliefern, das anders zusammengesetzt ist als angegeben.
 RUN go mod init pixelkiez/caddy \
- && go get github.com/caddyserver/caddy/v2@v2.11.4 \
+ && go get github.com/caddyserver/caddy/v2@v2.11.7 \
  && go mod tidy \
- && go get golang.org/x/crypto@v0.55.0 golang.org/x/net@v0.57.0 \
-           golang.org/x/text@v0.41.0 google.golang.org/grpc@v1.83.1 \
- && for paar in golang.org/x/crypto@v0.55.0 golang.org/x/net@v0.57.0 \
-                golang.org/x/text@v0.41.0 google.golang.org/grpc@v1.83.1; do \
+ && go get golang.org/x/crypto@v0.58.0 golang.org/x/net@v0.61.0 \
+           golang.org/x/text@v0.43.0 google.golang.org/grpc@v1.84.0 \
+ && for paar in golang.org/x/crypto@v0.58.0 golang.org/x/net@v0.61.0 \
+                golang.org/x/text@v0.43.0 google.golang.org/grpc@v1.84.0; do \
       modul="${paar%@*}"; soll="${paar#*@}"; ist="$(go list -m -f '{{.Version}}' "$modul")"; \
       if [ "$ist" != "$soll" ]; then \
         echo "Abbruch: ${modul} steht auf ${ist} statt ${soll}"; exit 1; \
@@ -81,7 +87,7 @@ RUN go mod init pixelkiez/caddy \
  && go list -m github.com/caddyserver/caddy/v2 golang.org/x/crypto \
       golang.org/x/net golang.org/x/text google.golang.org/grpc
 
-FROM caddy:2.11.4-alpine
+FROM caddy:2.11.7-alpine
 
 # Die Alpine-Pakete des Basisimages nachziehen. c-ares, curl/libcurl und
 # libcrypto3/libssl3 tragen dort sieben HIGH-Funde, fuer die es im
