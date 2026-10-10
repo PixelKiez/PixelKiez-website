@@ -921,6 +921,229 @@
     box.addEventListener('mouseleave', function () { window.clearTimeout(timer); });
   })();
 
+  /* --- 6b. Ablauf als Scroll-Zeitleiste ---------------------------------
+     Portierung von timeline.tsx (Hyperiux Vault). Dort: GSAP ScrollTrigger
+     mit scrub, SplitText fuer die Zeilen. Hier dasselbe Verhalten ohne
+     Bibliothek: ein Scrollfortschritt, aus dem jedes Bild neu gerechnet
+     wird — Bahn, Linie, Stiele, Punkte, Zeilen. Rueckwaerts scrollen spult
+     alles zurueck, genau wie scrub: true.
+
+     Zwei Fortschritte:
+       · gleiten — nur solange die Buehne klebt; faehrt die Bahn seitwaerts.
+       · kopf    — beginnt schon eine halbe Buehne vorher; ein gedachter
+                   Lesekopf wandert von links nach rechts durchs Fenster. Wo
+                   er steht, endet die Linie; jeder Schritt, den er
+                   ueberquert, waechst aus ihr heraus.
+     Beide enden etwas vor dem Ende des Scrollwegs: die fertige Leiste
+     steht noch einen Moment, bevor die Buehne weiterzieht.
+
+     Kein Effekt bei reduzierter Bewegung oder zu niedriger Ansicht (Telefon
+     quer): dann bleibt die ruhende Zeitleiste aus dem CSS, und die Zeilen
+     werden wieder zu gewoehnlichem Text.
+     ---------------------------------------------------------------------- */
+  (function zeitleiste() {
+    var zug = $('[data-lauf-zug]');
+    if (!zug || reduced) return;
+    var buehne = $('.lauf-buehne', zug);
+    var bahn = $('.lauf-bahn', zug);
+    var linie = $('.lauf-linie', zug);
+    var liste = $('.lauf', zug);
+    var schritte = $$('.lauf__st', zug);
+    if (!buehne || !bahn || !linie || !liste || !schritte.length) return;
+
+    var mqHoch = window.matchMedia('(min-height:520px)');
+    var aktiv = false;
+    var urtext = [];          // [element, innerHTML] — zum Zurueckstellen
+    var masken = [];          // je Schritt: Liste der .zeile__in in Lesereihenfolge
+    var m = null;             // Messwerte, siehe messen()
+    var raf = 0;
+    var breiteZuletzt = 0;
+
+    var klemme = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+    var aus = function (t) { return 1 - (1 - t) * (1 - t); };            // power2.out
+    var zurueck = function (t) { var c = 1.7; t -= 1; return 1 + (c + 1) * t * t * t + c * t * t; };  // back.out
+
+    var merke = function (el) { urtext.push([el, el.innerHTML]); };
+
+    // Ein Element als eine Maske: der ganze Inhalt faehrt gemeinsam herein.
+    var maskiere = function (el) {
+      merke(el);
+      var innen = document.createElement('span');
+      innen.className = 'zeile__in';
+      while (el.firstChild) innen.appendChild(el.firstChild);
+      el.appendChild(innen);
+      el.classList.add('zeile');
+      return [innen];
+    };
+
+    // Ein Textelement in Zeilen teilen, wie SplitText mit mask: "lines".
+    // Erst Wort fuer Wort setzen und die Oberkanten messen, dann je Zeile
+    // eine Maske bauen. Haengt an der aktuellen Breite — wird nach jeder
+    // Breitenaenderung neu gemacht.
+    var teile = function (el) {
+      merke(el);
+      var woerter = el.textContent.replace(/\s+/g, ' ').trim().split(' ');
+      el.textContent = '';
+      var spans = woerter.map(function (w, i) {
+        var sp = document.createElement('span');
+        sp.textContent = w;
+        el.appendChild(sp);
+        if (i < woerter.length - 1) el.appendChild(document.createTextNode(' '));
+        return sp;
+      });
+      var zeilen = [];
+      var oben = null;
+      spans.forEach(function (sp) {
+        if (oben === null || Math.abs(sp.offsetTop - oben) > 2) { zeilen.push([]); oben = sp.offsetTop; }
+        zeilen[zeilen.length - 1].push(sp.textContent);
+      });
+      el.textContent = '';
+      return zeilen.map(function (z) {
+        var aussen = document.createElement('span');
+        aussen.className = 'zeile';
+        var innen = document.createElement('span');
+        innen.className = 'zeile__in';
+        innen.textContent = z.join(' ');
+        aussen.appendChild(innen);
+        el.appendChild(aussen);
+        return innen;
+      });
+    };
+
+    var zuruecksetzen = function () {
+      for (var i = urtext.length - 1; i >= 0; i--) {
+        urtext[i][0].innerHTML = urtext[i][1];
+        urtext[i][0].classList.remove('zeile');
+      }
+      urtext = [];
+      masken = [];
+    };
+
+    var aufteilen = function () {
+      zuruecksetzen();
+      masken = schritte.map(function (st) {
+        var liste = [];
+        var n = $('.lauf__n', st), t = $('.lauf__t', st), w = $('.lauf__was', st), e = $('.lauf__erg', st);
+        if (n) liste = liste.concat(maskiere(n));
+        if (t) liste = liste.concat(teile(t));
+        if (w) liste = liste.concat(teile(w));
+        if (e) liste = liste.concat(maskiere(e));
+        return liste;
+      });
+    };
+
+    var messen = function () {
+      zug.style.height = '';
+      // Gerade Pixelhoehe, damit die Mittellinie auf einer ganzen Zeile liegt.
+      bahn.style.removeProperty('height');
+      bahn.style.removeProperty('--padl');
+      schritte.forEach(function (st) { st.style.removeProperty('left'); });
+      bahn.style.height = Math.floor(bahn.offsetHeight / 2) * 2 + 'px';
+      // Einzug und Schrittpositionen ebenso auf ganze Pixel — sie kommen aus
+      // vw-Werten und landen sonst zwischen zwei Pixelspalten.
+      bahn.style.setProperty('--padl', Math.round(parseFloat(getComputedStyle(bahn).paddingLeft) || 0) + 'px');
+      schritte.forEach(function (st) {
+        st.style.left = Math.round(parseFloat(getComputedStyle(st).left) || 0) + 'px';
+      });
+      var buehneH = buehne.offsetHeight;
+      var fenster = buehne.clientWidth;
+      var cs = getComputedStyle(bahn);
+      var padL = parseFloat(cs.paddingLeft) || 0;
+      var padR = parseFloat(cs.paddingRight) || 0;
+      var laenge = liste.offsetWidth;
+      var weg = Math.max(0, bahn.offsetWidth - fenster);
+      var xs = schritte.map(function (st) { return st.offsetLeft; });
+      var schritt = xs.length > 1 ? xs[1] - xs[0] : schritte[0].offsetWidth;
+      var halt = buehneH * 0.3;
+      // Etwas mehr Scrollweg als Seitweg: die Bahn soll gleiten, nicht rasen.
+      var lauf = Math.max(weg * 1.15, buehneH * 0.8);
+      zug.style.height = (buehneH + lauf + halt) + 'px';
+      m = {
+        buehneH: buehneH, fenster: fenster, padL: padL, padR: padR,
+        laenge: laenge, weg: weg, xs: xs, lauf: lauf, vor: buehneH * 0.5,
+        reichweite: Math.min(schritt * 1.15, schritte[0].offsetWidth)
+      };
+    };
+
+    var zeichnen = function () {
+      raf = 0;
+      if (!aktiv || !m) return;
+      var oben = -zug.getBoundingClientRect().top;
+      var gleiten = klemme(oben / m.lauf);
+      var kopfP = klemme((oben + m.vor) / (m.lauf + m.vor));
+      // Ganze Pixel: auf halben verschwimmen Linie und Stiele zu einem
+      // grauen Doppelstrich, das Orange geht verloren.
+      var versatz = -Math.round(m.weg * gleiten);
+      bahn.style.setProperty('--x', versatz + 'px');
+
+      // Lesekopf im Fenster → in Bahnkoordinaten (Nullpunkt = Linienanfang)
+      var kopfFenster = m.padL + kopfP * (m.fenster - m.padL - m.padR);
+      var kopf = kopfFenster - m.padL - versatz;
+      linie.style.setProperty('--l', klemme(kopf / m.laenge).toFixed(4));
+      linie.style.setProperty('--l-start', klemme(kopf / 24).toFixed(3));
+      linie.style.setProperty('--l-ende', zurueck(klemme((kopf - m.laenge) / 30 + 1)).toFixed(3));
+
+      schritte.forEach(function (st, i) {
+        var q = klemme((kopf - m.xs[i]) / m.reichweite);
+        st.style.setProperty('--stamm', aus(klemme(q / 0.35)).toFixed(4));
+        st.style.setProperty('--ps', zurueck(klemme((q - 0.3) / 0.18)).toFixed(4));
+        (masken[i] || []).forEach(function (z, j) {
+          var lokal = aus(klemme((q - 0.32 - j * 0.06) / 0.38));
+          z.style.setProperty('--y', ((1 - lokal) * 110).toFixed(2) + '%');
+        });
+      });
+    };
+    var anfordern = function () { if (!raf) raf = requestAnimationFrame(zeichnen); };
+
+    var einschalten = function () {
+      aktiv = true;
+      zug.classList.add('ist-quer');
+      // Der allgemeine Reveal soll hier nicht mitspielen: die Schritte stehen,
+      // bewegt wird nur ihr Inhalt.
+      schritte.forEach(function (st) { st.classList.add('in'); });
+      breiteZuletzt = window.innerWidth;
+      aufteilen();
+      messen();
+      zeichnen();
+    };
+    var ausschalten = function () {
+      aktiv = false;
+      zug.classList.remove('ist-quer');
+      zuruecksetzen();
+      zug.style.height = '';
+      bahn.style.removeProperty('--x');
+      bahn.style.removeProperty('height');
+      bahn.style.removeProperty('--padl');
+      linie.removeAttribute('style');
+      schritte.forEach(function (st) {
+        st.style.removeProperty('--stamm'); st.style.removeProperty('--ps'); st.style.removeProperty('left');
+      });
+    };
+
+    var pruefen = function () {
+      var soll = mqHoch.matches;
+      if (soll && !aktiv) einschalten();
+      else if (!soll && aktiv) ausschalten();
+      else if (aktiv) {
+        // Nur bei geaenderter Breite neu umbrechen — mobile Browser melden
+        // beim Ein- und Ausfahren der Adressleiste laufend Hoehenaenderungen.
+        if (window.innerWidth !== breiteZuletzt) { breiteZuletzt = window.innerWidth; aufteilen(); }
+        messen();
+        zeichnen();
+      }
+    };
+
+    var zeitgeber = 0;
+    whenFontsReady(function () {
+      pruefen();
+      window.addEventListener('scroll', anfordern, { passive: true });
+      window.addEventListener('resize', function () {
+        window.clearTimeout(zeitgeber);
+        zeitgeber = window.setTimeout(pruefen, 120);
+      });
+    });
+  })();
+
   /* --- 7. Leistungskarten: gleiche Hoehe --------------------------------
      Im Ruhezustand ist der Zusatztext zugeklappt, die Karte waere also
      niedriger als im geoeffneten Zustand — beim Aufklappen wuerde das

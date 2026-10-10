@@ -825,7 +825,19 @@
          Unter 900px wird daraus wieder eine senkrechte Leiste — fuenf Spalten
          nebeneinander waeren auf dem Telefon unlesbar, und eine waagerechte
          Wischbahn versteckt Schritte, die man alle sehen soll. Die Linie
-         wandert dabei nach links, die Punkte bleiben darauf. -->
+         wandert dabei nach links, die Punkte bleiben darauf.
+
+         Mit Skript (und ohne reduzierte Bewegung) wird der Abschnitt zur
+         Scroll-Zeitleiste: die Buehne bleibt stehen, die Bahn faehrt seitwaerts
+         durch, die Linie zieht sich mit, jeder Schritt waechst als Stiel aus
+         ihr heraus und blendet seinen Text zeilenweise ein. Portierung von
+         timeline.tsx (Hyperiux Vault), ohne Bild und ohne GSAP — siehe
+         bds.js, Abschnitt 6b. Ohne Skript bleibt alles wie oben beschrieben. -->
+  </div>
+  <div class="lauf-zug" data-lauf-zug>
+    <div class="lauf-buehne wrap">
+     <div class="lauf-bahn">
+      <span class="lauf-linie" aria-hidden="true"><span class="lauf-linie__strich"></span></span>
     <ol class="lauf">
         <li class="lauf__st" data-reveal style="--i:0">
           <span class="lauf__punkt" aria-hidden="true"></span>
@@ -863,11 +875,7 @@
           <p class="lauf__erg"><svg aria-hidden="true"><use href="#i-gate"/></svg>Planbarer Betrieb</p>
         </li>
     </ol>
-
-    <div class="sek-fuss">
-      <div class="btn-row" data-reveal>
-        <button type="button" class="btn btn--split btn--primary" data-open-contact data-anliegen="Projektstart: Bitte um ein Erstgespräch."><span class="btn__label">Projekt starten</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
-      </div>
+     </div>
     </div>
   </div>
 </section>

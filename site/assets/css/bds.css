@@ -1818,6 +1818,136 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   .lauf__st:not(:last-child)::before{transform:none;transition:none}
 }
 
+/* --- Ablauf als Scroll-Zeitleiste ----------------------------------------
+   Portierung von timeline.tsx (Hyperiux Vault) — ohne Bild, ohne GSAP. Alles
+   hier greift nur unter .ist-quer, und diese Klasse setzt allein bds.js
+   (Abschnitt 6b), wenn Bewegung erlaubt ist und die Ansicht hoch genug.
+   Ohne Skript gilt die Zeitleiste oben unveraendert.
+
+   .lauf-zug ist so hoch wie der Scrollweg, .lauf-buehne klebt darin fuer die
+   Dauer dieses Wegs am Fensterrand, .lauf-bahn faehrt seitwaerts durch. Die
+   Schritte sitzen abwechselnd ueber und unter der Mittellinie; jeder waechst
+   als Stiel aus ihr heraus, oben setzt sich der Punkt, dann laufen die
+   Zeilen aus ihrer Maske. Den Fortschritt schreibt das Skript als Variablen
+   (--stamm, --ps) und als transform auf die Zeilen — es gibt also keine
+   Transition, die hinter dem Scrollen herhinkt.
+   ------------------------------------------------------------------------- */
+.lauf-linie{display:none}
+.lauf-zug.ist-quer{position:relative}
+.lauf-zug.ist-quer .lauf-buehne{
+  position:sticky;top:0;
+  max-width:none;padding-inline:0;
+  height:100vh;height:100svh;
+  padding-top:var(--kopf);
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.lauf-zug.ist-quer .lauf-bahn{
+  --breite:clamp(280px,30vw,440px);
+  --schritt:calc(var(--breite) * .8);
+  --vorlauf:clamp(36px,5vw,90px);
+  --hoehe:clamp(440px,64svh,620px);
+  position:relative;flex:none;width:max-content;
+  height:min(var(--hoehe),calc(100svh - var(--kopf) - 40px));
+  /* links buendig mit dem Inhalt der .wrap darueber */
+  --padl:max(var(--gutter),calc((100vw - var(--w)) / 2 + var(--gutter)));
+  padding-left:var(--padl);
+  padding-right:var(--gutter);
+  transform:translate3d(var(--x,0px),0,0);
+  will-change:transform;
+}
+.lauf-zug.ist-quer .lauf{
+  position:relative;display:block;
+  height:100%;margin:0;padding:0;
+  width:calc(var(--vorlauf) + 4 * var(--schritt) + var(--breite));
+}
+
+/* Mittellinie: Startpunkt, Strich, Endpunkt. Der Strich skaliert von links. */
+.lauf-zug.ist-quer .lauf-linie{
+  display:block;position:absolute;z-index:0;
+  top:50%;height:1px;
+  left:var(--padl,0px);right:var(--gutter);
+}
+.lauf-linie::before,.lauf-linie::after{
+  content:"";position:absolute;top:50%;
+  width:9px;height:9px;border-radius:50%;background:var(--accent);
+  transform:translate(-50%,-50%) scale(var(--ls,0));
+}
+.lauf-linie::before{left:0;--ls:var(--l-start,0)}
+.lauf-linie::after{left:100%;--ls:var(--l-ende,0)}
+.lauf-linie__strich{
+  position:absolute;inset:0;background:var(--accent);
+  transform:scaleX(var(--l,0));transform-origin:left center;
+}
+
+.lauf-zug.ist-quer .lauf__st{
+  position:absolute;z-index:1;top:0;
+  left:calc(var(--vorlauf) + var(--i) * var(--schritt));
+  width:var(--breite);height:50%;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding:0 clamp(14px,2vw,30px) 26px clamp(18px,2.2vw,34px);
+}
+.lauf-zug.ist-quer .lauf__st[data-reveal]{opacity:1;transform:none;transition:none}
+/* Ungerade Schritte haengen unter der Linie, Text unten buendig am Punkt. */
+.lauf-zug.ist-quer .lauf__st:nth-child(even){
+  top:50%;justify-content:flex-end;padding-top:26px;padding-bottom:0;
+}
+
+/* Stiel: verbindet die Mittellinie mit dem Punkt am aeusseren Ende. */
+.lauf-zug.ist-quer .lauf__st::before{
+  content:"";position:absolute;left:0;right:auto;top:0;bottom:0;
+  width:1px;height:auto;background:var(--accent);
+  transform:scaleY(var(--stamm,0));transform-origin:center bottom;
+  transition:none;
+}
+.lauf-zug.ist-quer .lauf__st:nth-child(even)::before{transform-origin:center top}
+
+.lauf-zug.ist-quer .lauf__st .lauf__punkt{
+  --punkt:13px;
+  left:0;top:0;
+  background:var(--accent);border-color:var(--accent);opacity:1;
+  transform:translate(-50%,-50%) scale(var(--ps,0));
+  transition:none;
+}
+.lauf-zug.ist-quer .lauf__st:nth-child(even) .lauf__punkt{top:100%}
+/* Care bleibt optional — hohl, wie in der ruhenden Fassung. */
+.lauf-zug.ist-quer .lauf__st:last-child .lauf__punkt{background:var(--paper)}
+
+/* Schrift etwas groesser als in der ruhenden Fassung: die Buehne hat Platz. */
+.lauf-zug.ist-quer .lauf__n{margin:-.6em 0 10px}
+.lauf-zug.ist-quer .lauf__st:nth-child(even) .lauf__n{margin-top:0}
+.lauf-zug.ist-quer .lauf__t{font-size:clamp(1.125rem,1.75vw,1.625rem);line-height:1.15;margin-bottom:10px}
+.lauf-zug.ist-quer .lauf__was{font-size:clamp(.9375rem,1.05vw,1.0625rem)}
+.lauf-zug.ist-quer .lauf__erg{
+  margin-top:14px;padding-top:0;border-top:0;min-height:0;
+  display:block;overflow:hidden;
+}
+.lauf-zug.ist-quer .lauf__st:nth-child(even) .lauf__erg{margin-bottom:-.5em}
+.lauf-zug.ist-quer .lauf__erg > .zeile__in{
+  display:flex;align-items:flex-start;gap:7px;
+  padding-top:10px;border-top:1px solid var(--line);
+}
+
+/* Zeilenmasken. Ein wenig Luft unten, sonst schneidet die Maske Unterlaengen. */
+.zeile{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+.zeile__in{display:block}
+.lauf-zug.ist-quer .zeile__in{transform:translate3d(0,var(--y,110%),0)}
+.lauf__n.zeile{overflow:hidden}
+
+@media (hover:hover) and (pointer:fine){
+  .lauf-zug.ist-quer .lauf__st:hover .lauf__punkt{transform:translate(-50%,-50%) scale(calc(var(--ps,0) * 1.3))}
+}
+
+/* Telefon: ein Schritt nimmt fast die Breite ein, die Bahn wird entsprechend
+   lang. Oben und unten wechseln sich ab, damit der naechste Schritt schon
+   anschneidet, waehrend der aktuelle noch gelesen wird. */
+@media (max-width:699px){
+  .lauf-zug.ist-quer .lauf-bahn{
+    --breite:78vw;--schritt:calc(var(--breite) * .62);--vorlauf:8vw;
+    --hoehe:640px;
+  }
+}
+
 /* --- Im Detail: waagerechte Saeulen ---------------------------------------
    Vier Saeulen nebeneinander. Ein Klick zieht eine auf und draengt die
    anderen zur Seite; die geoeffnete nimmt ihre Markenfarbe an. Unter 900 px

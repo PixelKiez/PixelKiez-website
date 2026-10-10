@@ -14,7 +14,7 @@ const CODE = [
   /\[data-/,                       // Selektorbruchstuecke
   /^\/[\w/.-]*$/,                  // Pfade
   /^https?:|^mailto:|^\?|^&\w+=/,  // Adressen und Parameter
-  /^\(?(min|max)-width|prefers-|^\(\w+:/,  // Media Queries
+  /^\(?(min|max)-(width|height)|prefers-|^\(\w+:/,  // Media Queries
   /^[\d\s.,%px-]+$/,               // Masse
   /^<[^>]*>$/,                     // reine Tags ohne Text
   /^<\/[a-z]+>|^<\/[a-z]+><\/[a-z]+>/,     // schliessende Tags
@@ -36,6 +36,7 @@ const EXAKT_CODE = new Set([
   'Escape', 'Enter', 'IntersectionObserver', 'POST', 'Content-Type',
   'textPath', 'startOffset',
   '--d', '--i', '--n', '--fq-x', '<i class="',
+  '--x', '--y', '--l', '--l-start', '--l-ende', '--stamm', '--ps', '--padl',   // Ablauf-Zeitleiste
 ]);
 
 /* Bleibt nach dem Entfernen aller Tags und Entitaeten kein Buchstabe uebrig,
