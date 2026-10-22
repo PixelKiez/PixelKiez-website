@@ -896,12 +896,15 @@ async function verify() {
     if (!(await existiert(startPfad))) continue;   // fehlende Seite meldet die Schleife oben
     const startHtml = await readFile(startPfad, 'utf8');
 
-    /* ----- H-1 Jede Frage steht genau einmal im Dokument ----- */
-    const fqRoh = [...startHtml.matchAll(/<article[^>]*\bclass="[^"]*\bfq__b\b[^"]*"[^>]*>([\s\S]*?)<\/article>/g)]
+    /* ----- H-1 Jede Frage steht genau einmal im Dokument -----
+       Seit der Designschicht eine Aufklappliste: je Frage ein
+       <details class="faq__i">, die Frage im h3.faq__t, die Antwort als
+       Absatz in .faq__a. */
+    const fqRoh = [...startHtml.matchAll(/<details[^>]*\bclass="[^"]*\bfaq__i\b[^"]*"[^>]*>([\s\S]*?)<\/details>/g)]
       .map((m) => m[1]);
     const sichtbar = fqRoh.map((rumpf) => {
-      const frage = /<h3[^>]*\bclass="[^"]*\bfq__q\b[^"]*"[^>]*>([\s\S]*?)<\/h3>/.exec(rumpf);
-      const antwort = /<p[^>]*\bclass="[^"]*\bfq__a\b[^"]*"[^>]*>([\s\S]*?)<\/p>/.exec(rumpf);
+      const frage = /<h3[^>]*\bclass="[^"]*\bfaq__t\b[^"]*"[^>]*>([\s\S]*?)<\/h3>/.exec(rumpf);
+      const antwort = /<div[^>]*\bclass="[^"]*\bfaq__a\b[^"]*"[^>]*>\s*<p[^>]*>([\s\S]*?)<\/p>/.exec(rumpf);
       return { frage: frage ? klartext(frage[1]) : null, antwort: antwort ? klartext(antwort[1]) : null };
     });
 
@@ -909,8 +912,8 @@ async function verify() {
       F(start + ': ' + fqRoh.length + ' sichtbare Fragen statt ' + FAQ_ANZAHL
         + ' — jede Frage gehoert genau einmal ins Dokument, auch fuer Animation oder Layout');
     for (const [n, f] of sichtbar.entries()) {
-      if (!f.frage) F(start + ': sichtbare Frage ' + (n + 1) + ' ohne .fq__q');
-      if (!f.antwort) F(start + ': sichtbare Frage ' + (n + 1) + ' ohne .fq__a');
+      if (!f.frage) F(start + ': sichtbare Frage ' + (n + 1) + ' ohne .faq__t');
+      if (!f.antwort) F(start + ': sichtbare Frage ' + (n + 1) + ' ohne .faq__a');
     }
     for (const d of doppelte(sichtbar.map((f) => f.frage).filter(Boolean)))
       F(start + ': sichtbare Frage steht mehrfach im Dokument — "' + kurz(d) + '"');

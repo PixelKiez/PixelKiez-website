@@ -43,7 +43,6 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/ibm-plex-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Die Monoschrift traegt die Kopfzeile "WEBDESIGN BERLIN" und die
      Abschnittsnummern, steht also im ersten Bild. Ohne Vorladung startet
      sie erst nach dem Auswerten des CSS und ist gemessen 1167 ms fertig,
@@ -185,7 +184,7 @@
           "name": "Was kostet eine Website bei Pixelkiez?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Den verbindlichen Festpreis nennen wir nach der Diagnose. Er richtet sich nach Umfang und Systemtiefe, ohne versteckte Posten. Über das Kontaktformular erhalten Sie ihn innerhalb eines Werktags."
+            "text": "Launch beginnt bei 995 € zusammen mit Care Essential (59 € / Monat, Mindestlaufzeit 12 Monate), ohne Care bei 1.290 €. Business beginnt bei 2.490 €, Enterprise bei 4.900 €, alle Preise netto. Den verbindlichen Festpreis für Ihr Projekt nennen wir nach der Diagnose, schriftlich mit Umfang und Ausschlüssen."
           }
         },
         {
@@ -378,14 +377,14 @@
 
   <nav class="menu" id="menu" data-open="false" aria-label="Hauptnavigation">
     <div class="wrap menu__in">
-        <a href="#ausgangslage"><span class="menu__n">01</span>Ausgangslage</a>
-        <a href="#leistungen"><span class="menu__n">02</span>Leistungen</a>
-        <a href="#pakete"><span class="menu__n">03</span>Preise</a>
-        <a href="#ablauf"><span class="menu__n">04</span>Ablauf</a>
-        <a href="#im-detail"><span class="menu__n">05</span>Betreuung</a>
-        <a href="#faq"><span class="menu__n">06</span>Häufige Fragen</a>
-        <a href="#kontakt"><span class="menu__n">07</span>Kontakt</a>
-        <a href="/wissen/"><span class="menu__n">08</span>Wissen</a>
+        <a href="#ausgangslage">Ausgangslage</a>
+        <a href="#leistungen">Leistungen</a>
+        <a href="#pakete">Preise</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#im-detail">Betreuung</a>
+        <a href="#faq">Häufige Fragen</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="/wissen/">Wissen</a>
     </div>
   </nav>
 </header>
@@ -394,20 +393,13 @@
 <span id="top"></span>
 
 <!-- ===================== HERO =====================
-     Grosse abgerundete Buehne. Der Partikelaufbau der Wortmarke bleibt
-     unveraendert — die Leinwand spannt weiter ueber die ganze Buehne, das
-     Logo ist weiter ihre Vorlage. Neu ist nur, wo die Marke sitzt: gross
-     unten links statt mittig oben.
+     Die Buehne ist ein abgesetztes Rechteck im hellen Hero. Darin laeuft das
+     Wellenraster (swell-grid.js); die Wortmarke steht hier nicht mehr.
      ================================================================== -->
 <section class="hero" id="hero">
-  <canvas class="hero__logo-drift" aria-hidden="true"></canvas>
   <div class="hero__buehne">
 
     <div class="hero__unten">
-      <span class="hero__logo-buehne">
-        <img class="hero__logo" src="assets/img/logo.webp" alt="PixelKiez" width="2006" height="465" fetchpriority="high">
-      </span>
-
       <div class="hero__block">
         <h1 class="hero__h1" data-reveal>Webseiten, die für Ihr Unternehmen <em>arbeiten.</em></h1>
         <p class="hero__text" data-reveal>Professionelle Websites für mittelständische Unternehmen. Zum verbindlichen Festpreis, mit planbarer Betreuung nach dem Launch.</p>
@@ -450,7 +442,6 @@
   <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
-      <p class="kicker" data-reveal>Ausgangslage</p>
       <h2 class="h-lg tb tb--schwarz" data-textblock>Drei Aufgaben, egal wo Sie gerade stehen.</h2>
       <p class="lead" data-reveal>Keine Website, eine veraltete oder eine, die niemand findet: Der Ausgangspunkt ist verschieden, die Anforderungen sind dieselben. Fehlt eine davon, bricht die Kette. Und niemand meldet sich, um es Ihnen zu sagen.</p>
     </div>
@@ -461,7 +452,6 @@
          wie der Partikelaufbau der Wortmarke. -->
     <ol class="weg">
       <li class="weg__st" data-reveal>
-        <span class="weg__n">01</span>
         <span class="weg__raster" aria-hidden="true"><i class="" style="--n:0"></i><i class="on" style="--n:1"></i><i class="" style="--n:2"></i><i class="" style="--n:3"></i><i class="" style="--n:4"></i><i class="on" style="--n:5"></i><i class="" style="--n:6"></i><i class="" style="--n:7"></i><i class="on" style="--n:8"></i><i class="" style="--n:9"></i><i class="" style="--n:10"></i><i class="" style="--n:11"></i><i class="on" style="--n:12"></i><i class="" style="--n:13"></i><i class="" style="--n:14"></i><i class="" style="--n:15"></i><i class="on" style="--n:16"></i><i class="" style="--n:17"></i></span>
         <h3 class="weg__t">Gefunden werden</h3>
         <p class="weg__ist">Wer Sie sucht, findet den Wettbewerb. Oder gar nichts.</p>
@@ -469,15 +459,13 @@
         <a class="weg__wissen" href="/wissen/seo-geo-ai-visibility/">Wissen: SEO, GEO und AI Visibility unterscheiden →</a>
       </li>
       <li class="weg__st" data-reveal>
-        <span class="weg__n">02</span>
-        <span class="weg__raster" aria-hidden="true"><i class="on" style="--n:0"></i><i class="on" style="--n:1"></i><i class="" style="--n:2"></i><i class="on" style="--n:3"></i><i class="" style="--n:4"></i><i class="" style="--n:5"></i><i class="on" style="--n:6"></i><i class="on" style="--n:7"></i><i class="on" style="--n:8"></i><i class="" style="--n:9"></i><i class="on" style="--n:10"></i><i class="" style="--n:11"></i><i class="on" style="--n:12"></i><i class="on" style="--n:13"></i><i class="" style="--n:14"></i><i class="on" style="--n:15"></i><i class="on" style="--n:16"></i><i class="" style="--n:17"></i></span>
+        <span class="weg__raster" aria-hidden="true"><i class="on" style="--n:0"></i><i class="on" style="--n:1"></i><i class="" style="--n:2"></i><i class="on" style="--n:3"></i><i class="" style="--n:4"></i><i class="on" style="--n:5"></i><i class="on" style="--n:6"></i><i class="on" style="--n:7"></i><i class="on" style="--n:8"></i><i class="" style="--n:9"></i><i class="on" style="--n:10"></i><i class="" style="--n:11"></i><i class="on" style="--n:12"></i><i class="on" style="--n:13"></i><i class="" style="--n:14"></i><i class="on" style="--n:15"></i><i class="on" style="--n:16"></i><i class="" style="--n:17"></i></span>
         <h3 class="weg__t">Verstanden werden</h3>
         <p class="weg__ist">Was Sie von anderen unterscheidet, ist nirgends in Sekunden erfassbar.</p>
         <p class="weg__soll">Das Angebot steht oben und kommt ohne Fachsprache aus.</p>
         <a class="weg__wissen" href="/wissen/answerability/">Wissen: Wann eine Website eine Frage wirklich beantwortet →</a>
       </li>
       <li class="weg__st" data-reveal>
-        <span class="weg__n">03</span>
         <span class="weg__raster" aria-hidden="true"><i class="on" style="--n:0"></i><i class="on" style="--n:1"></i><i class="on" style="--n:2"></i><i class="on" style="--n:3"></i><i class="on" style="--n:4"></i><i class="on" style="--n:5"></i><i class="on" style="--n:6"></i><i class="on" style="--n:7"></i><i class="on" style="--n:8"></i><i class="on" style="--n:9"></i><i class="on" style="--n:10"></i><i class="on" style="--n:11"></i><i class="on" style="--n:12"></i><i class="on" style="--n:13"></i><i class="on" style="--n:14"></i><i class="on" style="--n:15"></i><i class="on" style="--n:16"></i><i class="on" style="--n:17"></i></span>
         <h3 class="weg__t">Erreichbar sein</h3>
         <p class="weg__ist">Anfragen, Termine und Bewerbungen laufen über Telefon und Postfach.</p>
@@ -495,7 +483,6 @@
   <span class="naht naht--von-orange" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
-      <p class="kicker" data-reveal>Leistungen</p>
       <h2 class="h-lg tb tb--orange" data-textblock>Vier Leistungsfelder. Ein System.</h2>
       <p class="lead" data-reveal>Jedes Feld ist einzeln buchbar und greift ins nächste. Der verbindliche Festpreis entsteht nach der Diagnose, mit Umfang und Ausschlüssen.</p>
     </div>
@@ -605,11 +592,6 @@
 <section class="section inv naht-anker" id="pakete">
   <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
-    <!-- Die Ordnungszahl steht ausserhalb des mittigen Kopfes und damit an
-         derselben linken Kante wie die uebrigen sieben Abschnittsnummern.
-         Nur Ueberschrift und Fliesstext ruecken in die Mitte. -->
-    <p class="kicker kicker--kante" data-reveal>Preise</p>
-
     <div class="section__head section__head--mitte">
       <h2 class="h-lg tb tb--weiss" data-textblock>Ein klarer Einstieg. Ein Festpreis vor dem Start.</h2>
       <p class="lead" data-reveal>Der genaue Preis richtet sich nach Umfang und Funktionen. Vor Projektbeginn erhalten Sie ein verbindliches Angebot, ohne offene Agenturstunden.</p>
@@ -617,7 +599,7 @@
 
     <!-- Bis zur Preisrecherche stand hier nur die einmalige Umsetzung; Care
          bekam bewusst keine Zahl, weil zwei Preisachsen an einer Stelle eine
-         Entscheidung zu viel waren. Das gilt nicht mehr: Launch kostet 995 EUR
+         Entscheidung zu viel waren. Das gilt nicht mehr: Launch kostet ab 995 EUR
          nur zusammen mit Care Essential. Die Bedingung laesst sich nicht
          weglassen, ohne dass die Zahl etwas Falsches behauptet — also steht
          Care jetzt hier, unterhalb der Karten und klar getrennt.
@@ -634,9 +616,19 @@
           <p class="pack__pos">Kompakter Einstieg für eine professionelle One-Page-Website.</p>
         </div>
         <p class="pack__preis">
-          <span class="pack__wert">995 €</span>
-          <span class="pack__einheit">einmalig*</span>
+          <span class="pack__wert">ab 995 €</span>
+          <span class="pack__einheit">einmalig</span>
         </p>
+        <!-- Conversion: Die Bedingung steht an der Zahl, nicht als Sternchen
+             am Kartenfuss. Wer ab 995 € liest, liest im selben Blick, dass der
+             Preis nur mit Care gilt und was es ohne kostet — das Versprechen
+             "Festpreis, ohne versteckte Posten" haelt so schon am Preis.
+             Alle Preise sind Ab-Preise: den verbindlichen Festpreis gibt es
+             erst nach der Diagnose (FAQ, "Nach dem Absenden").
+             Business und Enterprise tragen ihre Grenze ebenso am Preis;
+             damit stehen auch die Knoepfe der drei Karten wieder auf einer
+             Linie. -->
+        <p class="pack__bedingung">Mit <a href="/care/">Care Essential</a> für 59 € / Monat, Mindestlaufzeit 12 Monate. Ohne Care: ab 1.290 € einmalig.</p>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>One-Page mit bis zu 6 Inhaltsbereichen</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelles, responsives Webdesign</span></li>
@@ -660,7 +652,6 @@
         <div class="btn-row pack__cta">
           <button type="button" class="btn btn--primary" data-fuell="Projekt besprechen" data-paket="Launch" data-open-contact data-anliegen="Anfrage zum Paket Launch: Bitte um ein verbindliches Angebot.">Projekt besprechen</button>
         </div>
-        <p class="pack__fussnote">* Mit <a href="/care/">Care Essential</a> 59 € / Monat, Mindestlaufzeit 12 Monate. Ohne Care: 1.290 € einmalig.</p>
       </article>
 
       <article class="pack" data-reveal>
@@ -672,6 +663,7 @@
           <span class="pack__wert">ab 2.490 €</span>
           <span class="pack__einheit">einmalig</span>
         </p>
+        <p class="pack__bedingung">Mehr als 6 Seiten und laufende SEO-Arbeit werden separat vereinbart.</p>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>4–6 individuell strukturierte Seiten</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelles UX/UI Design</span></li>
@@ -695,7 +687,6 @@
         <div class="btn-row pack__cta">
           <button type="button" class="btn btn--primary" data-fuell="Projekt besprechen" data-paket="Business" data-open-contact data-anliegen="Anfrage zum Paket Business: Bitte um Prüfung meines Projekts.">Projekt besprechen</button>
         </div>
-        <p class="pack__fussnote">Mehr als 6 Seiten und laufende SEO-Arbeit werden separat vereinbart.</p>
       </article>
 
       <article class="pack" data-reveal>
@@ -707,6 +698,7 @@
           <span class="pack__wert">ab 4.900 €</span>
           <span class="pack__einheit">einmalig</span>
         </p>
+        <p class="pack__bedingung">Komplexe Portale, umfangreiche APIs und Systemlösungen werden separat kalkuliert.</p>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Ab ca. 7–10 Inhaltsseiten</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Individuelle Informationsarchitektur</span></li>
@@ -730,7 +722,6 @@
         <div class="btn-row pack__cta">
           <button type="button" class="btn btn--primary" data-fuell="Projekt besprechen" data-paket="Enterprise" data-open-contact data-anliegen="Anfrage zum Paket Enterprise: Bitte um ein individuelles Angebot.">Projekt besprechen</button>
         </div>
-        <p class="pack__fussnote">Komplexe Portale, umfangreiche APIs und Systemlösungen werden separat kalkuliert.</p>
       </article>
     </div>
 
@@ -751,9 +742,6 @@
 
     <div class="sek-fuss">
       <p class="small" data-reveal><a href="/care/">Care</a>, zusätzliche Seiten, laufendes SEO/GEO, Copywriting und komplexe Integrationen werden abhängig vom Projekt separat vereinbart.</p>
-      <div class="btn-row" data-reveal>
-        <button type="button" class="btn btn--split btn--primary" data-open-contact data-anliegen="Preisanfrage: Bitte um ein verbindliches Angebot."><span class="btn__label">Projekt besprechen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
-      </div>
     </div>
   </div>
 </section>
@@ -763,7 +751,6 @@
   <span class="naht naht--von-schwarz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
-      <p class="kicker" data-reveal>Ablauf</p>
       <h2 class="h-lg tb tb--orange" data-textblock>Klarer Prozess. Klare Entscheidungen.</h2>
       <p class="lead" data-reveal>Sie wissen jederzeit, was als Nächstes passiert, was freigegeben wird und welcher Festpreis gilt.</p>
     </div>
@@ -791,35 +778,30 @@
     <ol class="lauf">
         <li class="lauf__st" data-reveal style="--i:0">
           <span class="lauf__punkt" aria-hidden="true"></span>
-          <span class="lauf__n">01</span>
           <h3 class="lauf__t">Erstgespräch &amp; Projekt-Check</h3>
           <p class="lauf__was">Ziel, Zielgruppe, Umfang und wichtigste Funktionen klären.</p>
           <p class="lauf__erg"><svg aria-hidden="true"><use href="#i-gate"/></svg>Klare Aufgabenstellung</p>
         </li>
         <li class="lauf__st" data-reveal style="--i:1">
           <span class="lauf__punkt" aria-hidden="true"></span>
-          <span class="lauf__n">02</span>
           <h3 class="lauf__t">Konzept &amp; Festpreis</h3>
           <p class="lauf__was">Struktur, Leistungen, Zeitrahmen und Ausschlüsse verbindlich festhalten.</p>
           <p class="lauf__erg"><svg aria-hidden="true"><use href="#i-gate"/></svg>Freigegebenes Angebot</p>
         </li>
         <li class="lauf__st" data-reveal style="--i:2">
           <span class="lauf__punkt" aria-hidden="true"></span>
-          <span class="lauf__n">03</span>
           <h3 class="lauf__t">Design &amp; Umsetzung</h3>
           <p class="lauf__was">Inhalte, Design und Entwicklung im abgestimmten Rahmen umsetzen.</p>
           <p class="lauf__erg"><svg aria-hidden="true"><use href="#i-gate"/></svg>Geprüfte Testversion</p>
         </li>
         <li class="lauf__st" data-reveal style="--i:3">
           <span class="lauf__punkt" aria-hidden="true"></span>
-          <span class="lauf__n">04</span>
           <h3 class="lauf__t">Launch &amp; Übergabe</h3>
           <p class="lauf__was">Qualitätscheck, Veröffentlichung, Zugänge und Einweisung.</p>
           <p class="lauf__erg"><svg aria-hidden="true"><use href="#i-gate"/></svg>Website im Eigentum des Kunden</p>
         </li>
         <li class="lauf__st" data-reveal style="--i:4">
           <span class="lauf__punkt" aria-hidden="true"></span>
-          <span class="lauf__n">05</span>
           <h3 class="lauf__t">Care (optional)</h3>
           <p class="lauf__was">Hosting, Monitoring, Updates, Backups und vereinbarte Änderungen.</p>
           <p class="lauf__erg"><svg aria-hidden="true"><use href="#i-gate"/></svg>Planbarer Betrieb</p>
@@ -835,7 +817,6 @@
   <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
-      <p class="kicker" data-reveal>Nach dem Launch</p>
       <h2 class="h-lg tb tb--schwarz" data-textblock>Ihre Website bleibt betreut und bleibt Ihre.</h2>
       <p class="lead" data-reveal>Care ist optional und getrennt vom Website-Projekt. Sie wissen vorab, was enthalten ist und was separat kalkuliert wird.</p>
     </div>
@@ -847,7 +828,6 @@
         <article class="pil__i pil__i--orange" data-open="true">
           <h3 class="pil__head">
             <button type="button" class="pil__btn" aria-expanded="true" aria-controls="pil-1">
-              <span class="pil__n">01</span>
               <span class="pil__t">Betrieb</span>
             </button>
           </h3>
@@ -863,7 +843,6 @@
         <article class="pil__i pil__i--weiss" data-open="false">
           <h3 class="pil__head">
             <button type="button" class="pil__btn" aria-expanded="false" aria-controls="pil-2">
-              <span class="pil__n">02</span>
               <span class="pil__t">Technik</span>
             </button>
           </h3>
@@ -879,7 +858,6 @@
         <article class="pil__i pil__i--blau" data-open="false">
           <h3 class="pil__head">
             <button type="button" class="pil__btn" aria-expanded="false" aria-controls="pil-3">
-              <span class="pil__n">03</span>
               <span class="pil__t">Sichtbarkeit</span>
             </button>
           </h3>
@@ -895,7 +873,6 @@
         <article class="pil__i pil__i--schwarz" data-open="false">
           <h3 class="pil__head">
             <button type="button" class="pil__btn" aria-expanded="false" aria-controls="pil-4">
-              <span class="pil__n">04</span>
               <span class="pil__t">Support</span>
             </button>
           </h3>
@@ -911,13 +888,7 @@
       </div>
 
       <div class="sek-fuss">
-        <div class="card tone tone--orange" data-reveal>
-          <p class="prose"><strong>Domain, Inhalte, Website und relevante Zugänge bleiben beim Kunden. Bei einem Agenturwechsel werden die vereinbarten Projekt- und Zugangsdaten übergeben.</strong></p>
-        </div>
         <p class="small" data-reveal>Nicht enthalten sind Redesigns, neue Funktionen, Portale oder Shop-Logik, zusätzliche Unterseiten mit eigenem Konzept, Foto- und Videoproduktion sowie laufende Anzeigen- oder Inhaltsarbeit. Dafür erhalten Sie vorab einen separaten Festpreis.</p>
-        <div class="btn-row" data-reveal>
-          <button type="button" class="btn btn--split btn--primary" data-open-contact data-anliegen="Care: Bitte um Informationen zur Betreuung nach dem Launch."><span class="btn__label">Care-Leistungen besprechen</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
-        </div>
       </div>
   </div>
 </section>
@@ -927,34 +898,37 @@
   <span class="naht naht--von-orange" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
-      <p class="kicker" data-reveal>Häufige Fragen</p>
       <h2 class="h-lg tb tb--weiss" data-textblock>Was Unternehmen vorher wissen wollen.</h2>
     </div>
-      <!-- Zwei Endlosbaender: das obere laeuft nach links, das untere nach
-           rechts. Je Band drei Fragen, jede genau einmal im Dokument und
-           genau einmal im Browser.
-
-           Frueher lief das Band ueber eine zweite, identische Reihe im
-           Quelltext — sechs Fragen wurden so zu 36 <article>. Es geht
-           ohne: das Skript reicht die Karte, die links hinausgelaufen
-           ist, hinten wieder an. Der Lauf ist derselbe, es gibt nur
-           nichts zu verdoppeln. Ohne Skript steht das Band still und
-           laesst sich seitlich schieben. -->
-      <div class="fq" data-reveal>
-        <div class="fq__row fq__row--rl">
-          <div class="fq__track">
-            <article class="fq__b"><h3 class="fq__q">Was kostet eine Website bei Pixelkiez?</h3><p class="fq__a">Den verbindlichen Festpreis nennen wir nach der Diagnose. Er richtet sich nach Umfang und Systemtiefe, ohne versteckte Posten. Über das Kontaktformular erhalten Sie ihn innerhalb eines Werktags.</p></article>
-            <article class="fq__b"><h3 class="fq__q">Bietet Pixelkiez Werbeanzeigen-Management an?</h3><p class="fq__a">Nein. Werbeanzeigen-Management (Google Ads, Instagram/Meta Ads), Social-Media-Community-Management, Branding als Einzelleistung, native App-Entwicklung und individuelle Automatisierungsstrecken gehören nicht zum Portfolio.</p></article>
-            <article class="fq__b"><h3 class="fq__q">Für welche Unternehmen arbeitet Pixelkiez?</h3><p class="fq__a">Für mittelständische Unternehmen, unabhängig von der Branche. Entscheidend ist nicht das Geschäftsfeld, sondern dass die Website Anfragen, Termine oder Bewerbungen tragen soll. Sitz ist Berlin, Projekte werden deutschlandweit umgesetzt.</p></article>
-          </div>
-        </div>
-        <div class="fq__row fq__row--lr">
-          <div class="fq__track">
-            <article class="fq__b"><h3 class="fq__q">Wie schnell erhalte ich eine Antwort auf meine Anfrage?</h3><p class="fq__a">Jede Anfrage erhält innerhalb eines Werktags eine qualifizierte Antwort. Diese Zusage wird gemessen.</p></article>
-            <article class="fq__b"><h3 class="fq__q">Was bedeutet GEO beziehungsweise Auffindbarkeit in KI-Suchen?</h3><p class="fq__a">GEO steht für die Auffindbarkeit in KI-Suchsystemen wie ChatGPT, Perplexity oder Copilot. Dazu gehören strukturierte Daten, zitierfähige Faktenblöcke, identische Einträge auf Google Business Profile, Bing Places und Apple Business Connect sowie Freigaben für KI-Crawler.</p></article>
-            <article class="fq__b"><h3 class="fq__q">Gehört mir die Website nach dem Projekt?</h3><p class="fq__a">Ja. Das Eigentum an der Website liegt vollständig beim Kunden, inklusive Übergabe mit Einweisung und Dokumentation.</p></article>
-          </div>
-        </div>
+      <!-- Aufklappliste statt Laufbaender: sechs Fragen untereinander, die
+           Antwort klappt unter ihrer Frage auf. Natives <details> — oeffnet
+           ohne Skript, per Tastatur und wird als Aufklappbereich angesagt.
+           Reihenfolge wie im FAQPage-Knoten der strukturierten Daten. -->
+      <div class="faq" data-reveal>
+        <details class="faq__i">
+          <summary class="faq__q"><h3 class="faq__t">Was kostet eine Website bei Pixelkiez?</h3><span class="faq__x" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Launch beginnt bei 995 € zusammen mit Care Essential (59 € / Monat, Mindestlaufzeit 12 Monate), ohne Care bei 1.290 €. Business beginnt bei 2.490 €, Enterprise bei 4.900 €, alle Preise netto. Den verbindlichen Festpreis für Ihr Projekt nennen wir nach der Diagnose, schriftlich mit Umfang und Ausschlüssen.</p></div>
+        </details>
+        <details class="faq__i">
+          <summary class="faq__q"><h3 class="faq__t">Bietet Pixelkiez Werbeanzeigen-Management an?</h3><span class="faq__x" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Nein. Werbeanzeigen-Management (Google Ads, Instagram/Meta Ads), Social-Media-Community-Management, Branding als Einzelleistung, native App-Entwicklung und individuelle Automatisierungsstrecken gehören nicht zum Portfolio.</p></div>
+        </details>
+        <details class="faq__i">
+          <summary class="faq__q"><h3 class="faq__t">Für welche Unternehmen arbeitet Pixelkiez?</h3><span class="faq__x" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Für mittelständische Unternehmen, unabhängig von der Branche. Entscheidend ist nicht das Geschäftsfeld, sondern dass die Website Anfragen, Termine oder Bewerbungen tragen soll. Sitz ist Berlin, Projekte werden deutschlandweit umgesetzt.</p></div>
+        </details>
+        <details class="faq__i">
+          <summary class="faq__q"><h3 class="faq__t">Wie schnell erhalte ich eine Antwort auf meine Anfrage?</h3><span class="faq__x" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Jede Anfrage erhält innerhalb eines Werktags eine qualifizierte Antwort. Diese Zusage wird gemessen.</p></div>
+        </details>
+        <details class="faq__i">
+          <summary class="faq__q"><h3 class="faq__t">Was bedeutet GEO beziehungsweise Auffindbarkeit in KI-Suchen?</h3><span class="faq__x" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>GEO steht für die Auffindbarkeit in KI-Suchsystemen wie ChatGPT, Perplexity oder Copilot. Dazu gehören strukturierte Daten, zitierfähige Faktenblöcke, identische Einträge auf Google Business Profile, Bing Places und Apple Business Connect sowie Freigaben für KI-Crawler.</p></div>
+        </details>
+        <details class="faq__i">
+          <summary class="faq__q"><h3 class="faq__t">Gehört mir die Website nach dem Projekt?</h3><span class="faq__x" aria-hidden="true"></span></summary>
+          <div class="faq__a"><p>Ja. Das Eigentum an der Website liegt vollständig beim Kunden, inklusive Übergabe mit Einweisung und Dokumentation.</p></div>
+        </details>
       </div>
   </div>
 </section>
@@ -964,7 +938,6 @@
   <span class="naht naht--von-blau" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section__head">
-      <p class="kicker" data-reveal>Kontakt</p>
       <h2 class="h-lg tb tb--orange" data-textblock>Schnellkontakt.</h2>
       <p class="lead" data-reveal>Sie erhalten innerhalb eines Werktags eine qualifizierte Antwort, kein Newsletter und kein unangekündigter Verkaufsanruf.</p>
     </div>
@@ -1021,10 +994,24 @@
 
           <div class="btn-row">
             <button type="submit" class="btn btn--split btn--primary" id="form-submit"><span class="btn__label" data-label>Anfrage senden</span><span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>
-            <span class="mono" style="color:var(--ink-45)">Antwort in 1 Werktag</span>
           </div>
 
           <p class="form__status" id="form-status" role="status" aria-live="polite" data-show="false"></p>
+
+          <!-- Conversion: Am Knopf entscheidet sich, ob man absendet. Hier
+               steht, was danach passiert und dass erst die Freigabe des
+               Angebots verpflichtet. Jede Zeile steht sinngemaess schon auf
+               der Seite (Kontakt, Erstgespraech, Ablauf) — neu ist nur der
+               Ort. Der Block liegt im Formular und wandert damit ins
+               Kontaktfenster mit. Ohne Nummern, wie die uebrigen Listen. -->
+          <div class="naechste">
+            <p class="naechste__t">Nach dem Absenden</p>
+            <ol class="naechste__l">
+              <li>Wir melden uns innerhalb eines Werktags, ohne Newsletter und ohne unangekündigten Verkaufsanruf.</li>
+              <li>Erstgespräch, 30 Minuten, vorbereitet mit einer ersten Analyse Ihrer Website.</li>
+              <li>Nach der Diagnose erhalten Sie ein schriftliches Angebot mit Festpreis, Umfang und Ausschlüssen. Das Projekt beginnt erst mit Ihrer Freigabe.</li>
+            </ol>
+          </div>
         </form>
       </div>
 

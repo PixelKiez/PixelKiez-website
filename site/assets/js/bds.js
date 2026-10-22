@@ -280,8 +280,10 @@
 
     /* Fester Ton, das Schwarz der Seite. Nicht aus dem Bild mitteln: die
        Datei traegt reines Schwarz, das ist ein anderer Ton als dieser, und
-       der Auftakt saehe damit anders aus als bisher. */
-    var FARBEN  = ['#0E1413'];
+       der Auftakt saehe damit anders aus als bisher. Die Designschicht kann
+       ihn ueber --drift-farbe am Hero umstellen (dunkle Buehne, helle
+       Partikel); ohne die Variable bleibt es beim Schwarz. */
+    var FARBEN  = [getComputedStyle(hero).getPropertyValue('--drift-farbe').trim() || '#0E1413'];
     /* Zwei Punkte Zellenabstand. Ein Punkt bildete die Wortmarke zwar genauer
        ab — die Kerbe oben am P und der Anbiss am Punkt des ersten i kamen
        sauber durch, Deckung 100 % statt 97,5 % —, aber die Kaesten wurden
@@ -849,14 +851,27 @@
         heads.forEach(function (h) { h.classList.add('is-in'); });
         return;
       }
+      // Solange der Vorlauf der Startseite die Seite deckt (sstr-motion.js
+      // setzt dann data-vorlauf), startet keine Ueberschrift: sie liefe
+      // ungesehen darunter ab. Danach werden die wartenden neu beobachtet —
+      // was dann im Bild steht, blendet sofort ein. Doppelte Anfuehrungs-
+      // zeichen: die Uebersetzungspruefung liest nur einfache.
+      var verdeckt = function () { return document.documentElement.hasAttribute("data-vorlauf"); };
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
+          if (!e.isIntersecting || verdeckt()) return;
           e.target.classList.add('is-in');
           io.unobserve(e.target);
         });
       }, { rootMargin: '0px 0px -15% 0px' });    // entspricht start: "top 85%"
       heads.forEach(function (h) { io.observe(h); });
+      window.addEventListener("pk-vorlauf-weg", function () {
+        heads.forEach(function (h) {
+          if (h.classList.contains('is-in')) return;
+          io.unobserve(h);
+          io.observe(h);
+        });
+      });
     };
 
     whenFontsReady(arm);     // Zeilenumbruch stimmt erst mit geladener Schrift

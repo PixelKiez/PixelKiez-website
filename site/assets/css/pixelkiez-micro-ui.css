@@ -1,0 +1,61 @@
+/* =========================================================================
+   Pixelkiez Micro-UI — Abschnitts-Rail
+   -------------------------------------------------------------------------
+   Uebertragen aus Pixelkiez_Button_ScrollRail.zip (pixelkiez-micro-ui.css,
+   PixelkiezMicroUI.tsx; Vorbild lightweight.info). Masse, Kurven und
+   Deckkraefte wie in der Vorlage. Der Pattern-Knopf desselben Pakets ist
+   inzwischen durch den Fadenkreuz-Knopf ersetzt (crosshair-button.css).
+   ========================================================================= */
+
+/* ---------- Feste, nummerierte Abschnitts-Rail links -----------------
+   Nur auf Seiten mit Abschnittsmenue (Startseite), aufgebaut von
+   pixelkiez-micro-ui.js. Anders als in der Vorlage reicht der Inhalt hier
+   bis 96 Designpixel an den Rand heran. Die Rail steht deshalb im Rand
+   davor — Nummer und Strich, 59px breit, 14px Luft zum Text — und die
+   Namen erscheinen erst, wenn man sie ueberfaehrt oder per Tastatur
+   betritt (nach einem Mausklick klappt sie wieder ein), auf einer Flaeche im Ton des Abschnitts darunter. Erst ab
+   1200px, darunter reicht der Rand nicht (Vorlage: ab 901px). */
+.pxk-section-rail{
+  --rail-fg:#0C0C0C;--rail-grund:#EFF0F1;
+  position:fixed;z-index:25;
+  inset-block-start:50%;inset-inline-start:max(12px, calc(var(--gutter) - 59px - 14px));
+  transform:translateY(-50%);
+  width:auto;max-height:64dvh;overflow-y:auto;scrollbar-width:none;
+  color:var(--rail-fg);
+}
+.pxk-section-rail[data-ton="dunkel"]{--rail-fg:#EFF0F1;--rail-grund:#18191B}
+.pxk-section-rail::-webkit-scrollbar{display:none}
+.pxk-section-rail__items{display:grid;gap:23px}
+.pxk-section-rail__item{
+  appearance:none;display:grid;grid-template-columns:24px 26px;
+  align-items:center;gap:9px;width:100%;padding:5px 0;
+  border:0;background:transparent;
+  color:color-mix(in srgb,var(--rail-fg) 48%,transparent);
+  font-family:var(--font-body);text-align:left;cursor:pointer;
+  transition:color .25s ease;
+}
+.pxk-section-rail__number{
+  font-size:10px;font-weight:500;letter-spacing:.045em;font-variant-numeric:tabular-nums;
+}
+.pxk-section-rail__track{position:relative;height:1px;background:color-mix(in srgb,var(--rail-fg) 23%,transparent)}
+.pxk-section-rail__fill{
+  position:absolute;inset:0;background:var(--rail-fg);
+  transform:scaleX(0);transform-origin:left center;will-change:transform;
+}
+.pxk-section-rail__label{
+  display:none;overflow:hidden;font-size:10px;font-weight:500;letter-spacing:.09em;
+  text-overflow:ellipsis;text-transform:uppercase;white-space:nowrap;
+}
+.pxk-section-rail__item.is-active,
+.pxk-section-rail__item:hover{color:var(--rail-fg)}
+.pxk-section-rail__item:focus-visible{outline:1px solid currentColor;outline-offset:6px}
+/* Namen beim Ueberfahren oder Betreten, auf eigener Flaeche */
+.pxk-section-rail:is(:hover,:has(:focus-visible)){
+  width:min(195px,16vw);
+  background:var(--rail-grund);box-shadow:0 0 0 12px var(--rail-grund);
+}
+.pxk-section-rail:is(:hover,:has(:focus-visible)) .pxk-section-rail__item{grid-template-columns:24px 26px minmax(0,1fr)}
+.pxk-section-rail:is(:hover,:has(:focus-visible)) .pxk-section-rail__label{display:block}
+
+@media (max-width:1199px){.pxk-section-rail{display:none}}
+@media (prefers-reduced-motion:reduce){.pxk-section-rail__item{transition:none}}
