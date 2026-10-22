@@ -1,0 +1,494 @@
+/* =========================================================================
+   Designschicht nach sstr.tech — Teil 2: Abschnitte, Formular, Fusszeile,
+   Unterseiten, Bewegung. Werte und Herkunft siehe sstr-basis.css.
+
+   Bauprinzip der Referenz: Raster mit 1px Abstand auf einer Flaeche in
+   Linienfarbe — die Luecke IST die Haarlinie. Jede Zelle traegt die
+   Abschnittsfarbe und den Innenrand --zelle.
+   ========================================================================= */
+
+/* ---------- 9. Ausgangslage: drei Felder --------------------------------- */
+/* Die Zellen blenden einzeln ein (data-reveal). Laege die Linienfarbe als
+   Flaeche darunter, stuende vorher ein grauer Block da — deshalb zieht hier
+   jede Zelle ihre Haarlinie selbst (1px Schatten in die Luecke). */
+.weg{gap:1px;padding:1px;margin-top:max(36px, calc(var(--u) * 64))}
+.weg__st,.pack{box-shadow:0 0 0 1px var(--line)}
+@media (min-width:900px){.weg{grid-template-columns:repeat(3,minmax(0,1fr));gap:1px}}
+.weg__st{
+  background:var(--paper);border-top:0;
+  padding:max(28px, calc(var(--u) * 48)) var(--zelle);
+}
+.weg__st::after{top:0;height:1px;background:var(--ink)}
+.weg__n,.lauf__n{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:400;
+  letter-spacing:.1em;color:var(--ink-45);
+}
+.weg__n::before,.lauf__n::before{content:"";width:6px;height:6px;flex:none;background:var(--s-orange)}
+.weg__raster{width:max(100px, calc(var(--u) * 138));gap:max(3px, calc(var(--u) * 4));margin:max(24px, calc(var(--u) * 40)) 0}
+.weg__raster i{border-radius:0;background:var(--paper-3)}
+.weg__raster i.on{background:var(--ink)}
+.weg__t,.lauf__t,.pack__name,.pil__t{
+  font-family:var(--font-body);font-weight:400;text-transform:uppercase;
+  font-size:var(--t-h5);line-height:1.167;letter-spacing:-.02em;
+}
+.weg__t{margin:0 0 max(12px, calc(var(--u) * 16))}
+.weg__ist{font-size:var(--t-sm);line-height:1.43;color:var(--ink-70)}
+.weg__soll{
+  font-size:var(--t-sm);line-height:1.43;color:var(--ink);font-weight:500;
+  border-top:1px solid var(--line);margin-top:max(12px, calc(var(--u) * 16));padding-top:max(12px, calc(var(--u) * 16));
+}
+.weg__wissen,.crc__cta{
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;line-height:1.4;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+  text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:5px;
+}
+.weg__wissen{margin-top:max(16px, calc(var(--u) * 24))}
+.weg__wissen:hover{color:var(--accent-ink);text-decoration-color:currentColor}
+/* Der Abschlusssatz als Flaeche: schliesst unten an das Raster an, reicht
+   von Rahmenlinie zu Rahmenlinie und bis an den naechsten Abschnitt — der
+   Abschnitt verzichtet dafuer auf seinen unteren Innenrand. Grund weiss;
+   Flieder (#C8ACF8) zieht beim Herunterscrollen von links nach rechts
+   herein und beim Hochscrollen wieder heraus. Den Stand (--fuell, 0 bis 1)
+   schreibt sstr-motion.js; ohne Skript steht die Flaeche ganz in Flieder.
+   Schwarze Schrift, auf beiden Toenen ueber 10:1. */
+#ausgangslage{padding-bottom:0}
+.weg__schluss{
+  position:relative;isolation:isolate;
+  max-width:none;margin:0 calc(-1 * var(--zelle));
+  padding:max(40px, calc(var(--u) * 64)) var(--zelle);
+  /* Zeile wie vorher etwa 52 Zeichen lang: der rechte Innenrand nimmt den
+     Rest der Breite auf (100 % = Satzspiegel, die Flaeche ist um zwei
+     Zelleninnenraender breiter). */
+  padding-right:max(var(--zelle), calc(100% + var(--zelle) - 52ch));
+  background:#FFFFFF;border-inline:1px solid var(--line);
+  font-size:var(--t-lg);line-height:1.3;color:#0C0C0C;
+}
+.weg__schluss::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:#C8ACF8;
+  transform:scaleX(var(--fuell,1));transform-origin:left center;
+}
+
+/* ---------- 10. Leistungen: vier Zellen ---------------------------------
+   Die Karten verlieren ihre Einzelfarben und stehen als gleiche Zellen im
+   Raster. Der Vorhang bleibt — er faehrt jetzt wie die Flaechen der
+   Referenz senkrecht aus der Mitte auf, und zwar dunkel. */
+.crc-grid{gap:1px;background:var(--line);border:1px solid var(--line)}
+.crc.tone{
+  --paper:inherit;--paper-2:inherit;--paper-3:inherit;
+  --ink:inherit;--ink-70:inherit;--ink-45:inherit;
+  --line:inherit;--line-soft:inherit;--line-strong:inherit;
+  --accent:inherit;--accent-ink:inherit;--on-accent:inherit;
+}
+.crc{border:0;border-radius:0;background:var(--paper)}
+.crc[data-vorhang]{
+  --vorhang:#18191B;
+  --vorhang-ink:#EFF0F1;--vorhang-ink-70:#C3C4C8;--vorhang-ink-45:#8B8C8D;
+  --vorhang-accent-ink:#FE5B2A;--vorhang-line-soft:#2F3032;--vorhang-line-strong:#67686B;
+}
+.crc__lage{padding:max(28px, calc(var(--u) * 40)) var(--zelle) var(--zelle);min-height:max(300px, calc(var(--u) * 420))}
+.crc__num{color:var(--accent)}
+.crc__num svg{width:max(18px, calc(var(--u) * 24));height:max(18px, calc(var(--u) * 24))}
+.crc__mark{
+  width:max(36px, calc(var(--u) * 44));height:max(36px, calc(var(--u) * 44));border-radius:0;
+  border-color:var(--line-strong);right:var(--zelle);top:max(24px, calc(var(--u) * 32));
+}
+.crc__kick{font-size:var(--t-sm);line-height:1.43;color:var(--ink-70);font-weight:400;margin-top:max(10px, calc(var(--u) * 12))}
+.crc__sum{font-size:var(--t-sm);line-height:1.43}
+.crc__list li{font-size:var(--t-sm);padding-block:max(7px, calc(var(--u) * 9))}
+.crc__cta{text-decoration:none;gap:8px;margin-top:max(18px, calc(var(--u) * 28))}
+.crc__cta svg{color:var(--accent)}
+@media (hover:hover) and (pointer:fine) and (min-width:820px){
+  .crc__vorhang{clip-path:inset(50% 0 50% 0);transition:clip-path .375s var(--s-ease-sweep)}
+  .crc:hover .crc__vorhang,.crc:focus-within .crc__vorhang{
+    clip-path:inset(0);transition:clip-path .425s .05s var(--s-ease-sweep);
+  }
+}
+/* Ohne Zeiger steht der Vorhang dauerhaft offen — dann hell, sonst waeren
+   die Karten auf dem Telefon vier schwarze Tafeln. */
+@media (hover:none),(pointer:coarse),(max-width:819px),(prefers-reduced-motion:reduce){
+  .crc[data-vorhang]{
+    --vorhang:#EFF0F1;
+    --vorhang-ink:#0C0C0C;--vorhang-ink-70:#2F3032;--vorhang-ink-45:#646568;
+    --vorhang-accent-ink:#B4411E;--vorhang-line-soft:#D3D4D7;--vorhang-line-strong:#858689;
+  }
+}
+@media (max-width:819px){
+  .crc-grid{background:none;border:0;gap:max(8px, calc(var(--u) * 12));margin-inline:calc(var(--gutter) * -1)}
+  .crc{border:1px solid var(--line)}
+}
+.carou__dots button::before{border-radius:0}
+.carou__dots button.on::before{border-radius:0;background:var(--s-orange)}
+
+/* ---------- 11. Preise: Kennzahlenband ---------------------------------- */
+.pack-karten{gap:1px;padding:1px}
+.pack{border:0;border-radius:0;background:var(--paper);padding:max(28px, calc(var(--u) * 48)) var(--zelle) var(--zelle)}
+.pack__pos{font-size:var(--t-sm);line-height:1.43;color:var(--ink-70);min-height:4.3em}
+.pack__preis{
+  font-family:var(--font-body);font-weight:400;font-size:max(36px, calc(var(--u) * 60));
+  line-height:1;letter-spacing:-.04em;gap:max(8px, calc(var(--u) * 12));
+  margin-top:max(28px, calc(var(--u) * 48));
+}
+.pack__wert{white-space:nowrap}
+.pack__einheit,.pack__mehr>summary,.det__fact,.lauf__erg,.proj-standards li,
+.analyse-fakten li,.merke__k,.vertiefung__k,.inhalt__t,.leiter b{
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.pack__einheit{color:var(--ink-45)}
+.pack>ul{margin-top:max(24px, calc(var(--u) * 40));border-top:1px solid var(--line)}
+.pack>ul li{font-size:var(--t-sm);color:var(--ink-70);border-bottom:1px solid var(--line);padding-block:max(10px, calc(var(--u) * 12))}
+.pack>ul svg{color:var(--accent)}
+.pack__mehr{border-top:0;padding-top:max(14px, calc(var(--u) * 20))}
+.pack .pack__mehr>summary{justify-content:flex-start;color:var(--accent-ink)}
+.pack__mehr-liste li{font-size:var(--t-sm)}
+.pack .btn-row{justify-content:flex-start}
+.pack .pack__fussnote{text-align:left;font-size:var(--t-xs);color:var(--ink-45)}
+/* Bedingung direkt unter dem Preis, in jeder Karte: gleiche Lesegroesse
+   wie die Einordnung der Karte, eine Stufe heller als die Zahl. */
+.pack__bedingung{margin-top:max(10px, calc(var(--u) * 14));font-size:var(--t-sm);line-height:1.43;color:var(--ink-70);max-width:40ch}
+.pack__bedingung a{color:var(--ink);text-decoration:underline;text-underline-offset:.18em}
+.pack .pack__fussnote a{color:var(--ink-70)}
+.preis-hinweis{text-align:left;font-size:var(--t-sm);line-height:1.43;color:var(--ink-45);max-width:72ch;margin-bottom:max(28px, calc(var(--u) * 48))}
+.kicker--kante{margin-bottom:max(20px, calc(var(--u) * 24))}
+.proj-standards{gap:max(10px, calc(var(--u) * 12)) max(24px, calc(var(--u) * 40))}
+.proj-standards li{color:var(--ink-70)}
+.pl-schluss{margin-top:max(40px, calc(var(--u) * 64))}
+/* Ziffern laufen aus ihrer Maske (sstr-motion.js, nur mit Bewegung) */
+.ziffer{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.ziffer > span{display:inline-block;transform:translate3d(0,105%,0);
+  transition:transform .9s var(--s-ease-out);transition-delay:calc(var(--z,0) * 55ms)}
+.ziffern-an .ziffer > span{transform:none}
+
+/* ---------- 12. Ablauf --------------------------------------------------- */
+.lauf{--punkt:max(10px, calc(var(--u) * 12))}
+.lauf__punkt,.lauf-linie::before,.lauf-linie::after{border-radius:0}
+.lauf-zug.ist-quer .lauf__st .lauf__punkt{--punkt:max(11px, calc(var(--u) * 14));border-radius:0}
+.lauf__was{font-size:var(--t-sm);line-height:1.43}
+.lauf__erg{color:var(--ink-45);border-top-color:var(--line);line-height:1.4}
+.lauf__erg svg{color:var(--accent)}
+.lauf-zug.ist-quer .lauf__t{font-size:var(--t-h4);line-height:1.125}
+.lauf-zug.ist-quer .lauf__was{font-size:var(--t-md);line-height:1.45}
+.lauf-zug.ist-quer .lauf__erg > .zeile__in{border-top-color:var(--line)}
+
+/* ---------- 13. Betreuung: Saeulen --------------------------------------- */
+.pil{gap:1px;background:var(--line);border:1px solid var(--line)}
+.pil__i{
+  --ink:#EFF0F1;--ink-70:#C3C4C8;--ink-45:#8B8C8D;--accent-ink:#FE5B2A;--line-soft:#2F3032;
+  border:0;border-radius:0;background:var(--paper);
+  transition:background-color .425s var(--s-ease-sweep),color .425s var(--s-ease-sweep);
+}
+.pil__btn{padding:max(18px, calc(var(--u) * 28)) var(--zelle)}
+.pil__n{font-family:var(--font-body);font-size:var(--t-xs);letter-spacing:.1em;color:var(--accent-ink)}
+.pil__inner{padding:0 var(--zelle) var(--zelle)}
+.pil__inner .prose{font-size:var(--t-sm);line-height:1.5}
+/* Betreuung: die Texte in den Saeulen eine Stufe groesser (t-lg statt
+   t-sm, Faktenzeile t-sm statt t-xs), damit sie die offene Saeule tragen
+   statt unten ein leeres Feld zu lassen — weiter ohne Kaesten, ohne
+   Zusatzfarben. Die Saeulentitel behalten ihre Groesse. */
+#im-detail .pil__inner .prose{font-size:var(--t-lg);line-height:1.4;max-width:60ch}
+#im-detail .pil__inner .prose + .prose{margin-top:.7em}
+#im-detail .det__fact{font-size:var(--t-sm);margin-top:max(20px, calc(var(--u) * 28));padding-top:max(12px, calc(var(--u) * 16))}
+/* Jede Saeule traegt dauerhaft ihre eigene Farbe — offen wie geschlossen:
+   Orange, Schwarz, Weiss, Flieder (#C8ACF8). Zu jeder Flaeche gehoert ihre
+   Schriftrampe. Ueber die ID, damit die Farbregeln aus bds.css fuer den
+   offenen Zustand nicht dazwischenfunken. */
+#im-detail .pil__i{background:var(--pil);border-color:var(--pil);color:var(--ink)}
+#im-detail .pil__i:nth-child(1){
+  --pil:#FE5B2A;--ink:#0C0C0C;--ink-70:#2F3032;--ink-45:#2F3032;--accent-ink:#0C0C0C;--line-soft:rgba(12,12,12,.28);
+}
+#im-detail .pil__i:nth-child(2){
+  --pil:#0C0C0C;--ink:#EFF0F1;--ink-70:#C3C4C8;--ink-45:#8B8C8D;--accent-ink:#FE5B2A;--line-soft:#2F3032;
+}
+#im-detail .pil__i:nth-child(3){
+  --pil:#FFFFFF;--ink:#0C0C0C;--ink-70:#2F3032;--ink-45:#464749;--accent-ink:#B4411E;--line-soft:#D3D4D7;
+}
+#im-detail .pil__i:nth-child(4){
+  --pil:#C8ACF8;--ink:#0C0C0C;--ink-70:#2F3032;--ink-45:#2F3032;--accent-ink:#0C0C0C;--line-soft:rgba(12,12,12,.24);
+}
+/* Auf Orange waere der orange Fokusring unsichtbar */
+#im-detail .pil__i:nth-child(1) :focus-visible{outline-color:#0C0C0C}
+@media (min-width:900px){
+  /* Wie eine Kartei: die geschlossenen Saeulen schmal, ihre Titel dicht,
+     aber mit Luft nebeneinander. Verhaeltnis 10:1 statt 5:1 — bei 1440px
+     rund 100px je geschlossener Saeule statt 164. Weiter in fr, damit die
+     Breiten beim Umschalten ineinander gleiten. */
+  #im-detail .pil:has(.pil__i:nth-child(1)[data-open="true"]){grid-template-columns:10fr 1fr 1fr 1fr}
+  #im-detail .pil:has(.pil__i:nth-child(2)[data-open="true"]){grid-template-columns:1fr 10fr 1fr 1fr}
+  #im-detail .pil:has(.pil__i:nth-child(3)[data-open="true"]){grid-template-columns:1fr 1fr 10fr 1fr}
+  #im-detail .pil:has(.pil__i:nth-child(4)[data-open="true"]){grid-template-columns:1fr 1fr 1fr 10fr}
+  #im-detail .pil__i[data-open="false"] .pil__btn{align-items:center;padding-inline:12px}
+  .pil{height:max(430px, calc(var(--u) * 520))}
+  .pil__btn{padding:max(20px, calc(var(--u) * 28)) var(--zelle)}
+  .pil__inner{padding:0 var(--zelle) var(--zelle)}
+}
+.card.tone--orange,.sec--orange .card.tone--orange{
+  --paper:#FE5B2A;--ink:#0C0C0C;--ink-70:#0C0C0C;--ink-45:#2F3032;--line:#0C0C0C;
+  background:var(--s-orange);color:#0C0C0C;border:0;
+  padding:var(--zelle);
+  clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 16px,100% calc(100% - 16px),
+    calc(100% - 16px) 100%,16px 100%,0 calc(100% - 16px),0 16px);
+}
+
+/* ---------- 14. Fragen: Ueberschrift links, Liste rechts ----------------
+   Ab 900px zwei Spalten: die Abschnittsueberschrift steht links, senkrecht
+   mittig zur Liste; rechts die Fragen untereinander, klein und ruhig.
+   Zeilen zwischen Haarlinien, ein schlichtes Plus. Aufklappen weich, wo der
+   Browser ::details-content animieren kann; sonst springt es — der Inhalt
+   ist in beiden Faellen erreichbar. */
+@media (min-width:900px){
+  #faq .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:var(--zelle);align-items:center}
+  #faq .section__head{margin-bottom:0;padding-right:var(--zelle)}
+  #faq .faq{margin-inline:0 calc(-1 * var(--zelle))}
+}
+.faq{margin-inline:calc(-1 * var(--zelle));border-top:1px solid var(--line);interpolate-size:allow-keywords}
+.faq__i{border-bottom:1px solid var(--line)}
+.faq__q{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--zelle);
+  padding:max(16px, calc(var(--u) * 20)) var(--zelle);
+  cursor:pointer;list-style:none;
+}
+.faq__q::-webkit-details-marker{display:none}
+/* Wie Kopf und Menue: die Flaeche faehrt von links herein und beim
+   Verlassen zurueck — in der bisherigen Farbe (eine Stufe dunkler). */
+.faq__q::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:var(--paper-2);
+  clip-path:polygon(0 0,0 0,0 100%,0 100%);
+  transition:clip-path .375s var(--s-ease-sweep);
+}
+@media (hover:hover) and (pointer:fine){
+  .faq__q:hover::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transition:clip-path .425s .05s var(--s-ease-sweep)}
+}
+.faq__q:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.faq__t{
+  font-family:var(--font-body);font-weight:400;text-transform:uppercase;
+  font-size:var(--t-md);line-height:1.3;letter-spacing:.02em;
+  /* Ohne Silbentrennung: die Fragen passen auch schmal, und "Unter-
+     nehmen" las sich schlechter als ein Zeilenumbruch davor. */
+  hyphens:manual;overflow-wrap:break-word;
+}
+/* Plus aus zwei Haarlinien, offen faellt der senkrechte Strich weg. */
+.faq__x{position:relative;flex:none;width:14px;height:14px}
+.faq__x::before,.faq__x::after{
+  content:"";position:absolute;left:0;right:0;top:50%;height:1px;margin-top:-.5px;
+  background:currentColor;transition:rotate .425s var(--s-ease-sweep);
+}
+.faq__x::after{rotate:90deg}
+.faq__i[open] .faq__x{color:var(--accent-ink)}
+.faq__i[open] .faq__x::after{rotate:0deg}
+.faq__a{padding:0 calc(var(--zelle) * 2 + 14px) max(20px, calc(var(--u) * 24)) var(--zelle)}
+.faq__a p{max-width:60ch;font-size:var(--t-sm);line-height:1.5;color:var(--ink-70)}
+.faq__i::details-content{
+  block-size:0;overflow:hidden;
+  transition:block-size .5s var(--s-ease-out),content-visibility .5s allow-discrete;
+}
+.faq__i[open]::details-content{block-size:auto}
+@media (max-width:899px){#faq .section__head{margin-bottom:max(28px, calc(var(--u) * 40))}}
+
+/* ---------- 15. Formular und Kontakt ------------------------------------
+   Felder als Unterstreichung wie im Kontaktblock der Referenz; die Linie
+   traegt line-strong und haelt damit 3:1 (WCAG 1.4.11). */
+.form{gap:max(18px, calc(var(--u) * 24))}
+.field{gap:max(6px, calc(var(--u) * 8))}
+.field > label{font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;letter-spacing:.1em;color:var(--ink-70)}
+.input,.select,.textarea{
+  /* Masse des Kontaktfelds der Referenz: 14px, 8px/12px, feste Pixel.
+     Unter 768 bleibt es bei 16px — darunter vergroessert iOS beim Antippen
+     die ganze Seite. */
+  background-color:rgb(255 255 255 / 0);border:0;border-bottom:1px solid var(--line-strong);border-radius:0;
+  padding:8px 12px;min-height:40px;font-size:14px;line-height:20px;
+}
+@media (max-width:767px){.input,.select,.textarea{font-size:16px}}
+.input:hover,.select:hover,.textarea:hover{border-bottom-color:var(--ink-70)}
+.input:focus,.select:focus,.textarea:focus{border-bottom-color:var(--s-orange)}
+.select{padding-right:36px;background-position:right 12px center}
+.textarea{min-height:max(96px, calc(var(--u) * 110))}
+.analyse-band__form .input{align-self:center}
+.consent{border:0;border-radius:0;background:transparent;padding:0;gap:max(10px, calc(var(--u) * 14))}
+.consent input{accent-color:var(--s-orange)}
+.consent label,.form__pflicht,.field .hint{font-size:var(--t-sm);line-height:1.43}
+.form__status{border-radius:0}
+/* Nach dem Absenden: drei Zeilen unter dem Knopf, als Haarlinienliste wie
+   die Leistungslisten der Preiskarten, ohne Nummern. */
+.naechste{margin-top:max(20px, calc(var(--u) * 28))}
+.naechste__t{font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-70)}
+.naechste__l{margin:max(8px, calc(var(--u) * 10)) 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.naechste__l li{font-size:var(--t-sm);line-height:1.43;color:var(--ink-70);padding-block:max(8px, calc(var(--u) * 10));border-bottom:1px solid var(--line)}
+
+.kontakt{gap:1px;background:var(--line);border:1px solid var(--line);align-items:stretch}
+#form-host,.kontakt > .channels{background:var(--paper);padding:max(32px, calc(var(--u) * 56)) var(--zelle)}
+.channels{gap:max(22px, calc(var(--u) * 32))}
+.channel{gap:max(12px, calc(var(--u) * 16))}
+.channel__i{border-radius:0;border-color:var(--line-strong);color:var(--accent);
+  width:max(36px, calc(var(--u) * 44));height:max(36px, calc(var(--u) * 44))}
+.channel a{text-decoration-color:var(--line-strong)}
+.channel a:hover{color:var(--accent-ink);text-decoration-color:currentColor}
+@media (max-width:819px){
+  .kontakt{background:none;border:0;gap:max(28px, calc(var(--u) * 40));margin-inline:0}
+  #form-host,.kontakt > .channels{background:none;padding:0}
+  .channels > .channel{border:1px solid var(--line);padding:var(--zelle)}
+}
+
+/* ---------- 16. Fenster, schwebender Knopf ------------------------------ */
+.dialog{border-radius:0;border-color:var(--line);background:var(--paper)}
+.dialog::backdrop{background:rgba(12,12,12,.62)}
+.dialog__in{padding:max(22px, calc(var(--u) * 40))}
+.dialog__x{border-radius:0;border-color:var(--line-strong)}
+.dialog__x:hover{background:var(--paper-3)}
+
+/* ---------- 17. Fusszeile -----------------------------------------------
+   Hell wie in der Referenz, Zellen mit Haarlinien, Spaltenkoepfe in
+   Klammern. Folgt ein dunkler Abschnitt, schneidet dessen Unterkante mit
+   zwei Fasen in die Fusszeile (3.5em tief, bis an die Rahmenlinien). */
+.footer{padding:0;border-top:1px solid var(--line);position:relative}
+main:has(> section.inv:last-of-type) + .footer{
+  border-top:0;padding-top:max(32px, calc(var(--u) * 56));
+}
+main:has(> section.inv:last-of-type) + .footer::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:max(32px, calc(var(--u) * 56));
+  background:#18191B;pointer-events:none;
+  clip-path:polygon(0 0,100% 0,calc(100% - var(--frame)) 100%,var(--frame) 100%);
+}
+.footer__grid{gap:1px;background:var(--line);border-block:1px solid var(--line)}
+.footer__grid > *{background:var(--paper);padding:max(40px, calc(var(--u) * 80)) var(--zelle) var(--zelle);min-height:max(200px, calc(var(--u) * 340))}
+.footer .brand{padding:0;border:0;height:auto}
+.footer .brand__mark{filter:none;height:max(24px, calc(var(--u) * 40))}
+.footer h4{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-size:var(--t-md);font-weight:500;
+  letter-spacing:.01em;text-transform:none;color:var(--ink-70);margin-bottom:max(14px, calc(var(--u) * 20));
+}
+.footer h4::before,.footer h4::after{
+  content:"";flex:none;width:4px;height:1.2em;border:1.5px solid currentColor;
+}
+.footer h4::before{border-right:0}
+.footer h4::after{border-left:0}
+.footer nav a,.foot__adr,.footer .small{font-size:var(--t-sm);line-height:1.43;color:var(--ink-70)}
+.footer nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.footer__bar{
+  margin-top:0;border-top:0;
+  padding:max(24px, calc(var(--u) * 32)) 0 calc(max(24px, calc(var(--u) * 32)) + env(safe-area-inset-bottom,0px));
+  font-family:var(--font-body);font-size:var(--t-sm);color:var(--ink-45);
+}
+/* Wie footer-col der Referenz: unter 992 64 Designpixel oben (auf dem
+   Telefon halbiert die Skala das auf 32), die Spalte mit der Marke 96. */
+@media (max-width:991px){
+  .footer__grid > *{min-height:0;padding-top:calc(var(--u) * 64)}
+  .footer__grid > :first-child{padding-top:calc(var(--u) * 96)}
+}
+@media (max-width:767px){.footer__grid > *{padding-top:calc(var(--u) * 32)}.footer__grid > :first-child{padding-top:calc(var(--u) * 96)}}
+
+/* ---------- 18. Unterseiten und Wissen ---------------------------------- */
+.auftakt{padding-block:max(56px, calc(var(--u) * 112)) var(--sp-section)}
+.auftakt .h-lg{font-size:var(--t-h1);line-height:.933}
+.krumen ol{font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.pl,.leiter,.pruef,.wk-grid,.wissen-weiter{gap:1px;background:var(--line);border:1px solid var(--line)}
+.pl > *,.pruef > *,.wissen-weiter > *{background:var(--paper);padding:var(--zelle)}
+.leiter li{border:0;border-radius:0;background:var(--paper);padding:var(--zelle)}
+.pl__list{border-top-color:var(--line)}
+.pl__list li{font-size:var(--t-md)}
+.pl__col--fix .pl__list,.pl > :last-child .pl__list{border-top-color:var(--line)}
+.merke,.vertiefung{border-radius:0;border-color:var(--line);border-left:3px solid var(--s-orange);background:var(--paper-2)}
+.merke--warnung{border-left-style:dashed;border-left-color:var(--line-strong)}
+.pruefliste li{border-color:var(--line)}
+.wk{border:0;border-radius:0;transition:background-color .2s var(--s-ease-sweep)}
+.wk:hover,.wk:focus-within{transform:none;background:var(--paper-2)}
+.wk__mark,.wk__titel a::after{border-radius:0}
+.wk__kat,.ebene__n,.ebene__k,.wissen-tabelle thead th,.wissen-tabelle__hinweis,.wissen-quellen .stand{
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+}
+.ebene{border-color:var(--line)}
+.inhalt,.kiezbot-scene,.wissen-probe,.wissen-tabelle__rollen,.hinweis-fassung,.todo,.leiter li{border-radius:0}
+.inhalt,.kiezbot-scene{background:var(--paper-2)}
+.legal{padding-block:max(48px, calc(var(--u) * 96)) var(--sp-section)}
+.legal__body h2{font-family:var(--font-body);font-weight:400;text-transform:uppercase;font-size:var(--t-h5);letter-spacing:-.02em}
+/* Versalien machen lange deutsche Komposita breiter — auf 390px passte
+   "Verbraucherstreitbeilegung" nicht mehr in die Zeile. Trennen statt
+   ueberlaufen, wie bds.css es fuer .h-* schon tut. */
+.legal__body h2,.legal__body h3,.weg__t,.lauf__t,.pack__name,.pil__t,.fq__q,.menu a,.crc__kick,.channel .h-sm{
+  hyphens:auto;overflow-wrap:break-word;
+}
+.legal__body h3{font-family:var(--font-body);font-weight:500}
+
+/* ---------- 19. Bewegung ------------------------------------------------- */
+/* Abschnitts-Einblendung wie initSectionReveal der Referenz: nur Deckkraft,
+   kein Versatz, 0.5s, gestaffelt in Lesereihenfolge (--d aus bds.js). */
+:root[data-reveal-anim] [data-reveal]{transform:none}
+:root[data-reveal-anim] [data-reveal].in{transition:opacity .5s var(--s-ease-reveal);transition-delay:var(--d,0ms)}
+
+/* Abschnittsueberschriften: der Block-Reveal aus bds.css bleibt, wie er
+   ist (Block wischt herein, gibt die Zeile frei, wischt hinaus, mit den
+   ausgebissenen Ecken). Nur die Blockfarben kommen aus der neuen Palette.
+   Zwei Abschnitte haben die Flaeche gewechselt — Betreuung ist jetzt
+   dunkel, Fragen hell —, ihre Bloecke kehren deshalb den Ton um, damit sie
+   sich weiter vom Grund abheben. */
+.tb--weiss  {--tb:#EFF0F1}
+.tb--schwarz{--tb:#0C0C0C}
+.tb--orange {--tb:#FE5B2A}
+.tb--blau   {--tb:#C3C4C8}
+#im-detail .tb--schwarz{--tb:#EFF0F1}
+#faq .tb--weiss{--tb:#0C0C0C}
+
+/* Vorlauf beim ersten Aufruf der Startseite (sstr-motion.js): links eine
+   orange Flaeche, rechts das Kreuzraster; die Flaeche zieht sich zusammen,
+   dann hebt sich der Vorhang. Kein Text, kein Bild.
+   Alles laeuft ueber transform. Vorher schrumpfte die Flaeche ueber
+   flex-basis und schob Raster und Balken mit — jedes Bild ein Layout-
+   Shift, gemessen CLS 0,38 (1440 px) bzw. 0,16 (390 px) beim Erstbesuch.
+   Jetzt liegt das Raster fest ueber die ganze Breite, die Flaeche deckt
+   seine linke Haelfte und zieht sich per scaleX nach links zusammen:
+   dasselbe Bild, kein Shift. */
+.s-vorlauf{
+  position:fixed;inset:0;z-index:90;pointer-events:none;
+  background:#18191B;
+  transition:transform .8s var(--s-ease-out);
+}
+.s-vorlauf__flaeche{position:absolute;top:0;bottom:0;left:0;width:50%;z-index:1;background:var(--s-orange);
+  transform-origin:left center;transition:transform .6s var(--s-ease-out)}
+.s-vorlauf__feld{position:absolute;inset:0}
+.s-vorlauf__feld::before{content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(to right,#2F3032 0 1px,transparent 1px 48px),
+    repeating-linear-gradient(to bottom,#2F3032 0 1px,transparent 1px 48px);
+  -webkit-mask:repeating-linear-gradient(to right,#000 0 5px,transparent 5px 44px,#000 44px 48px),
+               repeating-linear-gradient(to bottom,#000 0 5px,transparent 5px 44px,#000 44px 48px);
+  -webkit-mask-composite:source-in;
+  mask:repeating-linear-gradient(to right,#000 0 5px,transparent 5px 44px,#000 44px 48px),
+       repeating-linear-gradient(to bottom,#000 0 5px,transparent 5px 44px,#000 44px 48px);
+  mask-composite:intersect;
+}
+.s-vorlauf__balken{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--s-orange);
+  transform:scaleX(0);transform-origin:left center;transition:transform .9s var(--s-ease-out)}
+.s-vorlauf.ist-geladen .s-vorlauf__balken{transform:none}
+.s-vorlauf.ist-geladen .s-vorlauf__flaeche{transform:scaleX(0)}
+.s-vorlauf.ist-weg{transform:translate3d(0,-100%,0)}
+
+/* Seitenwechsel: das neue Dokument faehrt von unten wie ein Vorhang ueber
+   das alte. Echte Navigation — Adresse, Zurueck-Taste, Direktaufruf und
+   Messung bleiben unberuehrt. Browser ohne Unterstuetzung wechseln wie
+   bisher. */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:sVtAlt .7s var(--s-ease-out) both}
+::view-transition-new(root){animation:sVtNeu .7s var(--s-ease-out) both}
+@keyframes sVtNeu{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0)}}
+@keyframes sVtAlt{to{opacity:.35}}
+
+/* Weiches Scrollen (sstr-motion.js) schaltet das native Gleiten der
+   Sprungmarken waehrenddessen ab, sonst kaempfen zwei Animationen. */
+html.ist-gleitend{scroll-behavior:auto}
+
+@media (prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  .s-vorlauf{display:none}
+  .ziffer > span{transform:none}
+}
+
+/* Mehr Kontrast: bds.css loest das ueber die Tokens. Diese Schicht setzt
+   die Tokens neu und muss die Regel deshalb hinter sich wiederholen. */
+@media (prefers-contrast:more){
+  :root,.inv,.sec--orange,.hero__buehne,.footer.inv,#ausgangslage.sec--orange,
+  .header[data-ton],.crc,.pil__i{
+    --ink-45:var(--ink-70);--line:var(--line-strong);--line-soft:var(--line-strong);
+  }
+}

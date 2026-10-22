@@ -7,7 +7,7 @@
 
 ## Seiten
 
-- `Startseite → https://pixelkiez.de/`: Leistungen, Projekt-Check, Ablauf, Preise und Kontaktformular.
+- `Startseite → https://pixelkiez.de/`: Leistungen, Preise, Ablauf, Betreuung und Kontaktformular.
 - `Startseite (englisch) → https://pixelkiez.de/en/`: dieselben Inhalte auf Englisch.
 - `Website-Analyse → https://pixelkiez.de/website-analyse/`: kostenlose, persönlich erstellte Analyse einer Website — Technik, SEO, GEO, KI-Auffindbarkeit, Answerability, Agent-Readiness. Anfrage per Formular, Ergebnis per E-Mail.
 - `Website-Analyse (englisch) → https://pixelkiez.de/en/website-analyse/`: dieselbe Seite auf Englisch.

@@ -493,7 +493,13 @@ async function build() {
   /* ---- 2. CSS: zusammenlegen, Pfade umschreiben, minifizieren ----------- */
   const fontsCss = await readFile(join(QUELLE, 'assets', 'css', 'fonts.css'), 'utf8');
   const bdsCss   = await readFile(join(QUELLE, 'assets', 'css', 'bds.css'), 'utf8');
-  const cssRoh   = fontsCss + '\n' + bdsCss;
+  /* Designschicht nach der Referenz sstr.tech. Sie steht NACH bds.css und
+     gewinnt damit bei gleicher Spezifitaet. Inhalt, Markup und Funktionen
+     fasst sie nicht an — wer sie aus dieser Liste nimmt, hat den alten
+     Auftritt zurueck. */
+  const SCHICHT  = ['sstr-basis.css', 'sstr-module.css', 'pixelkiez-micro-ui.css', 'crosshair-button.css'];
+  const schicht  = await Promise.all(SCHICHT.map((d) => readFile(join(QUELLE, 'assets', 'css', d), 'utf8')));
+  const cssRoh   = [fontsCss, bdsCss, ...schicht].join('\n');
 
   // ../fonts/x.woff2  →  /assets/fonts/x.<hash>.woff2
   //
@@ -518,7 +524,16 @@ async function build() {
   log(`CSS          ${kb(cssRoh.length)} → ${kb(cssMin.length)}   ${ersetzungen} Schriftpfade umgeschrieben`);
 
   /* ---- 3. JS minifizieren ---------------------------------------------- */
-  const jsRoh = await readFile(join(QUELLE, 'assets', 'js', 'bds.js'), 'utf8');
+  /* Die Bewegungsschicht zur Designschicht haengt hinten an — eigene IIFE,
+     greift auf nichts aus bds.js zu. Laeuft wie bds.js durch die
+     Uebersetzungspruefung. */
+  const jsRoh = [
+    await readFile(join(QUELLE, 'assets', 'js', 'bds.js'), 'utf8'),
+    await readFile(join(QUELLE, 'assets', 'js', 'sstr-motion.js'), 'utf8'),
+    await readFile(join(QUELLE, 'assets', 'js', 'pixelkiez-micro-ui.js'), 'utf8'),
+    await readFile(join(QUELLE, 'assets', 'js', 'crosshair-button.js'), 'utf8'),
+    await readFile(join(QUELLE, 'assets', 'js', 'swell-grid.js'), 'utf8'),
+  ].join('\n');
   // es2015 statt esnext: der Quelltext ist durchgehend ES5. So kann der
   // Minifizierer keine Pfeilfunktionen einstreuen, die aeltere Browser
   // ausschliessen wuerden.

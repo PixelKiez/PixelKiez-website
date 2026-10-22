@@ -37,6 +37,7 @@ const EXAKT_CODE = new Set([
   'textPath', 'startOffset',
   '--d', '--i', '--n', '--fq-x', '<i class="',
   '--x', '--y', '--l', '--l-start', '--l-ende', '--stamm', '--ps', '--padl',   // Ablauf-Zeitleiste
+  '--drift-farbe',                                                             // Partikelfarbe der Wortmarke
 ]);
 
 /* Bleibt nach dem Entfernen aller Tags und Entitaeten kein Buchstabe uebrig,

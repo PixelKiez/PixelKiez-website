@@ -720,14 +720,41 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .burger[aria-expanded="true"] .burger__l:nth-child(1){transform:rotate(45deg)}
 .burger[aria-expanded="true"] .burger__l:nth-child(2){transform:rotate(-45deg)}
 
+/* Aufklappen mit --ease, nicht --ease-morph. Die Morph-Kurve faehrt langsam
+   an: gemessen standen die ersten ~110ms still, das Menue wirkte, als
+   reagiere es verzoegert auf den Klick. --ease bewegt sich vom ersten Bild an.
+   Zuklappen etwas kuerzer — wer schliesst, will weiter.
+
+   Das Polster laeuft mit. Ohne Uebergang sprang das Panel beim Klick sofort
+   um seine 28 Punkte Polster auf und blieb dann stehen, bis die Zeilen
+   nachzogen. */
 .menu{
   display:grid;grid-template-rows:0fr;
   border-top:1px solid transparent;
-  transition:grid-template-rows 340ms var(--ease-morph),border-color var(--dur) var(--ease);
+  transition:grid-template-rows 240ms var(--ease),border-color var(--dur) var(--ease);
 }
-.menu[data-open="true"]{grid-template-rows:1fr;border-top-color:var(--line)}
-.menu__in{overflow:hidden;display:grid;gap:0}
-.menu[data-open="true"] .menu__in{padding-block:8px 20px}
+.menu[data-open="true"]{
+  grid-template-rows:1fr;border-top-color:var(--line);
+  transition:grid-template-rows 360ms var(--ease),border-color var(--dur) var(--ease);
+}
+.menu__in{overflow:hidden;display:grid;gap:0;transition:padding-block 240ms var(--ease)}
+.menu[data-open="true"] .menu__in{padding-block:8px 20px;transition-duration:360ms}
+
+/* Die Punkte ziehen kurz versetzt nach, von oben nach unten. Klein gehalten
+   (4 Punkte Weg, 18ms Versatz): man soll die Reihenfolge spueren, nicht
+   darauf warten. Beim Schliessen ohne Versatz, alles geht gemeinsam. */
+.menu a{opacity:0;transform:translateY(-4px)}
+.menu a:nth-child(2){--mi:1}.menu a:nth-child(3){--mi:2}.menu a:nth-child(4){--mi:3}
+.menu a:nth-child(5){--mi:4}.menu a:nth-child(6){--mi:5}.menu a:nth-child(7){--mi:6}
+.menu a:nth-child(8){--mi:7}.menu a:nth-child(9){--mi:8}.menu a:nth-child(10){--mi:9}
+.menu[data-open="true"] a{
+  opacity:1;transform:none;
+  transition:opacity 260ms var(--ease),transform 320ms var(--ease),color var(--dur) var(--ease);
+  transition-delay:calc(var(--mi,0) * 18ms + 40ms),calc(var(--mi,0) * 18ms + 40ms),0ms;
+}
+@media (prefers-reduced-motion:reduce){
+  .menu a{opacity:1;transform:none}
+}
 /* Acht Punkte zu je rund 48 Punkten ergeben 384 — mehr, als ein quer
    gehaltenes Telefon an Hoehe hat. Der Kopf klebt oben, das Panel haengt an
    ihm: was unten herausragte, liess sich durch Scrollen NICHT erreichen, weil
@@ -752,7 +779,7 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   border-bottom:1px solid var(--line-soft);
   font-family:var(--font-display);font-weight:600;
   font-size:1.0625rem;letter-spacing:-.018em;
-  transition:color var(--dur) var(--ease);
+  transition:opacity 140ms var(--ease),transform 140ms var(--ease),color var(--dur) var(--ease);
 }
 .menu a:hover{color:var(--accent-ink)}
 .menu__n{
@@ -1339,141 +1366,6 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .sec--orange .pil__i[data-open="true"].pil__i--orange{
   background:#EF7059;border-color:#0E1413;
 }
-
-/* ---------- 11. Projekt-Check -------------------------------------------
-   Ein Bedienfeld statt zweier Spalten: drei Fragen nebeneinander, das
-   Ergebnis darunter ueber die volle Breite. Kompakter und ruhiger.
-   ------------------------------------------------------------------------- */
-.pc{border-top:1px solid var(--line)}
-.pc__grid{display:grid}
-@media (min-width:900px){
-  .pc__grid{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(28px,3.4vw,56px)}
-  .pc__q + .pc__q{border-left:0;border-top:0}
-  .pc__q{border-bottom:1px solid var(--line)}
-}
-.pc__q{padding:clamp(20px,2.2vw,28px) 0}
-.pc__q + .pc__q{border-top:1px solid var(--line)}
-.pc__lbl{
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink-45);
-}
-.pc__lbl b{color:var(--accent-ink);font-weight:500}
-.pc__ask{
-  margin:9px 0 14px;
-  font-family:var(--font-display);font-weight:600;
-  font-size:1rem;letter-spacing:-.015em;line-height:1.25;color:var(--ink);
-}
-.pc .chips{gap:7px}
-.pc .chip{padding:8px 13px;min-height:38px;font-size:.8125rem;gap:7px}
-.pc .chip[aria-pressed="true"]::before{width:6px;height:6px}
-
-/* --- Schrittweise auf schmalen Ansichten ---------------------------------
-   Auf dem Desktop stehen die drei Fragen nebeneinander und passen. Darunter
-   standen sie untereinander, alle offen — 1288px, wovon die Themenspalte
-   allein 272px verbrauchte, weil jede lange Beschriftung eine eigene Zeile
-   belegte.
-
-   Beantwortet heisst hier: Fragetext und ungewaehlte Chips treten zurueck,
-   der gewaehlte Chip rueckt neben die Nummer. Aus einem Block wird eine
-   Zeile. Der stehengebliebene Chip ist zugleich der Schalter zum Aendern —
-   deshalb braucht es kein zusaetzliches Bedienelement.
-   ------------------------------------------------------------------------- */
-.pc__pick{display:none}
-
-@media (max-width:899px){
-  .pc__q{padding:15px 0}
-
-  /* Zugeklappt: aus dem Block wird eine Zeile — Nummer links, getroffene
-     Wahl rechts. Fragetext und Chipreihe treten ganz zurueck. */
-  .pc__q[data-erledigt="true"]{
-    display:flex;align-items:center;gap:14px;
-    padding:13px 0;cursor:pointer;
-  }
-  .pc__q[data-erledigt="true"] .pc__lbl{flex:none}
-  .pc__q[data-erledigt="true"] .pc__ask,
-  .pc__q[data-erledigt="true"] .chips{display:none}
-  .pc__q[data-erledigt="true"] .pc__pick{
-    display:block;margin-left:auto;text-align:right;
-    font-size:.875rem;font-weight:500;color:var(--ink);
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  }
-  /* Noch nicht beantwortet: statt der Wahl ein Hinweis, dass hier etwas kommt */
-  .pc__q[data-erledigt="true"] .pc__pick:empty::after{
-    content:"—";color:var(--ink-45);
-  }
-  .pc__q[data-erledigt="true"]:hover .pc__lbl b{color:var(--accent)}
-
-  /* Etwas dichter auch im offenen Zustand */
-  .pc__ask{margin:7px 0 11px;font-size:.9375rem}
-  .pc .chips{gap:6px}
-}
-
-.pc__out{
-  border-left:2px solid var(--accent);
-  padding:clamp(20px,2.2vw,28px) 0 0 clamp(18px,2vw,26px);
-  margin-top:clamp(22px,2.4vw,32px);
-}
-.pc__wait{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.pc__meter{display:flex;gap:5px;flex:none}
-.pc__meter i{width:26px;height:3px;border-radius:2px;background:var(--line)}
-.pc__meter i.on{background:var(--accent)}
-.pc__hint{font-size:.9375rem;color:var(--ink-70);max-width:56ch}
-.pc__res{display:grid;gap:clamp(16px,2vw,28px)}
-@media (min-width:900px){
-  .pc__res{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);align-items:start}
-}
-.pc__res h3{margin:8px 0 6px}
-/* Stufe und Preis in einer Zeile: die Empfehlung ist erst vollstaendig, wenn
-   die Budgetgroesse danebensteht. Der Preis ist bewusst leiser gesetzt — er
-   ordnet ein, er ist nicht die Botschaft. */
-/* Die Diagnose steht vor der Empfehlung — erst was fehlt, dann was hilft. */
-.pc__aufgabe{
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  margin:10px 0 14px;font-size:.9375rem;
-}
-.pc__aufgabe strong{font-weight:600}
-/* Drei Segmente in der Reihenfolge des ersten Abschnitts. Das markierte ist
-   die Aufgabe, die gerade nicht traegt — kein Ampelrot, die Akzentfarbe
-   genuegt und bleibt in der Markenwelt. */
-.pc__ampel{display:flex;gap:4px;flex:none}
-.pc__ampel i{
-  width:20px;height:3px;border-radius:2px;
-  background:color-mix(in srgb,currentColor 22%,transparent);
-  transition:background-color 240ms var(--ease);
-}
-.pc__ampel i.schwach{background:var(--accent)}
-
-/* Die drei Aufgaben im Ruhezustand — nummeriert wie oben im Abschnitt. */
-.pc__aufgaben{
-  display:grid;gap:7px;margin:0;padding:0;list-style:none;
-  counter-reset:pcauf;
-}
-.pc__aufgaben li{
-  display:flex;align-items:baseline;gap:11px;
-  font-size:.9375rem;color:var(--ink-70);
-}
-.pc__aufgaben li::before{
-  counter-increment:pcauf;content:"0" counter(pcauf);
-  font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.12em;
-  color:var(--accent-ink);flex:none;
-}
-.pc__res--offen .pc__side{justify-content:flex-start}
-
-.pc__stufe{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.pc__preis{
-  font-family:var(--font-mono);font-weight:400;
-  font-size:.8125rem;letter-spacing:.08em;color:var(--accent-ink);
-}
-.pc__mods{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:12px}
-.pc__mods li{
-  display:flex;align-items:center;gap:7px;
-  padding:5px 12px;border:1px solid var(--line);border-radius:999px;
-  font-size:.8125rem;color:var(--ink-70);
-}
-.pc__mods svg{width:13px;height:13px;color:var(--accent);flex:none}
-.pc__side{display:grid;gap:12px;align-content:start}
-.pc__note{font-size:.8125rem;color:var(--ink-70);line-height:1.5}
 
 /* ---------- 12. Pakete / Ablauf / Zusagen --------------------------------
 
@@ -2112,11 +2004,6 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   /* Die vier Zusagen unter dem Hero sind ganze Saetze, keine Marker */
   .facts li{font-size:.8125rem}
 }
-/* Auf Tippgeraeten brauchen die Auswahlknoepfe des Projekt-Checks volle
-   Trefferhoehe. Am Schreibtisch genuegen 38px, dort zeigt eine Maus. */
-@media (max-width:899px){
-  .pc .chip{min-height:44px;padding-block:11px}
-}
 
 /* ---------- 13. Formular ------------------------------------------------- */
 .form{display:grid;gap:18px}
@@ -2392,7 +2279,7 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   .footer nav{gap:0}
   /* Vorher 4px, das ergab bei 14px Schrift rund 31px Trefferhoehe. Auf dem
      Telefon ist das zu wenig: die Links stehen dicht untereinander, und wer
-     "Impressum" treffen will, landet auf "Projekt-Check". Neun Punkte bringen
+     "Impressum" treffen will, landet auf dem Link darueber. Neun Punkte bringen
      die Zeile auf etwa 41px und damit in die Naehe der 44, unter denen man
      regelmaessig danebengreift.
 

@@ -1,0 +1,497 @@
+/* =========================================================================
+   Designschicht nach sstr.tech — Teil 1: Tokens, Grundlagen, Kopf, Buehne
+   -------------------------------------------------------------------------
+   Steht hinter bds.css und ersetzt nur die Darstellung: Farben, Schrift,
+   Raster, Linien, Knoepfe, Bewegung. Inhalt, Markup, Verweise, Formulare
+   und Skriptlogik bleiben, wie sie sind.
+
+   Quelle der Werte: sstr.tech/en, im Browser vermessen am 21.10.2026 bei
+   1440x900 (getComputedStyle) und aus dem oeffentlichen tokens.css der
+   Seite abgelesen. Uebernommen sind ZAHLEN, kein Code, keine Bilder, keine
+   Schriftdateien.
+
+   Abweichungen, bewusst:
+   · Schrift: ABC Monument Grotesk ist lizenzpflichtig. Statt dessen die
+     bereits vorhandene Archivo (SIL OFL), Schnitt 400 wie die Referenz.
+     Archivo laeuft rund 6 % breiter — gleiche Groesse, etwas laengere Zeile.
+   · Kleine graue Schrift: die Referenz nutzt #747576 auf #EFF0F1 (4,0:1).
+     Hier #646568 (4,9:1), damit Fliesstext die 4,5:1 haelt.
+   · Mindestgroessen: die Referenz skaliert alles mit der Fensterbreite und
+     faellt bei 992px auf 8px Schrift. Hier haben Texte eine Untergrenze.
+   ========================================================================= */
+
+/* Archivo ist eine variable Schrift; bds.css meldet nur 500 bis 700 an.
+   Die Referenz setzt alles im Schnitt 400 — dieselbe Datei, ein Eintrag
+   mehr. */
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('../fonts/archivo-var-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400;font-stretch:100%;font-display:swap;src:url('../fonts/archivo-var-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
+/* ---------- 1. Tokens ---------------------------------------------------- */
+:root{
+  /* Palette der Referenz (tokens.css, brand-grey/brand-orange) */
+  --s-100:#EFF0F1;  --s-150:#E0E1E3;  --s-200:#C3C4C8;  --s-300:#A3A3A4;
+  --s-400:#8B8C8D;  --s-500:#747576;  --s-600:#464749;  --s-700:#2F3032;
+  --s-750:#222326;  --s-800:#18191B;  --s-900:#0C0C0C;
+  --s-orange:#FE5B2A;        /* Flaeche der Handlung (mapped-surface-action) */
+  --s-orange-600:#E75326;    /* Hover der Handlung */
+  --s-orange-700:#B4411E;
+
+  /* Einheit wie das "Osmo"-System der Referenz: 1 Designpixel bei 1440 px
+     Breite, mitwachsend zwischen 992 und 1920. Darunter eigene Idealbreiten
+     (834 / 550 / 390), siehe unten. Eine Laenge, kein Faktor — also
+     calc(var(--u) * 48) fuer 48 Designpixel. */
+  --u:calc(clamp(992px, 100vw, 1920px) / 1440);
+  --safe:max(env(safe-area-inset-left,0px), env(safe-area-inset-right,0px));
+  --frame:calc(var(--u) * 64 + var(--safe));   /* container: mapped-padding-md */
+  --zelle:calc(var(--u) * 32);                 /* Innenrand einer Rasterzelle */
+  --gutter:calc(var(--frame) + var(--zelle));
+  --w:100vw;
+  --sp-section:max(56px, calc(var(--u) * 104));
+  --kopf:max(56px, calc(var(--u) * 70));       /* layout-nav-height 4.375em */
+  --radius:0px;
+  --radius-sm:0px;
+  --ecke:max(8px, calc(var(--u) * 12.8));      /* Knopfecke 0.8em */
+
+  /* Schriftgroessen der Referenz (type-*), mit Untergrenze */
+  --t-display:max(44px, calc(var(--u) * 96));
+  --t-h1:max(34px, calc(var(--u) * 60));
+  --t-h2:max(30px, calc(var(--u) * 48));
+  --t-h4:max(22px, calc(var(--u) * 32));
+  --t-h5:max(19px, calc(var(--u) * 24));
+  --t-h6:max(16px, calc(var(--u) * 19.2));
+  --t-lg:max(17px, calc(var(--u) * 20));
+  --t-md:max(15px, calc(var(--u) * 16));
+  --t-sm:max(14px, calc(var(--u) * 14));
+  --t-xs:max(11px, calc(var(--u) * 12));
+
+  --font-display:'Archivo',Arial,sans-serif;
+  --font-body:'Archivo',Arial,sans-serif;
+
+  /* Kurven der Referenz */
+  --s-ease-sweep:cubic-bezier(.675,.15,.1,1);   /* Knopf- und Navigationsflaeche */
+  --s-ease-out:cubic-bezier(.625,.05,0,1);      /* "cctpOut" */
+  --s-ease-reveal:cubic-bezier(.33,1,.68,1);    /* Abschnitts-Einblendung */
+
+  /* Fuellflaechen, die nie kippen */
+  --fuell-dunkel:#0C0C0C;
+  --fuell-hell:#EFF0F1;
+}
+@media (max-width:991px){:root{--u:calc(clamp(768px, 100vw, 991px) / 834)}}
+@media (max-width:767px){
+  :root{
+    --u:calc(clamp(480px, 100vw, 767px) / 550);
+    --frame:calc(var(--u) * 32 + var(--safe));
+    --zelle:calc(var(--u) * 16);
+    /* Die Referenz verkleinert auf dem Telefon nur h1 bis h4 */
+    --t-display:max(40px, calc(var(--u) * 56));
+    --t-h1:max(30px, calc(var(--u) * 35.2));
+    --t-h2:max(28px, calc(var(--u) * 32));
+    --t-h4:max(21px, calc(var(--u) * 25.6));
+  }
+}
+@media (max-width:479px){
+  :root{
+    --u:calc(clamp(320px, 100vw, 479px) / 390);
+    --frame:calc(var(--u) * 16 + var(--safe));
+  }
+}
+
+/* Helle Rampe — Seitengrund. Rangfolge ueber die Reihenfolge, nicht ueber
+   Gewicht: dieselben Selektoren wie in bds.css, nur spaeter. */
+:root,
+.footer.inv,
+#ausgangslage.sec--orange,
+.header[data-ton="hell"]{
+  --paper:#EFF0F1;  --paper-2:#E6E7E9;  --paper-3:#E0E1E3;
+  --ink:#0C0C0C;    --ink-70:#2F3032;   --ink-45:#646568;
+  --line:#C3C4C8;   --line-strong:#858689;  --line-soft:#D3D4D7;
+  --accent:#FE5B2A; --accent-ink:#B4411E;   --accent-soft:#FFE6DD;
+  --on-accent:#0C0C0C;
+}
+/* Dunkle Rampe — Kennzahlen, Betreuung, Kontakt, Rechteck der Buehne.
+   Orange Flaechen gibt es in der Referenz nicht; was hier orange war, wird
+   dunkel. Der Hero selbst ist hell, nur sein Rechteck ist dunkel. */
+.inv,
+.sec--orange,
+.hero__buehne,
+.header[data-ton="dunkel"]{
+  --paper:#18191B;  --paper-2:#222326;  --paper-3:#2F3032;
+  --ink:#EFF0F1;    --ink-70:#C3C4C8;   --ink-45:#8B8C8D;
+  --line:#2F3032;   --line-strong:#67686B;  --line-soft:#26272A;
+  --accent:#FE5B2A; --accent-ink:#FE5B2A;   --accent-soft:#3A2018;
+  --on-accent:#0C0C0C;
+  color:var(--ink);
+}
+/* Die Unterscheidung bleibt sichtbar: helle Abschnitte direkt hintereinander
+   trennt die Haarlinie, nicht die Farbe. */
+#ausgangslage.sec--orange,.footer.inv,.header[data-ton="hell"]{color:var(--ink)}
+
+/* ---------- 2. Grundlagen ------------------------------------------------ */
+body{
+  font-family:var(--font-body);
+  font-size:var(--t-md);
+  line-height:1.5;
+  font-weight:400;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:0}
+::selection{background:var(--s-orange);color:#0C0C0C}
+.skip{border-radius:0;font-family:var(--font-body);font-size:var(--t-xs);
+  letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+
+/* Der Rahmen: zwei senkrechte Haarlinien im Abstand --frame vom Rand, ueber
+   jede Flaeche gezogen. Jede Flaeche malt sie in ihrer eigenen Linienfarbe,
+   deshalb laufen sie ohne Bruch von oben bis unten und wechseln den Ton mit
+   dem Abschnitt. Hintergrundbild statt Pseudoelement: es liegt garantiert
+   unter dem Inhalt und braucht kein eigenes Stapelkonzept. */
+.header,.hero,.analyse-band,.section,.footer,.legal{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--line),var(--line)),linear-gradient(var(--line),var(--line));
+  background-size:1px 100%,1px 100%;
+  background-position:var(--frame) 0,calc(100% - var(--frame)) 0;
+  background-repeat:no-repeat;
+}
+.wrap{max-width:none}
+
+/* Raster, deren Zellen auf den Rahmenlinien stehen: sie ruecken um den
+   Zelleninnenrand nach aussen, die Zellen bringen ihn selbst wieder mit. */
+.weg,.crc-grid,.pack-karten,.kontakt,.footer__grid,.pl,.leiter,.wk-grid,
+.pruef,.grid--3,.pil,.wissen-weiter{
+  margin-inline:calc(-1 * var(--zelle));
+}
+
+/* ---------- 3. Typografie ------------------------------------------------ */
+/* Kicker als Klammer-Etikett: [ AUSGANGSLAGE ] — 12px, 500, +0.1em, versal.
+   Die Klammern sind Rahmenlinien aus CSS, kein Zeichen im Text. */
+.kicker{
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;
+  line-height:1.143;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-70);display:inline-flex;width:fit-content;
+  align-items:center;gap:calc(var(--u) * 8 + 2px);
+}
+.kicker::before,.kicker::after{
+  content:"";flex:none;width:max(4px, calc(var(--u) * 5));height:1.45em;
+  border:max(1.5px, calc(var(--u) * 2)) solid currentColor;
+}
+.kicker::before{border-right:0}
+.kicker::after{border-left:0}
+
+.h-xl,.h-lg,.h-md,.h-sm{
+  font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+}
+.h-xl{font-size:var(--t-h1);line-height:.933;letter-spacing:-.035em}
+.h-lg{font-size:var(--t-h2);line-height:1.021;letter-spacing:-.035em}
+.h-md{font-size:var(--t-h5);line-height:1.167;letter-spacing:-.02em}
+.h-sm{font-size:var(--t-h6);line-height:1.2;letter-spacing:0}
+
+.lead{font-size:var(--t-lg);line-height:1.3;color:var(--ink-70);max-width:58ch}
+.prose{font-size:var(--t-md);line-height:1.5;color:var(--ink-70)}
+.small{font-size:var(--t-sm);line-height:1.43;color:var(--ink-45)}
+.mono{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.04em}
+
+/* ---------- 4. Layout ---------------------------------------------------- */
+.section{border-top:0}
+/* Abschnittsgrenze als Haarlinie zwischen den Rahmenlinien, nicht ueber die
+   ganze Breite — wie die Zeilen des Referenzrasters. */
+.section:not(.auftakt)::before{
+  content:"";position:absolute;top:0;left:var(--frame);right:var(--frame);
+  height:1px;background:var(--line);pointer-events:none;
+}
+.section{position:relative}
+.section__head{gap:calc(var(--u) * 24 + 4px);max-width:none}
+.section__head > .h-lg,.section__head > .h-xl{max-width:26ch}
+.section__head > .lead,.section__head > .prose{max-width:58ch}
+.section__head--mitte{text-align:left;margin-inline:0}
+.section__head--mitte .lead{margin-inline:0}
+
+/* Naht: aus dem Pixelquadrat auf der Farbgrenze wird ein Knoten auf dem
+   Kreuzungspunkt von Abschnittsgrenze und rechter Rahmenlinie. */
+.naht{
+  width:max(7px, calc(var(--u) * 8));height:max(7px, calc(var(--u) * 8));
+  right:calc(var(--frame) - max(3px, calc(var(--u) * 3.5)));
+  background:var(--s-orange);
+}
+
+.card{border-radius:0;background:var(--paper-2);border-color:var(--line)}
+.grid{gap:1px}
+.grid--3{background:var(--line);border:1px solid var(--line)}
+.grid--3 > *{border:0;background:var(--paper)}
+
+.tag,.chip,.dlg-paket{border-radius:0}
+
+/* ---------- 5. Knoepfe ---------------------------------------------------
+   Achteckige Flaeche (Ecke 0.8em), Beschriftung 12px/500/versal, Symbol
+   links. Beim Ueberfahren laeuft die Flaeche aus einem waagerechten Streifen
+   in der Mitte nach oben und unten auf (0.425s, Kurve der Referenz), die
+   Beschriftung wechselt dabei mit Skalierung.
+   ------------------------------------------------------------------------- */
+.btn{
+  --pl:max(18px, calc(var(--u) * 30));
+  --pr:max(22px, calc(var(--u) * 37.2));
+  --ico:max(14px, calc(var(--u) * 16));
+  --gap:max(8px, calc(var(--u) * 8));
+  gap:var(--gap);
+  min-height:max(48px, calc(var(--u) * 60));
+  padding:0 var(--pr) 0 var(--pl);
+  border:0;border-radius:0;
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;
+  line-height:1;letter-spacing:.03em;text-transform:uppercase;
+  clip-path:polygon(var(--ecke) 0,calc(100% - var(--ecke)) 0,100% var(--ecke),
+    100% calc(100% - var(--ecke)),calc(100% - var(--ecke)) 100%,var(--ecke) 100%,
+    0 calc(100% - var(--ecke)),0 var(--ecke));
+  transition:background-color .2s var(--s-ease-sweep),color .2s var(--s-ease-sweep),
+             transform var(--dur-press) var(--ease-press);
+}
+.btn--sm{min-height:max(42px, calc(var(--u) * 48));--pl:max(14px, calc(var(--u) * 22));
+  --pr:max(16px, calc(var(--u) * 26));font-size:var(--t-xs)}
+.btn--primary,.btn--primary:hover,
+.sec--orange .btn--primary:hover,
+.analyse-band .btn--primary,.pack .btn--primary{
+  --btn-bg:var(--s-orange);--btn-fg:#0C0C0C;--btn-bd:transparent;
+}
+.btn--primary:hover{--btn-bg:var(--s-orange-600)}
+.btn--ghost,.btn--ghost:hover{--btn-bg:var(--paper-3);--btn-fg:var(--ink);--btn-bd:transparent}
+.btn--split .btn__ico{order:-1;width:var(--ico);height:var(--ico)}
+.btn--split .btn__ico svg{width:var(--ico);height:var(--ico);
+  margin:calc(var(--ico) / -2) 0 0 calc(var(--ico) / -2)}
+.btn--split.btn--sm .btn__ico,.btn--split.btn--sm .btn__ico svg{width:var(--ico);height:var(--ico)}
+.btn--split.btn--sm .btn__ico svg{margin:calc(var(--ico) / -2) 0 0 calc(var(--ico) / -2)}
+.btn .btn__label{transition:scale .35s var(--s-ease-sweep),opacity .15s .1s ease-out}
+
+/* Fuellflaeche (bds.js setzt data-fuell). Grundwerte fuer den Hauptknopf:
+   die Flaeche nimmt den Hover-Ton der Referenz an, die Schrift bleibt. */
+.btn[data-fuell],
+.inv .btn[data-fuell],.sec--orange .btn[data-fuell],
+.analyse-band .btn--primary[data-fuell],.pack .btn--primary[data-fuell]{
+  --btn-fill-bg:var(--s-orange-600);--btn-fill-fg:#0C0C0C;
+}
+.btn--ghost[data-fuell]{--btn-fill-bg:var(--s-orange);--btn-fill-fg:#0C0C0C}
+.btn[data-fuell]::before{
+  inset:0;border-radius:0;
+  clip-path:polygon(0 50%,100% 50%,100% 50%,0 50%);
+  transition:clip-path .375s var(--s-ease-sweep);
+}
+.btn[data-fuell]::after{
+  padding:0 var(--pr) 0 var(--pl);
+  clip-path:polygon(0 50%,100% 50%,100% 50%,0 50%);
+  scale:.85;
+  transition:clip-path .375s var(--s-ease-sweep),scale .35s var(--s-ease-sweep);
+}
+.btn--split[data-fuell]::after,.btn--split.btn--sm[data-fuell]::after{
+  padding:0 var(--pr) 0 calc(var(--pl) + var(--ico) + var(--gap));
+}
+.btn--sm[data-fuell]::after{padding:0 var(--pr) 0 var(--pl)}
+.btn[data-fuell] .btn__ico{color:var(--btn-fg)}
+@media (hover:hover) and (pointer:fine){
+  .btn[data-fuell]:is(:hover,:focus-visible)::before,
+  .btn[data-fuell]:is(:hover,:focus-visible)::after{
+    inset:0;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+    transition:clip-path .425s .05s var(--s-ease-sweep),scale .35s .1s var(--s-ease-sweep);
+  }
+  .btn[data-fuell]:is(:hover,:focus-visible)::after{scale:1}
+  .btn[data-fuell]:is(:hover,:focus-visible) .btn__label{scale:1.2;opacity:0;
+    transition:scale .35s .05s var(--s-ease-sweep),opacity .15s ease-out}
+  .btn--primary[data-fuell]:hover{--btn-bg:var(--s-orange)}
+}
+.btn[data-fuell]:active::before,.btn[data-fuell]:active::after{clip-path:none;scale:1}
+/* Achteck statt Kreis schmal: der schwebende Knopf bleibt erkennbar eckig. */
+.sticky-cta{box-shadow:none;border-radius:0}
+@media (max-width:559px){.sticky-cta{border-radius:0;width:56px;height:56px;padding:0}}
+.btn:active{transform:scale(.955,.925)}
+
+/* ---------- 6. Kopf ------------------------------------------------------
+   Volle Breite, 70px, Zellen mit Haarlinien dazwischen. Der Ton folgt dem
+   Abschnitt darunter (sstr-motion.js setzt data-ton); ohne Skript bleibt er
+   hell. Flaechen beim Ueberfahren laufen wie bei den Knoepfen auf.
+   ------------------------------------------------------------------------- */
+.header{
+  /* Die Navigation der Referenz hat ihren eigenen Innenrand: 64 Designpixel
+     ab 992, darunter 32 und unter 768 nur 16 — schmaler als die Abschnitte.
+     Ihre Rahmenlinien folgen ihm. */
+  --frame:calc(var(--u) * 64 + var(--safe));
+  background-color:var(--paper);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  border-bottom:1px solid var(--line);
+  transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+.header[data-scrolled="true"]{border-bottom-color:var(--line)}
+.header__in{
+  min-height:0;height:calc(var(--kopf) - 1px);gap:0;align-items:stretch;
+  padding-inline:var(--frame);
+}
+.brand{
+  padding:0 var(--zelle);gap:max(10px, calc(var(--u) * 14));
+  border-right:1px solid var(--line);font-family:var(--font-body);
+}
+.brand__mark{height:max(18px, calc(var(--u) * 22))}
+.header[data-ton="dunkel"] .brand__mark{filter:invert(1)}
+.brand__sub{
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:400;
+  letter-spacing:.04em;color:var(--ink-70);
+  border-left:0;padding-left:0;margin-left:0;
+}
+.header__act{gap:0;align-items:stretch;margin-left:auto}
+/* Alles, was rechts im Kopf steht, wird zur Zelle: Schnellkontakt,
+   Sprachumschalter, Menue. Gleiche Hoehe, Haarlinie links. */
+.header__act > .btn,.lang,.burger{
+  position:relative;isolation:isolate;overflow:hidden;
+  height:auto;min-height:0;align-self:stretch;
+  border:0;border-left:1px solid var(--line);border-radius:0;
+  background:transparent;color:var(--ink);clip-path:none;
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:400;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.header__act > .btn{--pl:max(20px, calc(var(--u) * 48));--pr:max(20px, calc(var(--u) * 48));
+  padding:0 var(--pr) 0 var(--pl);--btn-bg:transparent;--btn-fg:var(--ink)}
+.header__act > .btn .btn__ico{color:var(--accent)}
+.lang{width:max(56px, calc(var(--u) * 92))}
+.burger{width:var(--kopf)}
+.header__act > :last-child{border-right:1px solid var(--line)}
+/* Flaeche beim Ueberfahren: faehrt von links seitlich herein (0.425s rein,
+   0.375s raus, beim Verlassen zurueck nach links) — Schnellkontakt,
+   Sprache und Menue alle in Orange, Schrift und Striche darauf schwarz. */
+.lang::before,.burger::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:var(--s-orange);
+}
+.lang::before,.burger::before,
+.header .btn[data-fuell]::before,.header .btn[data-fuell]::after{
+  clip-path:polygon(0 0,0 0,0 100%,0 100%);
+  transition:clip-path .375s var(--s-ease-sweep);
+}
+.header .btn[data-fuell]{--btn-fill-bg:var(--s-orange);--btn-fill-fg:#0C0C0C}
+.header .btn[data-fuell]::after{scale:1}
+@media (hover:hover) and (pointer:fine){
+  .lang:hover::before,.burger:hover::before,
+  .header .btn[data-fuell]:is(:hover,:focus-visible)::before,
+  .header .btn[data-fuell]:is(:hover,:focus-visible)::after{
+    clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+    transition:clip-path .425s .05s var(--s-ease-sweep);
+  }
+  .lang:hover{background:transparent;color:#0C0C0C}
+  .burger:hover{background:transparent}
+  .burger:hover .burger__l{background:#0C0C0C}
+  .header .btn[data-fuell]:hover .btn__label{scale:1;opacity:1}
+  .header .btn[data-fuell]:hover .btn__ico{color:#0C0C0C}
+}
+.burger__l{width:max(16px, calc(var(--u) * 20));height:1px;margin-left:calc(max(16px, calc(var(--u) * 20)) / -2)}
+/* Unter 992px wird der Kopf knapp: Zellen schmaler, unter 768 entfaellt
+   der Zusatz neben der Wortmarke (bds.css zeigt ihn ab 480). */
+@media (max-width:991px){.header{--frame:calc(var(--u) * 32 + var(--safe))}}
+@media (max-width:767px){
+  .header{--frame:calc(var(--u) * 16 + var(--safe))}
+  /* Wie nav_contact der Referenz: schmal entfaellt die Kontaktzelle, der
+     schwebende Knopf uebernimmt. */
+  .header__act > .btn--split,.brand__sub{display:none}
+  .header__act > .btn{--pl:calc(var(--u) * 24);--pr:calc(var(--u) * 24)}
+}
+/* Der Rueckweg der Rechtsseiten bleibt sichtbar und bricht notfalls um. */
+@media (max-width:479px){
+  .header__act > .btn--ghost{--pl:12px;--pr:12px;max-width:44vw;white-space:normal;line-height:1.25;text-align:center}
+}
+
+/* Menuepanel: Raster aus Zellen, Eintraege in h5 versal, Nummer als Marke. */
+.menu{border-top:0}
+.menu[data-open="true"]{border-top:1px solid var(--line)}
+.menu__in{padding-inline:var(--frame);gap:1px;background:var(--line);background-clip:content-box}
+.menu[data-open="true"] .menu__in{padding-block:0}
+@media (min-width:760px){.menu__in{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:1px}}
+.menu a{
+  position:relative;isolation:isolate;overflow:hidden;
+  align-items:center;gap:max(12px, calc(var(--u) * 16));
+  padding:max(18px, calc(var(--u) * 28)) var(--zelle);
+  background:var(--paper);border-bottom:0;
+  font-family:var(--font-body);font-weight:400;font-size:var(--t-h5);
+  line-height:1.167;letter-spacing:-.02em;text-transform:uppercase;
+}
+/* Wie die Zellen im Kopf von links herein und beim Verlassen dorthin
+   zurueck — in der Flaechenfarbe eine Stufe dunkler, nicht in Orange. */
+.menu a::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:var(--paper-3);
+  clip-path:polygon(0 0,0 0,0 100%,0 100%);
+  transition:clip-path .375s var(--s-ease-sweep);
+}
+.menu a:hover{color:var(--ink)}
+.menu a:hover::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+  transition:clip-path .425s .05s var(--s-ease-sweep)}
+.menu__n{font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.06em;
+  color:var(--accent-ink);display:inline-flex;align-items:center;gap:6px}
+.menu__n::before{content:"";width:6px;height:6px;background:var(--s-orange)}
+
+/* ---------- 7. Buehne ----------------------------------------------------
+   Der Hero ist hell wie die Seite. Darin steht die Buehne als abgesetztes
+   schwarzes Rechteck: seitlich genau auf den Rahmenlinien, oben und unten
+   mit einer Zelle Luft. Im Rechteck laeuft das Wellenraster
+   (swell-grid.js, Originkit "Swell Grid"); die Wortmarke steht hier nicht
+   mehr. Ueberschrift, Text und Knopf sitzen unten links auf einer
+   schwarzen Aussparung im Raster — auf den hellen Zellen waeren sie nicht
+   lesbar. Die Aussparung beginnt an der Rahmenlinie, ihr Innenrand ist eine
+   Zelle: der Text steht damit auf derselben Flucht wie jeder Abschnitt.
+   ------------------------------------------------------------------------- */
+.hero{padding-top:var(--zelle)}
+.hero__buehne{
+  margin:0 var(--frame);padding:0;background:#000000;
+  min-height:calc(100vh - var(--kopf) - var(--zelle) * 2);
+  min-height:calc(100svh - var(--kopf) - var(--zelle) * 2);
+}
+.hero__buehne::before{content:none}
+.hero__swell{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.hero__swell canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero__unten{display:block;align-self:end;padding:0}
+.hero__block{
+  max-width:min(100%, calc(var(--u) * 560 + 120px + var(--zelle) * 2));
+  padding:max(28px, calc(var(--u) * 48)) var(--zelle) var(--zelle);
+  background:#000000;
+}
+@media (min-width:900px){.hero__block{justify-self:start;padding-bottom:var(--zelle)}}
+.hero__h1{
+  font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+  font-size:var(--t-h2);line-height:1.021;letter-spacing:-.035em;color:var(--ink);
+}
+.hero__h1 em{font-style:normal;color:var(--accent)}
+.hero__text{margin-top:max(18px, calc(var(--u) * 32));font-size:var(--t-md);
+  line-height:1.25;color:var(--ink);max-width:46ch}
+.hero__block .btn-row,.hero__block .btn{margin-top:max(22px, calc(var(--u) * 40))}
+@media (max-width:899px){
+  .hero__buehne{min-height:min(86vh,760px);min-height:min(86svh,760px)}
+}
+@media (max-width:520px){
+  .hero__buehne{min-height:78vh;min-height:78svh}
+}
+
+/* Vertrauensleiste: vier Zellen im Rahmen, Etiketten wie die Annotationen
+   der Referenz (12px, +0.1em, versal). */
+.vertrauen{
+  margin:var(--zelle) var(--frame) 0;border-block:1px solid var(--line);border-inline:0;
+  background:var(--line);
+}
+.vertrauen li{
+  background:var(--paper);padding:max(16px, calc(var(--u) * 24)) var(--zelle);
+  font-family:var(--font-body);font-size:var(--t-xs);font-weight:500;
+  letter-spacing:.1em;color:var(--ink-70);
+}
+.vertrauen svg{width:max(12px, calc(var(--u) * 14));height:max(12px, calc(var(--u) * 14));color:var(--accent)}
+
+/* ---------- 8. Analyse-Einstieg -----------------------------------------
+   Orange zieht beim Herunterscrollen von rechts herein und beim
+   Hochscrollen wieder hinaus, von Rahmenlinie zu Rahmenlinie — dieselbe
+   Mechanik wie die Flieder-Flaeche unter "Drei Aufgaben" (Stand --fuell
+   aus sstr-motion.js, ohne Skript ganz orange). Schrift, Feldlinie und
+   Fokus schwarz: lesbar auf Hell wie auf Orange. */
+.analyse-band{position:relative;isolation:isolate;
+  padding-block:max(32px, calc(var(--u) * 56));border-top:0;border-bottom:1px solid var(--line)}
+.analyse-band::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  top:0;bottom:0;left:calc(var(--frame) + 1px);right:var(--frame);
+  background:var(--s-orange);
+  transform:scaleX(var(--fuell,1));transform-origin:right center;
+}
+.analyse-band .h-md,.analyse-band .small{color:#0C0C0C}
+.analyse-band .input{color:#0C0C0C;border-bottom-color:#0C0C0C}
+.analyse-band .input::placeholder{color:rgb(12 12 12 / .72)}
+.analyse-band .input:focus{border-bottom-color:#0C0C0C;box-shadow:0 1px 0 #0C0C0C}
+.analyse-band :focus-visible{outline-color:#0C0C0C}
+.analyse-band .h-md{font-size:var(--t-h5)}
+/* Kleiner Abstand zwischen Eingabefeld und Knopf */
+.analyse-band__form{gap:max(12px, calc(var(--u) * 16));align-items:stretch}
+.analyse-band__form .input{border-right:0}
+.analyse-band__form .btn{flex:none}
