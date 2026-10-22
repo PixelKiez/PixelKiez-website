@@ -151,18 +151,6 @@
   };
   fuelleKnoepfe();
 
-  /* Das Ergebnis des Projekt-Checks wird bei jeder Antwort neu geschrieben.
-     Der Knopf darin ist danach ein anderes Element und haette das Attribut
-     nicht mehr — ohne diesen Beobachter waere er der einzige Knopf der Seite
-     ohne den Effekt. Beobachtet wird nur dieser eine Kasten, nicht das
-     Dokument: die Fragenbaender verschieben staendig Karten, ein
-     dokumentweiter Beobachter liefe dauernd mit. */
-  var ergebnis = $('#check-result');
-  if (ergebnis && typeof MutationObserver !== 'undefined') {
-    new MutationObserver(function () { fuelleKnoepfe(ergebnis); })
-      .observe(ergebnis, { childList: true, subtree: true });
-  }
-
   /* --- 2. Reveal beim Scrollen ------------------------------------------
      Sichtbarkeit ist der Grundzustand, Bewegung die Zutat. Das Verstecken
      vor dem Einblenden haengt allein am Merkmal data-reveal-anim auf dem
@@ -1381,7 +1369,9 @@
     });
   })();
 
-  /* --- 8. Projekt-Check -------------------------------------------------- */
+  /* --- 9. Schnellkontakt: Dialog, Uebergabe, Versand -------------------- */
+  /* Klartext zum Formularfeld "Ausgangspunkt": in der Mail soll stehen, was
+     der Absender gewaehlt hat, nicht der interne Schluessel. */
   var AUSGANG = {
     keine:      'Noch keine Website',
     alt:        'Website ist veraltet',
@@ -1389,306 +1379,6 @@
     relaunch:   'Relaunch ist geplant'
   };
 
-  /* --- Die Ableitung -------------------------------------------------------
-     Vorher hing das Ergebnis an genau einer der drei Antworten: das Thema
-     bestimmte alles, Ausgangspunkt und Zeitrahmen waren Beiwerk. Wer die
-     erste Antwort wechselte, sah dasselbe Ergebnis — dann ist es keine
-     Pruefung, sondern ein Nachschlagewerk mit drei Klicks davor.
-
-     Jetzt tragen alle drei. Thema und Ausgangspunkt ergeben zusammen einen
-     Umfangswert, und der bestimmt die empfohlene Projektstufe. Der
-     Ausgangspunkt bringt zusaetzlich seine eigene Aufgabe mit, der Zeitrahmen
-     den naechsten Schritt. Die Rechnung steht als Satz im Ergebnis — wer eine
-     Empfehlung bekommt, soll sehen, woraus sie entstanden ist.
-     ---------------------------------------------------------------------- */
-  var UMFANG = {
-    sichtbarkeit: 1, website: 1,
-    verwaltung: 2, filter: 2, recruiting: 2,
-    plattform: 3
-  };
-  /* Was der Ausgangspunkt zusaetzlich kostet. Eine bestehende, aber unsichtbare
-     Website ist der guenstigste Fall — Struktur und Inhalte sind da, es fehlt
-     die Auffindbarkeit. Neubau, Ersatz und geplanter Relaunch bringen jeweils
-     eine eigene Aufgabe mit. */
-  var AUSGANGSLAST = { keine: 1, alt: 1, unsichtbar: 0, relaunch: 1 };
-
-  /* Welche der drei Aufgaben aus Abschnitt 01 bricht bei diesem Thema?
-     Das ist die eigentliche Diagnose — die Preisstufe folgt daraus, nicht
-     umgekehrt. "Zu viele unpassende Anfragen" ist bewusst keine Frage der
-     Erreichbarkeit, sondern der Klarheit: Wer passend gefragt wird, hat
-     vorher verstanden, was angeboten wird. */
-  var AUFGABEN = {
-    gefunden:   'Gefunden werden',
-    verstanden: 'Verstanden werden',
-    erreichbar: 'Erreichbar sein'
-  };
-  var AUFGABE_ZU = {
-    sichtbarkeit: 'gefunden',
-    website:      'verstanden',
-    filter:       'verstanden',
-    verwaltung:   'erreichbar',
-    recruiting:   'erreichbar',
-    plattform:    'erreichbar'
-  };
-
-  /* Die Aufgabe, die allein aus dem Ausgangspunkt folgt. Beim Neubau gibt es
-     keine — dort ist nichts zu uebernehmen, zu erhalten oder zu pruefen. */
-  var AUSGANGSMODUL = {
-    keine:      '',
-    alt:        'Weiterleitungskonzept für bestehende Rankings',
-    unsichtbar: 'Bestandsanalyse vor dem Eingriff',
-    relaunch:   'Inhalts-Migration aus dem Bestand'
-  };
-
-  var STUFEN = [
-    { id: 'launch',      name: 'Launch',      preis: 'ab 995 €',
-      warum: 'Ihr Anliegen ist klar umrissen und kommt mit Standardfunktionen aus.' },
-    { id: 'business',    name: 'Business',    preis: 'ab 2.490 €',
-      warum: 'Ihr Anliegen betrifft mehrere Bereiche, und Ihr Ausgangspunkt bringt eigene Aufgaben mit.' },
-    { id: 'individuell', name: 'Enterprise',   preis: 'ab 4.900 €',
-      warum: 'Thema und Ausgangspunkt verlangen eigene Abläufe und eine individuelle Struktur.' }
-  ];
-
-  var stufeFuer = function (thema, ausgangspunkt) {
-    var wert = (UMFANG[thema] || 1) + (AUSGANGSLAST[ausgangspunkt] || 0);
-    return wert <= 2 ? STUFEN[0] : (wert === 3 ? STUFEN[1] : STUFEN[2]);
-  };
-
-  var THEMEN = {
-    sichtbarkeit: {
-      label: 'Wir werden nicht gefunden',
-      /* Neutral formuliert, weil Frage 01 jetzt den Ausgangspunkt abfragt:
-         "Website-Check bzw. Redesign" widersprach der Antwort "noch keine
-         Website" — man kann nicht pruefen, was es nicht gibt. */
-      mods: ['Aufbau oder Überarbeitung der Website', 'SEO-Ausbau', 'Local SEO'],
-      entry: 'Einstieg über das Sichtbarkeits-Audit.',
-    },
-    filter: {
-      label: 'Zu viele unpassende Anfragen',
-      mods: ['Strukturierte Erstanfrage', 'SEO-Fundament'],
-      entry: 'Einstieg über die Diagnose: Wir definieren die Filterlogik, bevor ein Angebot entsteht.',
-    },
-    recruiting: {
-      label: 'Wir bekommen keine neuen Bewerber',
-      mods: ['Recruiting-System', '60-Sekunden-Bewerbung', 'Google-for-Jobs-Setup'],
-      entry: 'Kostenloser Quick-Check im Erstgespräch: Wir testen Ihre Bewerbungsstrecke live am Handy.',
-    },
-    website: {
-      label: 'Der Auftritt passt nicht zum Unternehmen',
-      mods: ['One-Page- oder Business-Website', 'SEO-Fundament', 'Google-Business-Profil'],
-      entry: 'Einstieg über die Diagnose im Erstgespräch, mit erster Analyse Ihres Auftritts.',
-    },
-    verwaltung: {
-      label: 'Zu viel Telefon und Verwaltung',
-      mods: ['Anbindung an Ihr Termin- oder Buchungssystem', 'Leistungsseiten', 'SEO-Fundament'],
-      entry: 'Einstieg über die Diagnose: Welche Anliegen binden heute die meiste Zeit?',
-    },
-    plattform: {
-      label: 'Zu abhängig von Plattformen',
-      mods: ['Eigener Buchungs- oder Reservierungspfad', 'Sichtbarkeit bei Google und KI-Suchen', 'Local SEO'],
-      entry: 'Einstieg über das Sichtbarkeits-Audit.',
-    }
-  };
-
-  var ZEIT = {
-    sofort:  { label: 'So schnell wie möglich', line: 'Kurzfristig: Antwort in einem Werktag, mit Einschätzung und möglichen Startterminen.' },
-    quartal: { label: 'Im nächsten Quartal',    line: 'Nächstes Quartal: Die Diagnose kommt jetzt, damit das Angebot zum Start bereitliegt.' },
-    offen:   { label: 'Wir orientieren uns',    line: 'Offener Zeitrahmen: Sie erhalten eine Einschätzung ohne Termindruck.' }
-  };
-
-  var pick = { ausgangspunkt: '', thema: '', zeit: '' };
-  var out = $('#check-result');
-
-  var ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
-
-  var esc = function (s) {
-    return String(s).replace(/[&<>"]/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
-    });
-  };
-
-  var render = function () {
-    if (!out) return;
-    var n = (pick.ausgangspunkt ? 1 : 0) + (pick.thema ? 1 : 0) + (pick.zeit ? 1 : 0);
-    var meter = '<span class="pc__meter" aria-hidden="true">' +
-      [0, 1, 2].map(function (i) { return '<i class="' + (i < n ? 'on' : '') + '"></i>'; }).join('') + '</span>';
-
-    /* Der Ruhezustand zeigt bereits den Rahmen, nicht nur einen Hinweis:
-       welche drei Aufgaben geprueft werden, und welche Angabe noch fehlt.
-       Vorher stand hier eine Zeile Text — man sah dem Abschnitt nicht an,
-       was er ueberhaupt tut, bevor man ihn bedient hat. */
-    if (n < 3) {
-      var offen = !pick.ausgangspunkt ? 'Ihr Ausgangspunkt' : (!pick.thema ? 'Ihr Thema' : 'Ihr Zeitrahmen');
-      var leer = '<span class="pc__ampel" aria-hidden="true"><i></i><i></i><i></i></span>';
-      out.innerHTML =
-        '<div class="pc__res pc__res--offen">' +
-          '<div>' + meter +
-            '<p class="kicker">Diagnose</p>' +
-            '<p class="pc__aufgabe">' + leer +
-              '<span>Geprüft werden drei Aufgaben</span></p>' +
-            '<ol class="pc__aufgaben">' +
-              '<li>Gefunden werden</li>' +
-              '<li>Verstanden werden</li>' +
-              '<li>Erreichbar sein</li>' +
-            '</ol>' +
-          '</div>' +
-          '<div class="pc__side">' +
-            /* Zwei eigenstaendige Absaetze statt eines zerschnittenen: nur
-               eine Zeichenkette, die mit einem oeffnenden Tag und Text
-               beginnt, erkennt der Pruefer als uebersetzbar. Das Bruchstueck
-               dazwischen lief sonst deutsch auf die englische Seite. */
-            '<p class="pc__note">Noch offen: <em class="q">' + offen + '</em></p>' +
-            '<p class="pc__note">Danach sehen Sie hier, welche der drei Aufgaben bei Ihnen bricht.</p>' +
-          '</div>' +
-        '</div>';
-      return;
-    }
-
-    var t = THEMEN[pick.thema];
-    var stufe = stufeFuer(pick.thema, pick.ausgangspunkt);
-    var schluessel = AUFGABE_ZU[pick.thema];
-    var mods = t.mods.slice();
-    if (AUSGANGSMODUL[pick.ausgangspunkt]) mods.unshift(AUSGANGSMODUL[pick.ausgangspunkt]);
-
-    /* Drei Segmente, eines markiert: welche Aufgabe traegt gerade nicht.
-       Dieselbe Reihenfolge wie oben im Abschnitt, damit man den Bezug sieht. */
-    var reihe = ['gefunden', 'verstanden', 'erreichbar'];
-    var ampel = '<span class="pc__ampel" aria-hidden="true">' + reihe.map(function (k) {
-      return '<i class="' + (k === schluessel ? 'schwach' : '') + '"></i>';
-    }).join('') + '</span>';
-
-    out.innerHTML =
-      '<div class="pc__res">' +
-        '<div>' + meter +
-          '<p class="kicker">Diagnose</p>' +
-          '<p class="pc__aufgabe">' + ampel +
-            '<span>Schwächste Aufgabe: <strong>' + esc(AUFGABEN[schluessel]) + '</strong></span></p>' +
-          '<h3 class="h-md pc__stufe">' + esc(stufe.name) +
-            '<span class="pc__preis">' + esc(stufe.preis) + '</span></h3>' +
-          '<p class="pc__hint">' + esc(stufe.warum) + '</p>' +
-        '</div>' +
-        '<div class="pc__side">' +
-          '<p class="kicker">Enthalten</p>' +
-          '<ul class="pc__mods">' + mods.map(function (m) {
-            return '<li>' + ICON_CHECK + '<span>' + esc(m) + '</span></li>';
-          }).join('') + '</ul>' +
-          '<p class="pc__note">' + esc(ZEIT[pick.zeit].line) + '</p>' +
-          '<button type="button" class="btn btn--split btn--primary btn--sm" id="check-handoff">' +
-            '<span class="btn__label">An Schnellkontakt übergeben</span>' +
-            '<span class="btn__ico"><svg aria-hidden="true"><use href="#i-arrow-ur"/></svg>' +
-            '<svg aria-hidden="true"><use href="#i-arrow-ur"/></svg></span></button>' +
-        '</div>' +
-      '</div>';
-
-    $('#check-handoff').addEventListener('click', handoff);
-  };
-
-  /* --- Schrittweise Anzeige auf schmalen Ansichten ----------------------
-     Alle drei Fragen gleichzeitig offen kosteten 1288px, ein Drittel davon
-     Leerraum neben den langen Themen-Beschriftungen. Beantwortete Fragen
-     zeigen deshalb nur noch den gewaehlten Chip; Fragetext und uebrige Chips
-     treten zurueck.
-
-     Bewusst ohne neues Bedienelement: der gewaehlte Chip bleibt stehen und
-     ist selbst der Schalter, mit dem sich die Gruppe wieder oeffnet. Damit
-     entstehen weder zusaetzliche Tabstopps noch Markup, das auf dem Desktop
-     mitgeschleppt und wieder versteckt werden muesste.
-     ---------------------------------------------------------------------- */
-  var fragen = $$('.pc__q');
-  // Einmal anlegen, nicht bei jedem Aufruf: window.matchMedia() erzeugt jedes
-  // Mal ein neues Objekt, und schmal() wird je Frage einmal gefragt.
-  var mqSchmal = window.matchMedia('(max-width:899px)');
-  var schmal = function () { return mqSchmal.matches; };
-
-  // Je Frage eine Zeile fuer die getroffene Wahl. Sie steht im zugeklappten
-  // Zustand rechts neben der Nummer und ersetzt dort die Chipreihe.
-  fragen.forEach(function (q) {
-    var s = document.createElement('span');
-    s.className = 'pc__pick';
-    q.insertBefore(s, $('.pc__ask', q));
-  });
-
-  var gruppeVon = function (q) { var b = $('[data-check]', q); return b && b.dataset.check; };
-  var offeneFrage = fragen[0] || null;
-
-  var zeigeSchritte = function () {
-    fragen.forEach(function (q) {
-      var g = gruppeVon(q);
-      var wahl = g && pick[g];
-      var zu = schmal() && q !== offeneFrage;
-
-      q.dataset.erledigt = zu ? 'true' : 'false';
-      $('.pc__pick', q).textContent = wahl
-        ? ($$('[data-check="' + g + '"][data-value="' + wahl + '"]')[0] || {}).textContent || ''
-        : '';
-
-      // Zugeklappt traegt die Zeile selbst die Bedienung. Das kostet keinen
-      // zusaetzlichen Tabstopp, sondern spart welche: die bis zu sieben Chips
-      // darin sind ausgeblendet und damit ohnehin nicht mehr erreichbar.
-      if (zu) {
-        q.setAttribute('role', 'button');
-        q.setAttribute('tabindex', '0');
-        q.setAttribute('aria-expanded', 'false');
-      } else {
-        q.removeAttribute('role');
-        q.removeAttribute('tabindex');
-        q.removeAttribute('aria-expanded');
-      }
-    });
-  };
-
-  var oeffne = function (q) { offeneFrage = q; zeigeSchritte(); };
-
-  fragen.forEach(function (q) {
-    q.addEventListener('click', function (e) {
-      if (q.dataset.erledigt === 'true' && !e.target.closest('[data-check]')) oeffne(q);
-    });
-    q.addEventListener('keydown', function (e) {
-      if (q.dataset.erledigt !== 'true') return;
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); oeffne(q); }
-    });
-  });
-
-  // Beim Wechsel zwischen schmal und breit den Zustand nachziehen: auf dem
-  // Desktop stehen alle drei Fragen nebeneinander und duerfen nicht zuklappen.
-  //
-  // Am Medienabfrage-Objekt statt am resize-Ereignis: gebraucht wird das nur
-  // beim Ueberschreiten der Grenze. Am resize haengend lief zeigeSchritte()
-  // auf dem Telefon bei jedem Scrollen mit, weil die ein- und ausfahrende
-  // Adressleiste laufend Groessenaenderungen meldet.
-  var grenzwechsel = function () {
-    if (!schmal()) offeneFrage = null;
-    else if (!offeneFrage) offeneFrage = fragen[0];
-    zeigeSchritte();
-  };
-  if (mqSchmal.addEventListener) mqSchmal.addEventListener('change', grenzwechsel);
-  else if (mqSchmal.addListener) mqSchmal.addListener(grenzwechsel);   // Safari < 14
-
-  $$('[data-check]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var group = btn.dataset.check, value = btn.dataset.value;
-      var q = btn.closest('.pc__q');
-
-      $$('[data-check="' + group + '"]').forEach(function (o) {
-        o.setAttribute('aria-pressed', String(o === btn));
-      });
-      pick[group] = value;
-
-      // Weiter zur ersten noch unbeantworteten Frage. Ist keine mehr offen,
-      // klappen alle zu und das Ergebnis bekommt den Platz.
-      offeneFrage = null;
-      for (var i = 0; i < fragen.length; i++) {
-        var g = gruppeVon(fragen[i]);
-        if (g && !pick[g]) { offeneFrage = fragen[i]; break; }
-      }
-      zeigeSchritte();
-      render();
-    });
-  });
-  zeigeSchritte();
-  render();
-
-  /* --- 9. Schnellkontakt: Dialog, Uebergabe, Versand -------------------- */
   var dlg   = $('#kontakt-dialog');
   var slot  = $('#dialog-slot');
   var host  = $('#form-host');
@@ -1793,28 +1483,6 @@
     });
   });
 
-  function handoff() {
-    var b = $('#f-ausgangspunkt'), a = $('#f-anliegen');
-    if (b && pick.ausgangspunkt) b.value = pick.ausgangspunkt;
-    if (a) {
-      var t = THEMEN[pick.thema];
-      var stufe = stufeFuer(pick.thema, pick.ausgangspunkt);
-      a.value = 'Projekt-Check: ' + AUSGANG[pick.ausgangspunkt] + ' · ' + t.label + ' · ' + ZEIT[pick.zeit].label +
-                '\nSchwächste Aufgabe: ' + AUFGABEN[AUFGABE_ZU[pick.thema]] +
-                '\nEmpfehlung: ' + stufe.name + ' (' + stufe.preis + ')';
-      /* Auch das Ergebnis des Projekt-Checks ist eine Vorgabe und kein
-         getippter Text — sonst bliebe es beim naechsten Aufruf stehen. */
-      a.dataset.vorbelegt = 'ja';
-    }
-    /* Der Check fuehrt zu keinem bestimmten Paket. Was von einem frueheren
-       Klick auf eine Preiskarte noch steht, wird hier abgeraeumt. */
-    var schild = $('#dlg-paket');
-    if (schild) schild.hidden = true;
-    var paketFeld = $('#f-paket');
-    if (paketFeld) paketFeld.value = '';
-    openContact();
-  }
-
   // Sticky-Button: erst nach dem Hero einblenden, in der Kontaktsektion wieder aus
   var sticky = $('.sticky-cta');
   if (sticky) {
@@ -1892,7 +1560,7 @@
         anliegen:      String(data.get('anliegen') || '').trim(),
         consent:       data.get('consent') === 'on',
         ts:            new Date().toISOString(),
-        quelle:        window.location.pathname + (pick.thema ? ' · projekt-check' : '')
+        quelle:        window.location.pathname
       };
 
       /* Adressfeld der Analyse-Seite: die Adresse gehoert sichtbar in die
