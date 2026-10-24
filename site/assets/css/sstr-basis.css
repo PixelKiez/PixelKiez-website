@@ -430,8 +430,8 @@ body{
 .hero{padding-top:var(--zelle)}
 .hero__buehne{
   margin:0 var(--frame);padding:0;background:#000000;
-  min-height:calc(100vh - var(--kopf) - var(--zelle) * 2);
-  min-height:calc(100svh - var(--kopf) - var(--zelle) * 2);
+  min-height:calc(100vh - var(--kopf) - var(--leiste, 0px) - var(--zelle) * 2);
+  min-height:calc(100svh - var(--kopf) - var(--leiste, 0px) - var(--zelle) * 2);
 }
 .hero__buehne::before{content:none}
 .hero__swell{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}

@@ -600,6 +600,23 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   text-transform:uppercase;color:var(--ink-45);
 }
 
+/* Schmale Leiste ueber dem Kopf der Startseite. Sie scrollt weg, danach
+   klebt der Kopf wie gewohnt oben. Schwarz wie die Flaeche des Hero. Ihre
+   Hoehe zieht der Hero ueber --leiste von seiner Mindesthoehe ab
+   (sstr-basis.css). */
+.leiste-analyse{background:#000;color:#fff}
+.leiste-analyse ~ main{--leiste:40px}
+.leiste-analyse__link{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:40px;padding:4px 16px;
+  font-family:var(--font-mono);font-size:.8125rem;letter-spacing:.06em;
+  text-transform:uppercase;color:#fff;text-decoration:none;
+}
+.leiste-analyse__link svg{width:16px;height:16px;flex:none;transition:transform .2s var(--ease)}
+.leiste-analyse__link:hover{background:#1C1C1C}
+.leiste-analyse__link:hover svg{transform:translateX(3px)}
+.leiste-analyse__link:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+
 /* ---------- 6. Header ---------------------------------------------------- */
 .header{
   position:sticky;top:0;z-index:var(--z-header);
