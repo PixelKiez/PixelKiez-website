@@ -25,8 +25,6 @@ const DOMAIN = 'https://pixelkiez.de';
    und Wirt getrennt — ein Zeichenkettenvergleich auf den Anfang von DOMAIN
    wuerde fremde Wirte einschliessen (siehe W-7). */
 const HERKUNFT = new URL(DOMAIN);
-/* Einzige erlaubte Fremdquelle, siehe GOOGLE_QUELLE_TAG in build.mjs. */
-const GOOGLE_QUELLE_TAG = '<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>';
 const SEITEN = [
   { pfad: 'index.html',                    lang: 'de', kanonisch: '/',                       paar: { partner: '/en/',                 schalter: 'EN' } },
   { pfad: 'en/index.html',                 lang: 'en', kanonisch: '/en/',                    paar: { partner: '/',                    schalter: 'DE' } },
@@ -408,14 +406,11 @@ async function verify() {
 
     /* --- nichts darf mehr extern nachgeladen werden --- */
     if (/<link[^>]+rel="stylesheet"/.test(html)) F(`${seite}: externes Stylesheet uebrig`);
-    if (/<script[^>]+\bsrc=/.test(html.replaceAll(GOOGLE_QUELLE_TAG, ''))) F(`${seite}: externes Skript uebrig`);
-    const googleTags = html.split(GOOGLE_QUELLE_TAG).length - 1;
-    if (eintrag.wissen) {
-      if (googleTags !== 1) F(`${seite}: Googles publisher.js ${googleTags}-mal geladen statt genau einmal`);
-      if (!/<div google-add-preferred-source-btn\b[^>]*><\/div>/.test(html)) F(`${seite}: Platz fuer Googles Button fehlt`);
-    } else if (googleTags > 0) {
-      F(`${seite}: Googles publisher.js ausserhalb des Wissensbereichs`);
-    }
+    if (/<script[^>]+\bsrc=/.test(html))          F(`${seite}: externes Skript uebrig`);
+    // Googles Button laedt erst nach Einwilligung (einwilligung.js); im
+    // Wissensbereich muss sein Platz trotzdem in jeder Seite stehen.
+    if (eintrag.wissen && !/<div google-add-preferred-source-btn\b[^>]*><\/div>/.test(html))
+      F(`${seite}: Platz fuer Googles Button fehlt`);
     // Nur Attributpositionen pruefen. Die Datenschutzerklaerung nennt
     // assets/js/bds.js absichtlich im Fliesstext, wenn sie erklaert, wo der
     // ENDPOINT eingetragen wird — das ist Text, kein Ladeverweis.

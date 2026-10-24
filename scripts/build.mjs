@@ -103,15 +103,20 @@ const REVEAL_VORLAUF = '<script>' + [
   '});}catch(e){d.removeAttribute("data-reveal-anim");d.removeAttribute("data-logo-drift");}})();',
 ].join('') + '</script>';
 
+/* Liest eine gespeicherte Ablehnung vor dem ersten Zeichnen (einwilligung.js).
+   Sonst stuende im Wissensbereich kurz der leere Platz fuer Googles Button
+   da und klappte erst danach zu — ein Layoutsprung. Eigenes Skript, damit der
+   Reveal-Vorlauf oben unberuehrt bleibt. */
+const EINWILLIGUNG_VORLAUF = '<script>(function(){try{' +
+  'var w=JSON.parse(localStorage.getItem("pxk-einwilligung"));' +
+  'if(w&&w.google===false)document.documentElement.setAttribute("data-einwilligung","nein");' +
+  '}catch(e){}})();</script>';
+
 /* Nur Seiten, die bds.js mitbringen, duerfen den Vorzustand ueberhaupt
    aufspannen. Auf Impressum und Datenschutz laeuft kein Skript; dort waere
    ein Merkmal, das niemand zuruecknimmt, genau der Fehler, den PXK-23
    behebt. */
 const SKRIPT_TAG = '<script src="assets/js/bds.js" defer></script>';
-
-/* Einzige erlaubte Fremdquelle: Googles Button "bevorzugte Quelle" auf den
-   Wissensseiten. Er laesst sich nicht einbetten, also bleibt er ein Verweis. */
-const GOOGLE_QUELLE_TAG = '<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>';
 
 /* -------------------------------------------------------------------------
    Bildverweise mit VOLLSTAENDIGER Adresse auf den gehashten Namen ziehen.
@@ -268,7 +273,7 @@ async function baueEnglisch(paar, mittel) {
   /* --- Mittel einbetten, wie bei der deutschen Fassung --- */
   const hatSkript = html.includes(SKRIPT_TAG);
   const linkMuster = /[ \t]*<link rel="stylesheet" href="assets\/css\/fonts\.css">\s*\n[ \t]*<link rel="stylesheet" href="assets\/css\/bds\.css">/;
-  html = html.replace(linkMuster, () => `<style>${cssMin}</style>` + (hatSkript ? REVEAL_VORLAUF : ''));
+  html = html.replace(linkMuster, () => `<style>${cssMin}</style>` + (hatSkript ? REVEAL_VORLAUF + EINWILLIGUNG_VORLAUF : ''));
   html = html.replace(/href="assets\/fonts\/([^"]+\.woff2)"/g, (m, datei) => {
     const neu = fontKarte.get(datei);
     if (!neu) throw new Error(`${paar.zielEn}: Vorladehinweis auf unbekannte Schrift ${datei}`);
@@ -303,7 +308,7 @@ function pruefe(seite, html, jsMin) {
 
   if (/<link[^>]+rel="stylesheet"/.test(html))
     fehler.push('ein <link rel="stylesheet"> ist uebrig — CSS wurde nicht eingebettet');
-  if (/<script[^>]+\bsrc=/.test(html.replaceAll(GOOGLE_QUELLE_TAG, '')))
+  if (/<script[^>]+\bsrc=/.test(html))
     fehler.push('ein <script src=…> ist uebrig — JS wurde nicht eingebettet');
   if (/\.\.\/fonts\//.test(html))
     fehler.push('unaufgeloester Pfad ../fonts/ — die eingebettete Fassung wuerde die Schriften nicht finden');
@@ -537,6 +542,7 @@ async function build() {
     await readFile(join(QUELLE, 'assets', 'js', 'pixelkiez-micro-ui.js'), 'utf8'),
     await readFile(join(QUELLE, 'assets', 'js', 'crosshair-button.js'), 'utf8'),
     await readFile(join(QUELLE, 'assets', 'js', 'swell-grid.js'), 'utf8'),
+    await readFile(join(QUELLE, 'assets', 'js', 'einwilligung.js'), 'utf8'),
   ].join('\n');
   // es2015 statt esnext: der Quelltext ist durchgehend ES5. So kann der
   // Minifizierer keine Pfeilfunktionen einstreuen, die aeltere Browser
@@ -590,7 +596,7 @@ async function build() {
     // Ersetzungs-FUNKTION, nicht -Zeichenkette: in einer Ersetzungszeichenkette
     // sind $&, $', $`, $1..$9 Sonderfolgen. Minifiziertes CSS/JS enthaelt sie
     // ohne weiteres — $&& entsteht schon aus einer Variablen namens $.
-    html = html.replace(linkMuster, () => `<style>${cssMin}</style>` + (hatSkript ? REVEAL_VORLAUF : ''));
+    html = html.replace(linkMuster, () => `<style>${cssMin}</style>` + (hatSkript ? REVEAL_VORLAUF + EINWILLIGUNG_VORLAUF : ''));
 
     /* 4b. Schrift-Vorladehinweise auf die gehashten Namen ziehen, ebenfalls
            wurzelabsolut — siehe Begruendung beim CSS. */
