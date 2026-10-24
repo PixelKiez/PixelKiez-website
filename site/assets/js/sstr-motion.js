@@ -1,7 +1,7 @@
 /* =========================================================================
    Pixelkiez — Bewegungsschicht zur Designschicht (sstr.tech)
    Laeuft nach bds.js als eigene IIFE und fasst dessen Logik nicht an.
-   Keine Bibliothek: Kopfton, Vorlauf, weiches Scrollen und Ziffernlauf
+   Keine Bibliothek: Kopfton, weiches Scrollen und Ziffernlauf
    sind auf das zurueckgebaut, was die Referenz zeigt (GSAP/Lenis dort);
    dazu die Flieder-Flaeche unter "Drei Aufgaben".
 
@@ -58,60 +58,8 @@
     window.addEventListener("load", messen);
   })();
 
-  /* --- 2. Vorlauf ---------------------------------------------------------
-     Nur auf der Startseite und nur beim ersten Aufruf je Sitzung, wie bei
-     der Referenz. Rein optisch: kein Text, kein Bild, keine Klickfalle
-     (pointer-events:none). Spaetestens nach 2,4 s ist er weg, auch wenn
-     Schriften haengen. Ohne Speicherzugriff (privater Modus) entfaellt er
-     ganz — ein Vorlauf bei jedem Aufruf waere schlimmer als keiner. */
-  (function vorlauf() {
-    if (reduziert || !document.querySelector(".hero")) return;
-    var schon;
-    try {
-      schon = window.sessionStorage.getItem("pk-vorlauf");
-      window.sessionStorage.setItem("pk-vorlauf", "1");
-    } catch (e) { return; }
-    if (schon) return;
-
-    // Solange der Vorlauf die Seite deckt, warten die Ueberschriften mit
-    // ihrem Block-Reveal (bds.js, Abschnitt 5) — sonst spielte die erste
-    // ("Drei Aufgaben") ungesehen darunter ab, sobald man gleich scrollt.
-    wurzel.setAttribute("data-vorlauf", "an");
-    var freigeben = function () {
-      if (!wurzel.hasAttribute("data-vorlauf")) return;
-      wurzel.removeAttribute("data-vorlauf");
-      try { window.dispatchEvent(new Event("pk-vorlauf-weg")); } catch (e) {}
-    };
-
-    var el = document.createElement("div");
-    el.className = "s-vorlauf";
-    el.setAttribute("aria-hidden", "true");
-    el.innerHTML = "<div class=\"s-vorlauf__flaeche\"></div>" +
-      "<div class=\"s-vorlauf__feld\"><div class=\"s-vorlauf__balken\"></div></div>";
-    document.body.appendChild(el);
-
-    var start = Date.now();
-    var schriften = !(document.fonts && document.fonts.ready);
-    if (!schriften) document.fonts.ready.then(function () { schriften = true; });
-    var weg = false;
-    var abbauen = function () {
-      if (weg) return;
-      weg = true;
-      el.classList.add("ist-weg");
-      // Der Vorhang faehrt mit cctpOut nach oben: nach 0,4 s ist die Seite
-      // bis auf einen schmalen Streifen frei.
-      window.setTimeout(freigeben, 400);
-      window.setTimeout(function () { freigeben(); if (el.parentNode) el.parentNode.removeChild(el); }, 900);
-    };
-    window.requestAnimationFrame(function () {
-      window.requestAnimationFrame(function () { el.classList.add("ist-geladen"); });
-    });
-    (function warten() {
-      var lange = Date.now() - start;
-      if ((schriften && lange >= 950) || lange >= 2400) { abbauen(); return; }
-      window.setTimeout(warten, 60);
-    })();
-  })();
+  /* Der Lade-Vorhang der Referenz ("Vorlauf") ist entfernt: wer den Link
+     oeffnet, soll sofort die Seite sehen, nicht 1,5 s ein Raster davor. */
 
   /* --- 3. Weiches Scrollen ------------------------------------------------
      Lenis mit lerp 0.1 und smoothWheel, nachgebaut: das Mausrad setzt ein

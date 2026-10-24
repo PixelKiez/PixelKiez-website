@@ -430,40 +430,6 @@ main:has(> section.inv:last-of-type) + .footer::before{
 #im-detail .tb--schwarz{--tb:#EFF0F1}
 #faq .tb--weiss{--tb:#0C0C0C}
 
-/* Vorlauf beim ersten Aufruf der Startseite (sstr-motion.js): links eine
-   orange Flaeche, rechts das Kreuzraster; die Flaeche zieht sich zusammen,
-   dann hebt sich der Vorhang. Kein Text, kein Bild.
-   Alles laeuft ueber transform. Vorher schrumpfte die Flaeche ueber
-   flex-basis und schob Raster und Balken mit — jedes Bild ein Layout-
-   Shift, gemessen CLS 0,38 (1440 px) bzw. 0,16 (390 px) beim Erstbesuch.
-   Jetzt liegt das Raster fest ueber die ganze Breite, die Flaeche deckt
-   seine linke Haelfte und zieht sich per scaleX nach links zusammen:
-   dasselbe Bild, kein Shift. */
-.s-vorlauf{
-  position:fixed;inset:0;z-index:90;pointer-events:none;
-  background:#18191B;
-  transition:transform .8s var(--s-ease-out);
-}
-.s-vorlauf__flaeche{position:absolute;top:0;bottom:0;left:0;width:50%;z-index:1;background:var(--s-orange);
-  transform-origin:left center;transition:transform .6s var(--s-ease-out)}
-.s-vorlauf__feld{position:absolute;inset:0}
-.s-vorlauf__feld::before{content:"";position:absolute;inset:0;
-  background:
-    repeating-linear-gradient(to right,#2F3032 0 1px,transparent 1px 48px),
-    repeating-linear-gradient(to bottom,#2F3032 0 1px,transparent 1px 48px);
-  -webkit-mask:repeating-linear-gradient(to right,#000 0 5px,transparent 5px 44px,#000 44px 48px),
-               repeating-linear-gradient(to bottom,#000 0 5px,transparent 5px 44px,#000 44px 48px);
-  -webkit-mask-composite:source-in;
-  mask:repeating-linear-gradient(to right,#000 0 5px,transparent 5px 44px,#000 44px 48px),
-       repeating-linear-gradient(to bottom,#000 0 5px,transparent 5px 44px,#000 44px 48px);
-  mask-composite:intersect;
-}
-.s-vorlauf__balken{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--s-orange);
-  transform:scaleX(0);transform-origin:left center;transition:transform .9s var(--s-ease-out)}
-.s-vorlauf.ist-geladen .s-vorlauf__balken{transform:none}
-.s-vorlauf.ist-geladen .s-vorlauf__flaeche{transform:scaleX(0)}
-.s-vorlauf.ist-weg{transform:translate3d(0,-100%,0)}
-
 /* Seitenwechsel: das neue Dokument faehrt von unten wie ein Vorhang ueber
    das alte. Echte Navigation — Adresse, Zurueck-Taste, Direktaufruf und
    Messung bleiben unberuehrt. Browser ohne Unterstuetzung wechseln wie
@@ -480,7 +446,6 @@ html.ist-gleitend{scroll-behavior:auto}
 
 @media (prefers-reduced-motion:reduce){
   @view-transition{navigation:none}
-  .s-vorlauf{display:none}
   .ziffer > span{transform:none}
 }
 
