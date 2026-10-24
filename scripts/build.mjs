@@ -109,6 +109,10 @@ const REVEAL_VORLAUF = '<script>' + [
    behebt. */
 const SKRIPT_TAG = '<script src="assets/js/bds.js" defer></script>';
 
+/* Einzige erlaubte Fremdquelle: Googles Button "bevorzugte Quelle" auf den
+   Wissensseiten. Er laesst sich nicht einbetten, also bleibt er ein Verweis. */
+const GOOGLE_QUELLE_TAG = '<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>';
+
 /* -------------------------------------------------------------------------
    Bildverweise mit VOLLSTAENDIGER Adresse auf den gehashten Namen ziehen.
 
@@ -299,7 +303,7 @@ function pruefe(seite, html, jsMin) {
 
   if (/<link[^>]+rel="stylesheet"/.test(html))
     fehler.push('ein <link rel="stylesheet"> ist uebrig — CSS wurde nicht eingebettet');
-  if (/<script[^>]+\bsrc=/.test(html))
+  if (/<script[^>]+\bsrc=/.test(html.replaceAll(GOOGLE_QUELLE_TAG, '')))
     fehler.push('ein <script src=…> ist uebrig — JS wurde nicht eingebettet');
   if (/\.\.\/fonts\//.test(html))
     fehler.push('unaufgeloester Pfad ../fonts/ — die eingebettete Fassung wuerde die Schriften nicht finden');

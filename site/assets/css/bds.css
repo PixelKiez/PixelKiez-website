@@ -2682,6 +2682,10 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .krumen a:hover{color:var(--accent-ink);text-decoration:underline}
 .krumen [aria-current]{color:var(--ink)}
 
+/* Googles Button "bevorzugte Quelle" zeichnet sich erst nach dem Laden;
+   die Mindesthoehe haelt seinen Platz frei, damit darunter nichts springt. */
+.quelle-google{min-height:40px;display:flex;align-items:center}
+
 /* Inhaltsverzeichnis: reine Sprungmarken auf einer eigenen Flaeche. Ab
    920px zweispaltig, weil zehn Abschnitte in einer Spalte den Auftakt vom
    Text wegdruecken. Die Nummern kommen aus dem Zaehler der Liste — die
