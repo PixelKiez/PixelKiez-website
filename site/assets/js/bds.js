@@ -851,27 +851,14 @@
         heads.forEach(function (h) { h.classList.add('is-in'); });
         return;
       }
-      // Solange der Vorlauf der Startseite die Seite deckt (sstr-motion.js
-      // setzt dann data-vorlauf), startet keine Ueberschrift: sie liefe
-      // ungesehen darunter ab. Danach werden die wartenden neu beobachtet —
-      // was dann im Bild steht, blendet sofort ein. Doppelte Anfuehrungs-
-      // zeichen: die Uebersetzungspruefung liest nur einfache.
-      var verdeckt = function () { return document.documentElement.hasAttribute("data-vorlauf"); };
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
-          if (!e.isIntersecting || verdeckt()) return;
+          if (!e.isIntersecting) return;
           e.target.classList.add('is-in');
           io.unobserve(e.target);
         });
       }, { rootMargin: '0px 0px -15% 0px' });    // entspricht start: "top 85%"
       heads.forEach(function (h) { io.observe(h); });
-      window.addEventListener("pk-vorlauf-weg", function () {
-        heads.forEach(function (h) {
-          if (h.classList.contains('is-in')) return;
-          io.unobserve(h);
-          io.observe(h);
-        });
-      });
     };
 
     whenFontsReady(arm);     // Zeilenumbruch stimmt erst mit geladener Schrift
