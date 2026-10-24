@@ -21,5 +21,21 @@
   "Paket ": "Package ",
   " · Anfrage von ": " · Enquiry from ",
   "ANGEFRAGTES PAKET: ": "PACKAGE REQUESTED: ",
-  "\\nUnternehmen: ": "\\nCompany: "
+  "\\nUnternehmen: ": "\\nCompany: ",
+  "Cookies und externe Dienste": "Cookies and external services",
+  "Wir speichern nur, was technisch nötig ist, etwa Ihre Auswahl in diesem Fenster. Mit „Alle akzeptieren“ erlauben Sie zusätzlich zwei Dienste von Google: Google Analytics, mit dem wir auswerten, wie unsere Website genutzt wird, und im Wissensbereich einen Button, mit dem Sie Pixelkiez als bevorzugte Quelle speichern können. Dabei erhält Google Ihre IP-Adresse und Nutzungsdaten, auch in den USA; Google Analytics setzt dafür Cookies. Ihre Entscheidung können Sie jederzeit über „Cookie-Einstellungen“ unten auf der Seite ändern.": "We only store what is technically necessary, such as your choice in this window. With “Accept all” you additionally allow two services from Google: Google Analytics, which we use to evaluate how our website is used, and, in the knowledge section, a button with which you can save Pixelkiez as a preferred source. Google receives your IP address and usage data, including in the USA; Google Analytics sets cookies for this. You can change your decision at any time via “Cookie settings” at the bottom of the page.",
+  "Details in der Datenschutzerklärung": "Details in the privacy policy",
+  "Impressum": "Imprint",
+  "Alle akzeptieren": "Accept all",
+  "Nur essenzielle": "Essential only",
+  "Ablehnen": "Decline",
+  "Cookie-Einstellungen": "Cookie settings",
+  "Einstellungen anpassen": "Customise settings",
+  "Essenziell": "Essential",
+  "Statistik: Google Analytics": "Statistics: Google Analytics",
+  "Zeigt uns, welche Seiten wie genutzt werden. Google Analytics setzt dafür Cookies (_ga, bis zu 2 Jahre) und überträgt Ihre IP-Adresse und Nutzungsdaten an Google, auch in die USA.": "Shows us which pages are used and how. Google Analytics sets cookies for this (_ga, up to 2 years) and transmits your IP address and usage data to Google, including to the USA.",
+  "Immer aktiv. Speichert nur Ihre Auswahl in diesem Fenster, im lokalen Speicher Ihres Browsers.": "Always active. Only stores your choice in this window, in your browser’s local storage.",
+  "Externe Medien: Google-Button": "External media: Google button",
+  "Zeigt im Wissensbereich den Button „Bevorzugte Quelle“ von Google. Dabei erhält Google Ihre IP-Adresse und technische Browserdaten, auch in den USA; sind Sie bei Google angemeldet, kann Google den Aufruf Ihrem Konto zuordnen.": "Shows Google’s “Preferred source” button in the knowledge section. Google receives your IP address and technical browser data, including in the USA; if you are signed in to Google, Google can link the visit to your account.",
+  "Auswahl speichern": "Save selection"
 }

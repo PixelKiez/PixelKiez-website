@@ -407,6 +407,10 @@ async function verify() {
     /* --- nichts darf mehr extern nachgeladen werden --- */
     if (/<link[^>]+rel="stylesheet"/.test(html)) F(`${seite}: externes Stylesheet uebrig`);
     if (/<script[^>]+\bsrc=/.test(html))          F(`${seite}: externes Skript uebrig`);
+    // Googles Button laedt erst nach Einwilligung (einwilligung.js); im
+    // Wissensbereich muss sein Platz trotzdem in jeder Seite stehen.
+    if (eintrag.wissen && !/<div google-add-preferred-source-btn\b[^>]*><\/div>/.test(html))
+      F(`${seite}: Platz fuer Googles Button fehlt`);
     // Nur Attributpositionen pruefen. Die Datenschutzerklaerung nennt
     // assets/js/bds.js absichtlich im Fliesstext, wenn sie erklaert, wo der
     // ENDPOINT eingetragen wird — das ist Text, kein Ladeverweis.
