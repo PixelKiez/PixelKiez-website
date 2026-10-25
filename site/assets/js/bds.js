@@ -1560,7 +1560,6 @@
         paket:         String(data.get('paket') || '').trim(),
         ausgangspunkt: AUSGANG[data.get('ausgangspunkt')] || String(data.get('ausgangspunkt') || ''),
         anliegen:      String(data.get('anliegen') || '').trim(),
-        consent:       data.get('consent') === 'on',
         ts:            new Date().toISOString(),
         quelle:        window.location.pathname
       };

@@ -305,9 +305,7 @@
 .select{padding-right:36px;background-position:right 12px center}
 .textarea{min-height:max(96px, calc(var(--u) * 110))}
 .analyse-band__form .input{align-self:center}
-.consent{border:0;border-radius:0;background:transparent;padding:0;gap:max(10px, calc(var(--u) * 14))}
-.consent input{accent-color:var(--s-orange)}
-.consent label,.form__pflicht,.field .hint{font-size:var(--t-sm);line-height:1.43}
+.form__pflicht,.form__hinweis,.field .hint{font-size:var(--t-sm);line-height:1.43}
 .form__status{border-radius:0}
 /* Nach dem Absenden: drei Zeilen unter dem Knopf, als Haarlinienliste wie
    die Leistungslisten der Preiskarten, ohne Nummern. */
