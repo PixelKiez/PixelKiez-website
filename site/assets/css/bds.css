@@ -2048,10 +2048,11 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 
 /* Die Zeile, die den Stern erklaert. Sie steht als erstes im Formular, nicht
    darunter: wer sie erst am Ende liest, hat die Felder schon ausgefuellt. */
-.form__pflicht{font-size:.8125rem;color:var(--ink-45);line-height:1.5;margin:0}
+.form__pflicht,.form__hinweis{font-size:.8125rem;color:var(--ink-45);line-height:1.5;margin:0}
 @media (max-width:899px){
-  .form__pflicht{font-size:.875rem}
+  .form__pflicht,.form__hinweis{font-size:.875rem}
 }
+.form__hinweis a{color:var(--accent-ink);text-underline-offset:3px}
 .input,.select,.textarea{
   width:100%;padding:14px 16px;min-height:50px;
   background:var(--paper-2);color:var(--ink);
@@ -2071,24 +2072,6 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
 .inv .select{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C8A86' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
 }
-.consent{
-  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;
-  padding:15px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);
-  background:var(--paper-2);
-}
-/* 24px, nicht 22: WCAG 2.2 verlangt in 2.5.8 eine Trefferflaeche von
-   mindestens 24x24 CSS-Pixeln. Bei 22 lag das Kaestchen zwei Punkte
-   darunter — nachgemessen im Browser, nicht geschaetzt. Die Ausnahme fuer
-   Inline-Ziele greift hier nicht: das Kaestchen steht als eigenes
-   Bedienelement neben dem Text, nicht in einem Satz.
-
-   margin-top faellt entsprechend von 1px auf 0, damit das Kaestchen weiter
-   auf der ersten Zeile des Labels sitzt statt einen Punkt darunter. */
-.consent input{
-  width:24px;height:24px;margin:0;accent-color:var(--accent);cursor:pointer;flex:none;
-}
-.consent label{font-size:.875rem;line-height:1.55;color:var(--ink-70);cursor:pointer}
-.consent a{color:var(--accent-ink);text-underline-offset:3px}
 .hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
 
 .form__status{
@@ -2345,6 +2328,10 @@ em.q{font-style:normal;color:var(--accent-ink);font-weight:500}
   font-family:var(--font-display);font-weight:600;letter-spacing:-.018em;
   font-size:1.0625rem;margin-top:1.8em;
 }
+/* Abgesetzter Kasten mitten im Text (Widerspruchsrecht): Luft zur Liste
+   darueber, die Ueberschrift beginnt direkt am Innenrand. */
+.legal__body div.hinweis-fassung{margin-top:1.4em}
+.legal__body div.hinweis-fassung h3{margin-top:0}
 .legal__body p,.legal__body ul{margin-top:.85em;color:var(--ink-70)}
 .legal__body ul{display:grid;gap:.5em;padding-left:1.1em;list-style:disc}
 .legal__body a{color:var(--accent-ink);text-underline-offset:3px}

@@ -28,6 +28,7 @@
    ========================================================================= */
 
 import { createServer } from 'node:http';
+import { appendFileSync } from 'node:fs';
 import { setDefaultResultOrder } from 'node:dns';
 import { lookup } from 'node:dns/promises';
 import net from 'node:net';
@@ -91,6 +92,22 @@ const NICHT_KONFIGURIERT = !MAIL_TO || (PER_HTTPS
   : (!SMTP_HOST || (!!SMTP_USER && !SMTP_PASS)));
 const DRYRUN = /^(1|true|ja)$/i.test(process.env.MAIL_DRYRUN || '');
 const TROCKENLAUF = NICHT_KONFIGURIERT;
+// Nur fuer Tests: Datei, in die der Trockenlauf den fertigen Mailtext
+// schreibt. Ins Protokoll gehoert er nie.
+const MAIL_DATEI = process.env.MAIL_DRYRUN_DATEI || '';
+
+/* Harte Sperre: Trockenlauf und Mail-Datei sind reine Testwerkzeuge. Laeuft
+   der Dienst produktiv, startet er damit gar nicht erst, damit ein Mailinhalt
+   live weder in einer Datei noch im Protokoll landen kann. NODE_ENV setzt
+   weder das Dockerfile noch Railway; Railway setzt aber immer seine
+   RAILWAY_*-Variablen, auch bei "railway run". */
+const PRODUKTIV = process.env.NODE_ENV === 'production'
+  || !!(process.env.RAILWAY_ENVIRONMENT_NAME || process.env.RAILWAY_PROJECT_ID || process.env.RAILWAY_SERVICE_ID);
+if (PRODUKTIV && (DRYRUN || MAIL_DATEI)) {
+  console.error('Abbruch: MAIL_DRYRUN und MAIL_DRYRUN_DATEI sind nur fuer lokale Tests erlaubt, '
+    + 'nicht in Produktion. Variable entfernen und neu starten.');
+  process.exit(1);
+}
 
 /* --- Grenzen ------------------------------------------------------------
    Alles, was von aussen kommt, bekommt eine Obergrenze. Ohne die waere ein
@@ -267,7 +284,6 @@ const server = createServer((req, res) => {
 
     if (!name)    return antwort(req, res, 400, { ok: false, fehler: 'Name fehlt' });
     if (!kontakt) return antwort(req, res, 400, { ok: false, fehler: 'Kontaktangabe fehlt' });
-    if (d.consent !== true) return antwort(req, res, 400, { ok: false, fehler: 'Einwilligung fehlt' });
 
     /* Das Paket steht als erste Zeile im Text und zusaetzlich im Betreff —
        wer die Mail oeffnet, soll nicht erst im Anliegen danach suchen. Ohne
@@ -285,17 +301,18 @@ const server = createServer((req, res) => {
       'Eingang:       ' + new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }) + '\n\n' +
       'Anliegen:\n' + (anliegen || '—') + '\n\n' +
       '─────────────────────────────\n' +
-      'Einwilligung zur Kontaktaufnahme wurde erteilt.\n' +
       (istMail(kontakt)
         ? 'Ein Klick auf "Antworten" geht direkt an den Interessenten.'
         : 'Die Kontaktangabe ist keine E-Mail-Adresse — bitte telefonisch antworten.');
 
     if (NICHT_KONFIGURIERT) {
       if (DRYRUN) {
-        console.log('[Trockenlauf] Anfrage angenommen, nicht versendet:\n' + text + '\n');
+        // Mailtext nur in die Testdatei (in Produktion gesperrt, s. o.).
+        if (MAIL_DATEI) appendFileSync(MAIL_DATEI, text + '\n\n', { mode: 0o600 });
+        console.log('[Trockenlauf] Anfrage angenommen, nicht versendet');
         return antwort(req, res, 200, { ok: true, hinweis: 'Trockenlauf — nicht versendet' });
       }
-      console.error('Anfrage NICHT zustellbar — Versand nicht eingerichtet (RESEND_KEY oder SMTP-Zugang und MAIL_TO). Von: ' + name);
+      console.error('Anfrage NICHT zustellbar — Versand nicht eingerichtet (RESEND_KEY oder SMTP-Zugang und MAIL_TO)');
       return antwort(req, res, 503, { ok: false, fehler: 'Versand nicht eingerichtet' });
     }
 
@@ -343,11 +360,12 @@ const server = createServer((req, res) => {
           signal: AbortSignal.timeout(15000),
         });
         if (!r.ok) {
-          // Grund aus der Antwort holen, damit im Protokoll steht, WORAN es
-          // lag — nicht bestaetigte Domain, falscher Schluessel, Kontingent.
-          let grund = 'HTTP ' + r.status;
-          try { const j = await r.json(); if (j && j.message) grund += ' — ' + j.message; } catch {}
-          throw new Error(grund);
+          // Nur Status und Fehlerart von Resend (etwa "validation_error"),
+          // nicht den Meldungstext: der kann Adressen aus der Anfrage enthalten.
+          const fehler = new Error('Resend');
+          fehler.fehlercode = 'HTTP ' + r.status;
+          try { const j = await r.json(); if (j && typeof j.name === 'string') fehler.fehlercode += ' ' + j.name.slice(0, 60); } catch {}
+          throw fehler;
         }
       } else {
         await transport.sendMail({
@@ -358,12 +376,14 @@ const server = createServer((req, res) => {
           replyTo: antwortAn,
         });
       }
-      console.log('Anfrage zugestellt an ' + MAIL_TO + ' — von ' + name);
+      // Ins Protokoll gehoert nur das Ergebnis, keine Angaben aus der Anfrage.
+      console.log('Anfrage zugestellt');
       return antwort(req, res, 200, { ok: true });
     } catch (e) {
-      // Der Grund gehoert ins Protokoll, nicht in die Antwort: er verraet
-      // sonst Einzelheiten der Mailinfrastruktur.
-      console.error('Versand fehlgeschlagen:', e && e.message);
+      // Der Fehlercode gehoert ins Protokoll, nicht in die Antwort: er verraet
+      // sonst Einzelheiten der Mailinfrastruktur. Meldungstexte bleiben
+      // draussen, weil SMTP- und Resend-Meldungen Adressen enthalten koennen.
+      console.error('Versand fehlgeschlagen: ' + ((e && (e.fehlercode || e.code || e.responseCode || e.name)) || 'unbekannt'));
       return antwort(req, res, 502, { ok: false, fehler: 'Versand fehlgeschlagen' });
     }
   });

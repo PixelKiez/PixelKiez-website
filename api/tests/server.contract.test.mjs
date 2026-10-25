@@ -1,14 +1,25 @@
 import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import net from 'node:net';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 let child;
 let baseUrl;
-/* Im Trockenlauf schreibt der Dienst den fertigen Mailtext nach stdout. Der
-   Puffer macht ihn pruefbar: nur so laesst sich zeigen, dass das angefragte
-   Paket wirklich in der Mail landet und nicht bloss im Formular stand. */
-let ausgabe = '';
+/* Im Trockenlauf schreibt der Dienst den fertigen Mailtext in eine Datei im
+   Temp-Verzeichnis (MAIL_DRYRUN_DATEI), nie ins Protokoll. Nur so laesst sich
+   zeigen, dass das angefragte Paket wirklich in der Mail landet und nicht
+   bloss im Formular stand. Das Protokoll (stdout/stderr) wird mitgeschnitten,
+   um zu belegen, dass es keine Formularinhalte enthaelt. */
+let tempVerzeichnis;
+let mailDatei;
+let protokoll = '';
+const mailtext = () => { try { return readFileSync(mailDatei, 'utf8'); } catch { return ''; } };
+const mailLeeren = () => rmSync(mailDatei, { force: true });
+// Railway-Variablen der eigenen Shell duerfen die Produktivsperre nicht ausloesen.
+const testUmgebung = () => Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('RAILWAY_')));
 
 async function freePort() {
   return await new Promise((resolve, reject) => {
@@ -39,14 +50,18 @@ async function waitForHealth(url) {
 }
 
 before(async () => {
+  tempVerzeichnis = mkdtempSync(join(tmpdir(), 'bds-mail-'));
+  mailDatei = join(tempVerzeichnis, 'trockenlauf.txt');
   const port = await freePort();
   baseUrl = `http://127.0.0.1:${port}`;
   child = spawn(process.execPath, ['server.mjs'], {
     cwd: new URL('..', import.meta.url),
     env: {
-      ...process.env,
+      ...testUmgebung(),
+      NODE_ENV: 'test',
       PORT: String(port),
       MAIL_DRYRUN: '1',
+      MAIL_DRYRUN_DATEI: mailDatei,
       ALLOWED_ORIGIN: 'https://pixelkiez.de',
       SMTP_HOST: '',
       SMTP_USER: '',
@@ -57,16 +72,16 @@ before(async () => {
     },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
-  child.stdout.on('data', (b) => { ausgabe += b.toString(); });
+  child.stdout.on('data', (b) => { protokoll += b.toString(); });
+  child.stderr.on('data', (b) => { protokoll += b.toString(); });
   await waitForHealth(baseUrl);
 });
 
-/* Wartet, bis die Trockenlauf-Ausgabe im Puffer steht: der Dienst antwortet
-   auf die Anfrage, bevor er schreibt. */
+/* Wartet, bis der Mailtext in der Testdatei steht. */
 async function warteAufAusgabe(muster, msMax = 3000) {
   const ende = Date.now() + msMax;
   while (Date.now() < ende) {
-    if (muster.test(ausgabe)) return true;
+    if (muster.test(mailtext())) return true;
     await new Promise((r) => setTimeout(r, 50));
   }
   return false;
@@ -74,6 +89,7 @@ async function warteAufAusgabe(muster, msMax = 3000) {
 
 after(() => {
   if (child && !child.killed) child.kill('SIGTERM');
+  if (tempVerzeichnis) rmSync(tempVerzeichnis, { recursive: true, force: true });
 });
 
 test('health is explicit about non-delivery mode and uses defensive headers', async () => {
@@ -106,7 +122,7 @@ test('unknown routes and wrong methods fail closed', async () => {
   assert.equal(method.status, 405);
 });
 
-test('invalid JSON and missing consent are rejected', async () => {
+test('invalid JSON is rejected, a request without consent field is accepted', async () => {
   const broken = await fetch(baseUrl + '/api/kontakt', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '198.51.100.10' },
@@ -114,12 +130,14 @@ test('invalid JSON and missing consent are rejected', async () => {
   });
   assert.equal(broken.status, 400);
 
-  const noConsent = await fetch(baseUrl + '/api/kontakt', {
+  // Das Formular hat keine Einwilligungs-Checkbox mehr; die Anfrage stuetzt
+  // sich auf Art. 6 Abs. 1 Buchst. b/f DSGVO, nicht auf eine Einwilligung.
+  const ohneConsent = await fetch(baseUrl + '/api/kontakt', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '198.51.100.11' },
-    body: JSON.stringify({ name: 'Test', kontakt: 'test@example.com', consent: false }),
+    body: JSON.stringify({ name: 'Test', kontakt: 'test@example.com' }),
   });
-  assert.equal(noConsent.status, 400);
+  assert.equal(ohneConsent.status, 200);
 });
 
 test('honeypot returns generic success without processing', async () => {
@@ -166,7 +184,7 @@ test('dry-run accepts a valid request but explicitly does not prove delivery', a
 });
 
 test('the requested package and company reach the mail body', async () => {
-  ausgabe = '';
+  mailLeeren();
   const r = await fetch(baseUrl + '/api/kontakt', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '198.51.100.15' },
@@ -181,17 +199,17 @@ test('the requested package and company reach the mail body', async () => {
   assert.equal(r.status, 200);
 
   assert.ok(await warteAufAusgabe(/ANGEFRAGTES PAKET/), 'Mailtext erschien nicht im Trockenlauf');
-  assert.match(ausgabe, /ANGEFRAGTES PAKET: Enterprise/);
-  assert.match(ausgabe, /Unternehmen:\s+Beispiel GmbH/);
+  assert.match(mailtext(), /ANGEFRAGTES PAKET: Enterprise/);
+  assert.match(mailtext(), /Unternehmen:\s+Beispiel GmbH/);
   // Das Paket steht vor dem Namen — wer die Mail oeffnet, sieht es zuerst.
   assert.ok(
-    ausgabe.indexOf('ANGEFRAGTES PAKET') < ausgabe.indexOf('Name:'),
+    mailtext().indexOf('ANGEFRAGTES PAKET') < mailtext().indexOf('Name:'),
     'Paket steht nicht vor dem Namen',
   );
 });
 
 test('a company name is not the honeypot and must not drop the request', async () => {
-  ausgabe = '';
+  mailLeeren();
   const r = await fetch(baseUrl + '/api/kontakt', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '198.51.100.16' },
@@ -211,7 +229,7 @@ test('a company name is not the honeypot and must not drop the request', async (
 });
 
 test('requests without a package keep the mail free of an empty package line', async () => {
-  ausgabe = '';
+  mailLeeren();
   const r = await fetch(baseUrl + '/api/kontakt', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '198.51.100.17' },
@@ -219,8 +237,8 @@ test('requests without a package keep the mail free of an empty package line', a
   });
   assert.equal(r.status, 200);
   assert.ok(await warteAufAusgabe(/Ohne Paket/), 'Mailtext erschien nicht im Trockenlauf');
-  assert.doesNotMatch(ausgabe, /ANGEFRAGTES PAKET/);
-  assert.doesNotMatch(ausgabe, /Unternehmen:/);
+  assert.doesNotMatch(mailtext(), /ANGEFRAGTES PAKET/);
+  assert.doesNotMatch(mailtext(), /Unternehmen:/);
 });
 
 test('rate limit rejects the sixth request for one presented client IP', async () => {
@@ -239,4 +257,29 @@ test('rate limit rejects the sixth request for one presented client IP', async (
     body: JSON.stringify({ firma: 'honeypot', consent: true }),
   });
   assert.equal(limited.status, 429);
+});
+
+test('form contents never reach stdout or stderr', () => {
+  // Alle bisherigen Anfragen stehen nur in der Testdatei, keine im Protokoll.
+  for (const inhalt of ['Erika Beispiel', 'erika@example.com', 'Beispiel GmbH', 'Echte Firma AG', 'Ohne Paket', 'ohne@example.com']) {
+    assert.ok(!protokoll.includes(inhalt), 'Formularinhalt im Protokoll: ' + inhalt);
+  }
+  assert.match(protokoll, /\[Trockenlauf\] Anfrage angenommen, nicht versendet/);
+});
+
+test('dry-run tools refuse to start in production', () => {
+  const start = (extra) => spawnSync(process.execPath, ['server.mjs'], {
+    cwd: new URL('..', import.meta.url),
+    env: { ...testUmgebung(), PORT: '0', ...extra },
+    encoding: 'utf8',
+    timeout: 5000,
+  });
+  for (const extra of [
+    { NODE_ENV: 'production', MAIL_DRYRUN: '1' },
+    { RAILWAY_ENVIRONMENT_NAME: 'production', MAIL_DRYRUN_DATEI: join(tempVerzeichnis, 'darf-nicht.txt') },
+  ]) {
+    const r = start(extra);
+    assert.equal(r.status, 1, 'Dienst startete trotz Sperre: ' + JSON.stringify(extra));
+    assert.match(r.stderr, /Abbruch: MAIL_DRYRUN/);
+  }
 });
