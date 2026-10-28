@@ -7,6 +7,42 @@
    Abschnittsfarbe und den Innenrand --zelle.
    ========================================================================= */
 
+/* ---------- 8b. Partner unter der Buehne --------------------------------
+   Steht wie die Vertrauensleiste zwischen den Rahmenlinien und nimmt deren
+   Spalten auf: ab 900 vier (Etikett, Logo, Text ueber zwei), ab 420 zwei,
+   darunter eine. Der Spaltenabstand von zwei Zelleninnenraendern setzt jede
+   Spalte auf dieselbe Flucht wie den Text der Leiste darueber. Klickbar ist
+   nur das Logo. Es steht fest: keine Drehung, kein Einblenden — eine fremde
+   Marke wird nicht animiert. */
+.partner-band{margin:0 var(--frame)}
+.partner{
+  display:grid;grid-template-columns:minmax(0,1fr);align-items:center;
+  gap:max(14px, calc(var(--u) * 20)) calc(var(--zelle) * 2);
+  padding:max(28px, calc(var(--u) * 40)) var(--zelle);
+  border:1px solid var(--line);border-top:0;   /* zieht die verdeckten Rahmenlinien nach */
+  background:var(--paper);color:var(--ink);
+}
+@media (min-width:420px){
+  .partner{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .partner__label{grid-area:1 / 1}
+  .partner__marke{grid-area:2 / 1}
+  .partner__text{grid-area:1 / 2 / 3 / 3}
+}
+@media (min-width:900px){
+  .partner{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .partner__marke{grid-area:1 / 2}
+  .partner__text{grid-area:1 / 3 / 2 / 5}
+}
+.partner__label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:var(--t-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-45);
+}
+.partner__label::before{content:"";width:6px;height:6px;flex:none;background:var(--s-orange)}
+.partner__link,.fuss-partner__link{display:inline-block;vertical-align:middle;color:var(--ink);transition:opacity .2s var(--s-ease-sweep)}
+.partner__logo{display:block;height:clamp(30px, calc(var(--u) * 44), 56px);width:auto;aspect-ratio:115.94/22.63}
+.partner__text{font-size:var(--t-sm);line-height:1.43;color:var(--ink-70);max-width:46ch}
+.partner__link:hover,.fuss-partner__link:hover{opacity:.6}
+
 /* ---------- 9. Ausgangslage: drei Felder --------------------------------- */
 /* Die Zellen blenden einzeln ein (data-reveal). Laege die Linienfarbe als
    Flaeche darunter, stuende vorher ein grauer Block da — deshalb zieht hier
@@ -369,6 +405,10 @@ main:has(> section.inv:last-of-type) + .footer::before{
   padding:max(24px, calc(var(--u) * 32)) 0 calc(max(24px, calc(var(--u) * 32)) + env(safe-area-inset-bottom,0px));
   font-family:var(--font-body);font-size:var(--t-sm);color:var(--ink-45);
 }
+/* Partner in der Abschlussleiste: auf jeder Seite, Etikett leise wie das ©. */
+.fuss-partner{display:inline-flex;align-items:center;gap:10px}
+.fuss-partner__link{padding-block:6px}
+.fuss-partner__logo{display:block;height:max(16px, calc(var(--u) * 18));width:auto;aspect-ratio:115.94/22.63}
 /* Wie footer-col der Referenz: unter 992 64 Designpixel oben (auf dem
    Telefon halbiert die Skala das auf 32), die Spalte mit der Marke 96. */
 @media (max-width:991px){
