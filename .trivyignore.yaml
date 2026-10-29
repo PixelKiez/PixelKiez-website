@@ -1,0 +1,26 @@
+# Begruendete Ausnahmen fuer den Container-Scan der Website (Trivy).
+# Jede Ausnahme gilt nur fuer ein Paket, traegt eine Begruendung und laeuft
+# ab — danach schlaegt der Scan wieder an und die Lage wird neu bewertet.
+
+vulnerabilities:
+  # go-jose/v3: DoS beim Einlesen von JWKs mit RSA-Schluesseln. Fuer v3 gibt
+  # es keine korrigierte Fassung (v3.0.5 ist die letzte); go-jose/v4 ist im
+  # Dockerfile auf die korrigierte v4.1.6 angehoben und faellt NICHT unter
+  # diese Ausnahme.
+  #
+  # v3 steckt nur in Caddys eigener Zertifizierungsstelle (smallstep:
+  # go.step.sm/crypto, smallstep/certificates — auch deren neueste Fassungen
+  # haengen noch an v3). Die Caddyfile bindet nur einen Port
+  # (:{$PORT:80}), ohne Hostnamen: kein automatisches HTTPS, kein
+  # `tls internal`, kein `acme_server`, keine `pki`. Die Zertifizierungsstelle
+  # wird nie gestartet, es werden keine JWKs von aussen eingelesen. Die
+  # Admin-Schnittstelle lauscht nur im Container (localhost:2019).
+  - id: CVE-2026-116587
+    purls:
+      - "pkg:golang/github.com/go-jose/go-jose/v3"
+      - "pkg:golang/github.com/go-jose/go-jose/v3@v3.0.5"
+    expired_at: 2027-01-31
+    statement: >-
+      go-jose/v3 has no fixed release; it is only used by Caddy's internal
+      PKI (smallstep), which this Caddyfile never enables (port-only site
+      address, no tls internal / acme_server / pki). Not reachable.

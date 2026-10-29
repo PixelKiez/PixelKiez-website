@@ -155,6 +155,8 @@ jobs:
           exit-code: '1'
           severity: HIGH,CRITICAL
           ignore-unfixed: false
+          # Paketgenaue, befristete Ausnahmen mit Begruendung — siehe Datei.
+          trivyignores: .trivyignore.yaml
 
       - name: Build API image
         run: docker build --pull -f api/Dockerfile -t pixelkiez-api-security .
