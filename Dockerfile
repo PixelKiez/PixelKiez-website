@@ -34,13 +34,13 @@ RUN test -f dist/index.html && test -d dist/assets/fonts
 # Uebersetzt wird damit exakt dieselbe Quelle — Modulpfad
 # github.com/caddyserver/caddy/v2, Tag v2.11.7,
 # ueber die Go-Checksum-Datenbank geprueft —, nur mit aktuellem stdlib und mit
-# den vier von Trivy benannten Modulen ausdruecklich angehoben. Keine
+# den fuenf von Trivy benannten Modulen ausdruecklich angehoben. Keine
 # Erweiterung, kein Plugin, kein fremdes Laufzeitimage.
 #
 # Die Toolchain des Builder-Images ist bewusst nicht per Digest festgenagelt:
 # ein Rebuild soll kuenftige stdlib-Korrekturen mitnehmen. Festgenagelt ist,
 # worauf es fuer die Reproduzierbarkeit ankommt — die Caddy-Version und die
-# vier Modulstaende. Der Bauschritt gibt beides ins Protokoll aus.
+# fuenf Modulstaende. Der Bauschritt gibt beides ins Protokoll aus.
 FROM caddy:2.11.7-builder-alpine AS caddybuild
 ENV CGO_ENABLED=0
 WORKDIR /caddy
@@ -66,16 +66,26 @@ COPY caddy/main.go ./main.go
 # (CVE-2026-84445); die neuesten Fassungen sind untereinander stimmig, sodass
 # keine die andere zuruecksetzt.
 #
+# Stand 29.10.2026: go-jose/v4 dazu, auf v4.1.6 (CVE-2026-116587, HIGH, DoS
+# beim Einlesen von JWKs mit RSA-Schluesseln; Caddy 2.11.7 bringt v4.1.5 mit).
+# v4.1.6 hat keine eigenen Abhaengigkeiten und verschiebt die anderen vier
+# nicht. Dieselbe CVE trifft go-jose/v3 — dafuer gibt es keine korrigierte
+# Fassung (v3.0.5 ist die letzte). v3 kommt nur ueber Caddys eigene
+# Zertifizierungsstelle (smallstep) herein, die diese Konfiguration nie
+# startet; die begruendete, befristete Ausnahme steht in .trivyignore.yaml.
+#
 # Weil beide Ruecknahmen lautlos passieren, steht danach eine Gegenprobe:
-# stimmt eine der vier Versionen nicht, bricht der Bauschritt ab, statt ein
+# stimmt eine der fuenf Versionen nicht, bricht der Bauschritt ab, statt ein
 # Binary auszuliefern, das anders zusammengesetzt ist als angegeben.
 RUN go mod init pixelkiez/caddy \
  && go get github.com/caddyserver/caddy/v2@v2.11.7 \
  && go mod tidy \
  && go get golang.org/x/crypto@v0.58.0 golang.org/x/net@v0.61.0 \
            golang.org/x/text@v0.43.0 google.golang.org/grpc@v1.84.0 \
+           github.com/go-jose/go-jose/v4@v4.1.6 \
  && for paar in golang.org/x/crypto@v0.58.0 golang.org/x/net@v0.61.0 \
-                golang.org/x/text@v0.43.0 google.golang.org/grpc@v1.84.0; do \
+                golang.org/x/text@v0.43.0 google.golang.org/grpc@v1.84.0 \
+                github.com/go-jose/go-jose/v4@v4.1.6; do \
       modul="${paar%@*}"; soll="${paar#*@}"; ist="$(go list -m -f '{{.Version}}' "$modul")"; \
       if [ "$ist" != "$soll" ]; then \
         echo "Abbruch: ${modul} steht auf ${ist} statt ${soll}"; exit 1; \
@@ -85,7 +95,8 @@ RUN go mod init pixelkiez/caddy \
  && go build -trimpath -ldflags "-s -w" -o /out/caddy . \
  && go version \
  && go list -m github.com/caddyserver/caddy/v2 golang.org/x/crypto \
-      golang.org/x/net golang.org/x/text google.golang.org/grpc
+      golang.org/x/net golang.org/x/text google.golang.org/grpc \
+      github.com/go-jose/go-jose/v4 github.com/go-jose/go-jose/v3
 
 FROM caddy:2.11.7-alpine
 
